@@ -7,13 +7,13 @@
 
 myOPC::myOPC(wchar_t *ServerName):TimeBias(0),PercentDeadband(0.0),Connected(false)
 {
-	//РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ
+	//подключение к серверу
 	#ifdef _mDEBUG
-	log="РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ: \n";
-	log="РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє OPC СЃРµСЂРІРµСЂСѓ "+String(ServerName)+" \n";
-	log+="РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ COM Р±РёР±Р»РёРѕС‚РµРє\n";
+	log="Конструктор: \n";
+	log="Подключение к OPC серверу "+String(ServerName)+" \n";
+	log+="Инициализация COM библиотек\n";
 	#endif
-	result=CoInitialize(NULL); //РїРѕРґРіРѕС‚РѕРІРєР° РЎРћРњ Р±РёР±Р»РёРѕС‚РµРє Рє СЂР°Р±РѕС‚Рµ
+	result=CoInitialize(NULL); //подготовка СОМ библиотек к работе
 	#ifdef _mDEBUG
 	if (result==S_OK||result==S_FALSE)
 	{
@@ -22,9 +22,9 @@ myOPC::myOPC(wchar_t *ServerName):TimeBias(0),PercentDeadband(0.0),Connected(fal
 	{
 		log+="FAIL\n";
 	}
-	log+="РџРѕР»СѓС‡РµРЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РєР»Р°СЃСЃР° СЃРµСЂРІРµСЂР° РїРѕ РµРіРѕ РёРјРµРЅРё (clsid)\n";
+	log+="Получение идентификатора класса сервера по его имени (clsid)\n";
 	#endif
-	// РїРѕР»СѓС‡РµРЅРёРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° РєР»Р°СЃСЃР° РїРѕ РёРјРµРЅРё СЃРµСЂРІРµСЂР°
+	// получение идентификатора класса по имени сервера
 	result=CLSIDFromProgID(ServerName,&clsid);
 	if (result!=S_OK)
 	{
@@ -38,9 +38,9 @@ myOPC::myOPC(wchar_t *ServerName):TimeBias(0),PercentDeadband(0.0),Connected(fal
 	{
 		log+="OK\n";
 	}
-	log+="РџРѕР»СѓС‡РµРЅРёРµ Р°РґСЂРµСЃР° СЃРµСЂРІРµСЂР° (pIOPCServer)\n";
+	log+="Получение адреса сервера (pIOPCServer)\n";
 	#endif
-	// РїРѕР»СѓС‡РµРЅРёРµ Р°РґСЂРµСЃР° СЃРµСЂРІРµСЂР°
+	// получение адреса сервера
 	result=CoCreateInstance(clsid,NULL,CLSCTX_LOCAL_SERVER,IID_IOPCServer,(void**)&pIOPCServer);
 	if (result!=S_OK)
 	{
@@ -54,7 +54,7 @@ myOPC::myOPC(wchar_t *ServerName):TimeBias(0),PercentDeadband(0.0),Connected(fal
 	{
 		log+="OK\n";
 	}
-	log+="РЎРѕРµРґРёРЅРµРЅРёРµ СЃ СЃРµСЂРІРµСЂРѕРј СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ\n\n";
+	log+="Соединение с сервером установлено\n\n";
 	#endif
 	Connected=true;
 	Groups.clear();
@@ -62,8 +62,8 @@ myOPC::myOPC(wchar_t *ServerName):TimeBias(0),PercentDeadband(0.0),Connected(fal
 myOPC::~myOPC(void)
 {
 	#ifdef _mDEBUG
-	log+="Р”РµСЃС‚СЂСѓРєС‚РѕСЂ \n";
-	log+="Р§РёСЃС‚РєР° СЃРїРёСЃРєР° РїРѕРґРєР»СЋС‡РµРЅРЅС‹С… РіСЂСѓРїРї \n";
+	log+="Деструктор \n";
+	log+="Чистка списка подключенных групп \n";
 	#endif
 	for (list<GroupPTRs*>::iterator i=Groups.begin(); i!=Groups.end(); i++)
 	{
@@ -71,7 +71,7 @@ myOPC::~myOPC(void)
 	}
 	Groups.clear();
 	#ifdef _mDEBUG
-	log+="РЈРґР°Р»РµРЅРёРµ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє OPC\n";
+	log+="Удаление подключения к OPC\n";
 	#endif
 	result=pIOPCServer->Release();
 	#ifdef _mDEBUG
@@ -84,16 +84,16 @@ myOPC::~myOPC(void)
 	}
 	#endif
 }
-GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*РјР°СЃСЃРёРІ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ*/,
-							size_t ItemsCount/*РјР°СЃСЃРёРІ СЃС‡РёС‚Р°РµС‚СЃСЏ СЌР»РµРјРµРЅС‚РѕРј*/)
+GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*массив второго уровня*/,
+							size_t ItemsCount/*массив считается элементом*/)
 {
 	#ifdef _mDEBUG
-	log+="Р”РѕР±Р°РІР»РµРЅРёРµ РіСЂСѓРїРїС‹ "+String(pGroupName)+"\n";
+	log+="Добавление группы "+String(pGroupName)+"\n";
 	#endif
 	if (!Connected)
 	{
 	#ifdef _mDEBUG
-		log+="Р’РѕР·РІСЂР°С‚ РёР±Рѕ РЅРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј\n";
+		log+="Возврат ибо нет соединения с сервером\n";
 	#endif
 		return 0;
 	}
@@ -113,7 +113,7 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*РјР°СЃСЃРёР
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="РЎРѕРїРѕСЃС‚Р°РІР»РµРЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ СЃРµСЂРІРµСЂР° СЃ Р°РґСЂРµСЃР°РјРё РїРµСЂРµРјРµРЅРЅС‹С… Рё РЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅС‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё\n";
+	log+="Сопоставление элементов сервера с адресами переменных и нициализация первоначальными значениями\n";
 	#endif
 	tmp->pItems=new OPCITEMDEF[tmp->ItemsCount];
 	for(int i=0;i<tmp->ItemsCount;i++)
@@ -128,7 +128,7 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*РјР°СЃСЃРёР
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="Р РµРіРёСЃС‚СЂР°С†РёСЏ РіСЂСѓРїРїС‹ РЅР° СЃРµСЂРІРµСЂРµ\n";
+	log+="Регистрация группы на сервере\n";
 	#endif
 
 	result=tmp->pItemMgt->AddItems(tmp->ItemsCount,tmp->pItems,&tmp->pItemResult,&pErrors);
@@ -147,7 +147,7 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*РјР°СЃСЃРёР
 	{
 		log+="OK\n";
 	}
-	log+="РџРѕР»СѓС‡РµРЅРёРµ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РёРЅС‚РµСЂС„РµР№СЃ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё РґР°РЅРЅС‹С…\n";
+	log+="Получение указателя на интерфейс синхронизации данных\n";
 	#endif
 
 	result=tmp->pItemMgt->QueryInterface(IID_IOPCSyncIO, (void**)&tmp->pSyncIO);
@@ -164,21 +164,21 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*РјР°СЃСЃРёР
 	{
 		log+="OK\n";
 	}
-	log+="РЎРѕС…СЂР°РЅРµРЅРёРµ РІ СЃРїРёСЃРєРµ РіРµРЅРµСЂР°С†РёСЏ РґРµСЃРєСЂРёРїС‚РѕСЂР°\n";
+	log+="Сохранение в списке генерация дескриптора\n";
 	#endif
 	Groups.push_back(tmp);
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="Р’РѕР·РІСЂР°С‚ РґРµСЃРєСЂРёРїС‚РѕСЂР° \n\n";
+	log+="Возврат дескриптора \n\n";
 	#endif
 	return Groups.size();
 }
 Item 	myOPC::GetGroup(GROUP_ID _id)
 {
 	#ifdef _mDEBUG
-	log+="РџРѕРёСЃРє РґРµСЃРєСЂРёРїС‚РѕСЂР° РІ СЃРїРёСЃРєРµ\n";
+	log+="Поиск дескриптора в списке\n";
 	#endif
-	int k=0,pos=_id-1;//СЃС‡РµС‚С‡РёРє Рё СЂРµР°Р»СЊРЅР°СЏ РїРѕР·РёС†РёСЏ РІ СЃРїРёСЃРєРµ
+	int k=0,pos=_id-1;//счетчик и реальная позиция в списке
 	for (Item i =Groups.begin(); i!=Groups.end(); i++,k++)
 	{
 		if (k==pos)
@@ -199,13 +199,13 @@ void 	myOPC::OpcMassFree(GROUP_ID _id,OPCITEMSTATE* mass)
 	if (!Connected)
 	{
 	#ifdef _mDEBUG
-		log+="Р’РѕР·РІСЂР°С‚ РёР±Рѕ РЅРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј\n";
+		log+="Возврат ибо нет соединения с сервером\n";
 	#endif
 		return /*nullptr*/;
 	}
 	Item _item=GetGroup(_id);
 	#ifdef _mDEBUG
-	log+="РџСЂРѕРІРµСЂРєР° РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РёС‚РµСЂР°С‚РѕСЂР°\n";
+	log+="Проверка полученного итератора\n";
 	#endif
 	if (_item==Groups.end())
 	{
@@ -216,7 +216,7 @@ void 	myOPC::OpcMassFree(GROUP_ID _id,OPCITEMSTATE* mass)
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="РћС‡РёСЃС‚РєР° РјР°СЃСЃРёРІР°\n";
+	log+="Очистка массива\n";
 	#endif
 	GroupPTRs* __item=*_item;
 	for(int i=0;i<__item->ItemsCount;i++)
@@ -232,13 +232,13 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	if (!Connected)
 	{
 	#ifdef _mDEBUG
-		log+="Р’РѕР·РІСЂР°С‚ РёР±Рѕ РЅРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј\n";
+		log+="Возврат ибо нет соединения с сервером\n";
 	#endif
 		return nullptr;
 	}
 	Item _item=GetGroup(_id);
 	#ifdef _mDEBUG
-	log+="РџСЂРѕРІРµСЂРєР° РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РёС‚РµСЂР°С‚РѕСЂР°\n";
+	log+="Проверка полученного итератора\n";
 	#endif
 	if (_item==Groups.end())
 	{
@@ -249,16 +249,16 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… СЃ СЃРµСЂРІРµСЂР°\n";
+	log+="Чтение данных с сервера\n";
 	#endif
 
 	GroupPTRs* __item=*_item;
-	OPCHANDLE		*phServer=new OPCHANDLE[__item->ItemsCount];;//РјР°СЃСЃРёРІ СѓРєР°Р·Р°С‚РµР»РёРµР№ РЅР° OPC
-	OPCITEMSTATE	*pItemsValues=nullptr; //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃРѕСЃС‚РѕСЏРЅРёСЏ РёС‚РµРјРѕРІ РІ РѕРїСЃ
-	LPWSTR		 	ErrorStr=L"";    //С‚РµРєСЃС‚ РѕС€РёР±РєРё
+	OPCHANDLE		*phServer=new OPCHANDLE[__item->ItemsCount];;//массив указателией на OPC
+	OPCITEMSTATE	*pItemsValues=nullptr; //указатель на состояния итемов в опс
+	LPWSTR		 	ErrorStr=L"";    //текст ошибки
 
 	#ifdef _mDEBUG
-	log+="РџРѕР»СѓС‡РµРЅРёРµ РјР°СЃСЃРёРІР° СѓРєР°Р·Р°С‚РµР»РµР№ РЅР° СЃРµСЂРІРµСЂС‹ РґР»СЏ С‡С‚РµРЅРёСЏ РёР· РіСЂСѓРїРї (phServer)\n";
+	log+="Получение массива указателей на серверы для чтения из групп (phServer)\n";
 	#endif
 	for(int i=0;i<__item->ItemsCount;i++)
 	{
@@ -266,15 +266,15 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="Р§С‚РµРЅРёРµ РґР°РЅРЅС‹С… РїРѕ РіСЂСѓРїРїР°Рј\n";
+	log+="Чтение данных по группам\n";
 	#endif
 	result=__item->pSyncIO->Read(OPC_DS_CACHE,__item->ItemsCount,phServer,&pItemsValues,&pRErrors);
-	delete [] phServer;  //СѓРґР°Р»РµРЅРёРµ РјР°СЃСЃРёРІР° СЃ СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РёСЃС‚РѕС‡РЅРёРєРё РґР»СЏ СЌР»РµРјРµРЅС‚РѕРІ РіСЂСѓРїРї
+	delete [] phServer;  //удаление массива с указателя на источники для элементов групп
 	if(result==S_OK)
 	{
 	#ifdef _mDEBUG
 		log+="OK\n";
-		log+="Р’РѕР·РІСЂР°С‚ OPCITEMSTATE	*pItemsValues РґР»СЏ РЅР°РїРѕР»РЅРµРЅРёСЏ РјР°СЃСЃРёРІРѕРІ РґР°РЅРЅС‹С… РїСЂРѕРіСЂР°РјРјС‹\n\n";
+		log+="Возврат OPCITEMSTATE	*pItemsValues для наполнения массивов данных программы\n\n";
 	#endif
 		return pItemsValues;
 	}
@@ -282,7 +282,7 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	{
 	#ifdef _mDEBUG
 		pIOPCServer->GetErrorString(pRErrors[0],LOCALE_ID,&ErrorStr);
-		log+="FAIL - РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… РІ Р±Р»РѕРєРµ "+String(_id)+"\n\n";
+		log+="FAIL - Ошибка получения данных в блоке "+String(_id)+"\n\n";
 		CoTaskMemFree(ErrorStr);
 	#endif
 		return nullptr;
@@ -297,13 +297,13 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	if (!Connected)
 	{
 	#ifdef _mDEBUG
-		log+="Р’РѕР·РІСЂР°С‚ РёР±Рѕ РЅРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј\n";
+		log+="Возврат ибо нет соединения с сервером\n";
 	#endif
 		return E_FAIL;
 	}
 	Item _item=GetGroup(_id);
 	#ifdef _mDEBUG
-	log+="РџСЂРѕРІРµСЂРєР° РїРѕР»СѓС‡РµРЅРЅРѕРіРѕ РёС‚РµСЂР°С‚РѕСЂР°\n";
+	log+="Проверка полученного итератора\n";
 	#endif
 	if (_item==Groups.end())
 	{
@@ -314,14 +314,14 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
-	log+="Р—Р°РїРёСЃСЊ РґР°РЅРЅС‹С… РЅР° СЃРµСЂРІРµСЂ\n";
+	log+="Запись данных на сервер\n";
 	#endif
 
 	GroupPTRs* __item=*_item;
 	if (__item->ItemsCount<=pos)
 	{
 	#ifdef _mDEBUG
-	log+="FAIL РІС‹С…РѕРґ Р·Р° РїСЂРµРґРµР»С‹ РіСЂСѓРїРїС‹\n";
+	log+="FAIL выход за пределы группы\n";
 	#endif
 		return E_FAIL;
 	}
@@ -335,7 +335,7 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	{
 		*(phServer+i)  		= __item->pItemResult[pos+i].hServer;
 		#ifdef _mDEBUG
-		log+="РћРїСЂРµРґРµР»РµРЅРёРµ С‚РёРїР° РґР°РЅРЅС‹С…\n";
+		log+="Определение типа данных\n";
 		#endif
 		switch (type)
 		{
@@ -376,7 +376,7 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	}
 }
 	#ifdef _mDEBUG
-	log+="Р—Р°РїРёСЃСЊ РґР°РЅРЅС‹С… РІ РєРѕРЅС‚СЂРѕР»Р»РµСЂ\n";
+	log+="Запись данных в контроллер\n";
 	#endif
 	result=__item->pSyncIO->Write(mass_len,phServer,values,&pWErrors);
 	delete [] phServer;
@@ -392,7 +392,7 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	{
 	#ifdef _mDEBUG
 		pIOPCServer->GetErrorString(pWErrors[0],LOCALE_ID,&ErrorStr);
-		log+="FAIL - РћС‰РёР±РєР° Р·Р°РїРёСЃРё РґР°РЅРЅС‹С… РіСЂСѓРїРїС‹ "+String(_id)+" "+String(ErrorStr)+"\n";
+		log+="FAIL - Ощибка записи данных группы "+String(_id)+" "+String(ErrorStr)+"\n";
 		CoTaskMemFree(pWErrors);
 	#endif
 	return *pWErrors;
