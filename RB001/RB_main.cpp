@@ -366,15 +366,15 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)// расположение компонент на па
     else   sgLoadSertA->Cells[0][i+1]=" "+String(i+1)+":";
     sgLoadSertA->Cells[1][i+1]=LdCA->sTLd[i];
 	if(LdCA->ReadoutLd[i]!=0.0)
-	  sgLoadSertA->Cells[2][i+1]="   "+FloatToStrF(LdCA->ReadoutLd[i],ffFixed,6,2);
+      sgLoadSertA->Cells[2][i+1]="   "+FloatToStrF(LdCA->ReadoutLd[i],ffFixed,6,2);
 	else
 	  sgLoadSertA->Cells[2][i+1]="";
 	if(LdCA->MeasuredLd[i]!=0.0)
-	  sgLoadSertA->Cells[3][i+1]="    "+FloatToStrF(LdCA->MeasuredLd[i],ffFixed,6,2);
+      sgLoadSertA->Cells[3][i+1]="    "+FloatToStrF(LdCA->MeasuredLd[i],ffFixed,6,2);
 	else
 	  sgLoadSertA->Cells[3][i+1]="";
 	if(LdCA->loaded)
-	  sgLoadSertA->Cells[4][i+1]="    "+FloatToStrF(LdCA->KA[i],ffFixed,8,5);
+      sgLoadSertA->Cells[4][i+1]="    "+FloatToStrF(LdCA->KA[i],ffFixed,8,5);
 	else
 	  sgLoadSertA->Cells[4][i+1]="";
   }
@@ -439,15 +439,15 @@ void __fastcall TmfRB::DesignLoadSertBPanel(void)// расположение компонент на па
     else   sgLoadSertB->Cells[0][i+1]=" "+String(i+1)+":";
     sgLoadSertB->Cells[1][i+1]=LdCB->sTLd[i];
 	if(LdCB->ReadoutLd[i]!=0.0)
-	  sgLoadSertB->Cells[2][i+1]="   "+FloatToStrF(LdCB->ReadoutLd[i],ffFixed,6,2);
+      sgLoadSertB->Cells[2][i+1]="   "+FloatToStrF(LdCB->ReadoutLd[i],ffFixed,6,2);
 	else
 	  sgLoadSertB->Cells[2][i+1]="";
 	if(LdCB->MeasuredLd[i]!=0.0)
-	  sgLoadSertB->Cells[3][i+1]="    "+FloatToStrF(LdCB->MeasuredLd[i],ffFixed,6,2);
+      sgLoadSertB->Cells[3][i+1]="    "+FloatToStrF(LdCB->MeasuredLd[i],ffFixed,6,2);
 	else
 	  sgLoadSertB->Cells[3][i+1]="";
 	if(LdCB->loaded)
-	  sgLoadSertB->Cells[4][i+1]="    "+FloatToStrF(LdCB->KA[i],ffFixed,8,5);
+      sgLoadSertB->Cells[4][i+1]="    "+FloatToStrF(LdCB->KA[i],ffFixed,8,5);
 	else
 	  sgLoadSertB->Cells[4][i+1]="";
   }
@@ -3873,7 +3873,7 @@ void __fastcall TmfRB::OnClearProt(TObject *Sender)
 {
   leProtocolNo->Text    ="";           leTyreSize->Text      ="";
   leTyreType->Text      ="";           leTestProc->Text      ="";
-  leStandNo->Text       ="11";         leManufacturer->Text  ="";
+  leStandNo->Text       ="13";         leManufacturer->Text  ="";
   leDrumD->Text         ="1700";       leCustomer->Text      ="";
   meManDate->EditText   ="00.00.2010"; leSeralNo->Text       =0;
   lePerfSpecNo->Text    ="";           leOrderNo->Text       ="";

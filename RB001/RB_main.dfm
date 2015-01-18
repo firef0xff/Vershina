@@ -3240,7 +3240,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsTimeProg
+        ActivePage = tsSProg
         Align = alClient
         TabOrder = 0
         object tsTimeProg: TTabSheet
@@ -4354,7 +4354,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsProtocolB
+        ActivePage = tsNewProtocol
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
@@ -6323,7 +6323,7 @@ object mfRB: TmfRB
             ParentBiDiMode = False
             ParentFont = False
             TabOrder = 5
-            Text = '11'
+            Text = '13'
             OnKeyDown = OnLEKeyDown
           end
           object leManufacturer: TLabeledEdit
@@ -8805,7 +8805,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsDrumSpeedSert
+        ActivePage = tsLoadSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet
@@ -9147,7 +9147,7 @@ object mfRB: TmfRB
             Top = 0
             Width = 800
             Height = 570
-            ActivePage = tsLoadSertA
+            ActivePage = tsLoadSertB
             Align = alClient
             TabOrder = 0
             object tsLoadSertA: TTabSheet
@@ -9171,7 +9171,7 @@ object mfRB: TmfRB
                 Width = 328
                 Height = 521
                 Align = alLeft
-                RowCount = 30
+                RowCount = 40
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -9391,7 +9391,7 @@ object mfRB: TmfRB
                 Width = 328
                 Height = 521
                 Align = alLeft
-                RowCount = 30
+                RowCount = 40
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
