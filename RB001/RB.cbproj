@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{9e3ae0c2-ee8d-461e-acfb-005203b3815b}</ProjectGuid>
 			<MainSource>RB.cpp</MainSource>
-			<Config Condition="'$(Config)'==''">Release</Config>
+			<Config Condition="'$(Config)'==''">Debug</Config>
 			<ProjectVersion>12.2</ProjectVersion>
 			<Base>True</Base>
 			<Platform>Win32</Platform>
@@ -35,9 +35,9 @@
 			<ProjectType>CppVCLApplication</ProjectType>
 			<PackageImports>vclx.bpi;vcl.bpi;dbrtl.bpi;Rave75VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;dsnap.bpi;dsnapcon.bpi;teeUI.bpi;teedb.bpi;tee.bpi;adortl.bpi;vclib.bpi;ibxpress.bpi;dbxcds.bpi;dbexpress.bpi;DbxCommonDriver.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;IntrawebDB_90_100.bpi;Intraweb_90_100.bpi;VclSmp.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi</PackageImports>
 			<BCC_wpar>false</BCC_wpar>
-			<IncludePath>..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\include;$(BDS)\include\dinkumware;$(BDS)\include\vcl;RB001;..\..\Projects</IncludePath>
+			<IncludePath>CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\include;$(BDS)\include\dinkumware;$(BDS)\include\vcl;RB001;..\..\Projects</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;vclimg.lib;dbrtl.lib;adortl.lib</AllPackageLibs>
-			<ILINK_LibraryPath>..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;RB001;..\..\Projects</ILINK_LibraryPath>
+			<ILINK_LibraryPath>CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;RB001;..\..\Projects</ILINK_LibraryPath>
 			<Multithreaded>true</Multithreaded>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
@@ -194,6 +194,45 @@
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>
 		<ItemGroup>
+			<CppCompile Include="..\classes\COMPort\ComPort.cpp">
+				<DependentOn>..\classes\COMPort\ComPort.h</DependentOn>
+				<BuildOrder>25</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\classes\MD5.cpp">
+				<DependentOn>..\classes\MD5.h</DependentOn>
+				<BuildOrder>25</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\classes\SQL.cpp">
+				<DependentOn>..\classes\SQL.h</DependentOn>
+				<BuildOrder>26</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="CD9904\interface\CD_9904_interface.cpp">
+				<DependentOn>CD9904\interface\CD_9904_interface.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="CD9904\keypad\num_keyboard.cpp">
+				<Form>Num_Pannel</Form>
+				<DependentOn>CD9904\keypad\num_keyboard.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="CD9904\protocol\CD_9904.cpp">
+				<DependentOn>CD9904\protocol\CD_9904.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="CD9904\search_devices\Find_devices.cpp">
+				<Form>Network_Scan</Form>
+				<DependentOn>CD9904\search_devices\Find_devices.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="CD9904\sensor_options\Set_settings.cpp">
+				<Form>Settings</Form>
+				<DependentOn>CD9904\sensor_options\Set_settings.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="CD9904\support_functions\functions.cpp">
+				<DependentOn>CD9904\support_functions\functions.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
 			<None Include="def.h">
 				<BuildOrder>6</BuildOrder>
 			</None>
@@ -201,6 +240,26 @@
 				<Form>Headband</Form>
 				<DependentOn>Head_band.h</DependentOn>
 				<BuildOrder>16</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="login\AppManagnent.cpp">
+				<Form>AppManagment</Form>
+				<DependentOn>login\AppManagnent.h</DependentOn>
+				<BuildOrder>23</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="login\dialogs\GroupSelect.cpp">
+				<Form>fselGroup</Form>
+				<DependentOn>login\dialogs\GroupSelect.h</DependentOn>
+				<BuildOrder>23</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="login\dialogs\User_Data.cpp">
+				<Form>UserData</Form>
+				<DependentOn>login\dialogs\User_Data.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="login\Login.cpp">
+				<Form>LogInwnd</Form>
+				<DependentOn>login\Login.h</DependentOn>
+				<BuildOrder>24</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="myOPC\miniOPC.cpp">
 				<DependentOn>myOPC\miniOPC.h</DependentOn>
@@ -241,74 +300,15 @@
 				<DependentOn>TyreProt.h</DependentOn>
 				<BuildOrder>7</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\вспомогательные функции\functions.cpp">
-				<DependentOn>датчик ЦД9904\вспомогательные функции\functions.h</DependentOn>
-				<BuildOrder>9</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\встраиваемый интерфейс\CD_9904_interface.cpp">
-				<DependentOn>датчик ЦД9904\встраиваемый интерфейс\CD_9904_interface.h</DependentOn>
-				<BuildOrder>10</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\Клавиатура ввода\num_keyboard.cpp">
-				<Form>Num_Pannel</Form>
-				<DependentOn>датчик ЦД9904\Клавиатура ввода\num_keyboard.h</DependentOn>
-				<BuildOrder>11</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\настройка датчика\Set_settings.cpp">
-				<Form>Settings</Form>
-				<DependentOn>датчик ЦД9904\настройка датчика\Set_settings.h</DependentOn>
-				<BuildOrder>12</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\поиск устройств\Find_devices.cpp">
-				<Form>Network_Scan</Form>
-				<DependentOn>датчик ЦД9904\поиск устройств\Find_devices.h</DependentOn>
-				<BuildOrder>13</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\протокол\CD_9904.cpp">
-				<DependentOn>датчик ЦД9904\протокол\CD_9904.h</DependentOn>
-				<BuildOrder>14</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="датчик ЦД9904\сом порт\ComPort.cpp">
-				<DependentOn>датчик ЦД9904\сом порт\ComPort.h</DependentOn>
-				<BuildOrder>15</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Идентификация пользователей\AppManagnent.cpp">
-				<Form>AppManagment</Form>
-				<DependentOn>Идентификация пользователей\AppManagnent.h</DependentOn>
-				<BuildOrder>20</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Идентификация пользователей\Login.cpp">
-				<Form>LogInwnd</Form>
-				<DependentOn>Идентификация пользователей\Login.h</DependentOn>
-				<BuildOrder>17</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Идентификация пользователей\диалоговые окна\GroupSelect.cpp">
-				<Form>fselGroup</Form>
-				<DependentOn>Идентификация пользователей\диалоговые окна\GroupSelect.h</DependentOn>
-				<BuildOrder>21</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Идентификация пользователей\диалоговые окна\User_Data.cpp">
-				<Form>UserData</Form>
-				<DependentOn>Идентификация пользователей\диалоговые окна\User_Data.h</DependentOn>
-				<BuildOrder>22</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\мои классы\MD5.cpp">
-				<DependentOn>..\мои классы\MD5.h</DependentOn>
-				<BuildOrder>23</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\мои классы\SQL.cpp">
-				<DependentOn>..\мои классы\SQL.h</DependentOn>
-				<BuildOrder>24</BuildOrder>
-			</CppCompile>
-			<FormResources Include="датчик ЦД9904\поиск устройств\Find_devices.dfm"/>
-			<FormResources Include="датчик ЦД9904\Клавиатура ввода\num_keyboard.dfm"/>
-			<FormResources Include="датчик ЦД9904\настройка датчика\Set_settings.dfm"/>
-			<FormResources Include="Идентификация пользователей\диалоговые окна\User_Data.dfm"/>
-			<FormResources Include="Идентификация пользователей\AppManagnent.dfm"/>
-			<FormResources Include="Идентификация пользователей\Login.dfm"/>
-			<FormResources Include="Идентификация пользователей\диалоговые окна\GroupSelect.dfm"/>
 			<FormResources Include="Head_band.dfm"/>
 			<FormResources Include="RB_main.dfm"/>
+			<FormResources Include="login\AppManagnent.dfm"/>
+			<FormResources Include="login\Login.dfm"/>
+			<FormResources Include="login\dialogs\GroupSelect.dfm"/>
+			<FormResources Include="login\dialogs\User_Data.dfm"/>
+			<FormResources Include="CD9904\keypad\num_keyboard.dfm"/>
+			<FormResources Include="CD9904\search_devices\Find_devices.dfm"/>
+			<FormResources Include="CD9904\sensor_options\Set_settings.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

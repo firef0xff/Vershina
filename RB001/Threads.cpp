@@ -41,8 +41,14 @@ unsigned long __stdcall ListenCD9904(void *msg)
 	   //рабочий цикл
 	   while (1)
 		{
+			myOPC::log = "";
 			//чтение индикаторов ресета
 			OPCITEMSTATE* rez=ThreadOPC->Read(reset_id);
+			if (!rez)
+			{
+				Application->ProcessMessages();
+				continue;
+			}
 			for (size_t i = 0; i<ResetGroupSize; i++)
 			{
 				resets[i]=rez[i].vDataValue.boolVal;

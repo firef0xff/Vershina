@@ -3,15 +3,15 @@
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
-USEFORM("датчик ЦД9904\поиск устройств\Find_devices.cpp", Network_Scan);
-USEFORM("датчик ЦД9904\Клавиатура ввода\num_keyboard.cpp", Num_Pannel);
-USEFORM("датчик ЦД9904\настройка датчика\Set_settings.cpp", Settings);
-USEFORM("Идентификация пользователей\диалоговые окна\User_Data.cpp", UserData);
-USEFORM("Идентификация пользователей\AppManagnent.cpp", AppManagment);
-USEFORM("Идентификация пользователей\Login.cpp", LogInwnd);
-USEFORM("Идентификация пользователей\диалоговые окна\GroupSelect.cpp", fselGroup);
 USEFORM("Head_band.cpp", Headband);
 USEFORM("RB_main.cpp", mfRB);
+USEFORM("login\AppManagnent.cpp", AppManagment);
+USEFORM("login\Login.cpp", LogInwnd);
+USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
+USEFORM("login\dialogs\User_Data.cpp", UserData);
+USEFORM("CD9904\keypad\num_keyboard.cpp", Num_Pannel);
+USEFORM("CD9904\search_devices\Find_devices.cpp", Network_Scan);
+USEFORM("CD9904\sensor_options\Set_settings.cpp", Settings);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
