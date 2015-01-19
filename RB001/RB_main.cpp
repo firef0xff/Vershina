@@ -348,7 +348,7 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)// расположение компонент на па
 
   const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
   int TblW=C0W+C1W+C2W+C3W+C4W+8, H1=40, LSp1=10;
-  int TblH=tsLoadCalibrAH-H1, CellH=ceil(double(TblH/(LDCQTY+1)))-1/*, Cell0H=40;TblH-(LDCQTY+1)*CellH*/;//-LDCQTY;
+  int TblH=tsLoadCalibrAH-H1, CellH=max(ceil(double(TblH/(LDCQTY+1)))-1, 16.0)/*, Cell0H=40;TblH-(LDCQTY+1)*CellH*/;//-LDCQTY;
   pLoadSertATtl->Height=H1;
   sgLoadSertA->ColWidths[0]=C0W;     sgLoadSertA->ColWidths[1]=C1W;
   sgLoadSertA->ColWidths[2]=C2W;     sgLoadSertA->ColWidths[3]=C3W;
@@ -421,7 +421,7 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)// расположение компонент на па
 void __fastcall TmfRB::DesignLoadSertBPanel(void)// расположение компонент на панели калибровки нагрузки поз. Б
 { const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
   int TblW=C0W+C1W+C2W+C3W+C4W+28, H1=40, LSp1=10;
-  int TblH=tsLoadCalibrAH-H1, CellH=ceil(double(TblH/(LDCQTY+1)))-1/*, Cell0H=40;TblH-(LDCQTY+1)*CellH*/;//-LDCQTY;
+  int TblH=tsLoadCalibrAH-H1, CellH=max(ceil(double(TblH/(LDCQTY+1)))-1, 16.0)/*, Cell0H=40;TblH-(LDCQTY+1)*CellH*/;//-LDCQTY;
   pLoadSertBTtl->Height=H1;
   sgLoadSertB->ColWidths[0]=C0W;     sgLoadSertB->ColWidths[1]=C1W;
   sgLoadSertB->ColWidths[2]=C2W;     sgLoadSertB->ColWidths[3]=C3W;
@@ -523,7 +523,7 @@ void __fastcall TmfRB::DesignRSertPanel(void)  // расположение компонент на пане
 void __fastcall TmfRB::DesignLoadCalibrAPanel(void)  // расположение компонент на панели аттестации нагрузки поз. А
 { const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
   int TblW=C0W+C1W+C2W+C3W+C4W+10, H1=40, LSp1=10;
-  int TblH=tsLoadCalibrAH-H1, CellH=(TblH-5)/(LDQTY+1);
+  int TblH=tsLoadCalibrAH-H1, CellH=max((TblH-5)/(LDQTY+1), 16);
   pLoadCalibrATtl->Height=H1;
   sgLoadCalibrA->ColWidths[0]=C0W;     sgLoadCalibrA->ColWidths[1]=C1W;
   sgLoadCalibrA->ColWidths[2]=C2W;     sgLoadCalibrA->ColWidths[3]=C3W;
@@ -588,7 +588,7 @@ void __fastcall TmfRB::DesignLoadCalibrAPanel(void)  // расположение компонент н
 void __fastcall TmfRB::DesignLoadCalibrBPanel(void)  // расположение компонент на панели аттестации нагрузки поз. Б
 { const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
   int TblW=C0W+C1W+C2W+C3W+C4W+10, H1=40, LSp1=10;
-  int TblH=tsLoadCalibrAH-H1, CellH=(TblH-5)/(LDQTY+1);
+  int TblH=tsLoadCalibrAH-H1, CellH=max((TblH-5)/(LDQTY+1), 16);
   pLoadCalibrBTtl->Height=H1;
   sgLoadCalibrB->ColWidths[0]=C0W;     sgLoadCalibrB->ColWidths[1]=C1W;
   sgLoadCalibrB->ColWidths[2]=C2W;     sgLoadCalibrB->ColWidths[3]=C3W;

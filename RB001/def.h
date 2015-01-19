@@ -60,7 +60,7 @@
 #define COMMONPRMSHOW  0
 // размеры таблиц для аттестации
 #define VQTY          29
-#define LDQTY         17
+#define LDQTY         23
 #define TQTY          20
 #define RQTY          20
 #define LDCQTY		  39
