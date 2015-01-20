@@ -474,9 +474,9 @@ wchar_t *Gr12ItemsNme[GR12ITEMSNUM]={//Коэффициент коррекции прямой ход
 
 
 									 //Коэффициент коррекции обратный ход
-                                     L"S7:[S7 connection_4]DB71,REAL300", L"S7:[S7 connection_4]DB71,REAL312",
-                                     L"S7:[S7 connection_4]DB71,REAL320", L"S7:[S7 connection_4]DB71,REAL328",
-                                     L"S7:[S7 connection_4]DB71,REAL336",
+									 L"S7:[S7 connection_4]DB71,REAL300", L"S7:[S7 connection_4]DB71,REAL308",
+									 L"S7:[S7 connection_4]DB71,REAL316", L"S7:[S7 connection_4]DB71,REAL324",
+									 L"S7:[S7 connection_4]DB71,REAL332",
 									 L"S7:[S7 connection_4]DB71,REAL100", L"S7:[S7 connection_4]DB71,REAL108",
 									 L"S7:[S7 connection_4]DB71,REAL116", L"S7:[S7 connection_4]DB71,REAL124",
 									 L"S7:[S7 connection_4]DB71,REAL132", L"S7:[S7 connection_4]DB71,REAL140",
@@ -501,10 +501,9 @@ wchar_t *Gr12ItemsNme[GR12ITEMSNUM]={//Коэффициент коррекции прямой ход
 
 
 									 //Граница действия обратный ход
-
-                                     L"S7:[S7 connection_4]DB71,REAL304", L"S7:[S7 connection_4]DB71,REAL308",
-                                     L"S7:[S7 connection_4]DB71,REAL316", L"S7:[S7 connection_4]DB71,REAL324",
-                                     L"S7:[S7 connection_4]DB71,REAL332",
+                                     L"S7:[S7 connection_4]DB71,REAL304", L"S7:[S7 connection_4]DB71,REAL312",
+									 L"S7:[S7 connection_4]DB71,REAL320", L"S7:[S7 connection_4]DB71,REAL328",
+									 L"S7:[S7 connection_4]DB71,REAL336",
                                      L"S7:[S7 connection_4]DB71,REAL104", L"S7:[S7 connection_4]DB71,REAL112",
 									 L"S7:[S7 connection_4]DB71,REAL120", L"S7:[S7 connection_4]DB71,REAL128",
 									 L"S7:[S7 connection_4]DB71,REAL136", L"S7:[S7 connection_4]DB71,REAL144",
@@ -537,9 +536,10 @@ wchar_t *Gr13ItemsNme[GR13ITEMSNUM]={//Коэффициент коррекции прямой ход
 
 
 									 //Коэффициент коррекции обратный ход
-                                     L"S7:[S7 connection_4]DB70,REAL300", L"S7:[S7 connection_4]DB70,REAL312",
-                                     L"S7:[S7 connection_4]DB70,REAL320", L"S7:[S7 connection_4]DB70,REAL328",
-                                     L"S7:[S7 connection_4]DB70,REAL336",                                     
+
+                                     L"S7:[S7 connection_4]DB70,REAL300", L"S7:[S7 connection_4]DB70,REAL308",
+									 L"S7:[S7 connection_4]DB70,REAL316", L"S7:[S7 connection_4]DB70,REAL324",
+									 L"S7:[S7 connection_4]DB70,REAL332",
                                      L"S7:[S7 connection_4]DB70,REAL100", L"S7:[S7 connection_4]DB70,REAL108",
 									 L"S7:[S7 connection_4]DB70,REAL116", L"S7:[S7 connection_4]DB70,REAL124",
 									 L"S7:[S7 connection_4]DB70,REAL132", L"S7:[S7 connection_4]DB70,REAL140",
@@ -564,9 +564,10 @@ wchar_t *Gr13ItemsNme[GR13ITEMSNUM]={//Коэффициент коррекции прямой ход
 
 
 									 //Граница действия обратный ход
-                                     L"S7:[S7 connection_4]DB70,REAL304", L"S7:[S7 connection_4]DB70,REAL308",
-                                     L"S7:[S7 connection_4]DB70,REAL316", L"S7:[S7 connection_4]DB70,REAL324",
-                                     L"S7:[S7 connection_4]DB70,REAL332",                                     
+
+									 L"S7:[S7 connection_4]DB70,REAL304", L"S7:[S7 connection_4]DB70,REAL312",
+									 L"S7:[S7 connection_4]DB70,REAL320", L"S7:[S7 connection_4]DB70,REAL328",
+									 L"S7:[S7 connection_4]DB70,REAL336",
 									 L"S7:[S7 connection_4]DB70,REAL104", L"S7:[S7 connection_4]DB70,REAL112",
 									 L"S7:[S7 connection_4]DB70,REAL120", L"S7:[S7 connection_4]DB70,REAL128",
 									 L"S7:[S7 connection_4]DB70,REAL136", L"S7:[S7 connection_4]DB70,REAL144",

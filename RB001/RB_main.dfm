@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCalibration
+    ActivePage = tsManual
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -7577,7 +7577,7 @@ object mfRB: TmfRB
                 Height = 521
                 Align = alLeft
                 RowCount = 24
-                ScrollBars = ssNone
+                ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
@@ -7773,7 +7773,7 @@ object mfRB: TmfRB
                 Height = 521
                 Align = alLeft
                 RowCount = 24
-                ScrollBars = ssNone
+                ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
@@ -9147,7 +9147,7 @@ object mfRB: TmfRB
             Top = 0
             Width = 800
             Height = 570
-            ActivePage = tsLoadSertB
+            ActivePage = tsLoadSertA
             Align = alClient
             TabOrder = 0
             object tsLoadSertA: TTabSheet
