@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsManual
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -1897,7 +1897,7 @@ object mfRB: TmfRB
       end
       object gbCarriage1: TGroupBox
         Left = 3
-        Top = 8
+        Top = 10
         Width = 219
         Height = 438
         Caption = #1055#1054#1047#1048#1062#1048#1071' '#1040
@@ -2021,137 +2021,137 @@ object mfRB: TmfRB
           Layout = tlCenter
         end
         object lLoad80: TLabel
-          Left = 174
-          Top = 55
+          Left = 172
+          Top = 107
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '80'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
           Transparent = True
         end
         object lLoad70: TLabel
-          Left = 174
-          Top = 76
+          Left = 172
+          Top = 122
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '70'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad60: TLabel
-          Left = 174
-          Top = 98
+          Left = 172
+          Top = 136
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '60'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad50: TLabel
-          Left = 174
-          Top = 119
+          Left = 172
+          Top = 151
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '50'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad40: TLabel
-          Left = 174
-          Top = 141
+          Left = 172
+          Top = 165
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '40'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad30: TLabel
-          Left = 174
-          Top = 162
+          Left = 172
+          Top = 180
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '30'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad20: TLabel
-          Left = 174
-          Top = 184
+          Left = 172
+          Top = 196
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '20'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad10: TLabel
-          Left = 174
-          Top = 206
+          Left = 172
+          Top = 212
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '10'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object lLoad0: TLabel
-          Left = 174
+          Left = 172
           Top = 227
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '0'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
@@ -2372,6 +2372,54 @@ object mfRB: TmfRB
             0000000000000000008080008080008080008080008080008080}
           NumGlyphs = 4
         end
+        object lLoad90: TLabel
+          Left = 171
+          Top = 93
+          Width = 23
+          Height = 12
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '90'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object lLoad100: TLabel
+          Left = 172
+          Top = 77
+          Width = 23
+          Height = 12
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '100'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object lLoad110: TLabel
+          Left = 173
+          Top = 63
+          Width = 23
+          Height = 12
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '110'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
         object pCarr1Ttl: TPanel
           Left = 11
           Top = 326
@@ -2488,14 +2536,14 @@ object mfRB: TmfRB
           Height = 195
           Ctl3D = True
           DragMode = dmAutomatic
-          Max = 80
+          Max = 110
           Orientation = trVertical
           ParentCtl3D = False
           Frequency = 10
-          Position = 80
+          Position = 110
           PositionToolTip = ptRight
-          SelEnd = 40
-          SelStart = 40
+          SelEnd = 60
+          SelStart = 60
           TabOrder = 7
           ThumbLength = 30
           TickMarks = tmBoth
@@ -2690,15 +2738,15 @@ object mfRB: TmfRB
         end
         object l2Load80: TLabel
           Left = 174
-          Top = 55
+          Top = 109
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '80'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
@@ -2706,105 +2754,105 @@ object mfRB: TmfRB
         end
         object l2Load70: TLabel
           Left = 174
-          Top = 76
+          Top = 124
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '70'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object l2Load60: TLabel
           Left = 174
-          Top = 98
+          Top = 138
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '60'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object l2Load50: TLabel
           Left = 174
-          Top = 119
+          Top = 153
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '50'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object l2Load40: TLabel
           Left = 174
-          Top = 141
+          Top = 167
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '40'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object l2Load30: TLabel
           Left = 174
-          Top = 162
+          Top = 182
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '30'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object l2Load20: TLabel
-          Left = 174
-          Top = 184
+          Left = 175
+          Top = 198
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '20'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
         end
         object l2Load10: TLabel
           Left = 174
-          Top = 206
+          Top = 214
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '10'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
@@ -2813,13 +2861,13 @@ object mfRB: TmfRB
           Left = 174
           Top = 227
           Width = 23
-          Height = 15
+          Height = 12
           Alignment = taRightJustify
           AutoSize = False
           Caption = '0'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -15
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
@@ -3040,6 +3088,54 @@ object mfRB: TmfRB
             0000000000000000008080008080008080008080008080008080}
           NumGlyphs = 4
         end
+        object l2Load110: TLabel
+          Left = 175
+          Top = 65
+          Width = 23
+          Height = 12
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '110'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object l2Load100: TLabel
+          Left = 174
+          Top = 79
+          Width = 23
+          Height = 12
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '100'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object l2Load90: TLabel
+          Left = 175
+          Top = 95
+          Width = 23
+          Height = 12
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = '90'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
         object pCarr2Ttl: TPanel
           Left = 11
           Top = 326
@@ -3156,14 +3252,14 @@ object mfRB: TmfRB
           Height = 195
           Ctl3D = True
           DragMode = dmAutomatic
-          Max = 80
+          Max = 110
           Orientation = trVertical
           ParentCtl3D = False
           Frequency = 10
-          Position = 80
+          Position = 110
           PositionToolTip = ptRight
-          SelEnd = 40
-          SelStart = 40
+          SelEnd = 60
+          SelStart = 60
           TabOrder = 7
           ThumbLength = 30
           TickMarks = tmBoth
@@ -7544,7 +7640,7 @@ object mfRB: TmfRB
             Top = 0
             Width = 800
             Height = 570
-            ActivePage = tsLoadCalibrB
+            ActivePage = tsLoadCalibrA
             Align = alClient
             TabOrder = 0
             object tsLoadCalibrA: TTabSheet
@@ -8805,7 +8901,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsLoadSert
+        ActivePage = tsDrumSpeedSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet

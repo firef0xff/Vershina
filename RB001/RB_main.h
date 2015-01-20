@@ -651,6 +651,12 @@ __published:	// IDE-managed Components
 	TLabeledEdit *leMeasSpeedCoefReal;
 	TButton *btnResetResPosA;
 	TButton *btnResetResPosB;
+	TLabel *lLoad90;
+	TLabel *lLoad100;
+	TLabel *lLoad110;
+	TLabel *l2Load110;
+	TLabel *l2Load100;
+	TLabel *l2Load90;
     void __fastcall OnCommonParamReadExec(TObject *Sender);
 	void __fastcall OPCControlStartExec(void);
 	void __fastcall OnOPCControlStopExec(TObject *Sender);

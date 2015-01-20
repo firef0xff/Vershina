@@ -3054,7 +3054,7 @@ void __fastcall TmfRB::DesignManualPanel(void) // расположение компонент на пане
   int leWidth=leCurrentLoad1->EditLabel->Width+2;
   int leEdHeight=leCurrentLoad1->EditLabel->Height+2;
   int leHeight=30;
-  int TickdH             =(gbHeight)/16-3;
+  int TickdH             =(gbHeight)/22-3;
   gbCarriage1->Left      =10;                   gbCarriage1->Top        =10;
   gbCarriage1->Width     =gbWidth2;             gbCarriage1->Height     =gbHeight;
 
@@ -3088,6 +3088,12 @@ void __fastcall TmfRB::DesignManualPanel(void) // расположение компонент на пане
   lLoad70->Width         =30;                   lLoad70->Height         =20;
   lLoad80->Left          =leWidth*2+85;         lLoad80->Top            =tbCurrentLoad1->Top+gbHeight/2-27-TickdH*8;
   lLoad80->Width         =30;                   lLoad80->Height         =20;
+  lLoad90->Left          =leWidth*2+85;         lLoad90->Top            =tbCurrentLoad1->Top+gbHeight/2-27-TickdH*9;
+  lLoad90->Width         =30;                   lLoad90->Height         =20;
+  lLoad100->Left         =leWidth*2+85;         lLoad100->Top           =tbCurrentLoad1->Top+gbHeight/2-27-TickdH*10;
+  lLoad100->Width        =30;                   lLoad100->Height        =20;
+  lLoad110->Left         =leWidth*2+85;         lLoad110->Top           =tbCurrentLoad1->Top+gbHeight/2-27-TickdH*11;
+  lLoad110->Width        =30;                   lLoad110->Height        =20;
   pCarr1Ttl->Left        =10;                   pCarr1Ttl->Top          =leCurrentR1->Top+leHeight+10;
   pCarr1Ttl->Width       =gbWidth2-20;          pCarr1Ttl->Height       =26;
   int btnTop             =pCarr1Ttl->Top+36;
@@ -3138,6 +3144,12 @@ void __fastcall TmfRB::DesignManualPanel(void) // расположение компонент на пане
   l2Load70->Width        =30;                   l2Load70->Height        =20;
   l2Load80->Left         =leWidth*2+85;         l2Load80->Top           =tbCurrentLoad2->Top+gbHeight/2-27-TickdH*8;
   l2Load80->Width        =30;                   l2Load80->Height        =20;
+  l2Load90->Left         =leWidth*2+85;         l2Load90->Top           =tbCurrentLoad2->Top+gbHeight/2-27-TickdH*9;
+  l2Load90->Width        =30;                   l2Load90->Height        =20;
+  l2Load100->Left        =leWidth*2+85;         l2Load100->Top          =tbCurrentLoad2->Top+gbHeight/2-27-TickdH*10;
+  l2Load100->Width       =30;                   l2Load100->Height       =20;
+  l2Load110->Left        =leWidth*2+85;         l2Load110->Top          =tbCurrentLoad2->Top+gbHeight/2-27-TickdH*11;
+  l2Load110->Width       =30;                   l2Load110->Height       =20;
   pCarr2Ttl->Left        =10;                   pCarr2Ttl->Top          =leCurrentR2->Top+leHeight+10;
   pCarr2Ttl->Width       =gbWidth2-20;          pCarr2Ttl->Height       =26;
   btnTop             =pCarr2Ttl->Top+36;
