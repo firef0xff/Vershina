@@ -71,7 +71,7 @@
 #define MIN_SPEED 0
 #define MAX_SPEED 170
 #define MIN_LOAD  0
-#define MAX_LOAD  75
+#define MAX_LOAD  115
 //дебаг
 #ifdef _DEBUG
 	  //#define  _mDEBUG
