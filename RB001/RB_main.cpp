@@ -332,10 +332,10 @@ void __fastcall TmfRB::DesignSProgTable(void)   // создание таблицы для ввода пр
   btnOpenSProgFmFile->Top   =btnSaveSProgToFile->Top+btnHeight+10;
   btnLoadSProgToPosA->Top   =btnOpenSProgFmFile->Top+btnHeight+10;
   btnLoadSProgToPosB->Top   =btnLoadSProgToPosA->Top+btnHeight+10;
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
   sgSProgram->Selection=myRect;
-  sgSPolling->Selection=myRect;
+  sgSPolling->Selection=myRect;*/
   btnCheckSProg->Enabled=false;
   btnSaveSProgToFile->Enabled=false;
   btnLoadSProgToPosA->Enabled=false;
@@ -410,9 +410,9 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)// расположение компонент на па
   leCurrentLoadSertSetA->Text  =FloatToStrF(LdCA->TargetLd[LdCA->Index],ffFixed,6,2);
   leReadLoadSertA->Text        =FloatToStrF(LdCA->ReadoutLd[LdCA->Index],ffFixed,6,2);
   leMeasLoadSertA->Text        =FloatToStrF(LdCA->MeasuredLd[LdCA->Index],ffFixed,6,2);
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgLoadSertA->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  sgLoadSertA->Selection=myRect;*/
   btnPrevSertLoadA->Enabled=false;
   btnNextSertLoadA->Enabled= true;
 }
@@ -483,9 +483,9 @@ void __fastcall TmfRB::DesignLoadSertBPanel(void)// расположение компонент на па
   leCurrentLoadSertSetB->Text  =FloatToStrF(LdCB->TargetLd[LdCB->Index],ffFixed,6,2);
   leReadLoadSertB->Text        =FloatToStrF(LdCB->ReadoutLd[LdCB->Index],ffFixed,6,2);
   leMeasLoadSertB->Text        =FloatToStrF(LdCB->MeasuredLd[LdCB->Index],ffFixed,6,2);
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgLoadSertB->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  sgLoadSertB->Selection=myRect;*/
   btnPrevSertLoadB->Enabled=false;
   btnNextSertLoadB->Enabled= true;
 }
@@ -522,7 +522,7 @@ void __fastcall TmfRB::DesignRSertPanel(void)  // расположение компонент на пане
 
 void __fastcall TmfRB::DesignLoadCalibrAPanel(void)  // расположение компонент на панели аттестации нагрузки поз. А
 { const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
-  int TblW=C0W+C1W+C2W+C3W+C4W+10, H1=40, LSp1=10;
+  int TblW=C0W+C1W+C2W+C3W+C4W+30, H1=40, LSp1=10;
   int TblH=tsLoadCalibrAH-H1, CellH=max((TblH-5)/(LDQTY+1), 16);
   pLoadCalibrATtl->Height=H1;
   sgLoadCalibrA->ColWidths[0]=C0W;     sgLoadCalibrA->ColWidths[1]=C1W;
@@ -577,9 +577,9 @@ void __fastcall TmfRB::DesignLoadCalibrAPanel(void)  // расположение компонент н
   leCurrentLoadSetA->Text=FloatToStrF(LdSA->TargetLd[LdSA->Index],ffFixed,6,2);
   leReadLoadA->Text      =FloatToStrF(LdSA->ReadoutLd[LdSA->Index],ffFixed,6,2);
   leMeasuredLoadA->Text  =FloatToStrF(LdSA->MeasuredLd[LdSA->Index],ffFixed,6,2);
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgLoadCalibrA->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  sgLoadCalibrA->Selection=myRect;*/
   btnPrevCalibrLoadA->Enabled=false;
   btnNextCalibrLoadA->Enabled= true;
 }
@@ -587,7 +587,7 @@ void __fastcall TmfRB::DesignLoadCalibrAPanel(void)  // расположение компонент н
 
 void __fastcall TmfRB::DesignLoadCalibrBPanel(void)  // расположение компонент на панели аттестации нагрузки поз. Б
 { const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
-  int TblW=C0W+C1W+C2W+C3W+C4W+10, H1=40, LSp1=10;
+  int TblW=C0W+C1W+C2W+C3W+C4W+30, H1=40, LSp1=10;
   int TblH=tsLoadCalibrAH-H1, CellH=max((TblH-5)/(LDQTY+1), 16);
   pLoadCalibrBTtl->Height=H1;
   sgLoadCalibrB->ColWidths[0]=C0W;     sgLoadCalibrB->ColWidths[1]=C1W;
@@ -641,9 +641,9 @@ void __fastcall TmfRB::DesignLoadCalibrBPanel(void)  // расположение компонент н
   leCurrentLoadSetB->Text=FloatToStrF(LdSB->TargetLd[LdSB->Index],ffFixed,6,2);
   leReadLoadB->Text      =FloatToStrF(LdSB->ReadoutLd[LdSB->Index],ffFixed,6,2);
   leMeasuredLoadB->Text  =FloatToStrF(LdSB->MeasuredLd[LdSB->Index],ffFixed,6,2);
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgLoadCalibrB->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  sgLoadCalibrB->Selection=myRect;*/
   btnPrevCalibrLoadB->Enabled=false;
   btnNextCalibrLoadB->Enabled= true;
 }
@@ -698,9 +698,9 @@ void __fastcall TmfRB::DesignRCalibrAPanel(void)// расположение компонент на пан
   RSA->Index                  =0;
   leReadRA->Text              =FloatToStrF(RSA->ReadoutR[0],ffFixed,6,2);
   leMeasRA->Text              =FloatToStrF(RSA->MeasuredR[0],ffFixed,6,2);
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgRCalibrA->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  sgRCalibrA->Selection=myRect;*/
   btnPrevRCalibrA->Enabled=false;
   btnNextRCalibrA->Enabled= true;
 }
@@ -755,9 +755,9 @@ void __fastcall TmfRB::DesignRCalibrBPanel(void)// расположение компонент на пан
   RSB->Index                  =0;
   leReadRB->Text              =FloatToStrF(RSB->ReadoutR[0],ffFixed,6,2);
   leMeasRB->Text              =FloatToStrF(RSB->MeasuredR[0],ffFixed,6,2);
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgRCalibrB->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  sgRCalibrB->Selection=myRect;*/
   btnPrevRCalibrB->Enabled=false;
   btnNextRCalibrB->Enabled= true;
 }
@@ -813,9 +813,9 @@ void __fastcall TmfRB::DesignTCalibrAPanel(void)  // расположение компонент на п
 //  TSA->Index                  =0;
   leReadTA->Text              =FloatToStrF(TSA->ReadoutT[TSA->Index],ffFixed,6,2);
   leMeasTA->Text              =FloatToStrF(TSA->MeasuredT[TSA->Index],ffFixed,6,2);
-  TGridRect myRect;
+  /*TGridRect myRect;
   myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgTCalibrA->Selection=myRect;
+  sgTCalibrA->Selection=myRect;*/
   btnPrevTCalibrA->Enabled=false;
   btnNextTCalibrA->Enabled= true;
 }
@@ -871,9 +871,9 @@ void __fastcall TmfRB::DesignTCalibrBPanel(void)  // расположение компонент на п
 //  TSB->Index                  =0;
   leReadTB->Text              =FloatToStrF(TSB->ReadoutT[TSB->Index],ffFixed,6,2);
   leMeasTB->Text              =FloatToStrF(TSB->MeasuredT[TSB->Index],ffFixed,6,2);
-  TGridRect myRect;
+  /*TGridRect myRect;
   myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgTCalibrB->Selection=myRect;
+  sgTCalibrB->Selection=myRect;*/
   btnPrevTCalibrB->Enabled=false;
   btnNextTCalibrB->Enabled= true;
 }
@@ -927,9 +927,9 @@ void __fastcall TmfRB::DesignSpdCalibrPanel(void)// расположение компонент на па
   leCurrentVSet->Text=FloatToStrF(VS->TargetV[0],ffFixed,6,2);
   leReadV->Text      =FloatToStrF(VS->ReadoutV[0],ffFixed,6,2);
   leMeasuredV->Text  =FloatToStrF(VS->MeasuredV[0],ffFixed,6,2);
-  TGridRect myRect;
+  /*TGridRect myRect;
   myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgSpeedCalibr->Selection=myRect;
+  sgSpeedCalibr->Selection=myRect;*/
   btnPrevCalibrV->Enabled=false;
   btnNextCalibrV->Enabled= true;
 //  LogPrint("CalibrTableVisibleRow="+String(sgSpeedCalibr->VisibleRowCount));
@@ -2365,10 +2365,10 @@ void __fastcall TmfRB::DesignTProgTable(void)   // создание таблицы для ввода пр
   btnOpenTProgFmFile->Top   =btnSaveTProgToFile->Top+btnHeight+10;
   btnLoadTProgToPosA->Top   =btnOpenTProgFmFile->Top+btnHeight+10;
   btnLoadTProgToPosB->Top   =btnLoadTProgToPosA->Top+btnHeight+10;
-  TGridRect myRect;
+  /*TGridRect myRect;
   myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
   sgTProgram->Selection=myRect;
-  sgTPolling->Selection=myRect;
+  sgTPolling->Selection=myRect;*/
   btnCheckTProg->Enabled=false;
   btnSaveTProgToFile->Enabled=false;
   btnLoadTProgToPosA->Enabled=false;
@@ -2574,9 +2574,9 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
 
 void __fastcall TmfRB::OnStringGridExit(TObject *Sender)
 {
-  TGridRect myRect;
-  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  ((TStringGrid *)Sender)->Selection=myRect;
+  /*TGridRect myRect;
+  myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=0;
+  ((TStringGrid *)Sender)->Selection=myRect; */
 }
 //---------------------------------------------------------------------------
 
@@ -3722,9 +3722,9 @@ void __fastcall TmfRB::DesignProtAPanel(void)  // расположение компонент на пане
   lePollsQtyA->Left      =Left3;              lePollsQtyA->Top        =Top4+LineH;
   lePollsQtyA->Width     =LblWidth1;          lePollsQtyA->Height     =LineH;
   int Top5=Top4+LineH*2+LineSpace1;
-  TGridRect myRect;
+  /*TGridRect myRect;
   myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgTestResultA->Selection=myRect;
+  sgTestResultA->Selection=myRect;*/
   int Col0W=30, Col1W=60, Col2W=105, Col3W=75, Col4W=80, Col5W=73, Col6W=100;
   int TTableWidth=Col0W+Col1W+Col2W+Col3W+Col4W+Col5W+Col6W+30;
   sgTestResultA->Left     =Left0;             sgTestResultA->Top      =Top5;
@@ -3840,9 +3840,9 @@ void __fastcall TmfRB::DesignProtBPanel(void)  // расположение компонент на пане
   lePollsQtyB->Left      =Left3;              lePollsQtyB->Top        =Top4+LineH;
   lePollsQtyB->Width     =LblWidth1;          lePollsQtyB->Height     =LineH;
   int Top5=Top4+LineH*2+LineSpace1;
-  TGridRect myRect;
+  /*TGridRect myRect;
   myRect.Left=myRect.Right=myRect.Top=myRect.Bottom=-1;
-  sgTestResultB->Selection=myRect;
+  sgTestResultB->Selection=myRect;*/
   int Col0W=30, Col1W=60, Col2W=105, Col3W=75, Col4W=80, Col5W=73, Col6W=100;
   int TTableWidth=Col0W+Col1W+Col2W+Col3W+Col4W+Col5W+Col6W+30;
   sgTestResultB->Left     =Left0;             sgTestResultB->Top      =Top5;
