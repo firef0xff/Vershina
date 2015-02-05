@@ -1208,6 +1208,12 @@ void __fastcall TmfRB::ShowCommonParam(void)   // отображение общих параметров
 		leEmMinSpeed->Text=FloatToStrF(*min_speed,ffFixed,5,1);
 		leEmMinLoad_1->Text=FloatToStrF(*min_load_1,ffFixed,5,1);
 		leEmMinLoad_2->Text=FloatToStrF(*min_load_2,ffFixed,5,1);
+
+		leEmMinTemp_1->Text=FloatToStrF(*min_temp_1,ffFixed,5,1);
+		leEmMinTemp_2->Text=FloatToStrF(*min_temp_2,ffFixed,5,1);
+
+		leEmMaxTemp_1->Text=FloatToStrF(*max_temp_1,ffFixed,5,1);
+		leEmMaxTemp_2->Text=FloatToStrF(*max_temp_2,ffFixed,5,1);
 	}
 }
 //---- End of ShowCommonParam -----------------------------------------------
@@ -5974,13 +5980,60 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
 		leEmMinLoad_2R->Color=clRed;
 		err=true;
 	}
+
+    //проверка значения
+    try
+    {
+        double t=leEmMinTemp_1R->Text.Trim().ToDouble();
+        *min_temp_1=t;
+        pOPC->WriteGr1(min_temp_1);
+        leEmMinTemp_1R->Color=clLime;
+    } catch (...)
+    {
+        leEmMinTemp_1R->Color=clRed;
+    }
+    //проверка значения
+    try
+    {
+        double t=leEmMaxTemp_1R->Text.Trim().ToDouble();
+        *max_temp_1=t;
+        pOPC->WriteGr1(max_temp_1);
+        leEmMaxTemp_1R->Color=clLime;
+    } catch (...)
+    {
+        leEmMaxTemp_1R->Color=clRed;
+    }
+    //проверка значения
+    try
+    {
+        double t=leEmMinTemp_2R->Text.Trim().ToDouble();
+        *min_temp_2=t;
+        pOPC->WriteGr1(min_temp_2);
+        leEmMinTemp_2R->Color=clLime;
+    } catch (...)
+    {
+        leEmMinTemp_2R->Color=clRed;
+    }
+    //проверка значения
+    try
+    {
+        double t=leEmMaxTemp_2R->Text.Trim().ToDouble();
+        *max_temp_2=t;
+        pOPC->WriteGr1(max_temp_2);
+        leEmMaxTemp_2R->Color=clLime;
+    } catch (...)
+    {
+        leEmMaxTemp_2R->Color=clRed;
+    }
+
+
 	if (err)
 	{
 		MessageBox(Handle,_T("Введено не корректное значение"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 	}
 	if (value)
 	{
-		MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 0 до 75\n Значение скорости должно быть в пределах от 0 до 170"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+        MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 0 до 115\n Значение скорости должно быть в пределах от 0 до 170"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 	}
 }
 void __fastcall TmfRB::leEmMinLoad_1RKeyPress(TObject *Sender, wchar_t &Key)

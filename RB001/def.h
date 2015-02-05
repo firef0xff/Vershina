@@ -2,7 +2,7 @@
 
 #define GR1BOOLITEMSNUM  37    // количество булевых переменных в группе 1
 #define GR1INTITEMSNUM   11    // количество целых переменных в группе 1
-#define GR1FLTITEMSNUM   9     // количество вещественных переменных в группе 1
+#define GR1FLTITEMSNUM   13     // количество вещественных переменных в группе 1
 #define GR1ITEMSNUM      GR1BOOLITEMSNUM+GR1INTITEMSNUM+GR1FLTITEMSNUM    // количество переменных в группе 1
 
 #define GR2FLOATITEMSNUM 23    //количество вещественных переменных группе 2

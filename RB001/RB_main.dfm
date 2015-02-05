@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsSert
+    ActivePage = tsEmSettings
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -7228,18 +7228,18 @@ object mfRB: TmfRB
       end
     end
     object tsEmSettings: TTabSheet
-      Caption = #1040#1074#1072#1088#1080#1081#1085#1099#1077' '#1091#1089#1090#1072#1085#1086#1074#1082#1080
+      Caption = #1058#1077#1084#1087#1077#1088#1072#1090#1091#1088#1085#1099#1077' '#1091#1089#1090#1072#1085#1086#1074#1082#1080
       ImageIndex = 8
       object GroupBox1: TGroupBox
         Left = 0
         Top = 3
-        Width = 585
-        Height = 190
+        Width = 625
+        Height = 230
         Caption = #1058#1077#1082#1091#1097#1080#1077' '#1091#1089#1090#1072#1085#1086#1074#1082#1080
         TabOrder = 0
         object leEmMaxSpeed: TLabeledEdit
-          Left = 287
-          Top = 110
+          Left = 290
+          Top = 158
           Width = 70
           Height = 29
           AutoSize = False
@@ -7269,8 +7269,8 @@ object mfRB: TmfRB
           Text = '10'
         end
         object leEmMaxLoad_2: TLabeledEdit
-          Left = 516
-          Top = 62
+          Left = 556
+          Top = 52
           Width = 57
           Height = 29
           AutoSize = False
@@ -7300,8 +7300,8 @@ object mfRB: TmfRB
           Text = '10'
         end
         object leEmMaxLoad_1: TLabeledEdit
-          Left = 516
-          Top = 27
+          Left = 556
+          Top = 17
           Width = 57
           Height = 29
           AutoSize = False
@@ -7331,8 +7331,8 @@ object mfRB: TmfRB
           Text = '10'
         end
         object leEmMinLoad_1: TLabeledEdit
-          Left = 218
-          Top = 27
+          Left = 250
+          Top = 17
           Width = 56
           Height = 29
           AutoSize = False
@@ -7362,8 +7362,8 @@ object mfRB: TmfRB
           Text = '10'
         end
         object leEmMinLoad_2: TLabeledEdit
-          Left = 218
-          Top = 62
+          Left = 250
+          Top = 52
           Width = 56
           Height = 29
           AutoSize = False
@@ -7393,8 +7393,8 @@ object mfRB: TmfRB
           Text = '10'
         end
         object leEmMinSpeed: TLabeledEdit
-          Left = 287
-          Top = 145
+          Left = 290
+          Top = 193
           Width = 70
           Height = 29
           AutoSize = False
@@ -7423,17 +7423,141 @@ object mfRB: TmfRB
           TabOrder = 5
           Text = '10'
         end
+        object leEmMinTemp_1: TLabeledEdit
+          Left = 250
+          Top = 87
+          Width = 56
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 218
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1080#1085'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1040', '#1075#1088' '#1057':'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 6
+          Text = '10'
+        end
+        object leEmMaxTemp_1: TLabeledEdit
+          Left = 556
+          Top = 87
+          Width = 57
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 219
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1072#1082#1089'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1040', '#1075#1088' '#1057
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 7
+          Text = '10'
+        end
+        object leEmMaxTemp_2: TLabeledEdit
+          Left = 556
+          Top = 122
+          Width = 57
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 219
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1072#1082#1089'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1041', '#1075#1088' '#1057
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 8
+          Text = '10'
+        end
+        object leEmMinTemp_2: TLabeledEdit
+          Left = 250
+          Top = 122
+          Width = 56
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 218
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1080#1085'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1041', '#1075#1088' '#1057':'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 9
+          Text = '10'
+        end
       end
       object GroupBox2: TGroupBox
-        Left = 0
-        Top = 199
-        Width = 585
-        Height = 181
+        Left = 3
+        Top = 239
+        Width = 622
+        Height = 258
         Caption = #1053#1086#1074#1099#1077' '#1091#1089#1090#1072#1085#1086#1074#1082#1080
         TabOrder = 1
         object leEmMaxSpeedR: TLabeledEdit
           Left = 287
-          Top = 95
+          Top = 175
           Width = 70
           Height = 29
           AutoSize = False
@@ -7462,7 +7586,7 @@ object mfRB: TmfRB
           OnKeyPress = leEmMinLoad_1RKeyPress
         end
         object leEmMaxLoad_2R: TLabeledEdit
-          Left = 516
+          Left = 553
           Top = 54
           Width = 57
           Height = 29
@@ -7492,7 +7616,7 @@ object mfRB: TmfRB
           OnKeyPress = leEmMinLoad_1RKeyPress
         end
         object leEmMaxLoad_1R: TLabeledEdit
-          Left = 516
+          Left = 553
           Top = 19
           Width = 57
           Height = 29
@@ -7522,8 +7646,8 @@ object mfRB: TmfRB
           OnKeyPress = leEmMinLoad_1RKeyPress
         end
         object leEmMinLoad_1R: TLabeledEdit
-          Left = 218
-          Top = 19
+          Left = 247
+          Top = 25
           Width = 56
           Height = 29
           AutoSize = False
@@ -7552,8 +7676,8 @@ object mfRB: TmfRB
           OnKeyPress = leEmMinLoad_1RKeyPress
         end
         object leEmMinLoad_2R: TLabeledEdit
-          Left = 218
-          Top = 54
+          Left = 247
+          Top = 60
           Width = 56
           Height = 29
           AutoSize = False
@@ -7582,8 +7706,8 @@ object mfRB: TmfRB
           OnKeyPress = leEmMinLoad_1RKeyPress
         end
         object btEmSettings: TButton
-          Left = 444
-          Top = 100
+          Left = 428
+          Top = 180
           Width = 138
           Height = 29
           Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
@@ -7592,7 +7716,7 @@ object mfRB: TmfRB
         end
         object leEmMinSpeedR: TLabeledEdit
           Left = 287
-          Top = 130
+          Top = 210
           Width = 70
           Height = 29
           AutoSize = False
@@ -7619,6 +7743,122 @@ object mfRB: TmfRB
           ParentFont = False
           TabOrder = 6
           OnKeyPress = leEmMinLoad_1RKeyPress
+        end
+        object leEmMinTemp_1R: TLabeledEdit
+          Left = 247
+          Top = 95
+          Width = 56
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 218
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1080#1085'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1040', '#1075#1088' '#1057':'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          TabOrder = 7
+        end
+        object leEmMinTemp_2R: TLabeledEdit
+          Left = 247
+          Top = 130
+          Width = 56
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 218
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1080#1085'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1041', '#1075#1088' '#1057':'
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          TabOrder = 8
+        end
+        object leEmMaxTemp_2R: TLabeledEdit
+          Left = 553
+          Top = 130
+          Width = 59
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 219
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1072#1082#1089'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1041', '#1075#1088' '#1057
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          TabOrder = 9
+        end
+        object leEmMaxTemp_1R: TLabeledEdit
+          Left = 553
+          Top = 95
+          Width = 59
+          Height = 29
+          AutoSize = False
+          BiDiMode = bdLeftToRight
+          EditLabel.Width = 219
+          EditLabel.Height = 18
+          EditLabel.BiDiMode = bdLeftToRight
+          EditLabel.Caption = #1052#1072#1082#1089'. '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1072' '#1087#1086#1079'. '#1040', '#1075#1088' '#1057
+          EditLabel.Font.Charset = DEFAULT_CHARSET
+          EditLabel.Font.Color = clWindowText
+          EditLabel.Font.Height = -15
+          EditLabel.Font.Name = 'Tahoma'
+          EditLabel.Font.Style = []
+          EditLabel.ParentBiDiMode = False
+          EditLabel.ParentFont = False
+          EditLabel.Layout = tlCenter
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clNavy
+          Font.Height = -17
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          LabelPosition = lpLeft
+          ParentBiDiMode = False
+          ParentFont = False
+          TabOrder = 10
         end
       end
     end

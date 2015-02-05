@@ -167,6 +167,11 @@ extern float *min_load_1;  		   //DB10,REAL142 мин. нагрузка 1 в цикле
 extern float *max_load_1;   	   //DB10,REAL146 макс нагрузка 1 в цикле
 extern float *min_load_2;   	   //DB10,REAL150 мин нагрузка 2 в цикле
 extern float *max_load_2;   	   //DB10,REAL154 макс нагрузка 2 в цикле
+
+extern float *min_temp_1;          //DB10,REAL158 Минимальная температура в Поз А
+extern float *max_temp_1;          //DB10,REAL162 Максимальная температура в Поз А
+extern float *min_temp_2;          //DB10,REAL166 Минимальная температура в Поз Б
+extern float *max_temp_2;          //DB10,REAL170 Максимальная температура в Поз Б
 /*>*/
 
 // адреса переменных в контроллере

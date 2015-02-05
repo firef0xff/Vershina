@@ -657,6 +657,14 @@ __published:	// IDE-managed Components
 	TLabel *l2Load110;
 	TLabel *l2Load100;
 	TLabel *l2Load90;
+	TLabeledEdit *leEmMinTemp_1;
+	TLabeledEdit *leEmMaxTemp_1;
+	TLabeledEdit *leEmMaxTemp_2;
+	TLabeledEdit *leEmMinTemp_2;
+	TLabeledEdit *leEmMinTemp_1R;
+	TLabeledEdit *leEmMinTemp_2R;
+	TLabeledEdit *leEmMaxTemp_2R;
+	TLabeledEdit *leEmMaxTemp_1R;
     void __fastcall OnCommonParamReadExec(TObject *Sender);
 	void __fastcall OPCControlStartExec(void);
 	void __fastcall OnOPCControlStopExec(TObject *Sender);

@@ -153,6 +153,11 @@ float *min_load_1		=&fGr1[5]; //DB10,REAL142 мин. нагрузка 1 в цикле
 float *max_load_1		=&fGr1[6]; //DB10,REAL146 макс нагрузка 1 в цикле
 float *min_load_2		=&fGr1[7]; //DB10,REAL150 мин нагрузка 2 в цикле
 float *max_load_2		=&fGr1[8]; //DB10,REAL154 Корекция диапазона 10-20 по заданию нагрузки 1
+float *min_temp_1       =&fGr1[9];  //DB10,REAL158 Минимальная температура в Поз А
+float *max_temp_1       =&fGr1[10]; //DB10,REAL162 Максимальная температура в Поз А
+float *min_temp_2       =&fGr1[11]; //DB10,REAL166 Минимальная температура в Поз Б
+float *max_temp_2       =&fGr1[12]; //DB10,REAL170 Максимальная температура в Поз Б
+
 // блок DB10
 bool  *AutoMode1    =&bGr1[21]; //DB10,X2.0 Режим Автомат 1
 bool  *ManualMode1  =&bGr1[22]; //DB10,X2.1 Режим Ручной 1
@@ -243,7 +248,11 @@ wchar_t *Gr1ItemsNme[GR1ITEMSNUM]={	L"S7:[S7 connection_4]MX2.1",
 									L"S7:[S7 connection_4]DB10,REAL142",
 									L"S7:[S7 connection_4]DB10,REAL146",
 									L"S7:[S7 connection_4]DB10,REAL150",
-									L"S7:[S7 connection_4]DB10,REAL154"
+                                    L"S7:[S7 connection_4]DB10,REAL154",
+                                    L"S7:[S7 connection_4]DB10,REAL158",
+                                    L"S7:[S7 connection_4]DB10,REAL162",
+                                    L"S7:[S7 connection_4]DB10,REAL166",
+                                    L"S7:[S7 connection_4]DB10,REAL170"
                                   };
 // End of CtrlGr1 -----------------------------------------------------------
 // переменные группы CtrlGr2 ------------------------------------------------
