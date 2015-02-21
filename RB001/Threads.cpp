@@ -41,7 +41,9 @@ unsigned long __stdcall ListenCD9904(void *msg)
 	   //рабочий цикл
 	   while (1)
 		{
+           #ifdef _mDEBUG
 			myOPC::log = "";
+            #endif
 			//чтение индикаторов ресета
 			OPCITEMSTATE* rez=ThreadOPC->Read(reset_id);
 			if (!rez)

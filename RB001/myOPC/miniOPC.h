@@ -70,5 +70,7 @@ private:
 	LPWSTR ErrorStr;
 	#endif
 };
+#ifdef _mDEBUG
 String myOPC::log="";
+#endif
 #endif

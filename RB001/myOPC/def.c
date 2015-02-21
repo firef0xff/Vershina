@@ -4,5 +4,5 @@
 	#ifndef nullptr
 		#define nullptr 0
 	#endif
-#define _mDEBUG
+//#define _mDEBUG
 #endif
