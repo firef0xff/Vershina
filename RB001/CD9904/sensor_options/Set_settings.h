@@ -19,6 +19,7 @@
 #include "num_keyboard.h"
 #include "Find_devices.h"
 #include "CD_9904.h"
+#include <boost/thread.hpp>
 class TSettings : public TForm
 {
 __published:	// IDE-managed Components
@@ -65,7 +66,7 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 
-	CD_9904::Sensor *sens;
+	boost::shared_ptr<CD_9904::Sensor> sens;
 	bool fromFileSettings(void);
 	bool toFileSettings(void);
 	void UpdateInfo(void);
@@ -74,7 +75,7 @@ private:	// User declarations
 	String port;
 	bool connected;
 public:		// User declarations
-	CD_9904::Sensor * Get_Sensor(void)const{if (connected){return sens;}else {return 0;}};
+	CD_9904::Sensor * Get_Sensor(void)const{if (connected){return sens.get();}else {return 0;}};
 	void	Set_DefaultSettings (void);
 	void 	Connect(void);
 	int	ResetBus_1(void);

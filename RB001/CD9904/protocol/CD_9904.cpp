@@ -169,8 +169,12 @@ using  namespace CD_9904;
 ErrCode	Sensor::Init			(BYTE _addr)
 {
 	addr=_addr;
-	size_t ans_len=TILE_LEN+4;
-	BYTE *ans=new BYTE[ans_len];
+
+	const size_t buf_size = TILE_LEN+4;
+	size_t ans_len = buf_size;
+	BYTE ans[buf_size];
+	memset(ans, 0, buf_size);
+
 	ErrCode err=Compile_command(0x00,0x03,0,0,0x85,ans,ans_len);
 	if (err==ErrCode::Sucsess)
 	{
@@ -179,7 +183,6 @@ ErrCode	Sensor::Init			(BYTE _addr)
 			err==ErrCode::Unknown_err;
 		}
 	}
-	delete []ans;
 	return err;
 }
 ErrCode Sensor::Write_ADDR		(BYTE _addr)
@@ -194,14 +197,16 @@ ErrCode Sensor::Write_ADDR		(BYTE _addr)
 }
 ErrCode Sensor::Read_Diametr	(unsigned short &Diametr)
 {
-	size_t ans_len=TILE_LEN+5;
-	BYTE *ans=new BYTE[ans_len];
+	const size_t buf_size = TILE_LEN+5;
+	size_t ans_len = buf_size;
+	BYTE ans[buf_size];
+	memset(ans, 0, buf_size);
+
 	ErrCode err=Compile_command(0xC1,0x3,0,0,0x85,ans,ans_len);
 	if (err==ErrCode::Sucsess)
 	{
 		Diametr=(int)(*((unsigned short *)(ans+INF_I)));
 	}
-	delete []ans;
 	return err;
 }
 ErrCode	Sensor::Write_Diametr	(unsigned short Diametr)
@@ -210,16 +215,17 @@ ErrCode	Sensor::Write_Diametr	(unsigned short Diametr)
 	ErrCode err=Compile_command(0xC2,0x05,(BYTE *)&Diametr,2/*sizeof(short)*/,0x00,0,ans_len);
 	return err;
 }
-ErrCode	Sensor::Tansl_Speed  	(Data **speed)
+ErrCode	Sensor::Tansl_Speed  	(boost::shared_ptr<Data> &speed)
 {
-	size_t ans_len=TILE_LEN+18;
-	BYTE *ans=new BYTE[ans_len];
+	const size_t buf_size=TILE_LEN+18;
+	size_t ans_len = buf_size;
+	BYTE ans[buf_size];
+	memset(ans, 0, buf_size);
 	ErrCode err=Compile_command(0xC3,0x3,0,0,0x85,ans,ans_len);
 	if (err==ErrCode::Sucsess)
 	{
-		*speed=new Data(ans,ans_len);
+		speed.reset(new Data(ans,ans_len));
 	}
-	delete []ans;
 	return err;
 }
 ErrCode	Sensor::Write_Road_1    (unsigned int road)
@@ -271,8 +277,15 @@ ErrCode	Sensor::Write_Time_2    (CD_Time *time)
 bool 	Sensor::Check_CRC       (const BYTE *com)
 {
 	bool result=false;
-	BYTE * Title_CRC=Get_Title_CRC(com);
-	BYTE * MSG_CRC=Get_CRC_IFO(com);
+
+	BYTE Title_CRC[CRC_TITLE_LEN];
+	memset(Title_CRC, 0, CRC_TITLE_LEN);
+	Get_Title_CRC(com, Title_CRC, CRC_TITLE_LEN);
+
+	BYTE MSG_CRC[CRC_TITLE_INF];
+	memset(MSG_CRC, 0, CRC_TITLE_INF);
+	Get_CRC_IFO(com, MSG_CRC, CRC_TITLE_INF);
+
 	size_t msg_crc_pos=TILE_LEN+(size_t)com[LEN]-CRC_TITLE_INF;
 
 	if (*(com+CRC_TITLE)==*(Title_CRC)&&
@@ -282,11 +295,9 @@ bool 	Sensor::Check_CRC       (const BYTE *com)
 	{
 	result=true;
 	}
-	delete []Title_CRC;
-	delete []MSG_CRC;
 	return result;
 }
-BYTE *	Sensor::Get_Title_CRC 	(const BYTE *com)
+void	Sensor::Get_Title_CRC 	(const BYTE *com, BYTE *title_crc, size_t crc_len)
 {
 	short len=(short)(BYTE)com[LEN];
 	short addr=(short)(BYTE)com[ADDR];
@@ -294,14 +305,12 @@ BYTE *	Sensor::Get_Title_CRC 	(const BYTE *com)
 
 	short crc=len+addr+num+1;
 	crc=~crc;
-	BYTE *result=new BYTE[CRC_TITLE_LEN];
-	for (int i=0; i<CRC_TITLE_LEN; i++)
+	for (int i=0; i<crc_len; i++)
 	{
-		result[i]=((BYTE *)&crc)[i];
+		title_crc[i]=((BYTE *)&crc)[i];
 	}
-	return result;
 }
-BYTE *	Sensor::Get_CRC_IFO   	(const BYTE *com)
+void	Sensor::Get_CRC_IFO   	(const BYTE *com, BYTE *info_crc, size_t crc_len)
 {
 	short type=(short)com[TYPE];
 	short crc=type;
@@ -312,100 +321,85 @@ BYTE *	Sensor::Get_CRC_IFO   	(const BYTE *com)
 	}
 	crc+=1;
 	crc=~crc;
-	BYTE *result=new BYTE[CRC_TITLE_INF];
-	for (int i=0; i<CRC_TITLE_INF; i++)
+
+	for (int i=0; i<crc_len; i++)
 	{
-		result[i]=((BYTE *)&crc)[i];
+		info_crc[i]=((BYTE *)&crc)[i];
 	}
-	return result;
 }
 
 ErrCode Sensor::Compile_command	(	BYTE _type,		BYTE data_len,
 									BYTE *s_data,	size_t s_data_len,
-									BYTE r_type,	BYTE *r_data,   size_t &r_data_len)
+									BYTE r_type,	BYTE *r_data,  size_t &r_data_len)
 {
 //шаг 1 построение заголовка
-	BYTE * com=Get_Com_Title(data_len);
+	BYTE com[0xff];
+	memset(com, 0, 0xff);
+	Get_Com_Title(data_len, com);
+
 	ErrCode err=ErrCode::Sucsess;
-	if (com)
-	{//заголовок построен
-		//строим тело
-		com[TYPE]=_type;
-		//проверка на необходимость передать данные
-		if (s_data&&s_data_len)
-		{//вставка передаваемых данных
-			for (size_t i = 0; i < s_data_len; i++)
-			{
-				*(com+INF_I+i)=*(s_data+i);
-			}
+	//заголовок построен
+	//строим тело
+	com[TYPE]=_type;
+	//проверка на необходимость передать данные
+	if (s_data&&s_data_len)
+	{//вставка передаваемых данных
+		for (size_t i = 0; i < s_data_len; i++)
+		{
+			*(com+INF_I+i)=*(s_data+i);
 		}
-		//построение сrc кода для проверки целостности инфо
-		BYTE *crc=Get_CRC_IFO(com);
-		if (crc)
-		{//срс построен, дописываем в пакет
-			com[TILE_LEN+(int)data_len-2]=crc[0];				//crc  1 byte
-			com[TILE_LEN+(int)data_len-1]=crc[1];        		//crc  2 byte
-			delete []crc;
-			crc=0;
-			//отправка сообщения
-			err=SendMessage(com);
-			if (err==ErrCode::Sucsess)
-			{   //проверка необходимости читать ответные данные
-				if (r_data&&r_data_len)
-				{//чтение ответа устройства
-					for (size_t i = 0; i<r_data_len; i++){*(r_data+i)=0;}
-					port->Read(r_data,r_data_len);
-					//проверка пакета
-					if (*(r_data+SYNC)==0x16&&
-						*(r_data+TYPE)==r_type&&
-						Check_CRC(r_data)//проверка CRC
-						)
-					{
-						err=ErrCode::Sucsess;
-					}else
-					{
-					err=ErrCode::Unknown_err;
-					}
-				}
-			}
-		}else
-		{//ошибка построения срс
-			err=ErrCode::Unknown_err;
-		}
-		//завершена сборка пакета
-		delete []com;
-		com=0;
-		return err;
-	}else
-	{//ошибка построения заголовка
-		return ErrCode::Unknown_err;
 	}
+	//построение сrc кода для проверки целостности инфо
+	BYTE crc[CRC_TITLE_INF];
+	memset(crc, 0, CRC_TITLE_INF);
+	Get_CRC_IFO(com, crc, CRC_TITLE_INF);
+
+	com[TILE_LEN+(int)data_len-2]=crc[0];				//crc  1 byte
+	com[TILE_LEN+(int)data_len-1]=crc[1];        		//crc  2 byte
+
+	//отправка сообщения
+	err=SendMessage(com);
+	if (err==ErrCode::Sucsess)
+	{   //проверка необходимости читать ответные данные
+		if (r_data&&r_data_len)
+		{//чтение ответа устройства
+			for (size_t i = 0; i<r_data_len; i++){*(r_data+i)=0;}
+			port->Read(r_data,r_data_len);
+			//проверка пакета
+			if (*(r_data+SYNC)==0x16&&
+				*(r_data+TYPE)==r_type&&
+				Check_CRC(r_data)//проверка CRC
+				)
+			{
+				err=ErrCode::Sucsess;
+			}else
+			{
+			err=ErrCode::Unknown_err;
+			}
+		}
+	}
+
+	//завершена сборка пакета
+	return err;
 }
-BYTE *  Sensor::Get_Com_Title	(size_t len)
+void  Sensor::Get_Com_Title	(size_t len, BYTE *com)
 {
 	if (len<0x3||len>0x12)
 	{
 	throw Exception("Неизвестная команда");
 	}
-	BYTE *com=new BYTE[TILE_LEN+len];
+
 	com[SYNC]=0x16;						//SYNC
 	com[LEN]=(BYTE)len;					//LEN
 	com[ADDR]=addr;       				//ADDR
 	com[NUM]=0x0;						//NUM
-	BYTE *crc=Get_Title_CRC(com);
-	if (crc)
-	{
-		com[CRC_TITLE]=crc[0];					//crc title 1 byte
-		com[CRC_TITLE+1]=crc[1];        		//crc title 2 byte
-		delete []crc;
-		crc=0;
-		return com;
-	}else
-	{
-		delete []com;
-		com=0;
-		return 0;
-	}
+
+	BYTE crc[CRC_TITLE_LEN];
+	memset(crc, 0, CRC_TITLE_LEN);
+	Get_Title_CRC(com, crc, CRC_TITLE_LEN);
+
+	com[CRC_TITLE]=crc[0];					//crc title 1 byte
+	com[CRC_TITLE+1]=crc[1];        		//crc title 2 byte
 }
 ErrCode Sensor::SendMessage		(const BYTE *com)
 {
@@ -420,8 +414,11 @@ ErrCode Sensor::SendMessage		(const BYTE *com)
 		port->Write(com,length);
 		port->DTR_On(120,500);
 		//чтение кода ошибки
-		size_t len=TILE_LEN+4;
-		BYTE *Err=new BYTE[len];
+		const size_t buf_len=TILE_LEN+4;
+		size_t len = buf_len;
+		BYTE Err[buf_len];
+		memset(Err, 0, buf_len);
+
 		for (size_t i = 0; i<len; i++){Err[i]=0;}
 		port->Read(Err,len);
 		//проверка ответа
@@ -442,7 +439,6 @@ ErrCode Sensor::SendMessage		(const BYTE *com)
 									COMPort::Purge_flags::TXCLEAR|
 									COMPort::Purge_flags::RXCLEAR);
 		}
-		delete []Err;
 	}
 	if (!Answer)
 	{

@@ -7,6 +7,7 @@
 #include <Classes.hpp>
 
 #include "ComPort.h"
+#include <boost/thread.hpp>
 namespace CD_9904
 {
 //параметры пакета
@@ -96,7 +97,7 @@ namespace CD_9904
 			ErrCode Write_ADDR		(BYTE _addr);             //запись нового адреса устройству
 			ErrCode Read_Diametr	(unsigned short &Diametr);//считывание диаметра в переменную параметра
 			ErrCode	Write_Diametr	(unsigned short Diametr);//разрешение 1 мм
-			ErrCode	Tansl_Speed  	(Data **speed);
+			ErrCode	Tansl_Speed  	(boost::shared_ptr<Data> &speed);
 			ErrCode	Write_Road_1    (unsigned int road);
 			ErrCode	Write_Road_2    (unsigned int road);
 			ErrCode	Write_Time_1    (CD_Time *time);
@@ -121,10 +122,10 @@ static		String  Get_Err			(ErrCode err);  //возвращает текстовое описание ошибки
 									BYTE *r_data,      //массиив для получения ответа
 									size_t &r_data_len //размер ответа
 									);
-			BYTE *  Get_Com_Title	(size_t length); //генерация заголовка пакета
+			void  	Get_Com_Title	(size_t len, BYTE *com); //генерация заголовка пакета
 			bool 	Check_CRC       (const BYTE *);  //проверка целостности пакета по crc
-			BYTE *	Get_Title_CRC 	(const BYTE *);  //расчет crc заголовка пакета
-			BYTE *	Get_CRC_IFO   	(const BYTE *);  //расчет crc содержимого пакета
+			void	Get_Title_CRC 	(const BYTE *com, BYTE *title_crc, size_t crc_len); //расчет crc заголовка пакета
+			void	Get_CRC_IFO   	(const BYTE *com, BYTE *info_crc, size_t crc_len);  //расчет crc содержимого пакета
 
 			ErrCode SendMessage		(const BYTE*);  //отправка задания датчику, проверка выполнения по отклику
 
