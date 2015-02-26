@@ -8,12 +8,11 @@
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
-					CD_9904_interface::CD_9904_interface	(TComponent* Owner):settings(0)
+					CD_9904_interface::CD_9904_interface	(TComponent* Owner):settings(new TSettings(Owner))
 {
 	if (!count)
 	{
 		count++;
-		settings=new TSettings(Owner);
 	}else
 	{
 		throw Exception("Можно подключить только одно устройство");
@@ -21,7 +20,6 @@
 }
 					CD_9904_interface::~CD_9904_interface	(void)
 {
-	delete settings;
 	count--;
 }
 CD_9904::Sensor * 	CD_9904_interface::Sensor			(void)

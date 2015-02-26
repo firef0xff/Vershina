@@ -64,8 +64,8 @@ unsigned long __stdcall ListenCD9904(void *msg)
 			{
 				cd_9904->ResetBus_2();
 			}
-			CD_9904::Data *data=0;
-			CD_9904::ErrCode err=sensor->Tansl_Speed(&data);
+			boost::shared_ptr<CD_9904::Data> data;
+			CD_9904::ErrCode err=sensor->Tansl_Speed(data);
 			if (err==CD_9904::ErrCode::Sucsess)
 			{
 				float speed=(float)data->Speed();
@@ -98,11 +98,6 @@ unsigned long __stdcall ListenCD9904(void *msg)
 			}else
 			{
 				StendConnection=false;
-			}
-			if (data)
-			{
-				delete data;
-				data=nullptr;
 			}
 			Application->ProcessMessages();
 		}
