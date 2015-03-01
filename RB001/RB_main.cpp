@@ -2250,7 +2250,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
 {
-	if (!CheckProgLoad(sgSProgram,1,20.0))
+	if (!CheckProgLoad(sgSProgram,1,10.0))
 	{
 		return;
 	}
@@ -2530,7 +2530,7 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
 {
-	if (!CheckProgLoad(sgTProgram,1,20.0))
+	if (!CheckProgLoad(sgTProgram,1,10.0))
 	{
     	return;
 	}

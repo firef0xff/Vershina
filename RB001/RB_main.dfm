@@ -3336,7 +3336,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsSProg
+        ActivePage = tsTimeProg
         Align = alClient
         TabOrder = 0
         object tsTimeProg: TTabSheet
@@ -7228,7 +7228,7 @@ object mfRB: TmfRB
       end
     end
     object tsEmSettings: TTabSheet
-      Caption = #1058#1077#1084#1087#1077#1088#1072#1090#1091#1088#1085#1099#1077' '#1091#1089#1090#1072#1085#1086#1074#1082#1080
+      Caption = #1059#1089#1090#1072#1085#1086#1074#1082#1080
       ImageIndex = 8
       object GroupBox1: TGroupBox
         Left = 0
