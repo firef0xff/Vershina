@@ -245,11 +245,7 @@ extern float *Rad1LowLimit;        //DB10,REAL122 Нижний предел измерений датчик
 extern float *Rad1UpLimit;         //DB10,REAL126 Верхний предел измерений датчика радиуса 1
 extern float *Rad2LowLimit;        //DB10,REAL130 Нижний предел измерений датчика радиуса 2
 extern float *Rad2UpLimit;         //DB10,REAL134 Верхний предел измерений датчика радиуса 2
-extern float *Corr_2030SetLoad2;   //DB10,REAL158 Корекция диапазона 20-30 по заданию нагрузки 1
-extern float *Corr_3040SetLoad2;   //DB10,REAL162 Корекция диапазона 30-40 по заданию нагрузки 1
-extern float *Corr_4050SetLoad2;   //DB10,REAL166 Корекция диапазона 40-50 по заданию нагрузки 1
-extern float *Corr_5060SetLoad2;   //DB10,REAL170 Корекция диапазона 50-60 по заданию нагрузки 1
-extern float *Corr_6070SetLoad2;   //DB10,REAL174 Корекция диапазона 60-70 по заданию нагрузки 1
+
 // адреса переменных в группе 3
 extern wchar_t *Gr3ItemsNme[GR3ITEMSNUM];
 // End of CtrlGr3 -----------------------------------------------------------

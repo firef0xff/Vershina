@@ -244,7 +244,7 @@ wchar_t *Gr1ItemsNme[GR1ITEMSNUM]={	L"S7:[S7 connection_4]MX2.1",
 									L"S7:[S7 connection_4]DB10,REAL26",
 									L"S7:[S7 connection_4]DB10,REAL62",
 									L"S7:[S7 connection_4]DB10,REAL138",
-									L"S7:[S7 connection_4]DB10,REAL158",
+									L"S7:[S7 connection_4]DB10,REAL174",
 									L"S7:[S7 connection_4]DB10,REAL142",
 									L"S7:[S7 connection_4]DB10,REAL146",
 									L"S7:[S7 connection_4]DB10,REAL150",
@@ -335,11 +335,7 @@ float *Rad1LowLimit     =&fDB10[19]; //DB10,REAL122 Нижний предел измерений датч
 float *Rad1UpLimit      =&fDB10[20]; //DB10,REAL126 Верхний предел измерений датчика радиуса 1
 float *Rad2LowLimit     =&fDB10[21]; //DB10,REAL130 Нижний предел измерений датчика радиуса 2
 float *Rad2UpLimit      =&fDB10[22]; //DB10,REAL134 Верхний предел измерений датчика радиуса 2
-float *Corr_2030SetLoad2=&fDB10[23]; //DB10,REAL158 Корекция диапазона 20-30 по заданию нагрузки 1
-float *Corr_3040SetLoad2=&fDB10[24]; //DB10,REAL162 Корекция диапазона 30-40 по заданию нагрузки 1
-float *Corr_4050SetLoad2=&fDB10[25]; //DB10,REAL166 Корекция диапазона 40-50 по заданию нагрузки 1
-float *Corr_5060SetLoad2=&fDB10[26]; //DB10,REAL170 Корекция диапазона 50-60 по заданию нагрузки 1
-float *Corr_6070SetLoad2=&fDB10[27]; //DB10,REAL174 Корекция диапазона 60-70 по заданию нагрузки 1
+
 // адреса переменных в блоке DB10
 wchar_t *Gr3ItemsNme[GR3ITEMSNUM]={L"S7:[S7 connection_4]DB10,DINT10",  L"S7:[S7 connection_4]DB10,DINT46",
 								   L"S7:[S7 connection_4]DB10,INT4",    L"S7:[S7 connection_4]DB10,INT34",
@@ -356,10 +352,7 @@ wchar_t *Gr3ItemsNme[GR3ITEMSNUM]={L"S7:[S7 connection_4]DB10,DINT10",  L"S7:[S7
 								   L"S7:[S7 connection_4]DB10,REAL110", L"S7:[S7 connection_4]DB10,REAL114",
 								   L"S7:[S7 connection_4]DB10,REAL118", L"S7:[S7 connection_4]DB10,REAL122",
 								   L"S7:[S7 connection_4]DB10,REAL126", L"S7:[S7 connection_4]DB10,REAL130",
-								   L"S7:[S7 connection_4]DB10,REAL134",
-								   L"S7:[S7 connection_4]DB10,REAL158", L"S7:[S7 connection_4]DB10,REAL162",
-								   L"S7:[S7 connection_4]DB10,REAL166", L"S7:[S7 connection_4]DB10,REAL170",
-								   L"S7:[S7 connection_4]DB10,REAL174"                                     };
+								   L"S7:[S7 connection_4]DB10,REAL134",									};
 // End of CtrlGr3 -----------------------------------------------------------
 // переменные группы CtrlGr4 ------------------------------------------------
 // блок DB8

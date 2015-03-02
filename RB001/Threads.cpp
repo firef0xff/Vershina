@@ -107,6 +107,8 @@ unsigned long __stdcall ListenCD9904(void *msg)
 		delete ThreadOPC;
 		TerminateThread(CD_9904Thread,0);
 	}
+	CD_9904Thread=0;
+	delete ThreadOPC;
 	return 0;
 //конец встраивания
 }

@@ -10,7 +10,7 @@
 #define GR2ITEMSNUM      GR2FLOATITEMSNUM+GR2INTITEMSNUM    // количество переменных в группе 2
 
 #define GR3INTITEMSNUM    8    // количество целых переменных в группе 3
-#define GR3FLTITEMSNUM   28    // количество вещественных переменных в группе 3
+#define GR3FLTITEMSNUM   23    // количество вещественных переменных в группе 3
 #define GR3ITEMSNUM      GR3INTITEMSNUM+GR3FLTITEMSNUM    // количество переменных в группе 3
 
 

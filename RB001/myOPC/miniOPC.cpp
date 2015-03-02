@@ -269,7 +269,7 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	log+="Чтение данных по группам\n";
 	#endif
 	result=__item->pSyncIO->Read(OPC_DS_CACHE,__item->ItemsCount,phServer,&pItemsValues,&pRErrors);
-	delete [] phServer;  //удаление массива с указателя на источники для элементов групп
+	delete []phServer;  //удаление массива с указателя на источники для элементов групп
 	if(result==S_OK)
 	{
 	#ifdef _mDEBUG
@@ -379,8 +379,8 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	log+="Запись данных в контроллер\n";
 	#endif
 	result=__item->pSyncIO->Write(mass_len,phServer,values,&pWErrors);
-	delete [] phServer;
-	delete [] values;
+	delete []phServer;
+	delete []values;
 	if(result == S_OK||result==S_FALSE)
 	{
 	#ifdef _mDEBUG
