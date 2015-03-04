@@ -18,23 +18,24 @@
 #include "Login.h"
 #include "AppManagnent.h"
 #include "Threads.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TmfRB      *mfRB;
 //OPCRW      *pOPC=0;              // указатель на класс OPCRW
-Tyre       *InpTyre = new Tyre;  // покрышка для ввода и редактирования протокола
-Tyre       *TyreA   = new Tyre;  // покрышка в поз. А
-Tyre       *TyreB   = new Tyre;  // покрышка в поз. Б
-LSert      *LdSA    = new LSert; // Сертификация нагрузки поз А
-LSert      *LdSB    = new LSert; // Сертификация нагрузки поз Б
-TSert      *TSA     = new TSert; // Сертификация температуры поз А
-TSert      *TSB     = new TSert; // Сертификация температуры поз Б
-RSert      *RSA     = new RSert; // Сертификация радиуса поз А
-RSert      *RSB     = new RSert; // Сертификация радиуса поз Б
-VSert      *VS      = new VSert; // сертификация скорости барабана
-LCalibr    *LdCA    = new LCalibr; // калибровка тензодатчика поз. А
-LCalibr    *LdCB    = new LCalibr; // калибровка тензодатчика поз. Б
+boost::shared_ptr<Tyre>  InpTyre(new Tyre());  // покрышка для ввода и редактирования протокола
+boost::shared_ptr<Tyre>  	TyreA  (new Tyre());  // покрышка в поз. А
+boost::shared_ptr<Tyre>  	TyreB (new Tyre());  // покрышка в поз. Б
+boost::shared_ptr<LSert> 	LdSA  (new LSert()); // Сертификация нагрузки поз А
+boost::shared_ptr<LSert> 	LdSB (new LSert()); // Сертификация нагрузки поз Б
+boost::shared_ptr<TSert> 	TSA  (new TSert()); // Сертификация температуры поз А
+boost::shared_ptr<TSert> 	TSB  (new TSert()); // Сертификация температуры поз Б
+boost::shared_ptr<RSert> 	RSA  (new RSert()); // Сертификация радиуса поз А
+boost::shared_ptr<RSert> 	RSB  (new RSert()); // Сертификация радиуса поз Б
+boost::shared_ptr<VSert>    VS   (new VSert()); // сертификация скорости барабана
+boost::shared_ptr<LCalibr>  LdCA (new LCalibr()); // калибровка тензодатчика поз. А
+boost::shared_ptr<LCalibr>  LdCB (new LCalibr()); // калибровка тензодатчика поз. Б
 TPrinter   *pProtPrt = Printer(); // указатель на принтер
 //---------------------------------------------------------------------------
 __fastcall TmfRB::TmfRB(TComponent* Owner)
@@ -4082,18 +4083,18 @@ void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
   else {
 						// exit from prog
   	TerminateThread(CD_9904Thread,0);
-  delete InpTyre;  InpTyre=NULL;
-  delete TyreA;    TyreA  =NULL;
-  delete TyreB;    TyreB  =NULL;
-  delete VS;       VS     =NULL;
-  delete LdSA;     LdSA   =NULL;
-  delete LdSB;     LdSB   =NULL;
-  delete TSA;      TSA    =NULL;
-  delete TSB;      TSB    =NULL;
-  delete RSA;      RSA    =NULL;
-  delete RSB;      RSB    =NULL;
-  delete LdCA;     LdCA   =NULL;
-  delete LdCB;     LdCB   =NULL;
+  InpTyre.reset();
+  TyreA.reset();
+  TyreB.reset();
+  VS.reset();
+  LdSA.reset();
+  LdSB.reset();
+  TSA.reset();
+  TSB.reset();
+  RSA.reset();
+  RSB.reset();
+  LdCA.reset();
+  LdCB.reset();
   closing=true;
   }
 }
@@ -4466,7 +4467,7 @@ void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
   TStringGrid *sgLoad; TLabeledEdit *leLoadSet, *leMeasLoad;
   float *Loading; int pos;
   if((TButton *)Sender==btnNextCalibrLoadA){
-    LdSert    =LdSA;
+    LdSert    =LdSA.get();
     btnNext   =btnNextCalibrLoadA;
     btnPrev   =btnPrevCalibrLoadA;
     sgLoad    =sgLoadCalibrA;
@@ -4476,7 +4477,7 @@ void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
     pos       =0;
   }
   else if((TButton *)Sender==btnNextCalibrLoadB){
-    LdSert    =LdSB;
+    LdSert    =LdSB.get();
     btnNext   =btnNextCalibrLoadB;
     btnPrev   =btnPrevCalibrLoadB;
     sgLoad    =sgLoadCalibrB;
@@ -4538,7 +4539,7 @@ void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
   TStringGrid *sgLoad; TLabeledEdit *leLoadSet, *leMeasLoad;
   float *Loading; int pos;
   if((TButton *)Sender==btnPrevCalibrLoadA){
-    LdSert    =LdSA;
+	LdSert    =LdSA.get();
     btnNext   =btnNextCalibrLoadA;
     btnPrev   =btnPrevCalibrLoadA;
     sgLoad    =sgLoadCalibrA;
@@ -4548,7 +4549,7 @@ void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
     pos       =0;
   }
   else if((TButton *)Sender==btnPrevCalibrLoadB){
-    LdSert    =LdSB;
+    LdSert    =LdSB.get();
     btnNext   =btnNextCalibrLoadB;
     btnPrev   =btnPrevCalibrLoadB;
     sgLoad    =sgLoadCalibrB;
@@ -4628,13 +4629,13 @@ void __fastcall TmfRB::OnLoadCalibrCalc(TObject *Sender)
 { LSert *LdSert;
   TStringGrid *sgLoad; TLabeledEdit *leMeasLoad, *leReadoutLoad;
   if((TButton *)Sender==btnLoadCalibrCalcA){
-    LdSert       =LdSA;
+	LdSert       =LdSA.get();
     sgLoad       =sgLoadCalibrA;
     leMeasLoad   =leMeasuredLoadA;
     leReadoutLoad=leReadLoadA;
   }
   else if((TButton *)Sender==btnLoadCalibrCalcB){
-    LdSert       =LdSB;
+    LdSert       =LdSB.get();
     sgLoad       =sgLoadCalibrB;
     leMeasLoad   =leMeasuredLoadB;
     leReadoutLoad=leReadLoadB;
@@ -4694,7 +4695,7 @@ void __fastcall TmfRB::OnNextCalibrTBtn(TObject *Sender)
   TStringGrid *sgTbl; TLabeledEdit *leMeas;
   float *Loading; //int pos=0;
   if((TButton *)Sender==btnNextTCalibrA){
-    TS     =TSA;
+	TS     =TSA.get();
     btnNext=btnNextTCalibrA;
     btnPrev=btnPrevTCalibrA;
     sgTbl  =sgTCalibrA;
@@ -4702,7 +4703,7 @@ void __fastcall TmfRB::OnNextCalibrTBtn(TObject *Sender)
 //    pos    =0;
   }
   else if((TButton *)Sender==btnNextTCalibrB){
-    TS     =TSB;
+    TS     =TSB.get();
     btnNext=btnNextTCalibrB;
     btnPrev=btnPrevTCalibrB;
     sgTbl  =sgTCalibrB;
@@ -4750,7 +4751,7 @@ void __fastcall TmfRB::OnPrevCalibrTBtn(TObject *Sender)
   TStringGrid *sgTbl; TLabeledEdit *leMeas;
   float *Loading; //int pos=0;
   if((TButton *)Sender==btnPrevTCalibrA){
-    TS     =TSA;
+	TS     =TSA.get();
     btnNext=btnNextTCalibrA;
     btnPrev=btnPrevTCalibrA;
     sgTbl  =sgTCalibrA;
@@ -4758,7 +4759,7 @@ void __fastcall TmfRB::OnPrevCalibrTBtn(TObject *Sender)
 //    pos    =0;
   }
   else if((TButton *)Sender==btnPrevTCalibrB){
-    TS     =TSB;
+    TS     =TSB.get();
     btnNext=btnNextTCalibrB;
     btnPrev=btnPrevTCalibrB;
     sgTbl  =sgTCalibrB;
@@ -4819,13 +4820,13 @@ void __fastcall TmfRB::OnTCalibrCalc(TObject *Sender)
 { TSert *TS;
   TStringGrid *sgTbl; TLabeledEdit *leMeas, *leRead;
   if((TButton *)Sender==btnTCalibrCalcA){
-    TS       =TSA;
+	TS       =TSA.get();
     sgTbl    =sgTCalibrA;
     leMeas   =leMeasTA;
     leRead   =leReadTA;
   }
   else if((TButton *)Sender==btnTCalibrCalcB){
-    TS       =TSB;
+    TS       =TSB.get();
     sgTbl    =sgTCalibrB;
     leMeas   =leMeasTB;
     leRead   =leReadTB;
@@ -4886,14 +4887,14 @@ void __fastcall TmfRB::OnNextCalibrRBtn(TObject *Sender)
 { RSert *RS; TButton *btnNext, *btnPrev;
   TStringGrid *sgTbl; TLabeledEdit *leMeas;
   if((TButton *)Sender==btnNextRCalibrA){
-    RS     =RSA;
+	RS     =RSA.get();
     btnNext=btnNextRCalibrA;
     btnPrev=btnPrevRCalibrA;
     sgTbl  =sgRCalibrA;
     leMeas =leMeasRA;
   }
   else if((TButton *)Sender==btnNextRCalibrB){
-    RS     =RSB;
+    RS     =RSB.get();
     btnNext=btnNextRCalibrB;
     btnPrev=btnPrevRCalibrB;
     sgTbl  =sgRCalibrB;
@@ -4939,14 +4940,14 @@ void __fastcall TmfRB::OnPrevCalibrRBtn(TObject *Sender)
 { RSert *RS; TButton *btnNext, *btnPrev;
   TStringGrid *sgTbl; TLabeledEdit *leMeas;
   if((TButton *)Sender==btnPrevRCalibrA){
-    RS     =RSA;
+	RS     =RSA.get();
     btnNext=btnNextRCalibrA;
     btnPrev=btnPrevRCalibrA;
     sgTbl  =sgRCalibrA;
     leMeas =leMeasRA;
   }
   else if((TButton *)Sender==btnPrevRCalibrB){
-    RS     =RSB;
+    RS     =RSB.get();
     btnNext=btnNextRCalibrB;
     btnPrev=btnPrevRCalibrB;
     sgTbl  =sgRCalibrB;
@@ -5007,13 +5008,13 @@ void __fastcall TmfRB::OnRCalibrCalc(TObject *Sender)
 { RSert *RS;
   TStringGrid *sgTbl; TLabeledEdit *leMeas, *leRead;
   if((TButton *)Sender==btnRCalibrCalcA){
-    RS       =RSA;
+	RS       =RSA.get();
     sgTbl    =sgRCalibrA;
     leMeas   =leMeasRA;
     leRead   =leReadRA;
   }
   else if((TButton *)Sender==btnRCalibrCalcB){
-    RS       =RSB;
+    RS       =RSB.get();
     sgTbl    =sgRCalibrB;
     leMeas   =leMeasRB;
     leRead   =leReadRB;
@@ -5073,7 +5074,7 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
   TStringGrid *sgLoad; TLabeledEdit *leLoadSet, *leMeasLoad;
   float *Loading; int pos;
   if((TButton *)Sender==btnNextSertLoadA){
-    LdCalibr  =LdCA;
+	LdCalibr  =LdCA.get();
     btnNext   =btnNextSertLoadA;
     btnPrev   =btnPrevSertLoadA;
     sgLoad    =sgLoadSertA;
@@ -5083,7 +5084,7 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
     pos       =0;
   }
   else if((TButton *)Sender==btnNextSertLoadB){
-    LdCalibr  =LdCB;
+    LdCalibr  =LdCB.get();
     btnNext   =btnNextSertLoadB;
     btnPrev   =btnPrevSertLoadB;
     sgLoad    =sgLoadSertB;
@@ -5144,7 +5145,7 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
   TStringGrid *sgLoad; TLabeledEdit *leLoadSet, *leMeasLoad;
   float *Loading; int pos;
   if((TButton *)Sender==btnPrevSertLoadA){
-    LdCalibr  =LdCA;
+	LdCalibr  =LdCA.get();
     btnNext   =btnNextSertLoadA;
     btnPrev   =btnPrevSertLoadA;
     sgLoad    =sgLoadSertA;
@@ -5154,7 +5155,7 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
     pos       =0;
   }
   else if((TButton *)Sender==btnPrevSertLoadB){
-    LdCalibr  =LdCB;
+    LdCalibr  =LdCB.get();
     btnNext   =btnNextSertLoadB;
     btnPrev   =btnPrevSertLoadB;
     sgLoad    =sgLoadSertB;
@@ -5228,13 +5229,13 @@ void __fastcall TmfRB::OnLoadSertCalc(TObject *Sender)
 { LCalibr *LdCalibr;
   TStringGrid *sgLoad; TLabeledEdit *leMeasLoad, *leReadoutLoad;
   if((TButton *)Sender==btnLoadSertCalcA){
-    LdCalibr     =LdCA;
+	LdCalibr     =LdCA.get();
     sgLoad       =sgLoadSertA;
     leReadoutLoad=leReadLoadSertA;
     leMeasLoad   =leMeasLoadSertA;
   }
   else if((TButton *)Sender==btnLoadSertCalcB){
-    LdCalibr     =LdCB;
+    LdCalibr     =LdCB.get();
     sgLoad       =sgLoadSertB;
     leReadoutLoad=leReadLoadSertB;
     leMeasLoad   =leMeasLoadSertB;
@@ -5269,7 +5270,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
 //      pOPC->ReadGr12();                         // прочитали коэффициенты А из DB71
 //      LdCA->LKRead(A1);                         // сохранили прочитанные коэффициенты в ReadKA
 //      LdCA->LKMult();                           // перемножили прочитанные ReadKA и расчитанные KA
-      ReadLSertTable(LdCA,sgLoadSertA);         // прочитали коэффициенты KA из таблицы
+	  ReadLSertTable(LdCA.get(),sgLoadSertA);         // прочитали коэффициенты KA из таблицы
       LdCA->LKSetting(A1);                      // сохранили итоговые КА в А1
       pOPC->WriteGr12();                        // записали А1 в DB71
       OPCControlResume(tReadCycleTimer);
@@ -5285,7 +5286,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
 //      pOPC->ReadGr13();                         // прочитали коэффициенты А из DB70
 //      LdCB->LKRead(A2);                         // сохранили прочитанные коэффициенты в ReadKA
 //      LdCB->LKMult();                           // перемножили прочитанные ReadKA и расчитанные KA
-      ReadLSertTable(LdCB,sgLoadSertB);         // прочитали коэффициенты KA из таблицы
+      ReadLSertTable(LdCB.get(),sgLoadSertB);         // прочитали коэффициенты KA из таблицы
       LdCB->LKSetting(A2);                      // сохранили итоговые КА в А1
       pOPC->WriteGr13();                        // записали А2 в DB70
       OPCControlResume(tReadCycleTimer);
@@ -5415,13 +5416,13 @@ void __fastcall TmfRB::OnTLimitsCalc(TObject *Sender)
 //  TStringGrid *sgTemp;
   TEdit *edLowLimit, *edUpLimit;
   if((TButton *)Sender==btnTLimitsCalcA){
-    TS        =TSA;
+	TS        =TSA.get();
 //    sgTemp    =sgTCalibrA;
     edLowLimit=edCalcLowLimitA;
     edUpLimit =edCalcUpLimitA;
   }
   else if((TButton *)Sender==btnTLimitsCalcB){
-    TS        =TSB;
+    TS        =TSB.get();
 //    sgTemp    =sgTCalibrB;
 	edLowLimit=edCalcLowLimitB;
     edUpLimit =edCalcUpLimitB;

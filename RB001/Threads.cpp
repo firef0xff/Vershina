@@ -13,7 +13,7 @@
 #pragma package(smart_init)
 unsigned long __stdcall ListenCD9904(void *msg)
 {
-	myOPC *ThreadOPC=new myOPC();
+    boost::shared_ptr<myOPC> ThreadOPC(new myOPC());
 	//размеры групп
 	const int CD9904GroupSize=5;
 	const int ResetGroupSize=2;
@@ -37,7 +37,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 
 	if (cd_9904->Sensor())//проверка подключения датчика
 	{
-		CD_9904::Sensor *sensor =new CD_9904::Sensor(cd_9904->Sensor()->GetPort(),cd_9904->Sensor()->GetAddr());
+		boost::shared_ptr<CD_9904::Sensor> sensor(new CD_9904::Sensor(cd_9904->Sensor()->GetPort(),cd_9904->Sensor()->GetAddr()));
 	   //рабочий цикл
 	   while (1)
 		{
@@ -66,6 +66,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 			}
 			boost::shared_ptr<CD_9904::Data> data;
 			CD_9904::ErrCode err=sensor->Tansl_Speed(data);
+			//CD_9904::ErrCode err=CD_9904::ErrCode::Sucsess;
 			if (err==CD_9904::ErrCode::Sucsess)
 			{
 				float speed=(float)data->Speed();
@@ -75,13 +76,16 @@ unsigned long __stdcall ListenCD9904(void *msg)
 				values[2]=(float)data->Road_2();//позиция 9 дистанция шины 2    fakt_distance_2
 				values[3]=data->Time_1().Get_msek(); //DB20,DINT26 факт. время 1
 				values[4]=data->Time_2().Get_msek(); //DB20,DINT66 факт. время 2
+
 				static bool prevres=true; //статическая переменная для отсечения разовых ошибок записи
 				bool res=false;    //переменная индикаотр успешности записи
+
 				HRESULT RES=ThreadOPC->WriteMass(id,0,CD9904GroupSize,&values[0],tFLOAT);//запись+ получение результата
 			   /*	if (RES==S_OK||RES==S_FALSE)  //если запись успешна то норм
 				{              //реакция на все ощибки как на разрыв соединения
 					res=true;
 				}   */
+
 				if (RES==0xC0048003)  //если запись успешна то норм
 				{              //реакция на таймаут ощибки как на разрыв соединения
 					res=false;
@@ -91,24 +95,20 @@ unsigned long __stdcall ListenCD9904(void *msg)
 				}
 				StendConnection=res+prevres;//результирующий bool это сумма текущего результата и предыдущего
 											//что дает сбрасывание в false только при обоюдном false
-				prevres=res;               //сохраним текущий результат
+				prevres=res;               //сохраним текущий результат  */
 				#ifdef _DEBUG
 				ThreadCounter++;
 				#endif
+				//StendConnection = true;
 			}else
 			{
 				StendConnection=false;
 			}
 			Application->ProcessMessages();
 		}
-	}else
-	{
-		CD_9904Thread=0;
-		delete ThreadOPC;
-		TerminateThread(CD_9904Thread,0);
 	}
 	CD_9904Thread=0;
-	delete ThreadOPC;
+    ThreadOPC.reset();
 	return 0;
 //конец встраивания
 }

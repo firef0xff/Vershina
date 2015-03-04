@@ -65,10 +65,6 @@ myOPC::~myOPC(void)
 	log+="Деструктор \n";
 	log+="Чистка списка подключенных групп \n";
 	#endif
-	for (list<GroupPTRs*>::iterator i=Groups.begin(); i!=Groups.end(); i++)
-	{
-    	delete (*i);
-	}
 	Groups.clear();
 	#ifdef _mDEBUG
 	log+="Удаление подключения к OPC\n";
@@ -98,7 +94,7 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*массив втор
 		return 0;
 	}
 
-	GroupPTRs *tmp=new GroupPTRs();
+    boost::shared_ptr<GroupPTRs> tmp(new GroupPTRs());
 	tmp->ItemsCount=ItemsCount;
 	result=pIOPCServer->AddGroup(pGroupName,true,REQUESTED_UPDATE_RATE,Groups.size()+1,&TimeBias,&PercentDeadband,
 								LOCALE_ID,&GrpSrvHandle,&RevisedUpdateRate,
@@ -108,30 +104,29 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*массив втор
 	#ifdef _mDEBUG
 		log+="FAIL\n";
 	#endif
-		delete tmp;
 		return 0;
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
 	log+="Сопоставление элементов сервера с адресами переменных и нициализация первоначальными значениями\n";
 	#endif
-	tmp->pItems=new OPCITEMDEF[tmp->ItemsCount];
+    tmp->pItems.resize(tmp->ItemsCount);
 	for(int i=0;i<tmp->ItemsCount;i++)
 	{
-		(*(tmp->pItems+i)).szAccessPath        	=  L"";
-		(*(tmp->pItems+i)).szItemID		     	=  Addresses[i];
-		(*(tmp->pItems+i)).bActive             	=  TRUE;
-		(*(tmp->pItems+i)).hClient             	=  1;
-		(*(tmp->pItems+i)).dwBlobSize          	=  0;
-		(*(tmp->pItems+i)).pBlob			    =  NULL;
-		(*(tmp->pItems+i)).vtRequestedDataType 	=  0;
+        tmp->pItems[i].szAccessPath        	=  L"";
+        tmp->pItems[i].szItemID		     	=  Addresses[i];
+        tmp->pItems[i].bActive             	=  TRUE;
+        tmp->pItems[i].hClient             	=  1;
+        tmp->pItems[i].dwBlobSize          	=  0;
+        tmp->pItems[i].pBlob			    =  NULL;
+        tmp->pItems[i].vtRequestedDataType 	=  0;
 	}
 	#ifdef _mDEBUG
 	log+="OK\n";
 	log+="Регистрация группы на сервере\n";
 	#endif
 
-	result=tmp->pItemMgt->AddItems(tmp->ItemsCount,tmp->pItems,&tmp->pItemResult,&pErrors);
+    result=tmp->pItemMgt->AddItems(tmp->ItemsCount,&(*tmp->pItems.begin()),&tmp->pItemResult,&pErrors);
 	if(result!=S_OK&&result!=S_FALSE)
 	{
 	#ifdef _mDEBUG
@@ -139,7 +134,6 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*массив втор
 		log+="FAIL ("+String(ErrorStr)+")\n";
 		CoTaskMemFree(ErrorStr);
 	#endif
-		delete tmp;
 		return 0;
 	}
 	#ifdef _mDEBUG
@@ -156,7 +150,6 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*массив втор
 	#ifdef _mDEBUG
 		log+="FAIL\n";
 	#endif
-		delete tmp;
         return 0;
 	}
 	#ifdef _mDEBUG
@@ -218,7 +211,7 @@ void 	myOPC::OpcMassFree(GROUP_ID _id,OPCITEMSTATE* mass)
 	log+="OK\n";
 	log+="Очистка массива\n";
 	#endif
-	GroupPTRs* __item=*_item;
+    boost::shared_ptr<GroupPTRs> __item=*_item;
 	for(int i=0;i<__item->ItemsCount;i++)
 	{
 		VariantClear(&mass[i].vDataValue);
@@ -252,8 +245,9 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	log+="Чтение данных с сервера\n";
 	#endif
 
-	GroupPTRs* __item=*_item;
-	OPCHANDLE		*phServer=new OPCHANDLE[__item->ItemsCount];;//массив указателией на OPC
+	boost::shared_ptr<GroupPTRs> __item=*_item;
+    std::vector<OPCHANDLE> phServer;
+    phServer.resize(__item->ItemsCount);//массив указателией на OPC
 	OPCITEMSTATE	*pItemsValues=nullptr; //указатель на состояния итемов в опс
 	LPWSTR		 	ErrorStr=L"";    //текст ошибки
 
@@ -267,9 +261,9 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	#ifdef _mDEBUG
 	log+="OK\n";
 	log+="Чтение данных по группам\n";
-	#endif
-	result=__item->pSyncIO->Read(OPC_DS_CACHE,__item->ItemsCount,phServer,&pItemsValues,&pRErrors);
-	delete []phServer;  //удаление массива с указателя на источники для элементов групп
+	#endif   
+
+    result=__item->pSyncIO->Read(OPC_DS_CACHE,__item->ItemsCount,&(*phServer.begin()),&pItemsValues,&pRErrors);
 	if(result==S_OK)
 	{
 	#ifdef _mDEBUG
@@ -317,7 +311,7 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	log+="Запись данных на сервер\n";
 	#endif
 
-	GroupPTRs* __item=*_item;
+	boost::shared_ptr<GroupPTRs> __item=*_item;
 	if (__item->ItemsCount<=pos)
 	{
 	#ifdef _mDEBUG
@@ -326,14 +320,16 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 		return E_FAIL;
 	}
 
-	OPCHANDLE	*phServer=new OPCHANDLE[mass_len];
-	VARIANT     *values=new VARIANT[mass_len];
+    std::vector<OPCHANDLE>phServer;
+    phServer.resize(mass_len);
+    std::vector<VARIANT> values;
+    values.resize(mass_len);
 	HRESULT		*pWErrors;
 	LPWSTR		 ErrorStr;
 
 	for (size_t i=0; i<mass_len; i++)
 	{
-		*(phServer+i)  		= __item->pItemResult[pos+i].hServer;
+		phServer[i]  		= __item->pItemResult[pos+i].hServer;
 		#ifdef _mDEBUG
 		log+="Определение типа данных\n";
 		#endif
@@ -344,8 +340,8 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 		#ifdef _mDEBUG
 					log+="OK - BOOL\n";
 		#endif
-					(*(values+i)).vt		= VT_BOOL;
-					(*(values+i)).boolVal 	= *(((bool *)item)+i);
+					values[i].vt		= VT_BOOL;
+					values[i].boolVal 	= *(((bool *)item)+i);
 					break;
 				}
 			case tINT:
@@ -353,8 +349,8 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 		#ifdef _mDEBUG
 					log+="OK - INT\n";
 		#endif
-					(*(values+i)).vt		= VT_I4;
-					(*(values+i)).lVal 	= *(((int *)item)+i);
+					values[i].vt		= VT_I4;
+					values[i].lVal 	= *(((int *)item)+i);
 					break;
 				}
 			case tFLOAT:
@@ -362,8 +358,8 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 		#ifdef _mDEBUG
 					log+="OK - FLOAT\n";
 		#endif
-					(*(values+i)).vt		= VT_R4;
-					(*(values+i)).fltVal 	= *(((float *)item)+i);
+					values[i].vt		= VT_R4;
+					values[i].fltVal 	= *(((float *)item)+i);
 					break;
 				}
 		default:
@@ -378,9 +374,7 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	#ifdef _mDEBUG
 	log+="Запись данных в контроллер\n";
 	#endif
-	result=__item->pSyncIO->Write(mass_len,phServer,values,&pWErrors);
-	delete []phServer;
-	delete []values;
+    result=__item->pSyncIO->Write(mass_len,&(*phServer.begin()),&(*values.begin()),&pWErrors);
 	if(result == S_OK||result==S_FALSE)
 	{
 	#ifdef _mDEBUG
