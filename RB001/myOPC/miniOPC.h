@@ -6,6 +6,7 @@
 #include "def.c"
 #include <list.h>
 #include <Classes.hpp>
+#include <boost/thread.hpp>
 
 //типы
 class GroupPTRs                 //структура с данными по шруппе ОПС сервера
@@ -18,18 +19,14 @@ public:
 		{
 			CoTaskMemFree(pItemResult);
 		}
-		if (pItems)
-		{
-			delete []pItems;
-		}
 	}
 IOPCItemMgt		*pItemMgt;		//указатель на Группу адресов с данными
 IOPCSyncIO  	*pSyncIO;		//Указатель на ентерфейс для синхронизации данных
-OPCITEMDEF		*pItems;		//массив с элементами группы
+std::vector<OPCITEMDEF> pItems;	//массив с элементами группы
 OPCITEMRESULT   *pItemResult;	//указатель на элемент
 size_t			ItemsCount;		//количество элементов в группе
 };
-typedef list  <GroupPTRs*>::const_iterator Item;
+typedef list  <boost::shared_ptr<GroupPTRs> >::const_iterator Item;
 typedef unsigned __int64 GROUP_ID;
 enum types{tBOOL,tINT,tFLOAT};
 
@@ -50,7 +47,7 @@ private:
 	//данные
 	IOPCServer 		*pIOPCServer;	//указатель на OPC сервер
 
-	list  <GroupPTRs*> Groups;//Данные по группам сервера
+    list  <boost::shared_ptr<GroupPTRs> > Groups;//Данные по группам сервера
 	OPCHANDLE		GrpSrvHandle;
 	HRESULT		    *pErrors,*pRErrors,result;
 	UINT			qnr;

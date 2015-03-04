@@ -153,11 +153,11 @@ void 	__fastcall 	TNetwork_Scan::Find_actionClick(TObject *Sender)
 	PB->Position=0;
 	for (int i = 1; i <=port_count ; i++)
 	{
-		CD_9904::Sensor * sens=0;
+        boost::shared_ptr<CD_9904::Sensor> sens;
 		String Port_Name="COM"+String(i);
 		try
 		{
-			sens=new CD_9904::Sensor(Port_Name.w_str(),1,false);
+            sens.reset(new CD_9904::Sensor(Port_Name.w_str(),1,false));
 			// перебор адресов (1..32) отклик с них
 			for (char j=1; j<=device_count; j++)
 			{
@@ -175,13 +175,9 @@ void 	__fastcall 	TNetwork_Scan::Find_actionClick(TObject *Sender)
 				PB->Position+=1;
 				Application->ProcessMessages();//обработка сообщений винды
 			}
-			delete sens;
-			sens=0;
 		}
 		catch (...)
 		{
-			delete sens;
-			sens=0;
 			PB->Position+=device_count;
 		}
 	}
@@ -201,11 +197,12 @@ bool				TNetwork_Scan::FastSearch(void)
 
 	bool find=false;
 	for (int i = 1; i <=4&&!find; i++)
-	{   CD_9904::Sensor * sens=0;
+    {
+        boost::shared_ptr<CD_9904::Sensor>sens;
 		String Port_Name="COM"+String(i);
 		try
 		{
-			sens=new CD_9904::Sensor(Port_Name.w_str(),1,false);
+            sens.reset(new CD_9904::Sensor(Port_Name.w_str(),1,false));
 			// перебор адресов (1..32) отклик с них
 			for (char j=1; j<=32&&!find; j++)
 			{
@@ -217,13 +214,9 @@ bool				TNetwork_Scan::FastSearch(void)
 				}
 				Application->ProcessMessages();//обработка сообщений винды
 			}
-			delete sens;
-			sens=0;
 		}
 		catch (...)
 		{
-			delete sens;
-			sens=0;
 			PB->Position+=32;
 		}
 	}

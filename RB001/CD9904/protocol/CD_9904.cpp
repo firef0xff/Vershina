@@ -46,7 +46,7 @@ using  namespace CD_9904;
 	CD_Time::~CD_Time()
 {}
 //----------Описания класса data
-	Data::Data (BYTE * ans,size_t size):time_1(0),time_2(0)
+	Data::Data (BYTE * ans,size_t size)
 {
 	if (size!=TILE_LEN+18)
 	{
@@ -72,7 +72,7 @@ using  namespace CD_9904;
  TIME_1[0]=*(ans+INF_I+5);
  TIME_1[1]=*(ans+INF_I+6);
  TIME_1[2]=*(ans+INF_I+7);
- time_1=new CD_Time(*((short *)&TIME_1[0]),(short)TIME_1[2]);
+ time_1.reset(new CD_Time(*((short *)&TIME_1[0]),(short)TIME_1[2]));
  //путь второй каретки
  ROAD_2[0]=*(ans+INF_I+8);
  ROAD_2[1]=*(ans+INF_I+9);
@@ -83,14 +83,12 @@ using  namespace CD_9904;
  TIME_2[0]=*(ans+INF_I+11);
  TIME_2[1]=*(ans+INF_I+12);
  TIME_2[2]=*(ans+INF_I+13);
- time_2=new CD_Time(*((short *)&TIME_2[0]),(short)TIME_2[2]);
+ time_2.reset(new CD_Time(*((short *)&TIME_2[0]),(short)TIME_2[2]));
  //служебное инфо (флаги)
  inform=*(ans+INF_I+14);
 }
 	Data::~Data()
 {
-	delete time_1;
-	delete time_2;
 }
 //описание класса Sensor
 		Sensor::Sensor(wchar_t *_COM,BYTE _addr,bool init)
