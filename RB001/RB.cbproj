@@ -46,7 +46,6 @@
 			<DCC_Optimize>false</DCC_Optimize>
 			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
 			<Defines>_DEBUG;$(Defines)</Defines>
-			<DynamicRTL>false</DynamicRTL>
 			<BCC_MonitorThis>true</BCC_MonitorThis>
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
 			<BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
