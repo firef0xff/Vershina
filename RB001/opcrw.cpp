@@ -732,10 +732,10 @@ int __fastcall OPCRW::BenchControl(           // управление стендом
 	#ifdef _mDEBUG
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
   VARIANT        values[2];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
+  std::vector<OPCHANDLE> phServer;
 // если указатель на переменную float не пустой, то записать ее
   if(pfw!=NULL) {
     int iter=-1;
@@ -746,12 +746,14 @@ int __fastcall OPCRW::BenchControl(           // управление стендом
 	  LogPrint("Write Gr3 float fm BenchControl: can not find item to write! (iter<0)",clRed);
 	  return 0;
 	}
-	phServer = new OPCHANDLE[1];
+
+    phServer.resize(1);
+
 	phServer[0] = pItemResult3[iter].hServer;
 	values[0].vt     = VT_R4;
 	values[0].fltVal = *pfw;
-	r1=pIOPCSyncIO3->Write(1,phServer,values,&pWErrors);
-	delete [] phServer;
+    r1=pIOPCSyncIO3->Write(1,&(*phServer.begin()),values,&pWErrors);
+
 	if(r1 == S_OK) {
 	  
 	  LogPrint("Write Gr3 float fm BenchControl: OK!",clAqua);
@@ -779,15 +781,15 @@ int __fastcall OPCRW::BenchControl(           // управление стендом
 	LogPrint("Write Gr1 bool 2 fm BenchControl: can not find item to write! (iter<0)",clRed);
     return 0;
   }
-  phServer = new OPCHANDLE[2];
+  phServer.resize(2);
   phServer[0] = pItemResult1[iter1].hServer;
   values[0].vt      = VT_BOOL;
   values[0].boolVal =    *pbw1;
   phServer[1] = pItemResult1[iter2].hServer;
   values[1].vt      = VT_BOOL;
   values[1].boolVal =    *pbw2;
-  r1=pIOPCSyncIO1->Write(2,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO1->Write(2,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write bools fm BenchControl: "+BoolToStr(*pbw1,true)+
 			 ",	"+BoolToStr(*pbw2,true),clAqua);
@@ -819,7 +821,7 @@ int __fastcall OPCRW::TestParamWrite(           // запись параметров цикла испыт
 	return 1;
 	#endif
   int iter=-1;
-  OPCHANDLE		*phServer;
+
   VARIANT        values[5];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
@@ -830,7 +832,9 @@ int __fastcall OPCRW::TestParamWrite(           // запись параметров цикла испыт
     LogPrint("Write Gr3 float from TestParamWrite: can not find item1 to write! (iter<0)",clRed);
     return 0;
   }
-  phServer = new OPCHANDLE[5];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(5);
+
   phServer[0] = pItemResult3[iter].hServer;
   values[0].vt     = VT_R4;
   values[0].fltVal = *pS;
@@ -902,8 +906,8 @@ int __fastcall OPCRW::TestParamWrite(           // запись параметров цикла испыт
     values[4].vt   = VT_I2;
     values[4].iVal = *piw4;
   }
-  r1=pIOPCSyncIO3->Write(5,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO3->Write(5,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr3 5 items fm TestParamWrite: OK!",clAqua);
 	
@@ -935,15 +939,14 @@ int __fastcall OPCRW::ReadGr1(void)            // чтение переменных группы 1
 	return 1;
 	#endif
 
- OPCHANDLE		*phServer;
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR1ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR1ITEMSNUM);
   for(int i=0;i<GR1ITEMSNUM;i++){phServer[i]=pItemResult1[i].hServer;}
-  r1=pIOPCSyncIO1->Read(OPC_DS_CACHE,GR1ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO1->Read(OPC_DS_CACHE,GR1ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
   if(r1 == S_OK)
 	{for(int i=0;i<GR1BOOLITEMSNUM;i++){
        bGr1[i]  = pItemValue[i].vDataValue.boolVal;}
@@ -971,7 +974,6 @@ int __fastcall OPCRW::ReadGr2(void)            // чтение переменных группы 2
 	return 1;
 	#endif
 
- OPCHANDLE		*phServer;
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
@@ -980,10 +982,10 @@ int __fastcall OPCRW::ReadGr2(void)            // чтение переменных группы 2
 	WriteGr2(fakt_distance_1);
 	WriteGr2(fakt_distance_2);   //запись данных в контроллер
 			  */
-  phServer = new OPCHANDLE[GR2ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR2ITEMSNUM);
   for(int i=0;i<GR2ITEMSNUM;i++){phServer[i]=pItemResult2[i].hServer;}
-  r1=pIOPCSyncIO2->Read(OPC_DS_CACHE,GR2ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO2->Read(OPC_DS_CACHE,GR2ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
   if(r1 == S_OK)
 	{for(int i=0;i<GR2FLOATITEMSNUM;i++)
 	{
@@ -1012,15 +1014,15 @@ int __fastcall OPCRW::ReadGr3(void)            // чтение переменных группы 3
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR3ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR3ITEMSNUM);
+
   for(int i=0;i<GR3ITEMSNUM;i++){phServer[i]=pItemResult3[i].hServer;}
-  r1=pIOPCSyncIO3->Read(OPC_DS_CACHE,GR3ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO3->Read(OPC_DS_CACHE,GR3ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
   if(r1 == S_OK){
 	iDB10[0] = pItemValue[0].vDataValue.lVal;
 	iDB10[1] = pItemValue[1].vDataValue.lVal;
@@ -1050,15 +1052,17 @@ int __fastcall OPCRW::ReadGr4(void)            // чтение переменных группы 4
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR4ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR4ITEMSNUM);
+
   for(int i=0;i<GR4ITEMSNUM;i++){phServer[i]=pItemResult4[i].hServer;}
-  r1=pIOPCSyncIO4->Read(OPC_DS_CACHE,GR4ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO4->Read(OPC_DS_CACHE,GR4ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR4ITEMSNUM;i++){
        if(i<GR41ITEMSNUM)poll_step_SA[i]=pItemValue[i].vDataValue.fltVal;
@@ -1084,15 +1088,17 @@ int __fastcall OPCRW::ReadGr5(void)            // чтение переменных группы 5
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR5ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR5ITEMSNUM);
+
   for(int i=0;i<GR5ITEMSNUM;i++){phServer[i]=pItemResult5[i].hServer;}
-  r1=pIOPCSyncIO5->Read(OPC_DS_CACHE,GR5ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO5->Read(OPC_DS_CACHE,GR5ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR5ITEMSNUM;i++){
        if(i<GR51ITEMSNUM)poll_step_TA[i]=pItemValue[i].vDataValue.lVal;
@@ -1119,15 +1125,16 @@ int __fastcall OPCRW::ReadGr6(void)            // чтение переменных группы 6
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR6ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR6ITEMSNUM);
+
   for(int i=0;i<GR6ITEMSNUM;i++){phServer[i]=pItemResult6[i].hServer;}
-  r1=pIOPCSyncIO6->Read(OPC_DS_CACHE,GR6ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO6->Read(OPC_DS_CACHE,GR6ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR6ITEMSNUM;i++){
        if(i<MAXNUMOFSTEPS)setting_A[0][i]=pItemValue[i].vDataValue.fltVal;
@@ -1154,16 +1161,18 @@ int __fastcall OPCRW::ReadGr7(void)            // чтение переменных группы 7
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR7ARRAYSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR7ARRAYSNUM);
+
   for(int i=0;i<GR7ARRAYSNUM;i++){phServer[i]=pItemResult7[i].hServer;}
 
-  r1=pIOPCSyncIO7->Read(OPC_DS_CACHE,GR7ARRAYSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO7->Read(OPC_DS_CACHE,GR7ARRAYSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{if(pItemValue[0].vDataValue.vt == (VT_ARRAY | VT_I4)){  // целый массив из блока DB1
        int *pValues = NULL;
@@ -1227,15 +1236,17 @@ int __fastcall OPCRW::ReadGr8(void)            // чтение переменных группы 8
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR8ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR8ITEMSNUM);
+
   for(int i=0;i<GR8ITEMSNUM;i++){phServer[i]=pItemResult8[i].hServer;}
-  r1=pIOPCSyncIO8->Read(OPC_DS_CACHE,GR8ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO8->Read(OPC_DS_CACHE,GR8ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR8ITEMSNUM;i++){
        if(i<GR81ITEMSNUM)poll_step_SB[i]=pItemValue[i].vDataValue.fltVal;
@@ -1261,15 +1272,17 @@ int __fastcall OPCRW::ReadGr9(void)            // чтение переменных группы 9
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR9ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR9ITEMSNUM);
+
   for(int i=0;i<GR9ITEMSNUM;i++){phServer[i]=pItemResult9[i].hServer;}
-  r1=pIOPCSyncIO9->Read(OPC_DS_CACHE,GR5ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO9->Read(OPC_DS_CACHE,GR5ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR9ITEMSNUM;i++){
        if(i<GR91ITEMSNUM)poll_step_TB[i]=pItemValue[i].vDataValue.lVal;
@@ -1296,15 +1309,17 @@ int __fastcall OPCRW::ReadGr10(void)           // чтение переменных группы 10
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR10ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR10ITEMSNUM);
+
   for(int i=0;i<GR10ITEMSNUM;i++){phServer[i]=pItemResult10[i].hServer;}
-  r1=pIOPCSyncIO10->Read(OPC_DS_CACHE,GR10ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO10->Read(OPC_DS_CACHE,GR10ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR10ITEMSNUM;i++){
        if(i<MAXNUMOFSTEPS)setting_B[0][i]=pItemValue[i].vDataValue.fltVal;
@@ -1331,15 +1346,17 @@ int __fastcall OPCRW::ReadGr11(void)           // чтение переменных группы 11
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR11ARRAYSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR11ARRAYSNUM);
+
   for(int i=0;i<GR11ARRAYSNUM;i++){phServer[i]=pItemResult11[i].hServer;}
-  r1=pIOPCSyncIO11->Read(OPC_DS_CACHE,GR11ARRAYSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO11->Read(OPC_DS_CACHE,GR11ARRAYSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{if(pItemValue[0].vDataValue.vt == (VT_ARRAY | VT_I4)){  // целый массив из блока DB11
        int *pValues = NULL;
@@ -1403,15 +1420,17 @@ int __fastcall OPCRW::ReadGr12(void)            // чтение переменных группы 12
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR12ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR12ITEMSNUM);
+
   for(int i=0;i<GR12ITEMSNUM;i++){phServer[i]=pItemResult12[i].hServer;}
-  r1=pIOPCSyncIO12->Read(OPC_DS_CACHE,GR12ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO12->Read(OPC_DS_CACHE,GR12ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR12ARRAYSIZE;i++){
        *A1[i]=pItemValue[i].vDataValue.fltVal;
@@ -1437,15 +1456,18 @@ int __fastcall OPCRW::ReadGr13(void)            // чтение переменных группы 13
 	#ifdef _mDEBUG
 	return 1;
 	#endif
- OPCHANDLE		*phServer;
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
 
-  phServer = new OPCHANDLE[GR13ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR13ITEMSNUM);
+
+
   for(int i=0;i<GR13ITEMSNUM;i++){phServer[i]=pItemResult13[i].hServer;}
-  r1=pIOPCSyncIO13->Read(OPC_DS_CACHE,GR13ITEMSNUM,phServer,&pItemValue,&pRErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO13->Read(OPC_DS_CACHE,GR13ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
+
   if(r1 == S_OK)
 	{for(int i=0;i<GR13ARRAYSIZE;i++){
        *A2[i]=pItemValue[i].vDataValue.fltVal;
@@ -1472,7 +1494,7 @@ int __fastcall OPCRW::WriteGr1(bool *pbw)         // запись переменной группы 1
 	return 1;
 	#endif
  int iter=-1;
-  OPCHANDLE		*phServer;
+
   VARIANT        values[1];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
@@ -1483,12 +1505,14 @@ int __fastcall OPCRW::WriteGr1(bool *pbw)         // запись переменной группы 1
     LogPrint("Write: can not find item to write! (iter<0)",clRed);
     return 0;
   }
-  phServer = new OPCHANDLE[1];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(1);
+
   phServer[0] = pItemResult1[iter].hServer;
   values[0].vt      = VT_BOOL;
   values[0].boolVal =    *pbw;
-  r1=pIOPCSyncIO1->Write(1,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO1->Write(1,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write1: OK!",clAqua);
   
@@ -1511,7 +1535,7 @@ int __fastcall OPCRW::WriteGr1(int *piw)         // запись целой переменной груп
 	return 1;
 	#endif
  int i, iter=-1;
-  OPCHANDLE		*phServer;
+
   VARIANT        values[1];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
@@ -1523,12 +1547,14 @@ int __fastcall OPCRW::WriteGr1(int *piw)         // запись целой переменной груп
     return 0;
   }
   else iter+=GR1BOOLITEMSNUM;
-  phServer = new OPCHANDLE[1];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(1);
+
   phServer[0] = pItemResult1[iter].hServer;
   values[0].vt   = VT_I4;
   values[0].lVal = *piw;
-  r1=pIOPCSyncIO1->Write(1,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO1->Write(1,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr1 int: OK!",clAqua);
 	
@@ -1550,7 +1576,6 @@ int __fastcall OPCRW::WriteGr1(float *piw)         // запись float переменной гр
 	return 1;
 	#endif
  int i, iter=-1;
-  OPCHANDLE		*phServer;
   VARIANT        values[1];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
@@ -1562,12 +1587,13 @@ int __fastcall OPCRW::WriteGr1(float *piw)         // запись float переменной гр
     return 0;
   }
   else iter+=GR1BOOLITEMSNUM+GR1INTITEMSNUM;
-  phServer = new OPCHANDLE[1];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(1);
   phServer[0] = pItemResult1[iter].hServer;
   values[0].vt   = VT_R4;
   values[0].fltVal = *piw;
-  r1=pIOPCSyncIO1->Write(1,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO1->Write(1,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr1 int: OK!",clAqua);
 	
@@ -1589,7 +1615,6 @@ int __fastcall OPCRW::WriteGr2(float *pfw)         // запись вещественной переме
 	return 1;
 	#endif
  int i, iter=-1;
-  OPCHANDLE		*phServer;
   VARIANT        values[1];
   HRESULT		*pWErrors;
 //  HRESULT		 r1;
@@ -1602,12 +1627,12 @@ int __fastcall OPCRW::WriteGr2(float *pfw)         // запись вещественной переме
     LogPrint("Write Gr2 float: can not find item to write! (iter<0)",clRed);
     return 0;
   }
-  phServer = new OPCHANDLE[1];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(1);
   phServer[0] = pItemResult2[iter].hServer;
   values[0].vt     = VT_R4;
   values[0].fltVal = *pfw;
-  r1=pIOPCSyncIO2->Write(1,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO2->Write(1,&(*phServer.begin()),values,&pWErrors);
   if(r1 == S_OK) {
 	LogPrint("Write Gr2 float: OK!",clAqua);
 	
@@ -1631,7 +1656,6 @@ int __fastcall OPCRW::WriteGr3(int *piw)         // запись целой переменной груп
 	return 1;
 	#endif
  int i, iter=-1;
-  OPCHANDLE		*phServer;
   VARIANT        values[1];
   HRESULT		*pWErrors;
 //  HRESULT		 r1;
@@ -1643,7 +1667,8 @@ int __fastcall OPCRW::WriteGr3(int *piw)         // запись целой переменной груп
     LogPrint("Write Gr3 int: can not find item to write! (iter<0)",clRed);
     return 0;
   }
-  phServer = new OPCHANDLE[1];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(1);
   phServer[0] = pItemResult3[iter].hServer;
   if(iter==0 || iter==1){
     values[0].vt   = VT_I4;
@@ -1653,8 +1678,8 @@ int __fastcall OPCRW::WriteGr3(int *piw)         // запись целой переменной груп
     values[0].vt   = VT_I2;
 	values[0].iVal = *piw;
   }
-  r1=pIOPCSyncIO3->Write(1,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO3->Write(1,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr3 int: OK!",clAqua);
 	
@@ -1677,7 +1702,6 @@ int __fastcall OPCRW::WriteGr3(float *pfw)         // запись вещественной переме
 	return 1;
 	#endif
  int iter=-1;
-  OPCHANDLE		*phServer;
   VARIANT        values[1];
   HRESULT		*pWErrors;
 //  HRESULT		 r1;
@@ -1689,12 +1713,13 @@ int __fastcall OPCRW::WriteGr3(float *pfw)         // запись вещественной переме
     LogPrint("Write Gr3 float: can not find item to write! (iter<0)",clRed);
     return 0;
   }
-  phServer = new OPCHANDLE[1];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(1);
   phServer[0] = pItemResult3[iter].hServer;
   values[0].vt     = VT_R4;
   values[0].fltVal = *pfw;
-  r1=pIOPCSyncIO3->Write(1,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO3->Write(1,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr3 float: OK!",clAqua);
 	
@@ -1716,19 +1741,21 @@ int __fastcall OPCRW::WriteGr4(void)         // запись вещественных массивов гру
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR4ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR4ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR4ITEMSNUM);
+
   for(int i=0;i<GR4ITEMSNUM;i++){
     phServer[i]    = pItemResult5[i].hServer;
     values[i].vt   = VT_R4;
     if(i<GR41ITEMSNUM)values[i].fltVal = poll_step_SA[i];
     else              values[i].fltVal = step_SA[i-GR41ITEMSNUM];
   }
-  r1=pIOPCSyncIO4->Write(GR4ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO4->Write(GR4ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr4: OK!",clAqua);
 	
@@ -1749,19 +1776,21 @@ int __fastcall OPCRW::WriteGr5(void)         // запись целых массивов группы 5
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR5ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR5ITEMSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR5ITEMSNUM);
   for(int i=0;i<GR5ITEMSNUM;i++){
     phServer[i]    = pItemResult5[i].hServer;
     values[i].vt   = VT_I4;
     if(i<GR51ITEMSNUM)values[i].lVal = poll_step_TA[i];
     else              values[i].lVal = step_TA[i-GR51ITEMSNUM];
   }
-  r1=pIOPCSyncIO5->Write(GR5ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO5->Write(GR5ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr5: OK!",clAqua);
 	
@@ -1782,19 +1811,23 @@ int __fastcall OPCRW::WriteGr6(void)         // запись вещественного массива гру
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR6ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR6ITEMSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR6ITEMSNUM);
+
+
   for(int i=0;i<GR6ITEMSNUM;i++){
     phServer[i]    = pItemResult6[i].hServer;
     values[i].vt   = VT_R4;
 	if(i<MAXNUMOFSTEPS)values[i].fltVal = setting_A[1][i];
     else               values[i].fltVal = setting_A[0][i-MAXNUMOFSTEPS];
   }
-  r1=pIOPCSyncIO6->Write(GR6ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO6->Write(GR6ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr6: OK!",clAqua);
 	
@@ -1815,11 +1848,13 @@ int __fastcall OPCRW::ResetGr7(void)
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR7ARRAYSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR7ARRAYSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR7ARRAYSNUM);
 
 	for (int i = 0; i < GR7ARRAYSNUM; ++i)
 	{
@@ -1880,8 +1915,8 @@ int __fastcall OPCRW::ResetGr7(void)
 	SafeArrayUnaccessData(values[5].parray);
 
 
-	r1=pIOPCSyncIO11->Write(GR7ARRAYSNUM,phServer,values,&pWErrors);
-	delete [] phServer;
+    r1=pIOPCSyncIO11->Write(GR7ARRAYSNUM,&(*phServer.begin()),values,&pWErrors);
+
 	if(r1 == S_OK)
 	{
 		LogPrint("Reset Gr7: OK!",clAqua);
@@ -1902,19 +1937,22 @@ int __fastcall OPCRW::WriteGr8(void)         // запись вещественных массивов гру
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR8ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR8ITEMSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR8ITEMSNUM);
+
   for(int i=0;i<GR8ITEMSNUM;i++){
     phServer[i]    = pItemResult8[i].hServer;
     values[i].vt   = VT_R4;
     if(i<GR81ITEMSNUM)values[i].fltVal = poll_step_SB[i];
     else              values[i].fltVal = step_SB[i-GR81ITEMSNUM];
   }
-  r1=pIOPCSyncIO8->Write(GR8ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO8->Write(GR8ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr8: OK!",clAqua);
 	
@@ -1935,19 +1973,21 @@ int __fastcall OPCRW::WriteGr9(void)         // запись целых массивов группы 9
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR9ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR9ITEMSNUM];
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR9ITEMSNUM);
+
   for(int i=0;i<GR9ITEMSNUM;i++){
     phServer[i]    = pItemResult9[i].hServer;
     values[i].vt   = VT_I4;
     if(i<GR91ITEMSNUM)values[i].lVal = poll_step_TB[i];
     else              values[i].lVal = step_TB[i-GR91ITEMSNUM];
   }
-  r1=pIOPCSyncIO9->Write(GR9ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO9->Write(GR9ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr9: OK!",clAqua);
   	
@@ -1968,19 +2008,22 @@ int __fastcall OPCRW::WriteGr10(void)        // запись вещественного массива гру
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR10ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR10ITEMSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR10ITEMSNUM);
+
   for(int i=0;i<GR10ITEMSNUM;i++){
     phServer[i]    = pItemResult10[i].hServer;
     values[i].vt   = VT_R4;
 	if(i<MAXNUMOFSTEPS)values[i].fltVal = setting_B[1][i];
 	else               values[i].fltVal = setting_B[0][i-MAXNUMOFSTEPS];
   }
-  r1=pIOPCSyncIO10->Write(GR10ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO10->Write(GR10ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr10: OK!",clAqua);
 	
@@ -2001,11 +2044,13 @@ int __fastcall OPCRW::ResetGr11(void)
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR11ARRAYSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR11ARRAYSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR11ARRAYSNUM);
 
 	for (int i = 0; i < GR11ARRAYSNUM; ++i)
 	{
@@ -2066,8 +2111,8 @@ int __fastcall OPCRW::ResetGr11(void)
 	SafeArrayUnaccessData(values[5].parray);
 
 
-	r1=pIOPCSyncIO11->Write(GR11ARRAYSNUM,phServer,values,&pWErrors);
-	delete [] phServer;
+    r1=pIOPCSyncIO11->Write(GR11ARRAYSNUM,&(*phServer.begin()),values,&pWErrors);
+
 	if(r1 == S_OK)
 	{
 		LogPrint("Reset Gr11: OK!",clAqua);
@@ -2088,11 +2133,12 @@ int __fastcall OPCRW::WriteGr12(void)        // запись вещественного массива гру
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
   VARIANT        values[GR12ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR12ITEMSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR12ITEMSNUM);
 
   for(int i=0;i<GR12ARRAYSIZE;i++){
     phServer[i]                    = pItemResult12[i].hServer;
@@ -2103,8 +2149,8 @@ int __fastcall OPCRW::WriteGr12(void)        // запись вещественного массива гру
 	values[i+GR12ARRAYSIZE].fltVal = *Q1[i];
   }
 
-  r1=pIOPCSyncIO12->Write(GR12ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO12->Write(GR12ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr12: OK!",clAqua);
 	
@@ -2125,11 +2171,14 @@ int __fastcall OPCRW::WriteGr13(void)        // запись вещественного массива гру
 	#ifdef _NO_Write
 	return 1;
 	#endif
-  OPCHANDLE		*phServer;
+
   VARIANT        values[GR13ITEMSNUM];
   HRESULT		*pWErrors;
   LPWSTR		 ErrorStr;
-  phServer = new OPCHANDLE[GR13ITEMSNUM];
+
+  std::vector<OPCHANDLE> phServer;
+  phServer.resize(GR13ITEMSNUM);
+
   for(int i=0;i<GR13ARRAYSIZE;i++){
     phServer[i]                    = pItemResult13[i].hServer;
     values[i].vt                   = VT_R4;
@@ -2138,8 +2187,8 @@ int __fastcall OPCRW::WriteGr13(void)        // запись вещественного массива гру
     values[i+GR13ARRAYSIZE].vt     = VT_R4;
 	values[i+GR13ARRAYSIZE].fltVal = *Q2[i];
   }
-  r1=pIOPCSyncIO13->Write(GR13ITEMSNUM,phServer,values,&pWErrors);
-  delete [] phServer;
+  r1=pIOPCSyncIO13->Write(GR13ITEMSNUM,&(*phServer.begin()),values,&pWErrors);
+
   if(r1 == S_OK) {
 	LogPrint("Write Gr13: OK!",clAqua);
   	

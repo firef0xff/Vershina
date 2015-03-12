@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsProtocol
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
