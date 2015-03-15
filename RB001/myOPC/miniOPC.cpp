@@ -216,6 +216,7 @@ void 	myOPC::OpcMassFree(GROUP_ID _id,OPCITEMSTATE* mass)
 	{
 		VariantClear(&mass[i].vDataValue);
 	}
+	CoTaskMemFree(mass);
 	#ifdef _mDEBUG
 	log+="OK\n\n";
 	#endif
@@ -375,12 +376,14 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	log+="Запись данных в контроллер\n";
 	#endif
     result=__item->pSyncIO->Write(mass_len,&(*phServer.begin()),&(*values.begin()),&pWErrors);
+	HRESULT res = *pWErrors;
 	if(result == S_OK||result==S_FALSE)
 	{
 	#ifdef _mDEBUG
 		log+="OK\n";
 	#endif
-		return *pWErrors;
+		CoTaskMemFree(pWErrors);
+		return res;
 	}
 	else
 	{
@@ -388,7 +391,8 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 		pIOPCServer->GetErrorString(pWErrors[0],LOCALE_ID,&ErrorStr);
 		log+="FAIL - Ощибка записи данных группы "+String(_id)+" "+String(ErrorStr)+"\n";
 		CoTaskMemFree(pWErrors);
+		CoTaskMemFree(ErrorStr);
 	#endif
-	return *pWErrors;
+	return res;
 	}
 }

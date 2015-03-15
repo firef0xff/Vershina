@@ -939,6 +939,7 @@ int __fastcall OPCRW::ReadGr1(void)            // чтение переменных группы 1
 	return 1;
 	#endif
 
+
   OPCITEMSTATE	*pItemValue;
   LPWSTR		 ErrorStr;
   UINT			 qnr;
@@ -954,9 +955,13 @@ int __fastcall OPCRW::ReadGr1(void)            // чтение переменных группы 1
 	   iDB20[i] = pItemValue[i+GR1BOOLITEMSNUM].vDataValue.lVal;
 	 for (int i=0; i<GR1FLTITEMSNUM; i++)
 	   fGr1[i]=pItemValue[i+GR1BOOLITEMSNUM+GR1INTITEMSNUM].vDataValue.fltVal;
-	 for(int i=0;i<GR1ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
-	 
-     return 1;
+
+	 for(int i=0;i<GR1ITEMSNUM;i++)
+	 {
+		VariantClear(&pItemValue[i].vDataValue);
+	 }
+	 CoTaskMemFree(pItemValue);
+	 return 1;
 	}
   else
 	{pIOPCServer->GetErrorString(pRErrors[0],LOCALE_ID,&ErrorStr);
@@ -988,16 +993,19 @@ int __fastcall OPCRW::ReadGr2(void)            // чтение переменных группы 2
   r1=pIOPCSyncIO2->Read(OPC_DS_CACHE,GR2ITEMSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
   if(r1 == S_OK)
 	{for(int i=0;i<GR2FLOATITEMSNUM;i++)
-	{
-		fDB20[i] = pItemValue[i].vDataValue.fltVal;
-	}
-	for(int i=0;i<GR2INTITEMSNUM;i++)
-	{
-		i2DB20[i] = pItemValue[GR2FLOATITEMSNUM+i].vDataValue.lVal;
-	}
-	 for(int i=0;i<GR2ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
-	 
-     return 1;
+		{
+			fDB20[i] = pItemValue[i].vDataValue.fltVal;
+		}
+		for(int i=0;i<GR2INTITEMSNUM;i++)
+		{
+			i2DB20[i] = pItemValue[GR2FLOATITEMSNUM+i].vDataValue.lVal;
+		}
+		for(int i=0;i<GR2ITEMSNUM;i++)
+		{
+			VariantClear(&pItemValue[i].vDataValue);
+		}
+	 CoTaskMemFree(pItemValue);
+	 return 1;
 	}
   else
 	{pIOPCServer->GetErrorString(pRErrors[0],LOCALE_ID,&ErrorStr);
@@ -1033,6 +1041,7 @@ int __fastcall OPCRW::ReadGr3(void)            // чтение переменных группы 3
 	  fDB10[i-GR3INTITEMSNUM] = pItemValue[i].vDataValue.fltVal;}
 	for(int i=0;i<GR3ITEMSNUM;i++){
 	  VariantClear(&pItemValue[i].vDataValue);}
+  	CoTaskMemFree(pItemValue);
 	LogPrint("Read Group 3 i0="+String(iDB10[0])+", i1="+String(iDB10[1]),clLime);
 	
 	return 1;
@@ -1070,7 +1079,7 @@ int __fastcall OPCRW::ReadGr4(void)            // чтение переменных группы 4
      }
      for(int i=0;i<GR4ITEMSNUM;i++){
 	   VariantClear(&pItemValue[i].vDataValue);}
-	 
+	 CoTaskMemFree(pItemValue);
 	 return 1;
 	}
   else
@@ -1104,7 +1113,8 @@ int __fastcall OPCRW::ReadGr5(void)            // чтение переменных группы 5
        if(i<GR51ITEMSNUM)poll_step_TA[i]=pItemValue[i].vDataValue.lVal;
        else              step_TA[i-GR51ITEMSNUM]=pItemValue[i].vDataValue.lVal;
      }
-     for(int i=0;i<GR5ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 for(int i=0;i<GR5ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
      LogPrint("poll_step_TA[0]="+String(poll_step_TA[0]),clLime);         // debug print
 	 LogPrint("step_TA[0]="+String(step_TA[0]),clLime);                   // debug print
 	 
@@ -1140,7 +1150,8 @@ int __fastcall OPCRW::ReadGr6(void)            // чтение переменных группы 6
        if(i<MAXNUMOFSTEPS)setting_A[0][i]=pItemValue[i].vDataValue.fltVal;
        else               setting_A[1][i-MAXNUMOFSTEPS]=pItemValue[i].vDataValue.fltVal;
      }
-     for(int i=0;i<GR6ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 for(int i=0;i<GR6ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
      LogPrint("setting_A[0][0]="+FloatToStrF(setting_A[0][0],ffFixed,6,2),clLime);   // debug print
 	 LogPrint("setting_A[1][0]="+FloatToStrF(setting_A[1][0],ffFixed,6,2),clLime);   // debug print
 	 
@@ -1218,6 +1229,7 @@ int __fastcall OPCRW::ReadGr7(void)            // чтение переменных группы 7
      }
 	 //	release out-parameters in case of not failed
 	 for(int i=0;i<GR7ARRAYSNUM;i++)VariantClear(&pItemValue[i].vDataValue);
+	 CoTaskMemFree(pItemValue);
 	 
      return 1;
 	}
@@ -1254,6 +1266,7 @@ int __fastcall OPCRW::ReadGr8(void)            // чтение переменных группы 8
      }
      for(int i=0;i<GR8ITEMSNUM;i++){
 	   VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
 	 
      return 1;
 	}
@@ -1288,7 +1301,8 @@ int __fastcall OPCRW::ReadGr9(void)            // чтение переменных группы 9
        if(i<GR91ITEMSNUM)poll_step_TB[i]=pItemValue[i].vDataValue.lVal;
        else              step_TB[i-GR91ITEMSNUM]=pItemValue[i].vDataValue.lVal;
      }
-     for(int i=0;i<GR9ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 for(int i=0;i<GR9ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
      LogPrint("poll_step_TB[0]="+String(poll_step_TB[0]),clLime);         // debug print
 	 LogPrint("step_TB[0]="+String(step_TB[0]),clLime);                   // debug print
 	 
@@ -1325,7 +1339,8 @@ int __fastcall OPCRW::ReadGr10(void)           // чтение переменных группы 10
        if(i<MAXNUMOFSTEPS)setting_B[0][i]=pItemValue[i].vDataValue.fltVal;
        else               setting_B[1][i-MAXNUMOFSTEPS]=pItemValue[i].vDataValue.fltVal;
      }
-     for(int i=0;i<GR10ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 for(int i=0;i<GR10ITEMSNUM;i++){VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
      LogPrint("setting_B[0][0]="+FloatToStrF(setting_B[0][0],ffFixed,6,2),clLime);   // debug print
 	 LogPrint("setting_B[1][0]="+FloatToStrF(setting_B[1][0],ffFixed,6,2),clLime);   // debug print
 	 
@@ -1402,6 +1417,7 @@ int __fastcall OPCRW::ReadGr11(void)           // чтение переменных группы 11
      }
 	 //	release out-parameters in case of not failed
 	 for(int i=0;i<GR11ARRAYSNUM;i++)VariantClear(&pItemValue[i].vDataValue);
+	 CoTaskMemFree(pItemValue);
 	 
      return 1;
 	}
@@ -1438,6 +1454,7 @@ int __fastcall OPCRW::ReadGr12(void)            // чтение переменных группы 12
      }
      for(int i=0;i<GR12ITEMSNUM;i++){
 	   VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
 	 
      return 1;
 	}
@@ -1475,6 +1492,7 @@ int __fastcall OPCRW::ReadGr13(void)            // чтение переменных группы 13
      }
      for(int i=0;i<GR13ITEMSNUM;i++){
 	   VariantClear(&pItemValue[i].vDataValue);}
+	 CoTaskMemFree(pItemValue);
   	 
      return 1;
 	}
@@ -1518,13 +1536,14 @@ int __fastcall OPCRW::WriteGr1(bool *pbw)         // запись переменной группы 1
   
   }
   else {
-    pIOPCServer->GetErrorString(pWErrors[0],LOCALE_ID,&ErrorStr);
+	pIOPCServer->GetErrorString(pWErrors[0],LOCALE_ID,&ErrorStr);
 	LogPrint("Write1: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
-//	CoTaskMemFree(ErrorStr);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
+  CoTaskMemFree(pWErrors);
   return 1;
 }
 //---- End of WriteGr1 ------------------------------------------------------
@@ -1557,15 +1576,15 @@ int __fastcall OPCRW::WriteGr1(int *piw)         // запись целой переменной груп
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr1 int: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
     pIOPCServer->GetErrorString(pWErrors[0],LOCALE_ID,&ErrorStr);
 	LogPrint("Write Gr1 int: item writing error: "+String(ErrorStr),clRed);
-	
+
 	CoTaskMemFree(pWErrors);
-//	CoTaskMemFree(ErrorStr);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1596,7 +1615,7 @@ int __fastcall OPCRW::WriteGr1(float *piw)         // запись float переменной гр
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr1 int: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
 	return 1;
   }
   else {
@@ -1604,7 +1623,7 @@ int __fastcall OPCRW::WriteGr1(float *piw)         // запись float переменной гр
 	LogPrint("Write Gr1 int: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
-//	CoTaskMemFree(ErrorStr);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1635,7 +1654,7 @@ int __fastcall OPCRW::WriteGr2(float *pfw)         // запись вещественной переме
   r1=pIOPCSyncIO2->Write(1,&(*phServer.begin()),values,&pWErrors);
   if(r1 == S_OK) {
 	LogPrint("Write Gr2 float: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -1643,7 +1662,7 @@ int __fastcall OPCRW::WriteGr2(float *pfw)         // запись вещественной переме
 	LogPrint("Write Gr2 float: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
-//	CoTaskMemFree(ErrorStr);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1682,7 +1701,7 @@ int __fastcall OPCRW::WriteGr3(int *piw)         // запись целой переменной груп
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr3 int: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -1690,7 +1709,7 @@ int __fastcall OPCRW::WriteGr3(int *piw)         // запись целой переменной груп
 	LogPrint("Write Gr3 int: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
-//	CoTaskMemFree(ErrorStr);
+	CoTaskMemFree(ErrorStr);
 	return 0;
   }
 }
@@ -1722,7 +1741,7 @@ int __fastcall OPCRW::WriteGr3(float *pfw)         // запись вещественной переме
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr3 float: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -1730,7 +1749,7 @@ int __fastcall OPCRW::WriteGr3(float *pfw)         // запись вещественной переме
 	LogPrint("Write Gr3 float: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
-//	CoTaskMemFree(ErrorStr);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1758,14 +1777,15 @@ int __fastcall OPCRW::WriteGr4(void)         // запись вещественных массивов гру
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr4: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
     pIOPCServer->GetErrorString(pWErrors[0],LOCALE_ID,&ErrorStr);
 	LogPrint("Write Gr4: item writing error: "+String(ErrorStr),clRed);
-	
+
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
 	return 0;
   }
 }
@@ -1793,7 +1813,7 @@ int __fastcall OPCRW::WriteGr5(void)         // запись целых массивов группы 5
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr5: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
 	return 1;
   }
   else {
@@ -1801,6 +1821,7 @@ int __fastcall OPCRW::WriteGr5(void)         // запись целых массивов группы 5
 	LogPrint("Write Gr5: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1830,7 +1851,7 @@ int __fastcall OPCRW::WriteGr6(void)         // запись вещественного массива гру
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr6: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
 	return 1;
   }
   else {
@@ -1838,6 +1859,7 @@ int __fastcall OPCRW::WriteGr6(void)         // запись вещественного массива гру
 	LogPrint("Write Gr6: item writing error: "+String(ErrorStr),clRed);
   	
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1920,6 +1942,7 @@ int __fastcall OPCRW::ResetGr7(void)
 	if(r1 == S_OK)
 	{
 		LogPrint("Reset Gr7: OK!",clAqua);
+		CoTaskMemFree(pWErrors);
 		return 1;
 	}
 	else
@@ -1928,6 +1951,7 @@ int __fastcall OPCRW::ResetGr7(void)
 		LogPrint("Reset Gr7: item writing error: "+String(ErrorStr),clRed);
 
 		CoTaskMemFree(pWErrors);
+		CoTaskMemFree(ErrorStr);
 		return 0;
 	}
 }
@@ -1955,7 +1979,7 @@ int __fastcall OPCRW::WriteGr8(void)         // запись вещественных массивов гру
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr8: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -1963,6 +1987,7 @@ int __fastcall OPCRW::WriteGr8(void)         // запись вещественных массивов гру
 	LogPrint("Write Gr8: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -1990,7 +2015,7 @@ int __fastcall OPCRW::WriteGr9(void)         // запись целых массивов группы 9
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr9: OK!",clAqua);
-  	
+  	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -1998,6 +2023,7 @@ int __fastcall OPCRW::WriteGr9(void)         // запись целых массивов группы 9
 	LogPrint("Write Gr9: item writing error: "+String(ErrorStr),clRed);
     
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -2026,7 +2052,7 @@ int __fastcall OPCRW::WriteGr10(void)        // запись вещественного массива гру
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr10: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -2034,6 +2060,7 @@ int __fastcall OPCRW::WriteGr10(void)        // запись вещественного массива гру
 	LogPrint("Write Gr10: item writing error: "+String(ErrorStr),clRed);
   	
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -2116,6 +2143,7 @@ int __fastcall OPCRW::ResetGr11(void)
 	if(r1 == S_OK)
 	{
 		LogPrint("Reset Gr11: OK!",clAqua);
+		CoTaskMemFree(pWErrors);
 		return 1;
 	}
 	else
@@ -2124,6 +2152,7 @@ int __fastcall OPCRW::ResetGr11(void)
 		LogPrint("Reset Gr11: item writing error: "+String(ErrorStr),clRed);
 
 		CoTaskMemFree(pWErrors);
+		CoTaskMemFree(ErrorStr);
 		return 0;
 	}
 }
@@ -2153,7 +2182,7 @@ int __fastcall OPCRW::WriteGr12(void)        // запись вещественного массива гру
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr12: OK!",clAqua);
-	
+	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -2161,6 +2190,7 @@ int __fastcall OPCRW::WriteGr12(void)        // запись вещественного массива гру
 	LogPrint("Write Gr12: item writing error: "+String(ErrorStr),clRed);
 	
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
@@ -2191,7 +2221,7 @@ int __fastcall OPCRW::WriteGr13(void)        // запись вещественного массива гру
 
   if(r1 == S_OK) {
 	LogPrint("Write Gr13: OK!",clAqua);
-  	
+  	CoTaskMemFree(pWErrors);
     return 1;
   }
   else {
@@ -2199,6 +2229,7 @@ int __fastcall OPCRW::WriteGr13(void)        // запись вещественного массива гру
 	LogPrint("Write Gr13: item writing error: "+String(ErrorStr),clRed);
   	
 	CoTaskMemFree(pWErrors);
+	CoTaskMemFree(ErrorStr);
     return 0;
   }
 }
