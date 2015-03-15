@@ -19,6 +19,8 @@ class Tyre
     float     DrumDiameter;      // диаметр барабана
     String    TestCustomer;      // заказчик
     TDateTime ManufactDate;      // дата изготовлени€
+    TDateTime Start;             // дата начала испытани€
+    TDateTime Stop;              // дата окончани€ испытани€
     int       FormNo;            // номер формы протокола
     int       OrderNo;           // номер заказа
     int       PerfSpecNo;        // номер “«

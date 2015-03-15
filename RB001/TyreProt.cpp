@@ -205,9 +205,14 @@ void __fastcall Tyre::PrintProtToFile(String fname,String side)    // печат
   fprintf(fprint,"   Давление в шине: %6.1f кПа                   Обод: %10s\n\n",InitPressure,AnsiString(WheelRim).c_str());
   fprintf(fprint,"                            РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:\n");
   if(TestMode==0)
-	fprintf(fprint,"      Режим обкатки: по времени   Общее время испытаний: %10s\n",AnsiString(mSecToHMSStr(TotalTime)).c_str());
+    fprintf(fprint,"      Режим обкатки: по времени\n");
   else
-    fprintf(fprint,"      Режим обкатки: по пути        Общий путь: %8f км\n",TotalS);
+    fprintf(fprint,"      Режим обкатки: по пути\n");
+  fprintf(fprint,"            Общее время испытаний: %10s\n",AnsiString(mSecToHMSStr(TotalTime)).c_str());
+  fprintf(fprint,"            Общий путь: %8f км\n",TotalS);
+  fprintf(fprint,"            Дата начала испытания: %s\n", AnsiString(Start.FormatString("dd.mm.yyyy hh:nn:ss")).c_str());
+  fprintf(fprint,"            Дата окончания испытания: %s\n", AnsiString(Stop.FormatString("dd.mm.yyyy hh:nn:ss")).c_str());
+
   fprintf(fprint,"+-----+---------+--------+--------+--------+---------+-----------+\n");
   fprintf(fprint,"|Опрос|  время  |скорость|путь, км|нагрузка| радиус  |Температура|\n");
   fprintf(fprint,"|     |  чч:мм  | км/час |        |  кН    |   мм    |    С      |\n");
@@ -284,9 +289,17 @@ void __fastcall Tyre::PrintProtocol(TPrinter *pprt,String side)    // печат
   wstr[++LineCnt]="РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:";
   left[LineCnt]=abs(prtWidth-pprt->Canvas->TextWidth(wstr[LineCnt]))/2+LeftMarg;
   if(TestMode==0)
-    wstr[++LineCnt]="      Режим обкатки: по времени   Общее время испытаний: "+mSecToHMSStr(TotalTime);
+    wstr[++LineCnt]="    Режим обкатки: по времени";
   else
-    wstr[++LineCnt]="      Режим обкатки: по пути        Общий путь: "+FloatToStrF(TotalS,ffFixed,7,0) +"км";
+    wstr[++LineCnt]="    Режим обкатки: по пути";
+  left[LineCnt]=LeftMarg;
+  wstr[++LineCnt]="        Общее время испытаний: "+mSecToHMSStr(TotalTime);
+  left[LineCnt]=LeftMarg;
+  wstr[++LineCnt]="        Общий путь: "+FloatToStrF(TotalS,ffFixed,7,0) +"км";
+  left[LineCnt]=LeftMarg;
+  wstr[++LineCnt]="        Дата начала испытания: " + Start.FormatString("dd.mm.yyyy hh:nn:ss");
+  left[LineCnt]=LeftMarg;
+  wstr[++LineCnt]="        Дата окончания испытания: " + Stop.FormatString("dd.mm.yyyy hh:nn:ss");
   left[LineCnt]=LeftMarg;
   wstr[++LineCnt]="+-----+---------+--------+--------+--------+---------+-----------+";
   left[LineCnt]=LeftMarg;

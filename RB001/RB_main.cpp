@@ -1431,6 +1431,7 @@ void __fastcall TmfRB::ShowStatus(bool save)        // отображение состояния на 
 	cbControlLateralA->Checked=*ControlLateralA;
 	if (*Stop1&&needSaveA&&save)
 	{
+        TyreA->Stop = Now();
 		btnLoadTestResPosA->Click();  //авто сохраниние
 	}
 
@@ -1444,6 +1445,7 @@ void __fastcall TmfRB::ShowStatus(bool save)        // отображение состояния на 
 	cbControlLateralB->Checked=*ControlLateralB;
 	if (*Stop2&&needSaveB&&save)
 	{
+        TyreB->Stop = Now();
 		btnLoadTestResPosB->Click();  //авто сохраниние
 	}
 	// обработка остальных индикаторов
@@ -1725,6 +1727,8 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
 			needSaveA=true;
 			ClearStepVals1();
 			UpdateProgData();
+            TyreA->Start = Now();
+            TyreA->Stop = TDateTime();
 			sbRB->Panels->Items[2]->Text="Старт поз. А!";
 			LogPrintF(LogFName(),"Старт поз. А!",clWhite);
 		}
@@ -1733,6 +1737,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
 			*Start1=false; *Stop1= true;
 			if (needSaveA)
 			{
+                TyreA->Stop = Now();
 				btnLoadTestResPosA->Click();  //авто сохраниние
 			}
 			sbRB->Panels->Items[2]->Text="Стоп поз. А!";
@@ -1799,6 +1804,8 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
 			needSaveB=true;
 			ClearStepVals2();
 			UpdateProgData();
+            TyreB->Start = Now();
+            TyreB->Stop = TDateTime();
 			sbRB->Panels->Items[2]->Text="Старт поз. Б!";
 			LogPrintF(LogFName(),"Старт поз. Б!",clWhite);
 		}
@@ -1807,6 +1814,7 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
 			*Start2=false; *Stop2= true;
 			if (needSaveB)
 			{
+                TyreB->Stop = Now();
 				btnLoadTestResPosB->Click();  //авто сохраниние
 			}
 			sbRB->Panels->Items[2]->Text="Стоп поз. Б!";
