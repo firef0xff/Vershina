@@ -1737,7 +1737,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
 			*Start1=false; *Stop1= true;
 			if (needSaveA)
 			{
-                TyreA->Stop = Now();
+				TyreA->Stop = Now();
 				btnLoadTestResPosA->Click();  //авто сохраниние
 			}
 			sbRB->Panels->Items[2]->Text="Стоп поз. А!";
@@ -4003,7 +4003,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
   pOPC->ReadGr3();
   pOPC->ReadGr7();
   OPCControlResume(tReadCycleTimer);
-  TyreA->TotalS           =*S_end_cycle_1;
+  TyreA->TotalS           =*S_end_cycle_1; //fakt_distance_1
   TyreA->TotalTime        =*T_end_cycle_1;
   TyreA->TestMode         =*type_cycle_1;
   TyreA->StepsNo          =*StepsQty1;
@@ -4048,7 +4048,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
   pOPC->ReadGr3();
   pOPC->ReadGr11();
   OPCControlResume(tReadCycleTimer);
-  TyreB->TotalS           =*S_end_cycle_2;
+  TyreB->TotalS           =*S_end_cycle_2;  //fakt_distance_2
   TyreB->TotalTime        =*T_end_cycle_2;
   TyreB->TestMode         =*type_cycle_2;
   TyreB->StepsNo          =*StepsQty2;
@@ -4120,7 +4120,7 @@ void __fastcall TmfRB::OnPrintProtPosAToFile(TObject *Sender)
 		FileName=strProtA+Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prtprot'");
 	}
   TyreA->PrintProtToFile(FileName,"А");
-  needSaveA=false;
+  needSaveA=!*Stop1;
   LogPrint("Результаты испытаний по поз. А сохранены в файле \""+FileName+"\"");
   sbRB->Panels->Items[2]->Text="Результаты испытаний по поз. А сохранены в файле \""+FileName+"\"";
 }
@@ -4138,7 +4138,7 @@ void __fastcall TmfRB::OnPrintProtPosBToFile(TObject *Sender)
 		FileName=strProtB+Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prtprot'");
 	}
   TyreB->PrintProtToFile(FileName,"Б");
-  needSaveB=false;
+  needSaveB=!*Stop2;
   LogPrint("Результаты испытаний по поз. Б сохранены в файле \""+FileName+"\"");
   sbRB->Panels->Items[2]->Text="Результаты испытаний по поз. Б сохранены в файле \""+FileName+"\"";
 }
