@@ -4004,7 +4004,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
   pOPC->ReadGr7();
   OPCControlResume(tReadCycleTimer);
   TyreA->TotalS           =*S_end_cycle_1; //fakt_distance_1
-  TyreA->TotalTime        =*T_end_cycle_1;
+  TyreA->TotalTime        =*T_end_cycle_1; //fakt_time_1
   TyreA->TestMode         =*type_cycle_1;
   TyreA->StepsNo          =*StepsQty1;
   TyreA->PollsNo          =*PollsQty1;
@@ -4049,7 +4049,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
   pOPC->ReadGr11();
   OPCControlResume(tReadCycleTimer);
   TyreB->TotalS           =*S_end_cycle_2;  //fakt_distance_2
-  TyreB->TotalTime        =*T_end_cycle_2;
+  TyreB->TotalTime        =*T_end_cycle_2;  //fakt_time_2
   TyreB->TestMode         =*type_cycle_2;
   TyreB->StepsNo          =*StepsQty2;
   TyreB->PollsNo          =*PollsQty2;
@@ -6157,5 +6157,6 @@ void __fastcall TmfRB::btnResetResPosBClick(TObject *Sender)
 	SGClear(sgTestResultB,0);//чистка таблицы
 	ShowProtBData();
 }
+
 
 

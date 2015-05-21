@@ -59,7 +59,7 @@
 // метки управления для функции OnDataShow
 #define COMMONPRMSHOW  0
 // размеры таблиц для аттестации
-#define VQTY          29
+#define VQTY          33
 #define LDQTY         25
 #define TQTY          20
 #define RQTY          20

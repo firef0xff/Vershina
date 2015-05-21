@@ -13,8 +13,8 @@
 __fastcall VSert::VSert(void)                  // конструктор
 {
   Index=0;                            // текущий индекс таблицы
-  for (int i=0,j=14;i<VQTY;i++) {     // столбец заданных скоростей
-    if(i<15) {
+  for (int i=0,j=16;i<VQTY;i++) {     // столбец заданных скоростей
+    if(i<17) {
       TargetV[i]=(i+1)*10;
     }
     else {
