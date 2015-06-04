@@ -1549,6 +1549,30 @@ void __fastcall TmfRB::ShowStatus(bool save)        // отображение состо€ни€ на 
 	OldSMode1=CurrSMode1;
 	OldSMode2=CurrSMode2;
 
+    static bool over_load1(false);
+    static bool over_load2(false);
+
+    if (*OverLoad1 != over_load1)
+    {
+        if (*OverLoad1)
+        {
+            sbRB->Panels->Items[2]->Text="ѕревышение нагрузки на шаге на стороне 1";
+            LogPrintF(LogFName(),"ѕревышение нагрузки на шаге на стороне 1",clYellow);
+            ShowMessage("ѕревышение нагрузки на шаге на стороне 1");
+        }
+        over_load1 = *OverLoad1;
+    }
+
+    if (*OverLoad2 != over_load2)
+    {
+        if (*OverLoad2)
+        {
+            sbRB->Panels->Items[2]->Text="ѕревышение нагрузки на шаге на стороне 2";
+            LogPrintF(LogFName(),"ѕревышение нагрузки на шаге на стороне 2",clYellow);
+            ShowMessage("ѕревышение нагрузки на шаге на стороне 2");
+        }
+        over_load2 = *OverLoad2;
+    }
 }
 //---- End of ShowStatus ----------------------------------------------------
 

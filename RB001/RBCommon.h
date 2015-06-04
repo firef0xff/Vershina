@@ -144,6 +144,8 @@ extern bool  *Stop2;               //DB10,X38.3 Стоп поз 2
 extern bool  *Reset2;              //DB10,X38.4 Сброс поз 2
 extern bool  *KeepLoad2;           //DB10,X39.0 Удержание нагрузки 2
 extern bool  *ResetData2;          //M1.7 сброс результатов испытаний 2
+extern bool  *OverLoad1;           //DB10,X38.5 A Превышение нагрузки на шаге на стороне 1
+extern bool  *OverLoad2;           //DB10,X38.6 B Превышение нагрузки на шаге на стороне 2
 // Блок DB20 - общие параметры
 extern int   iDB20[GR1INTITEMSNUM];
 extern int   *fakt_time;            // факт. (общее) время

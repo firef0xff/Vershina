@@ -175,6 +175,8 @@ bool  *Reset2       =&bGr1[33]; //DB10,X38.4 Сброс поз 2
 bool  *KeepLoad2    =&bGr1[34]; //DB10,X39.0 Удержание нагрузки 2
 bool  *ResetData1	=&bGr1[35]; //M0.7 сброс результатов испытаний 1
 bool  *ResetData2   =&bGr1[36]; //M1.7 сброс результатов испытаний 2
+bool  *OverLoad1    =&bGr1[37]; //DB10,X38.5 A Превышение нагрузки на шаге на стороне 1
+bool  *OverLoad2    =&bGr1[38]; //DB10,X38.6 B Превышение нагрузки на шаге на стороне 2
 // Блок DB20 - общие параметры
 int   iDB20[GR1INTITEMSNUM];    // массив целых значений в блоке DB20
 int   *fakt_time          =&iDB20[ 0]; //DB20,DINT14 общее время
@@ -227,6 +229,8 @@ wchar_t *Gr1ItemsNme[GR1ITEMSNUM]={	L"S7:[S7 connection_4]MX2.1",
 									L"S7:[S7 connection_4]DB10,X39.0",
 									L"S7:[S7 connection_4]M0.7",
 									L"S7:[S7 connection_4]M1.7",
+                                    L"S7:[S7 connection_4]DB10,X38.5",
+                                    L"S7:[S7 connection_4]DB10,X38.6",
 									//idb20
 									L"S7:[S7 connection_4]DB20,DINT14",
 									L"S7:[S7 connection_4]DB20,DINT26",
