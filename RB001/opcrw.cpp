@@ -1185,7 +1185,8 @@ int __fastcall OPCRW::ReadGr7(void)            // чтение переменных группы 7
   r1=pIOPCSyncIO7->Read(OPC_DS_CACHE,GR7ARRAYSNUM,&(*phServer.begin()),&pItemValue,&pRErrors);
 
   if(r1 == S_OK)
-	{if(pItemValue[0].vDataValue.vt == (VT_ARRAY | VT_I4)){  // целый массив из блока DB1
+        {
+      if(pItemValue[0].vDataValue.vt == (VT_ARRAY | VT_I4)){  // целый массив из блока DB1
        int *pValues = NULL;
        SafeArrayAccessData(pItemValue[0].vDataValue.parray, (void **)&pValues);
        for(int i=0; i<MAXNUMOFPOLLS; i++){read_TA[i] =  pValues[i];}

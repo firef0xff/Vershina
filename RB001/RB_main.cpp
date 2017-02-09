@@ -1751,8 +1751,9 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
 			needSaveA=true;
 			ClearStepVals1();
 			UpdateProgData();
-            TyreA->Start = Now();
-            TyreA->Stop = TDateTime();
+			if ( TyreA->Start == TDateTime() )
+				TyreA->Start = Now();
+			TyreA->Stop = TDateTime();
 			sbRB->Panels->Items[2]->Text="Старт поз. А!";
 			LogPrintF(LogFName(),"Старт поз. А!",clWhite);
 		}
@@ -1828,7 +1829,8 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
 			needSaveB=true;
 			ClearStepVals2();
 			UpdateProgData();
-            TyreB->Start = Now();
+			if ( TyreB->Start == TDateTime() )
+            	TyreB->Start = Now();
             TyreB->Stop = TDateTime();
 			sbRB->Panels->Items[2]->Text="Старт поз. Б!";
 			LogPrintF(LogFName(),"Старт поз. Б!",clWhite);

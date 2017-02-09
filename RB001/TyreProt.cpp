@@ -55,6 +55,9 @@ void	Tyre::Clear	(void)
 		rR[i]=0;
 		rTemp[i]=0;
 	}
+
+	Start = TDateTime();
+	Stop = TDateTime();
 }
 //---- End of Tyre(constructor) ---------------------------------------------
 

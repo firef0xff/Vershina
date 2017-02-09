@@ -8939,8 +8939,6 @@ object mfRB: TmfRB
         object tsSpeedCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1073#1072#1088#1072#1073#1072#1085#1072
           ImageIndex = 3
-          ExplicitLeft = 6
-          ExplicitTop = 27
           object pSpeedCalibrTtl: TPanel
             Left = 0
             Top = 0
@@ -8973,8 +8971,6 @@ object mfRB: TmfRB
             TabOrder = 1
             OnDrawCell = OnCalibrDrawCell
             OnExit = OnStringGridExit
-            ExplicitLeft = 2
-            ExplicitTop = 22
           end
           object leCurrentVSet: TLabeledEdit
             Left = 290
