@@ -1,10 +1,10 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #ifndef miniOPCH
 #define miniOPCH
 #include "opc.h"
 #include "def.c"
-#include <list.h>
+#include <list>
 #include <Classes.hpp>
 
 //типы
@@ -29,7 +29,7 @@ OPCITEMDEF		*pItems;		//массив с элементами группы
 OPCITEMRESULT   *pItemResult;	//указатель на элемент
 size_t			ItemsCount;		//количество элементов в группе
 };
-typedef list  <GroupPTRs*>::const_iterator Item;
+typedef std::list  <GroupPTRs*>::const_iterator Item;
 typedef unsigned __int64 GROUP_ID;
 enum types{tBOOL,tINT,tFLOAT};
 
@@ -50,7 +50,7 @@ private:
 	//данные
 	IOPCServer 		*pIOPCServer;	//указатель на OPC сервер
 
-	list  <GroupPTRs*> Groups;//Данные по группам сервера
+	std::list  <GroupPTRs*> Groups;//Данные по группам сервера
 	OPCHANDLE		GrpSrvHandle;
 	HRESULT		    *pErrors,*pRErrors,result;
 	UINT			qnr;

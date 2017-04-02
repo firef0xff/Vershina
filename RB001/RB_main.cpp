@@ -36,6 +36,7 @@ VSert      *VS      = new VSert; // сертификация скорости барабана
 LCalibr    *LdCA    = new LCalibr; // калибровка тензодатчика поз. А
 LCalibr    *LdCB    = new LCalibr; // калибровка тензодатчика поз. Б
 TPrinter   *pProtPrt = Printer(); // указатель на принтер
+char DecimalSeparator = '.';
 //---------------------------------------------------------------------------
 __fastcall TmfRB::TmfRB(TComponent* Owner)
     : TForm(Owner),closing(false)

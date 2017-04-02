@@ -5,7 +5,7 @@
 
 #include "Login.h"
 #include "MD5.h"
-#include <cstring.h>
+#include <cstring>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"

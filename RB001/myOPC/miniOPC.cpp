@@ -65,7 +65,7 @@ myOPC::~myOPC(void)
 	log+="Деструктор \n";
 	log+="Чистка списка подключенных групп \n";
 	#endif
-	for (list<GroupPTRs*>::iterator i=Groups.begin(); i!=Groups.end(); i++)
+	for (std::list<GroupPTRs*>::iterator i=Groups.begin(); i!=Groups.end(); i++)
 	{
     	delete (*i);
 	}

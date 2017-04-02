@@ -5,7 +5,7 @@
 
 #include "AppManagnent.h"
 #include "MD5.h"
-#include <cstring.h>
+#include <cstring>
 #include  "functions.h"
 #include "MD5.h"
 #include "GroupSelect.h"

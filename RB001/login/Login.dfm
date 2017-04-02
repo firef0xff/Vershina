@@ -65,10 +65,8 @@ object LogInwnd: TLogInwnd
     Width = 75
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1072
-    DoubleBuffered = True
     Kind = bkCancel
     NumGlyphs = 2
-    ParentDoubleBuffered = False
     TabOrder = 3
   end
   object BitBtn1: TBitBtn
@@ -78,7 +76,6 @@ object LogInwnd: TLogInwnd
     Height = 25
     Caption = #1055#1088#1080#1085#1103#1090#1100
     Default = True
-    DoubleBuffered = True
     Glyph.Data = {
       DE010000424DDE01000000000000760000002800000024000000120000000100
       0400000000006801000000000000000000001000000000000000000000000000
@@ -97,7 +94,6 @@ object LogInwnd: TLogInwnd
       333A333333333333333338330000333333333333333333333333333333333333
       0000}
     NumGlyphs = 2
-    ParentDoubleBuffered = False
     TabOrder = 4
     OnClick = BitBtn1Click
   end
