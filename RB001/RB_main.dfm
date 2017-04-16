@@ -5746,6 +5746,10 @@ object mfRB: TmfRB
         object tsProtocolB: TTabSheet
           Caption = #1058#1077#1082#1091#1097#1080#1081' '#1087#1088#1086#1090#1086#1082#1086#1083' '#1087#1086#1079'. '#1041
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pCurrentProtBTtl: TPanel
             Left = 2
             Top = -1
