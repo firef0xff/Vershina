@@ -381,6 +381,10 @@ object AppManagment: TAppManagment
           FixedRows = 0
           PopupMenu = pabGroups
           TabOrder = 1
+          ColWidths = (
+            120)
+          RowHeights = (
+            16)
         end
       end
       object Panel4: TPanel
@@ -411,6 +415,14 @@ object AppManagment: TAppManagment
           TabOrder = 0
           OnFixedCellClick = sgUsersFixedCellClick
           OnSelectCell = sgUsersSelectCell
+          ColWidths = (
+            16
+            16
+            16
+            16)
+          RowHeights = (
+            16
+            16)
         end
         object Panel5: TPanel
           Left = 0
@@ -441,10 +453,8 @@ object AppManagment: TAppManagment
       Height = 25
       Anchors = [akTop, akRight]
       Caption = #1054#1090#1084#1077#1085#1072
-      DoubleBuffered = True
       Kind = bkCancel
       NumGlyphs = 2
-      ParentDoubleBuffered = False
       TabOrder = 0
     end
     object BitBtn1: TBitBtn
@@ -455,7 +465,6 @@ object AppManagment: TAppManagment
       Anchors = [akTop, akRight]
       Caption = #1055#1088#1080#1085#1103#1090#1100
       Default = True
-      DoubleBuffered = True
       Glyph.Data = {
         DE010000424DDE01000000000000760000002800000024000000120000000100
         0400000000006801000000000000000000001000000000000000000000000000
@@ -475,7 +484,6 @@ object AppManagment: TAppManagment
         0000}
       ModalResult = 1
       NumGlyphs = 2
-      ParentDoubleBuffered = False
       TabOrder = 1
       OnClick = BitBtn1Click
     end

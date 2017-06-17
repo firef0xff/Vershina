@@ -41,7 +41,7 @@
 	Displ->Text=Value;
 	if (separator=="")
 	{
-		Decimal_Separator=DecimalSeparator;
+		Decimal_Separator=".";
 	}else
 	{
 		Decimal_Separator=separator;
@@ -124,9 +124,9 @@ void 	__fastcall TNum_Pannel::OKClick(TObject *Sender)
 	if (check_value)
 	{
 		String _val=Value;
-		if (Decimal_Separator!=DecimalSeparator)
+		if (Decimal_Separator!=".")
 		{
-		   _val=Replace(Value,Decimal_Separator,DecimalSeparator);
+		   _val=Replace(Value,Decimal_Separator,".");
 		}
 		double __val=_val.ToDouble();
 		if (__val<min_val||__val>max_val)
