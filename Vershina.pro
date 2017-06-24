@@ -18,6 +18,11 @@ HEADERS +=\
    src/support_functions/*.h\
    SQL/*.h\
    MD5/*.h\
+   OPC/opc.h\
+   OPC/miniOPC.h\
+   OPC/impl/*.h\
+   OPC/impl/cache/*.h\
+   COMPort/*.h\
 
 SOURCES +=\
    src/*.cpp\
@@ -30,6 +35,10 @@ SOURCES +=\
    src/support_functions/*.cpp\
    SQL/*.cpp\
    MD5/*.cpp\
+   OPC/opc_i.c\
+   OPC/impl/*.cpp\
+   OPC/impl/cache/*.cpp\
+   COMPort/*.cpp\
 
 
 OTHER_FILES +=\

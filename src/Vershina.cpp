@@ -5,8 +5,13 @@
 
 //---------------------------------------------------------------------------
 USEFORM("Vershina_main.cpp", mfRB);
+USEFORM("splash_screen\Head_band.cpp", Headband);
+USEFORM("login\Login.cpp", LogInwnd);
+USEFORM("login\dialogs\User_Data.cpp", UserData);
+USEFORM("login\AppManagnent.cpp", AppManagment);
+USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
    try
    { // Проверка не запущено ли уже приложение

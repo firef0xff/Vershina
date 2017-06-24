@@ -18,6 +18,7 @@
 #include "AppManagnent.h"
 #include "support_functions/functions.h"
 #include <memory>
+#include <algorithm>
 
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -1603,7 +1604,7 @@ void __fastcall TmfRB::onOPCControlStartExec(TObject *Sender)
 
 void __fastcall TmfRB::OPCControlStartExec(void)
 {
-   static OPCNewOK = true;
+   static bool OPCNewOK = true;
    LogPrintF(LogFName(), "Старт управления стендом");
    if (OPCNewOK)
    {
@@ -5773,7 +5774,7 @@ void __fastcall TmfRB::OnPump1On(TObject *Sender)
          {
             leMeasLoad->ReadOnly = true;
             leMeasLoad->Color = clSilver;
-            const slp = 500; // 500 мс для слипа
+            const int slp = 500; // 500 мс для слипа
             for (int i = 0; i < DELAY_TIME; i += slp)
             {
                Sleep(slp);
@@ -5874,7 +5875,7 @@ void __fastcall TmfRB::OnPump2On(TObject *Sender)
          {
             leMeasLoad->ReadOnly = true;
             leMeasLoad->Color = clSilver;
-            const slp = 500; // 500 мс для слипа
+            const int slp = 500; // 500 мс для слипа
             for (int i = 0; i < DELAY_TIME; i += slp)
             {
                Sleep(slp);
@@ -6000,7 +6001,7 @@ void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
    {
       pOPC->WriteGr3(Loading);
 #ifdef USEPROCESSDELAY
-      const slp = 500; // 500 мс для слипа
+      const int slp = 500; // 500 мс для слипа
       for (int i = 0; i < DELAY_TIME; i += slp)
       {
          Sleep(slp);
@@ -6095,7 +6096,7 @@ void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
    {
       pOPC->WriteGr3(Loading);
 #ifdef USEPROCESSDELAY
-      const slp = 500; // 500 мс для слипа
+      const int slp = 500; // 500 мс для слипа
       for (int i = 0; i < DELAY_TIME; i += slp)
       {
          Sleep(slp);
@@ -6758,7 +6759,7 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
    {
       pOPC->WriteGr3(Loading);
 #ifdef USEPROCESSDELAY
-      const slp = 500; // 500 мс для слипа
+      const int slp = 500; // 500 мс для слипа
       for (int i = 0; i < DELAY_TIME; i += slp)
       {
          Sleep(slp);
@@ -6847,7 +6848,7 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
    {
       pOPC->WriteGr3(Loading);
 #ifdef USEPROCESSDELAY
-      const slp = 500; // 500 мс для слипа
+      const int slp = 500; // 500 мс для слипа
       for (int i = 0; i < DELAY_TIME; i += slp)
       {
          Sleep(slp);
