@@ -9,7 +9,7 @@ class In
 {
 public:    
    virtual ~In(){}
-   virtual void Read() = 0;
+   virtual bool Read() = 0;
 };
 
 class Out

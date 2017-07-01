@@ -15,7 +15,7 @@ class GR1 : public InOut
 {
 public:
    void Write() override;
-   void Read() override;
+   bool Read() override;
    void Clear();
 
    //common

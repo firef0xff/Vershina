@@ -23,18 +23,18 @@ void GR1::Write()
 
    res = E_FAIL;
    while ( res == E_FAIL )
-      res = opc::miniOPC::Instance().WriteMass( mGroupID, BOOL_COUNT, INT_COUNT, static_cast<void*>( mIntData ), opc::tFLOAT );
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, BOOL_COUNT, INT_COUNT, static_cast<void*>( mIntData ), opc::tINT );
 
    res = E_FAIL;
    while ( res == E_FAIL )
       res = opc::miniOPC::Instance().WriteMass( mGroupID, BOOL_COUNT + INT_COUNT, FLOAT_COUNT, static_cast<void*>( mFloatData ), opc::tFLOAT );
 }
 
-void GR1::Read()
+bool GR1::Read()
 {
    OPCITEMSTATE* rez = opc::miniOPC::Instance().Read( mGroupID );
    if (!rez) //ошибка подключения..
-      return;
+      return false;
    for (size_t i = 0; i < BOOL_COUNT + INT_COUNT + FLOAT_COUNT; i++)
    {
       if ( i < BOOL_COUNT )
@@ -45,6 +45,7 @@ void GR1::Read()
          mFloatData[ i - BOOL_COUNT - INT_COUNT ] = rez[i].vDataValue.fltVal;
    }
    opc::miniOPC::Instance().OpcMassFree( mGroupID, rez );
+   return true;
 }
 
 void GR1::Clear()

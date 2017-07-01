@@ -110,58 +110,6 @@ int prog_step_T[MAXNUMOFSTEPS] =
 float Tsettings[2][MAXNUMOFSTEPS] =
 {0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
-// переменные группы CtrlGr2 ------------------------------------------------
-// Блок DB20 - общие параметры
-float fDB20[GR2FLOATITEMSNUM];
-float *fakt_speed = &fDB20[0]; // DB20,REAL2 фактическая скорость
-float *set_speed = &fDB20[1]; // DB20,REAL6 заданная скорость
-float *fakt_distance = &fDB20[2]; // DB20,REAL10 общий пробег
-float *fakt_distance_1 = &fDB20[3]; // DB20,REAL18 факт. пробег 1
-float *fakt_loading_1 = &fDB20[4]; // DB20,REAL22 факт. нагрузка 1
-float *fakt_radius_1 = &fDB20[5]; // DB20,REAL30 факт. радиус 1
-float *fakt_temper_1 = &fDB20[6]; // DB20,REAL34 факт. температура 1
-float *set_speed_1 = &fDB20[7];
-// DB20,REAL46 заданная скорость 1 на текущем шаге
-float *set_loading_1 = &fDB20[8];
-// DB20,REAL50 заданная нагрузка 1 на текущем шаге
-float *fakt_distance_2 = &fDB20[9]; // DB20,REAL58 факт. пробег 2
-float *fakt_loading_2 = &fDB20[10]; // DB20,REAL62 факт. нагрузка 2
-float *fakt_radius_2 = &fDB20[11]; // DB20,REAL70 факт. радиус 2
-float *fakt_temper_2 = &fDB20[12]; // DB20,REAL74 факт. температура 2
-float *set_speed_2 = &fDB20[13];
-// DB20,REAL86 заданная скорость 2 на текущем шаге
-float *set_loading_2 = &fDB20[14];
-// DB20,REAL90 заданная нагрузка 2 на текущем шаге
-float *next_step_distance1 = &fDB20[15];
-// DB20,REAL156 номер следующего шага опроса по пробегу 1
-float *next_step_distance2 = &fDB20[16];
-// DB20,REAL160 номер следующего шага опроса по пробегу 2
-float *next_speed1 = &fDB20[17]; // DB20,REAL164 скорость на следующем шаге1
-float *next_speed2 = &fDB20[18]; // DB20,REAL168 скорость на следующем шаге2
-float *next_loading1 = &fDB20[19]; // DB20,REAL172 нагрузка на следующем шаге1
-float *next_loading2 = &fDB20[20]; // DB20,REAL176 нагрузка на следующем шаге2
-float *next_set_distance1 = &fDB20[21]; // DB20,REAL196
-float *next_set_distance2 = &fDB20[22]; // DB20,REAL200
-
-int i2DB20[GR2INTITEMSNUM];
-int *next_set_time1 = &i2DB20[0]; // DB20,DINT188
-int *next_set_time2 = &i2DB20[1]; // DB20,DINT192
-// адреса переменных в блоке DB20
-wchar_t *Gr2ItemsNme[GR2ITEMSNUM] =
-{L"S7:[S7 connection_4]DB20,REAL2", L"S7:[S7 connection_4]DB20,REAL6",
-   L"S7:[S7 connection_4]DB20,REAL10", L"S7:[S7 connection_4]DB20,REAL18",
-   L"S7:[S7 connection_4]DB20,REAL22", L"S7:[S7 connection_4]DB20,REAL30",
-   L"S7:[S7 connection_4]DB20,REAL34", L"S7:[S7 connection_4]DB20,REAL46",
-   L"S7:[S7 connection_4]DB20,REAL50", L"S7:[S7 connection_4]DB20,REAL58",
-   L"S7:[S7 connection_4]DB20,REAL62", L"S7:[S7 connection_4]DB20,REAL70",
-   L"S7:[S7 connection_4]DB20,REAL74", L"S7:[S7 connection_4]DB20,REAL86",
-   L"S7:[S7 connection_4]DB20,REAL90", L"S7:[S7 connection_4]DB20,REAL156",
-   L"S7:[S7 connection_4]DB20,REAL160", L"S7:[S7 connection_4]DB20,REAL164",
-   L"S7:[S7 connection_4]DB20,REAL168", L"S7:[S7 connection_4]DB20,REAL172",
-   L"S7:[S7 connection_4]DB20,REAL176", L"S7:[S7 connection_4]DB20,REAL196",
-   L"S7:[S7 connection_4]DB20,REAL200", L"S7:[S7 connection_4]DB20,DINT188",
-   L"S7:[S7 connection_4]DB20,DINT192"};
-// End of CtrlGr2 -----------------------------------------------------------
 // переменные группы CtrlGr3 ------------------------------------------------
 // блок DB10
 int iDB10[GR3INTITEMSNUM];

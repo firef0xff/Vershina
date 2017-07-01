@@ -87,39 +87,7 @@ extern float Tsettings[2][MAXNUMOFSTEPS];
 extern bool switch_Carriage1;
 extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-// переменные группы CtrlGr2 ------------------------------------------------
-// Блок DB20 - общие параметры
-extern float fDB20[GR2FLOATITEMSNUM];
-extern float *fakt_speed; // фактическая скорость
-extern float *set_speed; // заданная скорость на текущем шаге
-extern float *fakt_distance; // факт. (общий) пробег
-extern float *fakt_distance_1; // факт. пробег 1
-extern float *fakt_loading_1; // факт. нагрузка 1
-extern float *fakt_radius_1; // факт. радиус 1
-extern float *fakt_temper_1; // факт. температура 1
-extern float *set_speed_1; // заданная скорость 1 на текущем шаге
-extern float *set_loading_1; // заданная нагрузка 1 на текущем шаге
-extern float *fakt_distance_2; // факт. пробег 2
-extern float *fakt_loading_2; // факт. нагрузка 2
-extern float *fakt_radius_2; // факт. радиус 2
-extern float *fakt_temper_2; // факт. температура 2
-extern float *set_speed_2; // заданная скорость 2 на текущем шаге
-extern float *set_loading_2; // заданная нагрузка 2 на текущем шаге
-extern float *next_step_distance1; // следующий шаг по пробегу 1
-extern float *next_step_distance2; // следующий шаг по пробегу 2
-extern float *next_speed1; // скорость на следующем шаге1
-extern float *next_speed2; // скорость на следующем шаге2
-extern float *next_loading1; // нагрузка на следующем шаге1
-extern float *next_loading2; // нагрузка на следующем шаге2
-extern float *next_set_distance1; // DB20,REAL196 дистанция следующего шага
-extern float *next_set_distance2; // DB20,REAL200 дистанция следующего шага
 
-extern int i2DB20[GR2INTITEMSNUM];
-extern int *next_set_time1; // DB20,DINT188  время следующего шага
-extern int *next_set_time2; // DB20,DINT192   время следующего шага
-// адреса переменных в блоке DB20
-extern wchar_t *Gr2ItemsNme[GR2ITEMSNUM];
-// End of CtrlGr2 -----------------------------------------------------------
 // переменные группы CtrlGr3 ------------------------------------------------
 // блок DB10
 extern int iDB10[GR3INTITEMSNUM];

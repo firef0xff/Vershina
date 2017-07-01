@@ -221,15 +221,11 @@ __fastcall TmfRB::~TmfRB()
 
 void __fastcall TmfRB::OnCommonParamReadExec(TObject *Sender)
 {
-   cpu::CpuMemory::Instance().mGr1.Read();
-   pOPC->ReadGr2();
+   auto &inst = cpu::CpuMemory::Instance();
+   inst.mGr1.Read();
+   inst.mGr2.Read();
    ShowStatus();
    ShowCommonParam();
-   // *A1[0]=10; *Q1[0]=1.25;
-   // *A2[0]=10; *Q2[0]=1.125;
-   // pOPC->WriteGr12();
-   // pOPC->WriteGr13();
-   // LogPrint("GR11, 12 write");
 }
 // ---------------------------------------------------------------------------
 
@@ -1294,6 +1290,7 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
 {
    // если по поз. 1 идет испытание обрабатывать шаг
    auto &gr1 = cpu::CpuMemory::Instance().mGr1;
+   auto &gr2 = cpu::CpuMemory::Instance().mGr2;
    if (CurrSMode1 == 2)
    {
       if (old_step_1 != cur_step_1)
@@ -1339,18 +1336,18 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
             stP2CParL4C2->Caption = FloatToStrF(old_load_1, ffFixed, 7, 2);
             stP2CParL5C2->Caption = FloatToStrF(old_temp_1, ffFixed, 5, 1);
             stP2CParL6C2->Caption = FloatToStrF(old_radius_1, ffFixed, 5, 1);
-            stP2CParL7C2->Caption = FloatToStrF(*next_step_distance1, ffFixed, 7, 2);
+            stP2CParL7C2->Caption = FloatToStrF(gr2.next_step_distance1, ffFixed, 7, 2);
          }
       }
       old_step_1 = cur_step_1;
       if (TyreA->TestMode == 0)
       {
-         stP1CParL1C3->Caption = mSecToHMSStr(*next_set_time1);
+         stP1CParL1C3->Caption = mSecToHMSStr(gr2.next_set_time1);
          // время след шага
       }
       else
       {
-         stP1CParL2C3->Caption = FloatToStrF(*next_set_distance1,
+         stP1CParL2C3->Caption = FloatToStrF(gr2.next_set_distance1,
          ffFixed, 7, 2); // путь след шага
       }
    }
@@ -1419,18 +1416,18 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
             stP2CParL4C4->Caption = FloatToStrF(old_load_2, ffFixed, 7, 2);
             stP2CParL5C4->Caption = FloatToStrF(old_temp_2, ffFixed, 5, 1);
             stP2CParL6C4->Caption = FloatToStrF(old_radius_2, ffFixed, 5, 1);
-            stP2CParL7C4->Caption = FloatToStrF(*next_step_distance2, ffFixed, 7, 2);
+            stP2CParL7C4->Caption = FloatToStrF(gr2.next_step_distance2, ffFixed, 7, 2);
          }
       }
       old_step_2 = cur_step_2;
       if (TyreB->TestMode == 0)
       {
-         stP1CParL1C6->Caption = mSecToHMSStr(*next_set_time2);
+         stP1CParL1C6->Caption = mSecToHMSStr(gr2.next_set_time2);
          // время след шага
       }
       else
       {
-         stP1CParL2C6->Caption = FloatToStrF(*next_set_distance2,
+         stP1CParL2C6->Caption = FloatToStrF(gr2.next_set_distance2,
          ffFixed, 7, 2); // путь след шага
       }
    }
@@ -1478,24 +1475,24 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
          stP1CParL2C4->Caption = FloatToStrF(*S_end_cycle_2, ffFixed, 7, 2);
       else
          stP1CParL2C4->Caption = "";
-      stP1CParL2C2->Caption = FloatToStrF(*fakt_distance_1, ffFixed, 7, 2);
-      stP1CParL2C5->Caption = FloatToStrF(*fakt_distance_2, ffFixed, 7, 2);
-      stP1CParL3C1->Caption = FloatToStrF(*set_speed_1, ffFixed, 7, 2);
-      stP1CParL3C4->Caption = FloatToStrF(*set_speed_2, ffFixed, 7, 2);
-      stP1CParL3C2->Caption = FloatToStrF(*fakt_speed, ffFixed, 7, 2);
-      stP1CParL3C5->Caption = FloatToStrF(*fakt_speed, ffFixed, 7, 2);
-      stP1CParL3C3->Caption = FloatToStrF(*next_speed1, ffFixed, 7, 2);
-      stP1CParL3C6->Caption = FloatToStrF(*next_speed2, ffFixed, 7, 2);
-      stP1CParL4C1->Caption = FloatToStrF(*set_loading_1, ffFixed, 7, 2);
-      stP1CParL4C4->Caption = FloatToStrF(*set_loading_2, ffFixed, 7, 2);
-      stP1CParL4C2->Caption = FloatToStrF(*fakt_loading_1, ffFixed, 7, 2);
-      stP1CParL4C5->Caption = FloatToStrF(*fakt_loading_2, ffFixed, 7, 2);
-      stP1CParL4C3->Caption = FloatToStrF(*next_loading1, ffFixed, 7, 2);
-      stP1CParL4C6->Caption = FloatToStrF(*next_loading2, ffFixed, 7, 2);
-      stP1CParL6C2->Caption = FloatToStrF(*fakt_temper_1, ffFixed, 5, 1);
-      stP1CParL6C5->Caption = FloatToStrF(*fakt_temper_2, ffFixed, 5, 1);
-      stP1CParL7C2->Caption = FloatToStrF(*fakt_radius_1, ffFixed, 5, 1);
-      stP1CParL7C5->Caption = FloatToStrF(*fakt_radius_2, ffFixed, 5, 1);
+      stP1CParL2C2->Caption = FloatToStrF(gr2.fakt_distance_1, ffFixed, 7, 2);
+      stP1CParL2C5->Caption = FloatToStrF(gr2.fakt_distance_2, ffFixed, 7, 2);
+      stP1CParL3C1->Caption = FloatToStrF(gr2.set_speed_1, ffFixed, 7, 2);
+      stP1CParL3C4->Caption = FloatToStrF(gr2.set_speed_2, ffFixed, 7, 2);
+      stP1CParL3C2->Caption = FloatToStrF(gr2.fakt_speed, ffFixed, 7, 2);
+      stP1CParL3C5->Caption = FloatToStrF(gr2.fakt_speed, ffFixed, 7, 2);
+      stP1CParL3C3->Caption = FloatToStrF(gr2.next_speed1, ffFixed, 7, 2);
+      stP1CParL3C6->Caption = FloatToStrF(gr2.next_speed2, ffFixed, 7, 2);
+      stP1CParL4C1->Caption = FloatToStrF(gr2.set_loading_1, ffFixed, 7, 2);
+      stP1CParL4C4->Caption = FloatToStrF(gr2.set_loading_2, ffFixed, 7, 2);
+      stP1CParL4C2->Caption = FloatToStrF(gr2.fakt_loading_1, ffFixed, 7, 2);
+      stP1CParL4C5->Caption = FloatToStrF(gr2.fakt_loading_2, ffFixed, 7, 2);
+      stP1CParL4C3->Caption = FloatToStrF(gr2.next_loading1, ffFixed, 7, 2);
+      stP1CParL4C6->Caption = FloatToStrF(gr2.next_loading2, ffFixed, 7, 2);
+      stP1CParL6C2->Caption = FloatToStrF(gr2.fakt_temper_1, ffFixed, 5, 1);
+      stP1CParL6C5->Caption = FloatToStrF(gr2.fakt_temper_2, ffFixed, 5, 1);
+      stP1CParL7C2->Caption = FloatToStrF(gr2.fakt_radius_1, ffFixed, 5, 1);
+      stP1CParL7C5->Caption = FloatToStrF(gr2.fakt_radius_2, ffFixed, 5, 1);
       stP1CParL8C1->Caption = String(gr1.step_change_1);
       stP1CParL8C4->Caption = String(gr1.step_change_2);
       stP1CParL8C3->Caption = String(gr1.next_step_change1);
@@ -1504,16 +1501,16 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
    // отображение на вкладке "РУЧНОЙ РЕЖИМ"
    if (pcRB->ActivePage == tsManual)
    {
-      leCurrentDrumSpeed->Text = FloatToStrF(*fakt_speed, ffFixed, 6, 2);
-      tbCurrentDrumSpeed->Position = tbCurrentDrumSpeed->Max -int(*fakt_speed);
-      leCurrentLoad1->Text = FloatToStrF(*fakt_loading_1, ffFixed, 7, 2);
-      tbCurrentLoad1->Position = tbCurrentLoad1->Max -int(*fakt_loading_1);
-      leCurrentLoad2->Text = FloatToStrF(*fakt_loading_2, ffFixed, 7, 2);
-      tbCurrentLoad2->Position = tbCurrentLoad2->Max -int(*fakt_loading_2);
-      leCurrentT1->Text = FloatToStrF(*fakt_temper_1, ffFixed, 5, 1);
-      leCurrentT2->Text = FloatToStrF(*fakt_temper_2, ffFixed, 5, 1);
-      leCurrentR1->Text = FloatToStrF(*fakt_radius_1, ffFixed, 5, 1);
-      leCurrentR2->Text = FloatToStrF(*fakt_radius_2, ffFixed, 5, 1);
+      leCurrentDrumSpeed->Text = FloatToStrF(gr2.fakt_speed, ffFixed, 6, 2);
+      tbCurrentDrumSpeed->Position = tbCurrentDrumSpeed->Max -static_cast<int>(gr2.fakt_speed);
+      leCurrentLoad1->Text = FloatToStrF(gr2.fakt_loading_1, ffFixed, 7, 2);
+      tbCurrentLoad1->Position = tbCurrentLoad1->Max -static_cast<int>(gr2.fakt_loading_1);
+      leCurrentLoad2->Text = FloatToStrF(gr2.fakt_loading_2, ffFixed, 7, 2);
+      tbCurrentLoad2->Position = tbCurrentLoad2->Max -static_cast<int>(gr2.fakt_loading_2);
+      leCurrentT1->Text = FloatToStrF(gr2.fakt_temper_1, ffFixed, 5, 1);
+      leCurrentT2->Text = FloatToStrF(gr2.fakt_temper_2, ffFixed, 5, 1);
+      leCurrentR1->Text = FloatToStrF(gr2.fakt_radius_1, ffFixed, 5, 1);
+      leCurrentR2->Text = FloatToStrF(gr2.fakt_radius_2, ffFixed, 5, 1);
    }
    // отображение на вкладке "АТТЕСТАЦИЯ"
    if (pcRB->ActivePage == tsCalibration)
@@ -1521,27 +1518,27 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
       if (pcCalibration->ActivePage == tsSpeedCalibr)
       {
          /* if(*DrumOn) */
-         leReadV->Text = FloatToStrF(*fakt_speed, ffFixed, 6, 2);
+         leReadV->Text = FloatToStrF(gr2.fakt_speed, ffFixed, 6, 2);
          // else       leReadV->Text="0.0";
       }
       else if (pcCalibration->ActivePage == tsLoadCalibr)
       {
          /* if(*KeepLoad1) */
-         leReadLoadA->Text = FloatToStrF(*fakt_loading_1, ffFixed, 6, 2);
+         leReadLoadA->Text = FloatToStrF(gr2.fakt_loading_1, ffFixed, 6, 2);
          // else          leReadLoadA->Text="0.0";
          /* if(*KeepLoad2) */
-         leReadLoadB->Text = FloatToStrF(*fakt_loading_2, ffFixed, 6, 2);
+         leReadLoadB->Text = FloatToStrF(gr2.fakt_loading_2, ffFixed, 6, 2);
          // else          leReadLoadB->Text="0.0";
       }
       else if (pcCalibration->ActivePage == tsRadiusCalibr)
       {
-         leReadRA->Text = FloatToStrF(*fakt_radius_1, ffFixed, 6, 2); //
-         leReadRB->Text = FloatToStrF(*fakt_radius_2, ffFixed, 6, 2); //
+         leReadRA->Text = FloatToStrF(gr2.fakt_radius_1, ffFixed, 6, 2); //
+         leReadRB->Text = FloatToStrF(gr2.fakt_radius_2, ffFixed, 6, 2); //
       }
       else if (pcCalibration->ActivePage == tsTempCalibr)
       {
-         leReadTA->Text = FloatToStrF(*fakt_temper_1, ffFixed, 6, 2); //
-         leReadTB->Text = FloatToStrF(*fakt_temper_2, ffFixed, 6, 2); //
+         leReadTA->Text = FloatToStrF(gr2.fakt_temper_1, ffFixed, 6, 2); //
+         leReadTB->Text = FloatToStrF(gr2.fakt_temper_2, ffFixed, 6, 2); //
       }
    }
    // отображение на вкладке "КАЛИБРОВКА"
@@ -1550,10 +1547,10 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
       if (pcSert->ActivePage == tsLoadSert)
       {
          /* if(*KeepLoad1) */
-         leReadLoadSertA->Text = FloatToStrF(*fakt_loading_1, ffFixed, 6, 2);
+         leReadLoadSertA->Text = FloatToStrF(gr2.fakt_loading_1, ffFixed, 6, 2);
          // else          leReadLoadSertA->Text="0.0";
          /* if(*KeepLoad2) */
-         leReadLoadSertB->Text = FloatToStrF(*fakt_loading_2, ffFixed, 6, 2);
+         leReadLoadSertB->Text = FloatToStrF(gr2.fakt_loading_2, ffFixed, 6, 2);
          // else          leReadLoadSertB->Text="0.0";
       }
       if (pcSert->ActivePage == tsDrumSpeedSert)
@@ -1617,8 +1614,9 @@ void __fastcall TmfRB::OPCControlStartExec(void)
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
       // прочитать состояние и установить состояние на панели
       auto &gr1 = cpu::CpuMemory::Instance().mGr1;
+      auto &gr2 = cpu::CpuMemory::Instance().mGr2;
       gr1.Read();
-      pOPC->ReadGr2();
+      gr2.Read();
       pOPC->ReadGr3();
       // определение и печать текущих режимов
       old_step_1 = gr1.step_write_1;
@@ -1958,12 +1956,14 @@ void __fastcall TmfRB::OnOPCCmd(TMessage& wm)
 {
    LogPrint("OnOPCCmd procedure!", clOlive);
    auto &gr1 = cpu::CpuMemory::Instance().mGr1;
+   auto &gr2 = cpu::CpuMemory::Instance().mGr2;
    switch (wm.WParam)
    {
    case READGR1:
-         gr1.Read();
-      if (pOPC->ReadGr2())
+      if( gr1.Read() && gr2.Read() )
+      {
          ShowStatus();
+      }
       else
       {
          LogMess = "ReadGr1 error!";
@@ -1983,6 +1983,7 @@ void __fastcall TmfRB::OnReadCycleTimer(TObject *Sender)
 {
    static int connection_try = 0;
    auto &gr1 = cpu::CpuMemory::Instance().mGr1;
+   auto &gr2 = cpu::CpuMemory::Instance().mGr2;
    if (!StendConnection)
    {
       connection_try++;
@@ -2001,23 +2002,23 @@ void __fastcall TmfRB::OnReadCycleTimer(TObject *Sender)
       sbRB->Panels->Items[1]->Text = "Cnt=" + String(NextCycleCount());
       if (CurrSMode1 == 2)
       {
-         cur_speed_1 = *fakt_speed;
-         cur_dist_1 = *fakt_distance_1;
+         cur_speed_1 = gr2.fakt_speed;
+         cur_dist_1 = gr2.fakt_distance_1;
          cur_time_1 = gr1.fakt_time_1;
-         cur_load_1 = *fakt_loading_1;
-         cur_radius_1 = *fakt_radius_1;
-         cur_temp_1 = *fakt_temper_1;
+         cur_load_1 = gr2.fakt_loading_1;
+         cur_radius_1 = gr2.fakt_radius_1;
+         cur_temp_1 = gr2.fakt_temper_1;
          cur_step_1 = gr1.step_write_1;
       }
 
       if (CurrSMode2 == 2)
       {
-         cur_speed_2 = *fakt_speed;
-         cur_dist_2 = *fakt_distance_2;
+         cur_speed_2 = gr2.fakt_speed;
+         cur_dist_2 = gr2.fakt_distance_2;
          cur_time_2 = gr1.fakt_time_2;
-         cur_load_2 = *fakt_loading_2;
-         cur_radius_2 = *fakt_radius_2;
-         cur_temp_2 = *fakt_temper_2;
+         cur_load_2 = gr2.fakt_loading_2;
+         cur_radius_2 = gr2.fakt_radius_2;
+         cur_temp_2 = gr2.fakt_temper_2;
          cur_step_2 = gr1.step_write_2;
       }
 
@@ -3186,10 +3187,10 @@ void __fastcall TmfRB::OnGetEditMask(TObject *Sender, int ACol, int ARow,
       switch (ACol)
       {
       case 1:
-         Value = "!999\,99;1;_";
+         Value = "!999,99;1;_";
          break;
       case 2:
-         Value = "!999\,99;1;_";
+         Value = "!999,99;1;_";
          break;
       case 3:
          Value = "!999;1;_";
@@ -7784,7 +7785,7 @@ bool TmfRB::CheckLoad(double load, float& value, TColor& color)
 
 bool TmfRB::CheckSpeed(double Speed, float& value, TColor& color)
 {
-   bool res = Speed >= MIN_SPEED && Speed <= MAX_SPEED;
+   bool res = CheckSpeed( Speed );
    if (res)
    {
       value = Speed;
@@ -7802,6 +7803,7 @@ bool TmfRB::CheckLoad(double load)
 }
 bool TmfRB::CheckSpeed(double Speed)
 {
+   return Speed >= MIN_SPEED && Speed <= MAX_SPEED;
 }
 
 bool TmfRB::CheckTime(int Time)
