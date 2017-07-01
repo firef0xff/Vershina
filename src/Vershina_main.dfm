@@ -8640,10 +8640,6 @@ object mfRB: TmfRB
     object tsCalibration: TTabSheet
       Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pcCalibration: TPageControl
         Left = 0
         Top = 0
@@ -9928,10 +9924,6 @@ object mfRB: TmfRB
         object tsSpeedCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1073#1072#1088#1072#1073#1072#1085#1072
           ImageIndex = 3
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pSpeedCalibrTtl: TPanel
             Left = 0
             Top = 0

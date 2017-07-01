@@ -15,6 +15,7 @@ HEADERS +=\
    src/cpu/data_block_base.h\
    src/cpu/data/gr1.h\
    src/cpu/data/gr2.h\
+   src/cpu/data/gr3.h\
    src/login/*.h\
    src/login/dialogs/*.h\
    src/opc/*.h\
@@ -36,6 +37,7 @@ SOURCES +=\
    src/cpu/cpu_memory.cpp\
    src/cpu/data/gr1.cpp\
    src/cpu/data/gr2.cpp\
+   src/cpu/data/gr3.cpp\
    src/opc/*.c\
    src/opc/*.cpp\
    src/sert/*.cpp\

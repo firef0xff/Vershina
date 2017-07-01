@@ -88,54 +88,6 @@ extern bool switch_Carriage1;
 extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
-// переменные группы CtrlGr3 ------------------------------------------------
-// блок DB10
-extern int iDB10[GR3INTITEMSNUM];
-extern int *T_end_cycle_1; // DB10,DINT10 Тип цикла 1
-extern int *T_end_cycle_2; // DB10,DINT46 Тип цикла 2
-extern int *type_cycle_1;
-// DB10,INT4 Тип цикла 1                  S7:[S7 connection_4]DB10,INT4
-extern int *StepsQty1; // DB10,INT34 Количество шагов программы 1
-extern int *PollsQty1; // DB10,INT36 Количество опросов 1
-extern int *type_cycle_2;
-// DB10,INT40 Тип цикла 2                 S7:[S7 connection_4]DB10,INT4
-extern int *StepsQty2; // DB10,INT70 Количество шагов программы 1
-extern int *PollsQty2; // DB10,INT72 Количество опросов 1
-extern float fDB10[GR3FLTITEMSNUM];
-extern float *S_end_cycle_1;
-// DB10,REAL18 Конечный пробег цикла 1    S7:[S7 connection_4]DB10,REAL18
-extern float *DrumSpeed; // DB10,REAL22 Скорость барабана
-extern float *Loading_1; // DB10,REAL26 Нагрузка 1
-extern float *Radius_1; // DB10,REAL30 Радиус 1
-extern float *S_end_cycle_2;
-// DB10,REAL54 Конечный пробег цикла 2    S7:[S7 connection_4]DB10,REAL18
-extern float *Loading_2; // DB10,REAL62 Нагрузка 2
-extern float *Radius_2; // DB10,REAL66 Радиус 2
-extern float *CorrASetSpeed; // DB10,REAL74 Корекция А по заданию скорости
-extern float *CorrBSetSpeed; // DB10,REAL78 Корекция Б по заданию скорости
-extern float *CorrAMeasSpeed; // DB10,REAL82 Корекция А по измерению скорости
-extern float *CorrBMeasSpeed; // DB10,REAL86 Корекция Б по измерению скорости
-extern float *Temp1LowLimit; // DB10,REAL90 Нижний предел датчика температуры 1
-extern float *Temp1UpLimit; // DB10,REAL94 Верхний предел датчика температуры 1
-extern float *CorrAMeasLoad1; // DB10,REAL98 Корекция А по измерению  нагрузки 1
-extern float *CorrBMeasLoad1; // DB10,REAL102 Корекция Б по измерению нагрузки 1
-extern float *Temp2LowLimit; // DB10,REAL106 Нижний предел датчика температуры 2
-extern float *Temp2UpLimit; // DB10,REAL110 Верхний предел датчика температуры 2
-extern float *CorrAMeasLoad2;
-// DB10,REAL114 Корекция А по измерению  нагрузки 2
-extern float *CorrBMeasLoad2; // DB10,REAL118 Корекция Б по измерению нагрузки 2
-extern float *Rad1LowLimit;
-// DB10,REAL122 Нижний предел измерений датчика радиуса 1
-extern float *Rad1UpLimit;
-// DB10,REAL126 Верхний предел измерений датчика радиуса 1
-extern float *Rad2LowLimit;
-// DB10,REAL130 Нижний предел измерений датчика радиуса 2
-extern float *Rad2UpLimit;
-// DB10,REAL134 Верхний предел измерений датчика радиуса 2
-
-// адреса переменных в группе 3
-extern wchar_t *Gr3ItemsNme[GR3ITEMSNUM];
-// End of CtrlGr3 -----------------------------------------------------------
 // переменные группы CtrlGr4 ------------------------------------------------
 // блок DB8
 extern float poll_step_SA[MAXNUMOFPOLLS];

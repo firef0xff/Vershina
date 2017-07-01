@@ -110,79 +110,7 @@ int prog_step_T[MAXNUMOFSTEPS] =
 float Tsettings[2][MAXNUMOFSTEPS] =
 {0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
-// переменные группы CtrlGr3 ------------------------------------------------
-// блок DB10
-int iDB10[GR3INTITEMSNUM];
-int *T_end_cycle_1 = &iDB10[0]; // DB10,DINT10 Конечное время цикла 1
-int *T_end_cycle_2 = &iDB10[1]; // DB10,DINT46 Конечное время цикла 2
-int *type_cycle_1 = &iDB10[2];
-// DB10,INT4 Тип цикла 1                  S7:[S7 connection_4]DB10,INT4
-int *StepsQty1 = &iDB10[3]; // DB10,INT34 Количество шагов программы 1
-int *PollsQty1 = &iDB10[4]; // DB10,INT36 Количество опросов 1
-int *type_cycle_2 = &iDB10[5];
-// DB10,INT40 Тип цикла 2                 S7:[S7 connection_4]DB10,INT4
-int *StepsQty2 = &iDB10[6]; // DB10,INT70 Количество шагов программы 1
-int *PollsQty2 = &iDB10[7]; // DB10,INT72 Количество опросов 1
-float fDB10[GR3FLTITEMSNUM];
-float *S_end_cycle_1 = &fDB10[0];
-// DB10,REAL18 Конечный пробег цикла 1    S7:[S7 connection_4]DB10,REAL18
-float *DrumSpeed = &fDB10[1]; // DB10,REAL22 Скорость барабана
-float *Loading_1 = &fDB10[2]; // DB10,REAL26 Нагрузка 1
-float *Radius_1 = &fDB10[3]; // DB10,REAL30 Радиус 1
-float *S_end_cycle_2 = &fDB10[4];
-// DB10,REAL54 Конечный пробег цикла 2    S7:[S7 connection_4]DB10,REAL18
-float *Loading_2 = &fDB10[5]; // DB10,REAL62 Нагрузка 2
-float *Radius_2 = &fDB10[6]; // DB10,REAL66 Радиус 2
-float *CorrASetSpeed = &fDB10[7]; // DB10,REAL74 Корекция А по заданию скорости
-float *CorrBSetSpeed = &fDB10[8]; // DB10,REAL78 Корекция Б по заданию скорости
-float *CorrAMeasSpeed = &fDB10[9];
-// DB10,REAL82 Корекция А по измерению скорости
-float *CorrBMeasSpeed = &fDB10[10];
-// DB10,REAL86 Корекция Б по измерению скорости
-float *Temp1LowLimit = &fDB10[11];
-// DB10,REAL90 Нижний предел датчика температуры 1
-float *Temp1UpLimit = &fDB10[12];
-// DB10,REAL94 Верхний предел датчика температуры 1
-float *CorrAMeasLoad1 = &fDB10[13];
-// DB10,REAL98 Корекция А по измерению  нагрузки 1
-float *CorrBMeasLoad1 = &fDB10[14];
-// DB10,REAL102 Корекция Б по измерению нагрузки 1
-float *Temp2LowLimit = &fDB10[15];
-// DB10,REAL106 Нижний предел датчика температуры 2
-float *Temp2UpLimit = &fDB10[16];
-// DB10,REAL110 Верхний предел датчика температуры 2
-float *CorrAMeasLoad2 = &fDB10[17];
-// DB10,REAL114 Корекция А по измерению  нагрузки 2
-float *CorrBMeasLoad2 = &fDB10[18];
-// DB10,REAL118 Корекция Б по измерению нагрузки 2
-float *Rad1LowLimit = &fDB10[19];
-// DB10,REAL122 Нижний предел измерений датчика радиуса 1
-float *Rad1UpLimit = &fDB10[20];
-// DB10,REAL126 Верхний предел измерений датчика радиуса 1
-float *Rad2LowLimit = &fDB10[21];
-// DB10,REAL130 Нижний предел измерений датчика радиуса 2
-float *Rad2UpLimit = &fDB10[22];
-// DB10,REAL134 Верхний предел измерений датчика радиуса 2
 
-// адреса переменных в блоке DB10
-wchar_t *Gr3ItemsNme[GR3ITEMSNUM] =
-{L"S7:[S7 connection_4]DB10,DINT10", L"S7:[S7 connection_4]DB10,DINT46",
-   L"S7:[S7 connection_4]DB10,INT4", L"S7:[S7 connection_4]DB10,INT34",
-   L"S7:[S7 connection_4]DB10,INT36", L"S7:[S7 connection_4]DB10,INT40",
-   L"S7:[S7 connection_4]DB10,INT70", L"S7:[S7 connection_4]DB10,INT72",
-   L"S7:[S7 connection_4]DB10,REAL18", L"S7:[S7 connection_4]DB10,REAL22",
-   L"S7:[S7 connection_4]DB10,REAL26", L"S7:[S7 connection_4]DB10,REAL30",
-   L"S7:[S7 connection_4]DB10,REAL54", L"S7:[S7 connection_4]DB10,REAL62",
-   L"S7:[S7 connection_4]DB10,REAL66", L"S7:[S7 connection_4]DB10,REAL74",
-   L"S7:[S7 connection_4]DB10,REAL78", L"S7:[S7 connection_4]DB10,REAL82",
-   L"S7:[S7 connection_4]DB10,REAL86", L"S7:[S7 connection_4]DB10,REAL90",
-   L"S7:[S7 connection_4]DB10,REAL94", L"S7:[S7 connection_4]DB10,REAL98",
-   L"S7:[S7 connection_4]DB10,REAL102", L"S7:[S7 connection_4]DB10,REAL106",
-   L"S7:[S7 connection_4]DB10,REAL110", L"S7:[S7 connection_4]DB10,REAL114",
-   L"S7:[S7 connection_4]DB10,REAL118", L"S7:[S7 connection_4]DB10,REAL122",
-   L"S7:[S7 connection_4]DB10,REAL126", L"S7:[S7 connection_4]DB10,REAL130",
-   L"S7:[S7 connection_4]DB10,REAL134", };
-// End of CtrlGr3 -----------------------------------------------------------
 // переменные группы CtrlGr4 ------------------------------------------------
 // блок DB8
 float poll_step_SA[MAXNUMOFPOLLS];
