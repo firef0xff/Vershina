@@ -8,13 +8,13 @@
 #include "Common.h"
 #include "opcrw.h"
 #include <vector>
+#include "cpu_memory.h"
 
 #pragma package(smart_init)
 
 __fastcall OPCRW::OPCRW(void) // конструктор
 {
    pServerName = L"OPC.SimaticNET";
-   pGr1Name = L"Gr1Bool";
    pGr2Name = L"Gr2DB20";
    pGr3Name = L"Gr3DB10";
    pGr4Name = L"Gr4DB8DB22";
@@ -50,63 +50,6 @@ __fastcall OPCRW::OPCRW(void) // конструктор
    }
    LogPrint("Подключено к OPC-серверу \"" + String(pServerName) + "\"",
       clWhite);
-   // создание OPC-группы 1
-   r1 = pIOPCServer->AddGroup(pGr1Name, true, 500, 1, &TimeBias,
-      &PercentDeadband, LOCALE_ID, &GrpSrvHandle, &RevisedUpdateRate,
-      IID_IOPCItemMgt, (LPUNKNOWN*)&pIOPCItemMgt1);
-   if (r1 == S_OK)
-   {
-      // LogPrint("Добавлена группа \""+String(pGr1Name)+"\"",clWhite);
-   }
-   else
-   {
-      LogPrint("Ошибка при добавлении группы к серверу", clRed);
-      pIOPCServer->Release();
-      CoUninitialize();
-      return;
-   }
-   for (int i = 0; i < GR1ITEMSNUM; i++)
-   {
-      ItemsGr1[i].szAccessPath = L"";
-      ItemsGr1[i].szItemID = Gr1ItemsNme[i];
-      ItemsGr1[i].bActive = TRUE;
-      ItemsGr1[i].hClient = 1;
-      ItemsGr1[i].dwBlobSize = 0;
-      ItemsGr1[i].pBlob = NULL;
-      ItemsGr1[i].vtRequestedDataType = 0;
-   }
-   r1 = pIOPCItemMgt1->AddItems(GR1ITEMSNUM, ItemsGr1, &pItemResult1, &pErrors);
-   if (r1 == S_OK || r1 == S_FALSE)
-   {
-      // LogPrint("Добавлены переменные группы 1 - переменные в памяти",clWhite);
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Ошибка при добавлении переменных группы 1: " +
-         String(ErrorStr), clRed);
-      CoTaskMemFree(ErrorStr);
-      pIOPCItemMgt1->Release();
-      pIOPCServer->Release();
-      CoUninitialize();
-      return;
-   }
-   // query interface for sync calls on group object
-   r1 = pIOPCItemMgt1->QueryInterface(IID_IOPCSyncIO, (void**)&pIOPCSyncIO1);
-   if (r1 >= 0)
-   {
-      LogPrint("Получен указатель на IOPCSyncIO1 для переменных группы \"" +
-         String(pGr1Name) + "\"", clWhite);
-   }
-   else
-   {
-      LogPrint("Ошибка при получении указателя на IOPCSyncIO1", clRed);
-      CoTaskMemFree(pItemResult1);
-      pIOPCItemMgt1->Release();
-      pIOPCServer->Release();
-      CoUninitialize();
-      return;
-   }
    // создание OPC-группы 2
    r1 = pIOPCServer->AddGroup(pGr2Name, true, 500, 2, &TimeBias,
       &PercentDeadband, LOCALE_ID, &GrpSrvHandle, &RevisedUpdateRate,
@@ -910,58 +853,6 @@ int __fastcall OPCRW::BenchControl( // управление стендом
          return 0;
       }
    }
-   // записать две переменные типа bool в группе 1
-   int iter1 = -1, iter2 = -1;
-   for (int i = 0; i < GR1BOOLITEMSNUM; i++)
-   {
-      if (pbw1 == &bGr1[i])
-         iter1 = i;
-      if (pbw2 == &bGr1[i])
-         iter2 = i;
-   }
-   if (iter1 < 0)
-   {
-      LogPrint(
-         "Write Gr1 bool 1 ffm BenchControl: can not find item to write! (iter<0)",
-         clRed);
-      return 0;
-   }
-   if (iter2 < 0)
-   {
-      LogPrint(
-         "Write Gr1 bool 2 fm BenchControl: can not find item to write! (iter<0)",
-         clRed);
-      return 0;
-   }
-   phServer.resize(2);
-   phServer[0] = pItemResult1[iter1].hServer;
-   values[0].vt = VT_BOOL;
-   values[0].boolVal = *pbw1;
-   phServer[1] = pItemResult1[iter2].hServer;
-   values[1].vt = VT_BOOL;
-   values[1].boolVal = *pbw2;
-   r1 = pIOPCSyncIO1->Write(2, &(*phServer.begin()), values, &pWErrors);
-
-   if (r1 == S_OK)
-   {
-      LogPrint("Write bools fm BenchControl: " + BoolToStr(*pbw1, true) +
-         ",	" + BoolToStr(*pbw2, true), clAqua);
-      LogPrint("Write Gr1 fm BenchControl OK!", clAqua);
-
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pWErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Write Gr1 fm BenchControl: bool item1 writing error: " +
-         String(ErrorStr), clRed);
-      pIOPCServer->GetErrorString(pWErrors[1], LOCALE_ID, &ErrorStr);
-      LogPrint("Write Gr1 fm BenchControl: bool item2 writing error: " +
-         String(ErrorStr), clRed);
-
-      CoTaskMemFree(pWErrors);
-      // CoTaskMemFree(ErrorStr);
-      return 0;
-   }
    return 1;
 }
 // ---- End of ManualCarrCtrl ------------------------------------------------
@@ -1143,54 +1034,6 @@ int __fastcall OPCRW::TestParamWrite( // запись параметров ци�
 
 }
 // ---- End of TestParamWrite ------------------------------------------------
-
-int __fastcall OPCRW::ReadGr1(void) // чтение переменных группы 1
-{
-#ifdef _mDEBUG
-   return 1;
-#endif
-
-   OPCITEMSTATE *pItemValue;
-   LPWSTR ErrorStr;
-   UINT qnr;
-
-   std::vector<OPCHANDLE>phServer;
-   phServer.resize(GR1ITEMSNUM);
-   for (int i = 0; i < GR1ITEMSNUM; i++)
-   {
-      phServer[i] = pItemResult1[i].hServer;
-   }
-   r1 = pIOPCSyncIO1->Read(OPC_DS_CACHE, GR1ITEMSNUM, &(*phServer.begin()),
-      &pItemValue, &pRErrors);
-   if (r1 == S_OK)
-   {
-      for (int i = 0; i < GR1BOOLITEMSNUM; i++)
-      {
-         bGr1[i] = pItemValue[i].vDataValue.boolVal;
-      }
-      for (int i = 0; i < GR1INTITEMSNUM; i++)
-         iDB20[i] = pItemValue[i + GR1BOOLITEMSNUM].vDataValue.lVal;
-      for (int i = 0; i < GR1FLTITEMSNUM; i++)
-         fGr1[i] = pItemValue[i + GR1BOOLITEMSNUM + GR1INTITEMSNUM]
-            .vDataValue.fltVal;
-
-      for (int i = 0; i < GR1ITEMSNUM; i++)
-      {
-         VariantClear(&pItemValue[i].vDataValue);
-      }
-      CoTaskMemFree(pItemValue);
-      return 1;
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pRErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Read: Group 1 item reading error: " + String(ErrorStr), clRed);
-
-      CoTaskMemFree(ErrorStr);
-      return 0;
-   }
-}
-// ---- End of ReadGr1 -------------------------------------------------------
 
 int __fastcall OPCRW::ReadGr2(void) // чтение переменных группы 2
 {
@@ -1921,153 +1764,6 @@ int __fastcall OPCRW::ReadGr13(void) // чтение переменных гру
 }
 // ---- End of ReadGr13 ------------------------------------------------------
 
-int __fastcall OPCRW::WriteGr1(bool *pbw) // запись переменной группы 1
-{
-#ifdef _mDEBUG
-   return 1;
-#endif
-   int iter = -1;
-
-   VARIANT values[1];
-   HRESULT *pWErrors;
-   LPWSTR ErrorStr;
-   for (int i = 0; i < GR1BOOLITEMSNUM; i++)
-   {
-      if (pbw == &bGr1[i])
-         iter = i;
-   }
-   if (iter < 0)
-   {
-      LogPrint("Write: can not find item to write! (iter<0)", clRed);
-      return 0;
-   }
-   std::vector<OPCHANDLE>phServer;
-   phServer.resize(1);
-
-   phServer[0] = pItemResult1[iter].hServer;
-   values[0].vt = VT_BOOL;
-   values[0].boolVal = *pbw;
-   r1 = pIOPCSyncIO1->Write(1, &(*phServer.begin()), values, &pWErrors);
-
-   if (r1 == S_OK)
-   {
-      LogPrint("Write1: OK!", clAqua);
-
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pWErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Write1: item writing error: " + String(ErrorStr), clRed);
-
-      CoTaskMemFree(pWErrors);
-      CoTaskMemFree(ErrorStr);
-      return 0;
-   }
-   CoTaskMemFree(pWErrors);
-   return 1;
-}
-// ---- End of WriteGr1 ------------------------------------------------------
-
-int __fastcall OPCRW::WriteGr1(int *piw) // запись целой переменной группы 1
-{
-#ifdef _NO_Write
-   return 1;
-#endif
-   int i, iter = -1;
-
-   VARIANT values[1];
-   HRESULT *pWErrors;
-   LPWSTR ErrorStr;
-   for (int i = 0; i < GR1INTITEMSNUM; i++)
-   {
-      if (piw == &iDB20[i])
-      {
-         iter = i;
-         break;
-      }
-   }
-   if (iter < 0)
-   {
-      LogPrint("Write Gr1 int: can not find item to write! (iter<0)", clRed);
-      return 0;
-   }
-   else
-      iter += GR1BOOLITEMSNUM;
-   std::vector<OPCHANDLE>phServer;
-   phServer.resize(1);
-
-   phServer[0] = pItemResult1[iter].hServer;
-   values[0].vt = VT_I4;
-   values[0].lVal = *piw;
-   r1 = pIOPCSyncIO1->Write(1, &(*phServer.begin()), values, &pWErrors);
-
-   if (r1 == S_OK)
-   {
-      LogPrint("Write Gr1 int: OK!", clAqua);
-      CoTaskMemFree(pWErrors);
-      return 1;
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pWErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Write Gr1 int: item writing error: " + String(ErrorStr), clRed);
-
-      CoTaskMemFree(pWErrors);
-      CoTaskMemFree(ErrorStr);
-      return 0;
-   }
-}
-
-// ---- End of WriteGr1 ------------------------------------------------------
-int __fastcall OPCRW::WriteGr1(float *piw) // запись float переменной группы 1
-{
-#ifdef _NO_Write
-   return 1;
-#endif
-   int i, iter = -1;
-   VARIANT values[1];
-   HRESULT *pWErrors;
-   LPWSTR ErrorStr;
-   for (int i = 0; i < GR1FLTITEMSNUM; i++)
-   {
-      if (piw == &fGr1[i])
-      {
-         iter = i;
-         break;
-      }
-   }
-   if (iter < 0)
-   {
-      LogPrint("Write Gr1 int: can not find item to write! (iter<0)", clRed);
-      return 0;
-   }
-   else
-      iter += GR1BOOLITEMSNUM + GR1INTITEMSNUM;
-   std::vector<OPCHANDLE>phServer;
-   phServer.resize(1);
-   phServer[0] = pItemResult1[iter].hServer;
-   values[0].vt = VT_R4;
-   values[0].fltVal = *piw;
-   r1 = pIOPCSyncIO1->Write(1, &(*phServer.begin()), values, &pWErrors);
-
-   if (r1 == S_OK)
-   {
-      LogPrint("Write Gr1 int: OK!", clAqua);
-      CoTaskMemFree(pWErrors);
-      return 1;
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pWErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Write Gr1 int: item writing error: " + String(ErrorStr), clRed);
-
-      CoTaskMemFree(pWErrors);
-      CoTaskMemFree(ErrorStr);
-      return 0;
-   }
-}
-
-// ---- End of WriteGr1 ------------------------------------------------------
 int __fastcall OPCRW::WriteGr2(float *pfw)
    // запись вещественной переменной группы 2
 {
@@ -2782,8 +2478,9 @@ int __fastcall OPCRW::ReadCycleParameters(void) // чтение цикличес
    // LogPrint("Start cycle reading of parameters!",clFuchsia);
    // }
    // SendMessage(MainFormHandle,WM_OPCCmd,READGR1,0);
-
-   if (ReadGr1() && ReadGr2())
+   auto &inst = cpu::CpuMemory::Instance();
+   inst.mGr1.Read();
+   if (ReadGr2())
       return 1;
    return 0;
 }

@@ -3,13 +3,17 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-DEFINES +=__fastcall
+DEFINES +=__fastcall\
+          DEMO
 
 
-INCLUDEPATH +=\
+INCLUDEPATH += OPC\
 
 HEADERS +=\
    src/*.h\
+   src/cpu/cpu_memory.h\
+   src/cpu/data_block_base.h\
+   src/cpu/data/gr1.h\
    src/login/*.h\
    src/login/dialogs/*.h\
    src/opc/*.h\
@@ -28,6 +32,8 @@ SOURCES +=\
    src/*.cpp\
    src/login/*.cpp\
    src/login/dialogs/*.cpp\
+   src/cpu/cpu_memory.cpp\
+   src/cpu/data/gr1.cpp\
    src/opc/*.c\
    src/opc/*.cpp\
    src/sert/*.cpp\

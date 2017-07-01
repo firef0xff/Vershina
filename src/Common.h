@@ -84,92 +84,9 @@ extern int num_T_poll; // количество опросов по времен�
 extern int poll_step_T[MAXNUMOFPOLLS]; // массив опросов по времени
 extern int prog_step_T[MAXNUMOFSTEPS]; // массив шагов по времени
 extern float Tsettings[2][MAXNUMOFSTEPS];
-// массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-// переменные группы CtrlGr1 ------------------------------------------------
-// MEMORY
-extern bool bGr1[GR1BOOLITEMSNUM];
-// массив булевых значений в памяти и блоке DB10
-extern bool *Blowout1; // M02.1 Разрыв шины 1
-extern bool *GuardRail1; // I125.3 Ограждение 1
-extern bool *Pump1On; // M02.3 Насос 1
-extern bool *Blowout2; // M03.1 Разрыв шины 2
-extern bool *GuardRail2; // I125.7 Ограждение 2
-extern bool *Pump2On; // M03.3 Насос 1
-extern bool *Carriage1To; // M50.3 Подвод каретки поз 1
-extern bool *Carriage1From; // M50.4 Отвод каретки поз 1
-extern bool *Carriage2To; // M50.5 Подвод каретки поз 2
-extern bool *Carriage2From; // M50.6 Отвод каретки поз 2
-extern bool *Carriage1Off; // M02.2 каретка позиция 1 в исходном
-extern bool *Carriage2Off; // M03.2 каретка позиция 2 в исходном
 extern bool switch_Carriage1;
 extern bool switch_Carriage2;
-/* < */
-extern bool *DestroyLateral1; // M34.0 рарушение бововой 1
-extern bool *DestroyLateral2; // M34.2 разрушение боковой 2
-extern bool *DestroyRunning1; // M34.1 разрушение беговой 1
-extern bool *DestroyRunning2; // M34.3 разрушение беговой 2
-
-extern bool *OilLvl; // M34.4 уровень масла
-extern bool *OilFilter; // M34.5 засор фильтра
-extern bool *ElDriveDrum; // M34.6 нет готовности электропривода
-
-extern bool *ControlLateralA; // M02.3 вкл/выкл контроля бокового разрыва поз А
-extern bool *ControlLateralB; // M03.3 вкл/выкл контроля бокового разрыва поз B
-/* > */
-// блок DB10
-extern bool *AutoMode1;
-// DB10,X2.0 Режим Автомат 1              S7:[S7 connection_4]DB10,X2.0
-extern bool *ManualMode1; // DB10,X2.1 Режим Ручной 1
-extern bool *Start1; // DB10,X2.2 Старт поз 1
-extern bool *Stop1; // DB10,X2.3 Стоп поз 1
-extern bool *Reset1; // DB10,X2.4 Сброс поз 1
-extern bool *DrumOn; // DB10,X2.5 Включить барабан
-extern bool *DrumOff; // DB10,X2.6 Выключить барабан
-extern bool *KeepLoad1; // DB10,X3.0 Удержание нагрузки 1
-extern bool *ResetData1; // M0.7 сброс результатов испытаний 1
-extern bool *AutoMode2; // DB10,X38.0 Режим атомат 2
-extern bool *ManualMode2; // DB10,X38.1 Режим ручной 2
-extern bool *Start2; // DB10,X38.2 Старт поз 2
-extern bool *Stop2; // DB10,X38.3 Стоп поз 2
-extern bool *Reset2; // DB10,X38.4 Сброс поз 2
-extern bool *KeepLoad2; // DB10,X39.0 Удержание нагрузки 2
-extern bool *ResetData2; // M1.7 сброс результатов испытаний 2
-extern bool *OverLoad1; // DB10,X38.5 A Превышение нагрузки на шаге на стороне 1
-extern bool *OverLoad2; // DB10,X38.6 B Превышение нагрузки на шаге на стороне 2
-// Блок DB20 - общие параметры
-extern int iDB20[GR1INTITEMSNUM];
-extern int *fakt_time; // факт. (общее) время
-extern int *fakt_time_1; // факт. время 1
-extern int *step_write_1; // номер шага для записи 1
-extern int *step_change_1; // номер рабочего шага 1
-extern int *fakt_time_2; // факт. время 2
-extern int *step_write_2; // номер шага для записи 2
-extern int *step_change_2; // номер рабочего шага 2
-extern int *next_step_time1; // следующий шаг по времени 1
-extern int *next_step_time2; // следующий шаг по времени 2
-extern int *next_step_change1; // номер следующего рабочего шага 1
-extern int *next_step_change2; // номер следующего рабочего шага 2
-/* < */
-extern float fGr1[GR1FLTITEMSNUM];
-extern float *OilTemp; // DB20,x100 температура масла
-extern float *ReadLoading_1; // DB10,REAL26 Нагрузка 1  считывание
-extern float *ReadLoading_2; // DB10,REAL62 Нагрузка 2  считывание
-extern float *max_speed; // DB10,REAL138 максимальная скорость в цикле
-extern float *min_speed; // DB10,REAL минимальная скорость в цикле
-extern float *min_load_1; // DB10,REAL142 мин. нагрузка 1 в цикле
-extern float *max_load_1; // DB10,REAL146 макс нагрузка 1 в цикле
-extern float *min_load_2; // DB10,REAL150 мин нагрузка 2 в цикле
-extern float *max_load_2; // DB10,REAL154 макс нагрузка 2 в цикле
-
-extern float *min_temp_1; // DB10,REAL158 Минимальная температура в Поз А
-extern float *max_temp_1; // DB10,REAL162 Максимальная температура в Поз А
-extern float *min_temp_2; // DB10,REAL166 Минимальная температура в Поз Б
-extern float *max_temp_2; // DB10,REAL170 Максимальная температура в Поз Б
-/* > */
-
-// адреса переменных в контроллере
-extern wchar_t *Gr1ItemsNme[GR1ITEMSNUM];
-// End of CtrlGr1 -----------------------------------------------------------
+// массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 // переменные группы CtrlGr2 ------------------------------------------------
 // Блок DB20 - общие параметры
 extern float fDB20[GR2FLOATITEMSNUM];
