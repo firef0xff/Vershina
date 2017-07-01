@@ -15,7 +15,6 @@
 __fastcall OPCRW::OPCRW(void) // конструктор
 {
    pServerName = L"OPC.SimaticNET";
-   pGr4Name = L"Gr4DB8DB22";
    pGr5Name = L"Gr5DB7DB21";
    pGr6Name = L"Gr6DB23";
    pGr7Name = L"Gr7DB1_6";
@@ -48,72 +47,6 @@ __fastcall OPCRW::OPCRW(void) // конструктор
    }
    LogPrint("Подключено к OPC-серверу \"" + String(pServerName) + "\"",
       clWhite);
-   // создание OPC-группы 4
-   r1 = pIOPCServer->AddGroup(pGr4Name, true, 500, 4, &TimeBias,
-      &PercentDeadband, LOCALE_ID, &GrpSrvHandle, &RevisedUpdateRate,
-      IID_IOPCItemMgt, (LPUNKNOWN*)&pIOPCItemMgt4);
-
-   if (r1 == S_OK)
-   {
-      // LogPrint("Добавлена группа \""+String(pGr4Name)+"\"",clWhite);
-   }
-   else
-   {
-      LogPrint("Ошибка при добавлении группы к серверу", clRed);
-      pIOPCServer->Release();
-      CoUninitialize();
-      return;
-   }
-   // define an item table with items as in-paramter for AddItem
-   for (int i = 0; i < GR4ITEMSNUM; i++)
-   {
-      if (i < GR41ITEMSNUM)
-         wsStr = AddrDB8 + String(i * 4 + 2);
-      else
-         wsStr = AddrDB22 + String((i - GR41ITEMSNUM) * 4 + 2);
-      Gr4ItemsNme[i] = &Gr4ItemsAddr[i][0];
-      StringToWideChar(wsStr, Gr4ItemsNme[i], wsStr.Length() + 1);
-      // if(i==0)LogPrint("Gr4ItemsNme[0]="+String(Gr4ItemsNme[i]),clAqua);
-      // if(i==250)LogPrint("Gr4ItemsNme[250]="+String(Gr4ItemsNme[i]),clAqua);
-      ItemsGr4[i].szAccessPath = L"";
-      ItemsGr4[i].szItemID = Gr4ItemsNme[i];
-      ItemsGr4[i].bActive = TRUE;
-      ItemsGr4[i].hClient = 1;
-      ItemsGr4[i].dwBlobSize = 0;
-      ItemsGr4[i].pBlob = NULL;
-      ItemsGr4[i].vtRequestedDataType = 0;
-   }
-   r1 = pIOPCItemMgt4->AddItems(GR4ITEMSNUM, ItemsGr4, &pItemResult4, &pErrors);
-   if (r1 == S_OK || r1 == S_FALSE)
-   {
-      // LogPrint("Добавлены переменные группы 4 - массивы в блоках DB8 и DB22",clWhite);
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Ошибка при добавлении переменных группы 4: " +
-         String(ErrorStr), clRed);
-      CoTaskMemFree(ErrorStr);
-      pIOPCItemMgt4->Release();
-      pIOPCServer->Release();
-      CoUninitialize();
-      return;
-   }
-   r1 = pIOPCItemMgt4->QueryInterface(IID_IOPCSyncIO, (void**)&pIOPCSyncIO4);
-   if (r1 >= 0)
-   {
-      LogPrint("Получен указатель на IOPCSyncIO4 для переменных группы \"" +
-         String(pGr4Name) + "\"", clWhite);
-   }
-   else
-   {
-      LogPrint("Ошибка при получении указателя на IOPCSyncIO4", clRed);
-      CoTaskMemFree(pItemResult4);
-      pIOPCItemMgt4->Release();
-      pIOPCServer->Release();
-      CoUninitialize();
-      return;
-   }
    // создание OPC-группы 5
    r1 = pIOPCServer->AddGroup(pGr5Name, true, 500, 5, &TimeBias,
       &PercentDeadband, LOCALE_ID, &GrpSrvHandle, &RevisedUpdateRate,
@@ -680,53 +613,6 @@ __fastcall OPCRW::OPCRW(void) // конструктор
    OPCConnectOK = true;
 }
 // ---- End of Constructor ---------------------------------------------------
-
-int __fastcall OPCRW::ReadGr4(void) // чтение переменных группы 4
-{
-#ifdef _mDEBUG
-   return 1;
-#endif
-
-   OPCITEMSTATE *pItemValue;
-   LPWSTR ErrorStr;
-   UINT qnr;
-
-   std::vector<OPCHANDLE>phServer;
-   phServer.resize(GR4ITEMSNUM);
-
-   for (int i = 0; i < GR4ITEMSNUM; i++)
-   {
-      phServer[i] = pItemResult4[i].hServer;
-   }
-   r1 = pIOPCSyncIO4->Read(OPC_DS_CACHE, GR4ITEMSNUM, &(*phServer.begin()),
-      &pItemValue, &pRErrors);
-
-   if (r1 == S_OK)
-   {
-      for (int i = 0; i < GR4ITEMSNUM; i++)
-      {
-         if (i < GR41ITEMSNUM)
-            poll_step_SA[i] = pItemValue[i].vDataValue.fltVal;
-         else
-            step_SA[i - GR41ITEMSNUM] = pItemValue[i].vDataValue.fltVal;
-      }
-      for (int i = 0; i < GR4ITEMSNUM; i++)
-      {
-         VariantClear(&pItemValue[i].vDataValue);
-      }
-      CoTaskMemFree(pItemValue);
-      return 1;
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pRErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Read: Group 4 item reading error: " + String(ErrorStr), clRed);
-
-      CoTaskMemFree(ErrorStr);
-      return 0;
-   }
-}
-// ---- End of ReadGr4 -------------------------------------------------------
 
 int __fastcall OPCRW::ReadGr5(void) // чтение переменных группы 5
 {
@@ -1308,48 +1194,6 @@ int __fastcall OPCRW::ReadGr13(void) // чтение переменных гру
    }
 }
 // ---- End of ReadGr13 ------------------------------------------------------
-
-int __fastcall OPCRW::WriteGr4(void) // запись вещественных массивов группы 4
-{
-#ifdef _NO_Write
-   return 1;
-#endif
-
-   VARIANT values[GR4ITEMSNUM];
-   HRESULT *pWErrors;
-   LPWSTR ErrorStr;
-   std::vector<OPCHANDLE>phServer;
-   phServer.resize(GR4ITEMSNUM);
-
-   for (int i = 0; i < GR4ITEMSNUM; i++)
-   {
-      phServer[i] = pItemResult5[i].hServer;
-      values[i].vt = VT_R4;
-      if (i < GR41ITEMSNUM)
-         values[i].fltVal = poll_step_SA[i];
-      else
-         values[i].fltVal = step_SA[i - GR41ITEMSNUM];
-   }
-   r1 = pIOPCSyncIO4->Write(GR4ITEMSNUM, &(*phServer.begin()), values,
-      &pWErrors);
-
-   if (r1 == S_OK)
-   {
-      LogPrint("Write Gr4: OK!", clAqua);
-      CoTaskMemFree(pWErrors);
-      return 1;
-   }
-   else
-   {
-      pIOPCServer->GetErrorString(pWErrors[0], LOCALE_ID, &ErrorStr);
-      LogPrint("Write Gr4: item writing error: " + String(ErrorStr), clRed);
-
-      CoTaskMemFree(pWErrors);
-      CoTaskMemFree(ErrorStr);
-      return 0;
-   }
-}
-// ---- End of WriteGr4 ------------------------------------------------------
 
 int __fastcall OPCRW::WriteGr5(void) // запись целых массивов группы 5
 {

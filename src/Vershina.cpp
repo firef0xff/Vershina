@@ -6,8 +6,8 @@
 //---------------------------------------------------------------------------
 USEFORM("login\Login.cpp", LogInwnd);
 USEFORM("login\dialogs\User_Data.cpp", UserData);
-USEFORM("login\AppManagnent.cpp", AppManagment);
 USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
+USEFORM("login\AppManagnent.cpp", AppManagment);
 USEFORM("Vershina_main.cpp", mfRB);
 USEFORM("splash_screen\Head_band.cpp", Headband);
 //---------------------------------------------------------------------------

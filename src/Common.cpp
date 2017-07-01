@@ -120,8 +120,8 @@ wchar_t *Gr4ItemsNme[GR4ITEMSNUM] =
 {NULL};
 wchar_t Gr4ItemsAddr[GR4ITEMSNUM][ADDRLEN] =
 {L""};
-String AddrDB8 = "S7:[S7 connection_4]DB8,REAL", AddrDB22 =
-   "S7:[S7 connection_4]DB22,REAL";
+String AddrDB8 = "S7:[S7 connection_4]DB8,REAL",
+       AddrDB22 = "S7:[S7 connection_4]DB22,REAL";
 // End of CtrlGr4 -----------------------------------------------------------
 // переменные группы CtrlGr5 ------------------------------------------------
 // блок DB7

@@ -2737,15 +2737,16 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    LogPrint("Загрузка программы по пути в поз. А!", clAqua);
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
+   auto &gr4 = cpu::CpuMemory::Instance().mGr4;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
       setting_A[0][i] = Ssettings[0][i];
       setting_A[1][i] = Ssettings[1][i];
-      step_SA[i] = prog_step_S[i];
+      gr4.step_SA[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      poll_step_SA[i] = poll_step_S[i];
+      gr4.poll_step_SA[i] = poll_step_S[i];
    }
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
    RunProgNameA = SProgName;
@@ -2765,7 +2766,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    {
       OPCControlPause(tReadCycleTimer);
       gr3.Write();
-      pOPC->WriteGr4();
+      gr4.Write();
       pOPC->WriteGr6();
       OPCControlResume(tReadCycleTimer);
       LogPrintF(LogFName(), "Программа по пути загружена в поз. А!");

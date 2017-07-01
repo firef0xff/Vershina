@@ -7,6 +7,7 @@ DEFINES +=__fastcall\
           DEMO
 
 
+
 INCLUDEPATH += OPC\
 
 HEADERS +=\
@@ -16,6 +17,7 @@ HEADERS +=\
    src/cpu/data/gr1.h\
    src/cpu/data/gr2.h\
    src/cpu/data/gr3.h\
+   src/cpu/data/gr4.h\
    src/login/*.h\
    src/login/dialogs/*.h\
    src/opc/*.h\
@@ -38,6 +40,7 @@ SOURCES +=\
    src/cpu/data/gr1.cpp\
    src/cpu/data/gr2.cpp\
    src/cpu/data/gr3.cpp\
+   src/cpu/data/gr4.cpp\
    src/opc/*.c\
    src/opc/*.cpp\
    src/sert/*.cpp\
