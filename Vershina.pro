@@ -9,6 +9,7 @@ DEFINES +=__fastcall\
 
 
 INCLUDEPATH += OPC\
+               owen\
 
 HEADERS +=\
    src/*.h\
@@ -31,6 +32,9 @@ HEADERS +=\
    OPC/impl/*.h\
    OPC/impl/cache/*.h\
    COMPort/*.h\
+   owen/*.h\
+   owen/types/*.h\
+   owen/funcs/*.h
 
 SOURCES +=\
    src/*.cpp\
@@ -52,6 +56,9 @@ SOURCES +=\
    OPC/impl/*.cpp\
    OPC/impl/cache/*.cpp\
    COMPort/*.cpp\
+   owen/*.cpp\
+   owen/types/*.cpp\
+   owen/funcs/*.cpp
 
 
 OTHER_FILES +=\
