@@ -873,6 +873,14 @@
             <DependentOn>src\cpu\data\gr10.h</DependentOn>
             <BuildOrder>50</BuildOrder>
         </CppCompile>
+        <CppCompile Include="src\cpu\data\gr12.cpp">
+            <DependentOn>src\cpu\data\gr12.h</DependentOn>
+            <BuildOrder>51</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\cpu\data\gr13.cpp">
+            <DependentOn>src\cpu\data\gr13.h</DependentOn>
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
         <CppCompile Include="src\cpu\data\gr2.cpp">
             <DependentOn>src\cpu\data\gr2.h</DependentOn>
             <BuildOrder>31</BuildOrder>

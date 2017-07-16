@@ -151,123 +151,6 @@ wchar_t *Gr11ItemsNme[GR11ARRAYSNUM] =
    L"S7:[S7 connection_4]DB15,REAL2,250", L"S7:[S7 connection_4]DB16,REAL2,250",
 };
 // End of CtrlGr11 ----------------------------------------------------------
-// переменные группы CtrlGr12 -----------------------------------------------
-// блок DB71
-float fDB71[GR12ITEMSNUM];
-float *A1[GR12ARRAYSIZE];
-// DB71,REAL2-172 Коэффициенты коррекции поз. 1    S7:[S7 connection_4]DB10,REAL18
-float *Q1[GR12ARRAYSIZE];
-// DB71,REAL6-176 границы действия коэффициентов коррекции поз. 1    S7:[S7 connection_4]DB10,REAL18
-// адреса переменных в группе 12
-wchar_t *Gr12ItemsNme[GR12ITEMSNUM] =
-{ // Коэффициент коррекции прямой ход
-   L"S7:[S7 connection_4]DB71,REAL180", L"S7:[S7 connection_4]DB71,REAL188",
-   L"S7:[S7 connection_4]DB71,REAL196", L"S7:[S7 connection_4]DB71,REAL204",
-   L"S7:[S7 connection_4]DB71,REAL212", L"S7:[S7 connection_4]DB71,REAL2",
-   L"S7:[S7 connection_4]DB71,REAL10", L"S7:[S7 connection_4]DB71,REAL18",
-   L"S7:[S7 connection_4]DB71,REAL26", L"S7:[S7 connection_4]DB71,REAL34",
-   L"S7:[S7 connection_4]DB71,REAL42", L"S7:[S7 connection_4]DB71,REAL50",
-   L"S7:[S7 connection_4]DB71,REAL58", L"S7:[S7 connection_4]DB71,REAL66",
-   L"S7:[S7 connection_4]DB71,REAL74", L"S7:[S7 connection_4]DB71,REAL260",
-   L"S7:[S7 connection_4]DB71,REAL268", L"S7:[S7 connection_4]DB71,REAL276",
-   L"S7:[S7 connection_4]DB71,REAL284", L"S7:[S7 connection_4]DB71,REAL292",
-
-   // Коэффициент коррекции обратный ход
-   L"S7:[S7 connection_4]DB71,REAL300", L"S7:[S7 connection_4]DB71,REAL308",
-   L"S7:[S7 connection_4]DB71,REAL316", L"S7:[S7 connection_4]DB71,REAL324",
-   L"S7:[S7 connection_4]DB71,REAL332", L"S7:[S7 connection_4]DB71,REAL100",
-   L"S7:[S7 connection_4]DB71,REAL108", L"S7:[S7 connection_4]DB71,REAL116",
-   L"S7:[S7 connection_4]DB71,REAL124", L"S7:[S7 connection_4]DB71,REAL132",
-   L"S7:[S7 connection_4]DB71,REAL140", L"S7:[S7 connection_4]DB71,REAL148",
-   L"S7:[S7 connection_4]DB71,REAL156", L"S7:[S7 connection_4]DB71,REAL164",
-   L"S7:[S7 connection_4]DB71,REAL172", L"S7:[S7 connection_4]DB71,REAL220",
-   L"S7:[S7 connection_4]DB71,REAL228", L"S7:[S7 connection_4]DB71,REAL236",
-   L"S7:[S7 connection_4]DB71,REAL244", L"S7:[S7 connection_4]DB71,REAL252",
-
-   // Граница действия прямой ход
-   L"S7:[S7 connection_4]DB71,REAL184", L"S7:[S7 connection_4]DB71,REAL192",
-   L"S7:[S7 connection_4]DB71,REAL200", L"S7:[S7 connection_4]DB71,REAL208",
-   L"S7:[S7 connection_4]DB71,REAL216", L"S7:[S7 connection_4]DB71,REAL6",
-   L"S7:[S7 connection_4]DB71,REAL14", L"S7:[S7 connection_4]DB71,REAL22",
-   L"S7:[S7 connection_4]DB71,REAL30", L"S7:[S7 connection_4]DB71,REAL38",
-   L"S7:[S7 connection_4]DB71,REAL46", L"S7:[S7 connection_4]DB71,REAL54",
-   L"S7:[S7 connection_4]DB71,REAL62", L"S7:[S7 connection_4]DB71,REAL70",
-   L"S7:[S7 connection_4]DB71,REAL78", L"S7:[S7 connection_4]DB71,REAL264",
-   L"S7:[S7 connection_4]DB71,REAL272", L"S7:[S7 connection_4]DB71,REAL280",
-   L"S7:[S7 connection_4]DB71,REAL288", L"S7:[S7 connection_4]DB71,REAL296",
-
-   // Граница действия обратный ход
-   L"S7:[S7 connection_4]DB71,REAL304", L"S7:[S7 connection_4]DB71,REAL312",
-   L"S7:[S7 connection_4]DB71,REAL320", L"S7:[S7 connection_4]DB71,REAL328",
-   L"S7:[S7 connection_4]DB71,REAL336", L"S7:[S7 connection_4]DB71,REAL104",
-   L"S7:[S7 connection_4]DB71,REAL112", L"S7:[S7 connection_4]DB71,REAL120",
-   L"S7:[S7 connection_4]DB71,REAL128", L"S7:[S7 connection_4]DB71,REAL136",
-   L"S7:[S7 connection_4]DB71,REAL144", L"S7:[S7 connection_4]DB71,REAL152",
-   L"S7:[S7 connection_4]DB71,REAL160", L"S7:[S7 connection_4]DB71,REAL168",
-   L"S7:[S7 connection_4]DB71,REAL176", L"S7:[S7 connection_4]DB71,REAL224",
-   L"S7:[S7 connection_4]DB71,REAL232", L"S7:[S7 connection_4]DB71,REAL240",
-   L"S7:[S7 connection_4]DB71,REAL248", L"S7:[S7 connection_4]DB71,REAL256"};
-
-// End of CtrlGr12 ----------------------------------------------------------
-// переменные группы CtrlGr13 -----------------------------------------------
-// блок DB70
-float fDB70[GR13ITEMSNUM];
-float *A2[GR13ARRAYSIZE];
-// DB70,REAL2-172 Коэффициенты коррекции поз. 2    S7:[S7 connection_4]DB10,REAL18
-float *Q2[GR13ARRAYSIZE];
-// DB70,REAL6-176 границы действия коэффициентов коррекции поз. 2    S7:[S7 connection_4]DB10,REAL18
-// адреса переменных в группе 13
-wchar_t *Gr13ItemsNme[GR13ITEMSNUM] =
-{ // Коэффициент коррекции прямой ход
-   L"S7:[S7 connection_4]DB70,REAL180", L"S7:[S7 connection_4]DB70,REAL188",
-   L"S7:[S7 connection_4]DB70,REAL196", L"S7:[S7 connection_4]DB70,REAL204",
-   L"S7:[S7 connection_4]DB70,REAL212", L"S7:[S7 connection_4]DB70,REAL2",
-   L"S7:[S7 connection_4]DB70,REAL10", L"S7:[S7 connection_4]DB70,REAL18",
-   L"S7:[S7 connection_4]DB70,REAL26", L"S7:[S7 connection_4]DB70,REAL34",
-   L"S7:[S7 connection_4]DB70,REAL42", L"S7:[S7 connection_4]DB70,REAL50",
-   L"S7:[S7 connection_4]DB70,REAL58", L"S7:[S7 connection_4]DB70,REAL66",
-   L"S7:[S7 connection_4]DB70,REAL74", L"S7:[S7 connection_4]DB70,REAL260",
-   L"S7:[S7 connection_4]DB70,REAL268", L"S7:[S7 connection_4]DB70,REAL276",
-   L"S7:[S7 connection_4]DB70,REAL284", L"S7:[S7 connection_4]DB70,REAL292",
-
-   // Коэффициент коррекции обратный ход
-
-   L"S7:[S7 connection_4]DB70,REAL300", L"S7:[S7 connection_4]DB70,REAL308",
-   L"S7:[S7 connection_4]DB70,REAL316", L"S7:[S7 connection_4]DB70,REAL324",
-   L"S7:[S7 connection_4]DB70,REAL332", L"S7:[S7 connection_4]DB70,REAL100",
-   L"S7:[S7 connection_4]DB70,REAL108", L"S7:[S7 connection_4]DB70,REAL116",
-   L"S7:[S7 connection_4]DB70,REAL124", L"S7:[S7 connection_4]DB70,REAL132",
-   L"S7:[S7 connection_4]DB70,REAL140", L"S7:[S7 connection_4]DB70,REAL148",
-   L"S7:[S7 connection_4]DB70,REAL156", L"S7:[S7 connection_4]DB70,REAL164",
-   L"S7:[S7 connection_4]DB70,REAL172", L"S7:[S7 connection_4]DB70,REAL220",
-   L"S7:[S7 connection_4]DB70,REAL228", L"S7:[S7 connection_4]DB70,REAL236",
-   L"S7:[S7 connection_4]DB70,REAL244", L"S7:[S7 connection_4]DB70,REAL252",
-
-   // Граница действия прямой ход
-   L"S7:[S7 connection_4]DB70,REAL184", L"S7:[S7 connection_4]DB70,REAL192",
-   L"S7:[S7 connection_4]DB70,REAL200", L"S7:[S7 connection_4]DB70,REAL208",
-   L"S7:[S7 connection_4]DB70,REAL216", L"S7:[S7 connection_4]DB70,REAL6",
-   L"S7:[S7 connection_4]DB70,REAL14", L"S7:[S7 connection_4]DB70,REAL22",
-   L"S7:[S7 connection_4]DB70,REAL30", L"S7:[S7 connection_4]DB70,REAL38",
-   L"S7:[S7 connection_4]DB70,REAL46", L"S7:[S7 connection_4]DB70,REAL54",
-   L"S7:[S7 connection_4]DB70,REAL62", L"S7:[S7 connection_4]DB70,REAL70",
-   L"S7:[S7 connection_4]DB70,REAL78", L"S7:[S7 connection_4]DB70,REAL264",
-   L"S7:[S7 connection_4]DB70,REAL272", L"S7:[S7 connection_4]DB70,REAL280",
-   L"S7:[S7 connection_4]DB70,REAL288", L"S7:[S7 connection_4]DB70,REAL296",
-
-   // Граница действия обратный ход
-
-   L"S7:[S7 connection_4]DB70,REAL304", L"S7:[S7 connection_4]DB70,REAL312",
-   L"S7:[S7 connection_4]DB70,REAL320", L"S7:[S7 connection_4]DB70,REAL328",
-   L"S7:[S7 connection_4]DB70,REAL336", L"S7:[S7 connection_4]DB70,REAL104",
-   L"S7:[S7 connection_4]DB70,REAL112", L"S7:[S7 connection_4]DB70,REAL120",
-   L"S7:[S7 connection_4]DB70,REAL128", L"S7:[S7 connection_4]DB70,REAL136",
-   L"S7:[S7 connection_4]DB70,REAL144", L"S7:[S7 connection_4]DB70,REAL152",
-   L"S7:[S7 connection_4]DB70,REAL160", L"S7:[S7 connection_4]DB70,REAL168",
-   L"S7:[S7 connection_4]DB70,REAL176", L"S7:[S7 connection_4]DB70,REAL224",
-   L"S7:[S7 connection_4]DB70,REAL232", L"S7:[S7 connection_4]DB70,REAL240",
-   L"S7:[S7 connection_4]DB70,REAL248", L"S7:[S7 connection_4]DB70,REAL256"};
-// End of CtrlGr12 ----------------------------------------------------------
 
 // сброс программы по времени
 void ClearTProg(void)
@@ -312,26 +195,12 @@ void ClearSProg(void)
 }
 
 // общие функции ------------------------------------------------------------
-void __fastcall PntInit(void) // инициализация указателей для групп 12 и 13
+
+void __fastcall ResetKA(float *A) // сброс массива А в единичку
 {
-   for (int i = 0; i < GR12ARRAYSIZE; i++)
-   {
-      A1[i] = &fDB71[i];
-      Q1[i] = &fDB71[i + GR12ARRAYSIZE];
-   }
    for (int i = 0; i < GR13ARRAYSIZE; i++)
    {
-      A2[i] = &fDB70[i];
-      Q2[i] = &fDB70[i + GR13ARRAYSIZE];
-   }
-}
-// ---- End of PntInit -------------------------------------------------------
-
-void __fastcall ResetKA(float *A[]) // сброс массива А в единичку
-{
-   for (int i = 0; i < GR12ARRAYSIZE; i++)
-   {
-      *A[i] = 1.0;
+      A[i] = 1.0;
    }
 }
 // ---- End of ResetKA -------------------------------------------------------

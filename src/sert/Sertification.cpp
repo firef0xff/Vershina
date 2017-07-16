@@ -284,25 +284,25 @@ __fastcall LCalibr::LCalibr(void) // конструктор
 
 void __fastcall LCalibr::LKQInit
    ( // инициализация коэффициентов и граничных нагрузок для калибровки
-   float *Q[], // масив указателей границ
-   float *A[]) // масив указателей коэффициентов
+   float *Q, // масив указателей границ
+   float *A) // масив указателей коэффициентов
 {
-   for (int i = 0; i < GR12ARRAYSIZE / 2; i++)
+   for (int i = 0; i < GR13ARRAYSIZE / 2; i++)
    {
-      *A[i] = *A[i + GR12ARRAYSIZE / 2] = 1.0;
-      *Q[i] = TargetLd[i];
-      *Q[GR12ARRAYSIZE - i - 1] = TargetLd[LDCQTY - i - 1];
+      A[i] = A[i + GR13ARRAYSIZE / 2] = 1.0;
+      Q[i] = TargetLd[i];
+      Q[GR13ARRAYSIZE - i - 1] = TargetLd[LDCQTY - i - 1];
    }
 }
 // ---- End of LKQInit -------------------------------------------------------
 
 void __fastcall LCalibr::LKRead( // чтение коэффициентов из A (DB70,71) в ReadКА
-   float *A[]) // масив указателей коэффициентов
+   float *A) // масив указателей коэффициентов
 {
-   for (int i = 0; i < GR12ARRAYSIZE / 2; i++)
+   for (int i = 0; i < GR13ARRAYSIZE / 2; i++)
    {
-      /* Read */ KA[i] = *A[i];
-      /* Read */ KA[i + GR12ARRAYSIZE / 2 - 1] = *A[i + GR12ARRAYSIZE / 2];
+      /* Read */ KA[i] = A[i];
+      /* Read */ KA[i + GR13ARRAYSIZE / 2 - 1] = A[i + GR13ARRAYSIZE / 2];
    }
    loaded = true;
 }
@@ -318,12 +318,12 @@ void __fastcall LCalibr::LKMult(void) // перемножение КА и ReadKA
 // ---- End of LKMult --------------------------------------------------------
 
 void __fastcall LCalibr::LKSetting( // устанока коэффициентов для калибровки
-   float *A[]) // масив указателей коэффициентов
+   float *A) // масив указателей коэффициентов
 {
-   for (int i = 0; i < GR12ARRAYSIZE / 2; i++)
+   for (int i = 0; i < GR13ARRAYSIZE / 2; i++)
    {
-      *A[i] = KA[i];
-      *A[GR12ARRAYSIZE - i - 1] = KA[LDCQTY - i - 1];
+      A[i] = KA[i];
+      A[GR13ARRAYSIZE - i - 1] = KA[LDCQTY - i - 1];
    }
 }
 // ---- End of LKSetting -----------------------------------------------------

@@ -121,32 +121,12 @@ extern float read_TempB[MAXNUMOFPOLLS];
 // адреса переменных в группе 11
 extern wchar_t *Gr11ItemsNme[GR11ARRAYSNUM];
 // End of CtrlGr11 ----------------------------------------------------------
-// переменные группы CtrlGr12 -----------------------------------------------
-// блок DB71
-extern float fDB71[GR12ITEMSNUM];
-extern float *A1[GR12ARRAYSIZE];
-// DB71,REAL2-172 Коэффициенты коррекции поз. 1    S7:[S7 connection_4]DB10,REAL18
-extern float *Q1[GR12ARRAYSIZE];
-// DB71,REAL6-176 границы действия коэффициентов коррекции поз. 1    S7:[S7 connection_4]DB10,REAL18
-// адреса переменных в группе 12
-extern wchar_t *Gr12ItemsNme[GR12ITEMSNUM];
-// End of CtrlGr12 ----------------------------------------------------------
-// переменные группы CtrlGr13 -----------------------------------------------
-// блок DB70
-extern float fDB70[GR13ITEMSNUM];
-extern float *A2[GR13ARRAYSIZE];
-// DB70,REAL2-172 Коэффициенты коррекции поз. 2    S7:[S7 connection_4]DB10,REAL18
-extern float *Q2[GR13ARRAYSIZE];
-// DB70,REAL6-176 границы действия коэффициентов коррекции поз. 2    S7:[S7 connection_4]DB10,REAL18
-// адреса переменных в группе 13
-extern wchar_t *Gr13ItemsNme[GR12ITEMSNUM];
-// End of CtrlGr12 ----------------------------------------------------------
+
 
 // объявление общих функций -------------------------------------------------
 void ClearTProg(void); // сброс программы по времени
 void ClearSProg(void); // сброс программы по пути
-void __fastcall PntInit(void); // инициализация указателей для групп 12 и 13
-void __fastcall ResetKA(float *A[]); // сброс массива А в единичку
+void __fastcall ResetKA(float *A); // сброс массива А в единичку
 void __fastcall LogPrint( // Вывод сообщений в окно протокола
    String, TColor = clWhite);
 void __fastcall SLogPrint

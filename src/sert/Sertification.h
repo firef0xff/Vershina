@@ -91,13 +91,13 @@ public:
    __fastcall LCalibr(void); // конструктор
    void __fastcall LKQInit
       ( // инициализация коэффициентов и граничных нагрузок для калибровки
-      float *Q[], // масив указателей границ
-      float *A[]); // масив указателей коэффициентов
+      float *Q, // масив границ
+      float *A); // масив коэффициентов
    void __fastcall LKRead( // чтение коэффициентов из A (DB70,71) в ReadКА
-      float *A[]); // масив указателей коэффициентов
+      float *A); // масив коэффициентов
    void __fastcall LKMult(void); // перемножение КА и ReadKA
    void __fastcall LKSetting( // устанока коэффициентов для калибровки
-      float *A[]); // масив указателей коэффициентов
+      float *A); // масив коэффициентов
    void __fastcall Clear(void); // очистить таблицу
    void __fastcall PrintProtocol( // распечатаь протокол в файл fn
       String fn, String posname);

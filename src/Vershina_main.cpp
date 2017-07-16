@@ -149,31 +149,16 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) : TForm(Owner), closing(false)
       MainFormHandle = mfRB->Handle;
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
-      PntInit();
-      LdCA->LKQInit(Q1, A1);
-      LdCB->LKQInit(Q2, A2);
+      auto &gr12 = cpu::CpuMemory::Instance().mGr12;
+      auto &gr13 = cpu::CpuMemory::Instance().mGr13;
+      LdCA->LKQInit( gr12.Q1, gr12.A1);
+      LdCB->LKQInit( gr13.Q2, gr13.A2);
       pPrt = reLog;
       reLog->Clear();
       pProtPrt->Canvas->Font->Name = "Lucida Console";
       pProtPrt->Canvas->Font->Size = 10;
       LogPrint("Шрифт по умолчанию на принтер: \"" +
          pProtPrt->Canvas->Font->Name + "\"", clMoneyGreen);
-      // pProtPrt->Canvas->Font->Pitch=fpFixed;
-
-      // *fakt_time_1=100000000; *fakt_time_2=10500000;
-      // *fakt_distance_1=102.5; *fakt_distance_2=82.4;
-      // *set_speed_1=53.2;      *set_speed_2=55.2;
-      // *fakt_speed=54.5;
-      // *next_speed1=60.2;      *next_speed2=60.2;
-      // *set_loading_1=21.0;    *set_loading_2=22.0;
-      // *fakt_loading_1=21.2;   *fakt_loading_2=21.8;
-      // *next_loading1=24.2;    *next_loading2=26.2;
-      // *fakt_temper_1=80.5;    *fakt_temper_2=85.5;
-      // *fakt_radius_1=300.0;   *fakt_radius_2=310.0;
-      // *step_change_1=100;     *step_change_2=103;
-      // *next_step_change1=101; *next_step_change2=104;
-      // *next_step_time1=99;    *next_step_time2=95;
-      // *next_step_distance1=10;*next_step_distance2=8.9;
 
       SetCommonParam();
       ShowCommonParam();
@@ -6986,13 +6971,11 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         // pOPC->ReadGr12();                         // прочитали коэффициенты А из DB71
-         // LdCA->LKRead(A1);                         // сохранили прочитанные коэффициенты в ReadKA
-         // LdCA->LKMult();                           // перемножили прочитанные ReadKA и расчитанные KA
          ReadLSertTable(LdCA.get(), sgLoadSertA);
          // прочитали коэффициенты KA из таблицы
-         LdCA->LKSetting(A1); // сохранили итоговые КА в А1
-         pOPC->WriteGr12(); // записали А1 в DB71
+         auto &gr12 = cpu::CpuMemory::Instance().mGr12;
+         LdCA->LKSetting(gr12.A1); // сохранили итоговые КА в А1
+         gr12.Write(); // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
             "Коэффициенты калибровки тензодатчика по поз. А загружены в контроллер!";
@@ -7008,13 +6991,11 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         // pOPC->ReadGr13();                         // прочитали коэффициенты А из DB70
-         // LdCB->LKRead(A2);                         // сохранили прочитанные коэффициенты в ReadKA
-         // LdCB->LKMult();                           // перемножили прочитанные ReadKA и расчитанные KA
          ReadLSertTable(LdCB.get(), sgLoadSertB);
          // прочитали коэффициенты KA из таблицы
-         LdCB->LKSetting(A2); // сохранили итоговые КА в А1
-         pOPC->WriteGr13(); // записали А2 в DB70
+         auto &gr13 = cpu::CpuMemory::Instance().mGr13;
+         LdCB->LKSetting(gr13.A2); // сохранили итоговые КА в А1
+         gr13.Write(); // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
             "Коэффициенты калибровки тензодатчика по поз. Б загружены в контроллер!";
@@ -7112,8 +7093,9 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         ResetKA(A1); // сбросили коэффициенты А1 в единичку
-         pOPC->WriteGr12(); // записали А1 в DB71
+         auto &gr12 = cpu::CpuMemory::Instance().mGr12;
+         ResetKA(gr12.A1); // сбросили коэффициенты А1 в единичку
+         gr12.Write(); // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
             "Коэффициенты калибровки тензодатчика по поз. А в контроллере сброшены!";
@@ -7129,8 +7111,9 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         ResetKA(A2); // сбросили коэффициенты А2 в единичку
-         pOPC->WriteGr13(); // записали А2 в DB70
+         auto &gr13 = cpu::CpuMemory::Instance().mGr13;
+         ResetKA(gr13.A2); // сбросили коэффициенты А2 в единичку
+         gr13.Write(); // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
             "Коэффициенты калибровки тензодатчика по поз. Б в контроллере сброшены!";
@@ -7291,8 +7274,9 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         pOPC->ReadGr12(); // прочитали коэффициенты А из DB71
-         LdCA->LKRead(A1); // сохранили прочитанные коэффициенты в ReadKA
+         auto &gr12 = cpu::CpuMemory::Instance().mGr12;
+         gr12.Read(); // прочитали коэффициенты А из DB71
+         LdCA->LKRead(gr12.A1); // сохранили прочитанные коэффициенты в ReadKA
          for (int i = 0; i < LDCQTY; i++)
          { // записали коэффициенты в таблицу
             sgLoadSertA->Cells[4][i + 1] =
@@ -7313,8 +7297,9 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         pOPC->ReadGr13(); // прочитали коэффициенты А из DB70
-         LdCB->LKRead(A2); // сохранили прочитанные коэффициенты в ReadKA
+         auto &gr13 = cpu::CpuMemory::Instance().mGr13;
+         gr13.Read(); // прочитали коэффициенты А из DB70
+         LdCB->LKRead(gr13.A2); // сохранили прочитанные коэффициенты в ReadKA
          for (int i = 0; i < LDCQTY; i++)
          { // записали коэффициенты в таблицу
             sgLoadSertB->Cells[4][i + 1] =

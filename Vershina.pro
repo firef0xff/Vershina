@@ -24,6 +24,8 @@ HEADERS +=\
    src/cpu/data/gr8.h\
    src/cpu/data/gr9.h\
    src/cpu/data/gr10.h\
+   src/cpu/data/gr12.h\
+   src/cpu/data/gr13.h\
    src/login/*.h\
    src/login/dialogs/*.h\
    src/opc/*.h\
@@ -56,6 +58,8 @@ SOURCES +=\
    src/cpu/data/gr8.cpp\
    src/cpu/data/gr9.cpp\
    src/cpu/data/gr10.cpp\
+   src/cpu/data/gr12.cpp\
+   src/cpu/data/gr13.cpp\
    src/opc/*.c\
    src/opc/*.cpp\
    src/sert/*.cpp\
