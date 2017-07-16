@@ -9,7 +9,7 @@ DEFINES +=__fastcall\
 
 
 INCLUDEPATH += OPC\
-               owen\
+               communication/owen\
 
 HEADERS +=\
    src/*.h\
@@ -19,6 +19,8 @@ HEADERS +=\
    src/cpu/data/gr2.h\
    src/cpu/data/gr3.h\
    src/cpu/data/gr4.h\
+   src/cpu/data/gr5.h\
+   src/cpu/data/gr6.h\
    src/login/*.h\
    src/login/dialogs/*.h\
    src/opc/*.h\
@@ -32,9 +34,10 @@ HEADERS +=\
    OPC/impl/*.h\
    OPC/impl/cache/*.h\
    COMPort/*.h\
-   owen/*.h\
-   owen/types/*.h\
-   owen/funcs/*.h
+   communication/owen/*.h\
+   communication/owen/types/*.h\
+   communication/owen/funcs/*.h\
+   communication/*.h
 
 SOURCES +=\
    src/*.cpp\
@@ -45,6 +48,8 @@ SOURCES +=\
    src/cpu/data/gr2.cpp\
    src/cpu/data/gr3.cpp\
    src/cpu/data/gr4.cpp\
+   src/cpu/data/gr5.cpp\
+   src/cpu/data/gr6.cpp\
    src/opc/*.c\
    src/opc/*.cpp\
    src/sert/*.cpp\
@@ -56,9 +61,10 @@ SOURCES +=\
    OPC/impl/*.cpp\
    OPC/impl/cache/*.cpp\
    COMPort/*.cpp\
-   owen/*.cpp\
-   owen/types/*.cpp\
-   owen/funcs/*.cpp
+   communication/owen/*.cpp\
+   communication/owen/types/*.cpp\
+   communication/owen/funcs/*.cpp\
+   communication/*.cpp
 
 
 OTHER_FILES +=\

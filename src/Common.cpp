@@ -110,40 +110,6 @@ int prog_step_T[MAXNUMOFSTEPS] =
 float Tsettings[2][MAXNUMOFSTEPS] =
 {0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
-
-// переменные группы CtrlGr4 ------------------------------------------------
-// блок DB8
-float poll_step_SA[MAXNUMOFPOLLS];
-// блок DB22
-float step_SA[MAXNUMOFSTEPS];
-wchar_t *Gr4ItemsNme[GR4ITEMSNUM] =
-{NULL};
-wchar_t Gr4ItemsAddr[GR4ITEMSNUM][ADDRLEN] =
-{L""};
-String AddrDB8 = "S7:[S7 connection_4]DB8,REAL",
-       AddrDB22 = "S7:[S7 connection_4]DB22,REAL";
-// End of CtrlGr4 -----------------------------------------------------------
-// переменные группы CtrlGr5 ------------------------------------------------
-// блок DB7
-int poll_step_TA[MAXNUMOFPOLLS];
-// блок DB21
-int step_TA[MAXNUMOFSTEPS];
-wchar_t *Gr5ItemsNme[GR5ITEMSNUM] =
-{NULL};
-wchar_t Gr5ItemsAddr[GR5ITEMSNUM][ADDRLEN] =
-{L""};
-String AddrDB7 = "S7:[S7 connection_4]DB7,DINT", AddrDB21 =
-   "S7:[S7 connection_4]DB21,DINT";
-// End of CtrlGr5 -----------------------------------------------------------
-// переменные группы CtrlGr6 ------------------------------------------------
-// блок DB23
-float setting_A[2][100];
-wchar_t *Gr6ItemsNme[GR6ITEMSNUM] =
-{NULL};
-wchar_t Gr6ItemsAddr[GR6ITEMSNUM][ADDRLEN] =
-{L""};
-String AddrDB23 = "S7:[S7 connection_4]DB23,REAL";
-// End of CtrlGr6 -----------------------------------------------------------
 // переменные группы CtrlGr7 ------------------------------------------------
 // блок DB1
 int read_TA[MAXNUMOFPOLLS];

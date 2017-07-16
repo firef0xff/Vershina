@@ -2738,10 +2738,11 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
    auto &gr4 = cpu::CpuMemory::Instance().mGr4;
+   auto &gr6 = cpu::CpuMemory::Instance().mGr6;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      setting_A[0][i] = Ssettings[0][i];
-      setting_A[1][i] = Ssettings[1][i];
+      gr6.setting_A0[i] = Ssettings[0][i];
+      gr6.setting_A1[i] = Ssettings[1][i];
       gr4.step_SA[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
@@ -2767,7 +2768,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
       OPCControlPause(tReadCycleTimer);
       gr3.Write();
       gr4.Write();
-      pOPC->WriteGr6();
+      gr6.Write();
       OPCControlResume(tReadCycleTimer);
       LogPrintF(LogFName(), "Программа по пути загружена в поз. А!");
       sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. А!";
@@ -3070,18 +3071,19 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    {
       return;
    }
-
+   auto &gr5 = cpu::CpuMemory::Instance().mGr5;
+   auto &gr6 = cpu::CpuMemory::Instance().mGr6;
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      setting_A[0][i] = Tsettings[0][i];
-      setting_A[1][i] = Tsettings[1][i];
-      step_TA[i] = prog_step_T[i];
+      gr6.setting_A0[i] = Tsettings[0][i];
+      gr6.setting_A1[i] = Tsettings[1][i];
+      gr5.step_TA[i] = prog_step_T[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      poll_step_TA[i] = poll_step_T[i];
+      gr5.poll_step_TA[i] = poll_step_T[i];
    }
    RunProgNameA = TProgName;
    SetCurrProgA(RunProgNameA);
@@ -3103,8 +3105,8 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
       OPCControlPause(tReadCycleTimer);
       btnResetResPosA->Click();
       gr3.Write();
-      pOPC->WriteGr5();
-      pOPC->WriteGr6();
+      gr5.Write();
+      gr6.Write();
       OPCControlResume(tReadCycleTimer);
       btnCheckTProg->Enabled = false;
       btnSaveTProgToFile->Enabled = true;

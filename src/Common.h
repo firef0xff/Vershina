@@ -88,24 +88,6 @@ extern bool switch_Carriage1;
 extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
-// переменные группы CtrlGr5 ------------------------------------------------
-// блок DB7
-extern int poll_step_TA[MAXNUMOFPOLLS];
-// блок DB21
-extern int step_TA[MAXNUMOFSTEPS];
-// адреса переменных в группе 5
-extern wchar_t *Gr5ItemsNme[GR5ITEMSNUM];
-extern wchar_t Gr5ItemsAddr[GR5ITEMSNUM][ADDRLEN];
-extern String AddrDB7, AddrDB21;
-// End of CtrlGr5 -----------------------------------------------------------
-// переменные группы CtrlGr6 ------------------------------------------------
-// блок DB23
-extern float setting_A[2][MAXNUMOFSTEPS];
-// адреса переменных в группе 6
-extern wchar_t *Gr6ItemsNme[GR6ITEMSNUM];
-extern wchar_t Gr6ItemsAddr[GR6ITEMSNUM][ADDRLEN];
-extern String AddrDB23;
-// End of CtrlGr6 -----------------------------------------------------------
 // переменные группы CtrlGr7 ------------------------------------------------
 // блок DB1
 extern int read_TA[MAXNUMOFPOLLS];

@@ -1,10 +1,5 @@
 ﻿#define ADDRLEN         100    // Максимальная длина строки для адреса одного элемента
 
-#define GR51ITEMSNUM    250    // количество переменных в массиве 1 группы 5
-#define GR52ITEMSNUM    100    // количество переменных в массиве 2 группы 5
-#define GR5ITEMSNUM     GR51ITEMSNUM+GR52ITEMSNUM    // количество переменных в группе 5
-
-#define GR6ITEMSNUM     200    // количество переменных в группе 6
 #define GR7ARRAYSNUM      6    // количество массивов в группе 7
 #define GR7ARRAYSIZE    250    // размер массивов в группе 7
 
