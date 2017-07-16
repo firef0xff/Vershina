@@ -8,6 +8,9 @@
 #include "data/gr4.h"
 #include "data/gr5.h"
 #include "data/gr6.h"
+#include "data/gr8.h"
+#include "data/gr9.h"
+#include "data/gr10.h"
 namespace cpu
 {
 
@@ -20,9 +23,16 @@ public:
     data::GR1 mGr1;
     data::GR2 mGr2;
     data::GR3 mGr3;
+
+    //A
     data::GR4 mGr4;
     data::GR5 mGr5;
     data::GR6 mGr6;
+
+    //B
+    data::GR8 mGr8;
+    data::GR9 mGr9;
+    data::GR10 mGr10;
 private:
     CpuMemory();
     CpuMemory( CpuMemory const& ) = delete;

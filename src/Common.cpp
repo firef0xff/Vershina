@@ -130,42 +130,7 @@ wchar_t *Gr7ItemsNme[GR7ARRAYSNUM] =
    L"S7:[S7 connection_4]DB5,REAL2,250", L"S7:[S7 connection_4]DB6,REAL2,250",
 };
 // End of CtrlGr7 -----------------------------------------------------------
-// переменные группы CtrlGr8 ------------------------------------------------
-// блок DB18
-float poll_step_SB[MAXNUMOFPOLLS];
-// блок DB32
-float step_SB[MAXNUMOFSTEPS];
-// адреса переменных в группе 8
-wchar_t *Gr8ItemsNme[GR8ITEMSNUM] =
-{NULL};
-wchar_t Gr8ItemsAddr[GR8ITEMSNUM][ADDRLEN] =
-{L""};
-String AddrDB18 = "S7:[S7 connection_4]DB18,REAL", AddrDB32 =
-   "S7:[S7 connection_4]DB32,REAL";
-// End of CtrlGr8 -----------------------------------------------------------
-// переменные группы CtrlGr9 ------------------------------------------------
-// блок DB17
-int poll_step_TB[MAXNUMOFPOLLS];
-// блок DB31
-int step_TB[MAXNUMOFSTEPS];
-// адреса переменных в группе 9
-wchar_t *Gr9ItemsNme[GR9ITEMSNUM] =
-{NULL};
-wchar_t Gr9ItemsAddr[GR9ITEMSNUM][ADDRLEN] =
-{L""};
-String AddrDB17 = "S7:[S7 connection_4]DB17,DINT", AddrDB31 =
-   "S7:[S7 connection_4]DB31,DINT";
-// End of CtrlGr9 -----------------------------------------------------------
-// переменные группы CtrlGr10 -----------------------------------------------
-// блок DB33
-float setting_B[2][MAXNUMOFSTEPS];
-// адреса переменных в группе 10
-wchar_t *Gr10ItemsNme[GR10ITEMSNUM] =
-{NULL};
-wchar_t Gr10ItemsAddr[GR10ITEMSNUM][ADDRLEN] =
-{L""};
-String AddrDB33 = "S7:[S7 connection_4]DB33,REAL";
-// End of CtrlGr10 ----------------------------------------------------------
+
 // переменные группы CtrlGr11 -----------------------------------------------
 // блок DB11
 int read_TB[MAXNUMOFPOLLS];

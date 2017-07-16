@@ -21,6 +21,9 @@ HEADERS +=\
    src/cpu/data/gr4.h\
    src/cpu/data/gr5.h\
    src/cpu/data/gr6.h\
+   src/cpu/data/gr8.h\
+   src/cpu/data/gr9.h\
+   src/cpu/data/gr10.h\
    src/login/*.h\
    src/login/dialogs/*.h\
    src/opc/*.h\
@@ -50,6 +53,9 @@ SOURCES +=\
    src/cpu/data/gr4.cpp\
    src/cpu/data/gr5.cpp\
    src/cpu/data/gr6.cpp\
+   src/cpu/data/gr8.cpp\
+   src/cpu/data/gr9.cpp\
+   src/cpu/data/gr10.cpp\
    src/opc/*.c\
    src/opc/*.cpp\
    src/sert/*.cpp\

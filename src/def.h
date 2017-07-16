@@ -3,14 +3,6 @@
 #define GR7ARRAYSNUM      6    // количество массивов в группе 7
 #define GR7ARRAYSIZE    250    // размер массивов в группе 7
 
-#define GR81ITEMSNUM    250    // количество переменных в массиве 1 группы 8
-#define GR82ITEMSNUM    100    // количество переменных в массиве 2 группы 8
-#define GR8ITEMSNUM     GR81ITEMSNUM+GR82ITEMSNUM    // количество переменных в группе 8
-
-#define GR91ITEMSNUM    250    // количество переменных в массиве 1 группы 9
-#define GR92ITEMSNUM    100    // количество переменных в массиве 2 группы 9
-#define GR9ITEMSNUM     GR91ITEMSNUM+GR92ITEMSNUM    // количество переменных в группе 9
-
 #define GR10ITEMSNUM    200    // количество переменных в группе 10
 
 #define GR11ARRAYSNUM     6    // количество массивов в группе 11

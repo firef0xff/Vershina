@@ -71,9 +71,9 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <PackageImports>vclx.bpi;vcl.bpi;dbrtl.bpi;Rave75VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;dsnap.bpi;dsnapcon.bpi;teeUI.bpi;teedb.bpi;tee.bpi;adortl.bpi;vclib.bpi;ibxpress.bpi;dbxcds.bpi;dbexpress.bpi;DbxCommonDriver.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;IntrawebDB_90_100.bpi;Intraweb_90_100.bpi;VclSmp.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;$(PackageImports)</PackageImports>
         <BCC_wpar>false</BCC_wpar>
-        <IncludePath>src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;$(BDS)\include;$(IncludePath)</IncludePath>
+        <IncludePath>communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;$(BDS)\include;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;vclimg.lib;dbrtl.lib;adortl.lib</AllPackageLibs>
-        <ILINK_LibraryPath>src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;..\..\Projects;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;..\..\Projects;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -355,12 +355,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -739,27 +754,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
@@ -775,6 +775,50 @@
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
     <ItemGroup>
+        <None Include="communication\buffer_tools.h">
+            <BuildOrder>34</BuildOrder>
+        </None>
+        <CppCompile Include="communication\owen\funcs\owen_read.cpp">
+            <DependentOn>communication\owen\funcs\owen_read.h</DependentOn>
+            <BuildOrder>44</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="communication\owen\funcs\owen_write.cpp">
+            <DependentOn>communication\owen\funcs\owen_write.h</DependentOn>
+            <BuildOrder>45</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="communication\owen\owen_command.cpp">
+            <DependentOn>communication\owen\owen_command.h</DependentOn>
+            <BuildOrder>36</BuildOrder>
+        </CppCompile>
+        <None Include="communication\owen\owen_data_element.h">
+            <BuildOrder>37</BuildOrder>
+        </None>
+        <CppCompile Include="communication\owen\owen_paskage.cpp">
+            <DependentOn>communication\owen\owen_paskage.h</DependentOn>
+            <BuildOrder>38</BuildOrder>
+        </CppCompile>
+        <None Include="communication\owen\types\owen_data_encoding.h">
+            <BuildOrder>39</BuildOrder>
+        </None>
+        <CppCompile Include="communication\owen\types\owen_float.cpp">
+            <DependentOn>communication\owen\types\owen_float.h</DependentOn>
+            <BuildOrder>40</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="communication\owen\types\owen_int_types.cpp">
+            <DependentOn>communication\owen\types\owen_int_types.h</DependentOn>
+            <BuildOrder>45</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="communication\owen\types\owen_string.cpp">
+            <DependentOn>communication\owen\types\owen_string.h</DependentOn>
+            <BuildOrder>42</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="communication\owen\types\owen_time.cpp">
+            <DependentOn>communication\owen\types\owen_time.h</DependentOn>
+            <BuildOrder>43</BuildOrder>
+        </CppCompile>
+        <None Include="communication\swap_endian.h">
+            <BuildOrder>35</BuildOrder>
+        </None>
         <CppCompile Include="COMPort\ComPort.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>
@@ -825,6 +869,10 @@
             <DependentOn>src\cpu\data\gr1.h</DependentOn>
             <BuildOrder>30</BuildOrder>
         </CppCompile>
+        <CppCompile Include="src\cpu\data\gr10.cpp">
+            <DependentOn>src\cpu\data\gr10.h</DependentOn>
+            <BuildOrder>50</BuildOrder>
+        </CppCompile>
         <CppCompile Include="src\cpu\data\gr2.cpp">
             <DependentOn>src\cpu\data\gr2.h</DependentOn>
             <BuildOrder>31</BuildOrder>
@@ -836,6 +884,22 @@
         <CppCompile Include="src\cpu\data\gr4.cpp">
             <DependentOn>src\cpu\data\gr4.h</DependentOn>
             <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\cpu\data\gr5.cpp">
+            <DependentOn>src\cpu\data\gr5.h</DependentOn>
+            <BuildOrder>46</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\cpu\data\gr6.cpp">
+            <DependentOn>src\cpu\data\gr6.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\cpu\data\gr8.cpp">
+            <DependentOn>src\cpu\data\gr8.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\cpu\data\gr9.cpp">
+            <DependentOn>src\cpu\data\gr9.h</DependentOn>
+            <BuildOrder>49</BuildOrder>
         </CppCompile>
         <None Include="src\cpu\data_block_base.h">
             <BuildOrder>29</BuildOrder>
@@ -909,9 +973,9 @@
         <ResFiles Include="Vershina.res">
             <BuildOrder>0</BuildOrder>
         </ResFiles>
-        <FormResources Include="src\login\Login.dfm"/>
         <FormResources Include="src\login\dialogs\User_Data.dfm"/>
         <FormResources Include="src\login\dialogs\GroupSelect.dfm"/>
+        <FormResources Include="src\login\Login.dfm"/>
         <FormResources Include="src\login\AppManagnent.dfm"/>
         <FormResources Include="src\Vershina_main.dfm"/>
         <FormResources Include="src\splash_screen\Head_band.dfm"/>

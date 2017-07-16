@@ -104,34 +104,7 @@ extern float read_TempA[MAXNUMOFPOLLS];
 // адреса переменных в группе 7
 extern wchar_t *Gr7ItemsNme[GR7ARRAYSNUM];
 // End of CtrlGr7 -----------------------------------------------------------
-// переменные группы CtrlGr8 ------------------------------------------------
-// блок DB18
-extern float poll_step_SB[MAXNUMOFPOLLS];
-// блок DB32
-extern float step_SB[MAXNUMOFSTEPS];
-// адреса переменных в группе 8
-extern wchar_t *Gr8ItemsNme[GR8ITEMSNUM];
-extern wchar_t Gr8ItemsAddr[GR8ITEMSNUM][ADDRLEN];
-extern String AddrDB18, AddrDB32;
-// End of CtrlGr8 -----------------------------------------------------------
-// переменные группы CtrlGr9 ------------------------------------------------
-// блок DB17
-extern int poll_step_TB[MAXNUMOFPOLLS];
-// блок DB31
-extern int step_TB[MAXNUMOFSTEPS];
-// адреса переменных в группе 9
-extern wchar_t *Gr9ItemsNme[GR9ITEMSNUM];
-extern wchar_t Gr9ItemsAddr[GR9ITEMSNUM][ADDRLEN];
-extern String AddrDB17, AddrDB31;
-// End of CtrlGr9 -----------------------------------------------------------
-// переменные группы CtrlGr10 -----------------------------------------------
-// блок DB33
-extern float setting_B[2][MAXNUMOFSTEPS];
-// адреса переменных в группе 10
-extern wchar_t *Gr10ItemsNme[GR10ITEMSNUM];
-extern wchar_t Gr10ItemsAddr[GR10ITEMSNUM][ADDRLEN];
-extern String AddrDB33;
-// End of CtrlGr10 ----------------------------------------------------------
+
 // переменные группы CtrlGr11 -----------------------------------------------
 // блок DB11
 extern int read_TB[MAXNUMOFPOLLS];

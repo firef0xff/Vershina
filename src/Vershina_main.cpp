@@ -2790,15 +2790,17 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    LogPrint("Загрузка программы по пути в поз. Б!", clAqua);
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. Б!";
    // читаем программу из ячеек и загружаем в контроллер поз. B
+   auto &gr8 = cpu::CpuMemory::Instance().mGr8;
+   auto &gr10 = cpu::CpuMemory::Instance().mGr10;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      setting_B[0][i] = Ssettings[0][i];
-      setting_B[1][i] = Ssettings[1][i];
-      step_SB[i] = prog_step_S[i];
+      gr10.setting_B0[i] = Ssettings[0][i];
+      gr10.setting_B1[i] = Ssettings[1][i];
+      gr8.step_SB[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      poll_step_SB[i] = poll_step_S[i];
+      gr8.poll_step_SB[i] = poll_step_S[i];
    }
    RunProgNameB = SProgName;
    SetCurrProgB(RunProgNameB);
@@ -2818,8 +2820,8 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    {
       OPCControlPause(tReadCycleTimer);
       gr3.Write();
-      pOPC->WriteGr8();
-      pOPC->WriteGr10();
+      gr8.Write();
+      gr10.Write();
       OPCControlResume(tReadCycleTimer);
       sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. Б!";
    }
@@ -3132,16 +3134,18 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
       return;
    }
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
+   auto &gr9 = cpu::CpuMemory::Instance().mGr9;
+   auto &gr10 = cpu::CpuMemory::Instance().mGr10;
    // читаем программу из ячеек и загружаем в контроллер поз. Б
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      setting_B[0][i] = Tsettings[0][i];
-      setting_B[1][i] = Tsettings[1][i];
-      step_TB[i] = prog_step_T[i];
+      gr10.setting_B0[i] = Tsettings[0][i];
+      gr10.setting_B1[i] = Tsettings[1][i];
+      gr9.step_TB[i] = prog_step_T[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      poll_step_TB[i] = poll_step_T[i];
+      gr9.poll_step_TB[i] = poll_step_T[i];
    }
    RunProgNameB = TProgName;
    SetCurrProgB(RunProgNameB);
@@ -3163,8 +3167,8 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
       OPCControlPause(tReadCycleTimer);
       btnResetResPosB->Click();
       gr3.Write();
-      pOPC->WriteGr9();
-      pOPC->WriteGr10();
+      gr9.Write();
+      gr10.Write();
       OPCControlResume(tReadCycleTimer);
       btnCheckTProg->Enabled = false;
       btnSaveTProgToFile->Enabled = true;

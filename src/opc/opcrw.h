@@ -11,16 +11,10 @@ class OPCRW
 public:
    __fastcall OPCRW(void); // конструктор
    int __fastcall ReadGr7(void); // чтение переменных группы 7
-   int __fastcall ReadGr8(void); // чтение переменных группы 8
-   int __fastcall ReadGr9(void); // чтение переменных группы 9
-   int __fastcall ReadGr10(void); // чтение переменных группы 10
    int __fastcall ReadGr11(void); // чтение переменных группы 11
    int __fastcall ReadGr12(void); // чтение переменных группы 12
    int __fastcall ReadGr13(void); // чтение переменных группы 13
    int __fastcall ResetGr7(void); // сброс значений для переменных группый 7
-   int __fastcall WriteGr8(void); // запись вещественных массивов группы 8
-   int __fastcall WriteGr9(void); // запись целых массивов группы 9
-   int __fastcall WriteGr10(void); // запись вещественного массива группы 10
    int __fastcall ResetGr11(void); // сброс значений для переменных группый 11
    int __fastcall WriteGr12(void); // запись вещественного массива группы 12
    int __fastcall WriteGr13(void); // запись вещественного массива группы 13
@@ -36,25 +30,20 @@ public:
 private:
    IOPCServer *pIOPCServer; // указатель на OPC-сервер
    IOPCItemMgt // указатели на группы
-      *pIOPCItemMgt7, *pIOPCItemMgt8, *pIOPCItemMgt9,
-      *pIOPCItemMgt10, *pIOPCItemMgt11, *pIOPCItemMgt12, *pIOPCItemMgt13;
+      *pIOPCItemMgt7, *pIOPCItemMgt11, *pIOPCItemMgt12, *pIOPCItemMgt13;
    IOPCSyncIO // указатели на интерфейсы ввода/вывода
-      *pIOPCSyncIO7, *pIOPCSyncIO8, *pIOPCSyncIO9, *pIOPCSyncIO10,
-      *pIOPCSyncIO11, *pIOPCSyncIO12, *pIOPCSyncIO13;
+      *pIOPCSyncIO7, *pIOPCSyncIO11, *pIOPCSyncIO12, *pIOPCSyncIO13;
    OPCITEMDEF// эелементы в группах
-      ItemsGr7[GR7ARRAYSNUM],
-      ItemsGr8[GR8ITEMSNUM], ItemsGr9[GR9ITEMSNUM], ItemsGr10[GR10ITEMSNUM],
-      ItemsGr11[GR11ARRAYSNUM], ItemsGr12[GR12ITEMSNUM],
+      ItemsGr7[GR7ARRAYSNUM], ItemsGr11[GR11ARRAYSNUM], ItemsGr12[GR12ITEMSNUM],
       ItemsGr13[GR13ITEMSNUM];
    OPCITEMRESULT // указатели на элементы
-      *pItemResult7, *pItemResult8, *pItemResult9, *pItemResult10,
-      *pItemResult11, *pItemResult12, *pItemResult13;
+      *pItemResult7, *pItemResult11, *pItemResult12, *pItemResult13;
    OPCHANDLE GrpSrvHandle;
    HRESULT *pErrors, *pRErrors, r1;
    UINT qnr;
 
    wchar_t *pServerName;
-   wchar_t *pGr7Name, *pGr8Name, *pGr9Name, *pGr10Name, *pGr11Name, *pGr12Name,
+   wchar_t *pGr7Name, *pGr11Name, *pGr12Name,
       *pGr13Name;
    _GUID clsid;
    long TimeBias;
