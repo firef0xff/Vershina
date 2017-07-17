@@ -149,10 +149,10 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) : TForm(Owner), closing(false)
       MainFormHandle = mfRB->Handle;
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
-      auto &gr12 = cpu::CpuMemory::Instance().mGr12;
-      auto &gr13 = cpu::CpuMemory::Instance().mGr13;
-      LdCA->LKQInit( gr12.Q1, gr12.A1);
-      LdCB->LKQInit( gr13.Q2, gr13.A2);
+      auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
+      auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+      LdCA->LKQInit( gr12.Q, gr12.A);
+      LdCB->LKQInit( gr13.Q, gr13.A);
       pPrt = reLog;
       reLog->Clear();
       pProtPrt->Canvas->Font->Name = "Lucida Console";
@@ -2722,17 +2722,17 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    LogPrint("Загрузка программы по пути в поз. А!", clAqua);
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
-   auto &gr4 = cpu::CpuMemory::Instance().mGr4;
-   auto &gr6 = cpu::CpuMemory::Instance().mGr6;
+   auto &gr4 = cpu::CpuMemory::Instance().mGr4Pos1;
+   auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      gr6.setting_A0[i] = Ssettings[0][i];
-      gr6.setting_A1[i] = Ssettings[1][i];
-      gr4.step_SA[i] = prog_step_S[i];
+      gr6.setting_0[i] = Ssettings[0][i];
+      gr6.setting_1[i] = Ssettings[1][i];
+      gr4.step_S[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      gr4.poll_step_SA[i] = poll_step_S[i];
+      gr4.poll_step_S[i] = poll_step_S[i];
    }
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
    RunProgNameA = SProgName;
@@ -2775,17 +2775,17 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    LogPrint("Загрузка программы по пути в поз. Б!", clAqua);
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. Б!";
    // читаем программу из ячеек и загружаем в контроллер поз. B
-   auto &gr8 = cpu::CpuMemory::Instance().mGr8;
-   auto &gr10 = cpu::CpuMemory::Instance().mGr10;
+   auto &gr8 = cpu::CpuMemory::Instance().mGr4Pos2;
+   auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      gr10.setting_B0[i] = Ssettings[0][i];
-      gr10.setting_B1[i] = Ssettings[1][i];
-      gr8.step_SB[i] = prog_step_S[i];
+      gr10.setting_0[i] = Ssettings[0][i];
+      gr10.setting_1[i] = Ssettings[1][i];
+      gr8.step_S[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      gr8.poll_step_SB[i] = poll_step_S[i];
+      gr8.poll_step_S[i] = poll_step_S[i];
    }
    RunProgNameB = SProgName;
    SetCurrProgB(RunProgNameB);
@@ -3058,19 +3058,19 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    {
       return;
    }
-   auto &gr5 = cpu::CpuMemory::Instance().mGr5;
-   auto &gr6 = cpu::CpuMemory::Instance().mGr6;
+   auto &gr5 = cpu::CpuMemory::Instance().mGr5Pos1;
+   auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      gr6.setting_A0[i] = Tsettings[0][i];
-      gr6.setting_A1[i] = Tsettings[1][i];
-      gr5.step_TA[i] = prog_step_T[i];
+      gr6.setting_0[i] = Tsettings[0][i];
+      gr6.setting_1[i] = Tsettings[1][i];
+      gr5.step_T[i] = prog_step_T[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      gr5.poll_step_TA[i] = poll_step_T[i];
+      gr5.poll_step_T[i] = poll_step_T[i];
    }
    RunProgNameA = TProgName;
    SetCurrProgA(RunProgNameA);
@@ -3119,18 +3119,18 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
       return;
    }
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
-   auto &gr9 = cpu::CpuMemory::Instance().mGr9;
-   auto &gr10 = cpu::CpuMemory::Instance().mGr10;
+   auto &gr9 = cpu::CpuMemory::Instance().mGr5Pos2;
+   auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
    // читаем программу из ячеек и загружаем в контроллер поз. Б
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      gr10.setting_B0[i] = Tsettings[0][i];
-      gr10.setting_B1[i] = Tsettings[1][i];
-      gr9.step_TB[i] = prog_step_T[i];
+      gr10.setting_0[i] = Tsettings[0][i];
+      gr10.setting_1[i] = Tsettings[1][i];
+      gr9.step_T[i] = prog_step_T[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
-      gr9.poll_step_TB[i] = poll_step_T[i];
+      gr9.poll_step_T[i] = poll_step_T[i];
    }
    RunProgNameB = TProgName;
    SetCurrProgB(RunProgNameB);
@@ -6973,8 +6973,8 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
          OPCControlPause(tReadCycleTimer);
          ReadLSertTable(LdCA.get(), sgLoadSertA);
          // прочитали коэффициенты KA из таблицы
-         auto &gr12 = cpu::CpuMemory::Instance().mGr12;
-         LdCA->LKSetting(gr12.A1); // сохранили итоговые КА в А1
+         auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
+         LdCA->LKSetting(gr12.A); // сохранили итоговые КА в А1
          gr12.Write(); // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -6993,8 +6993,8 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
          OPCControlPause(tReadCycleTimer);
          ReadLSertTable(LdCB.get(), sgLoadSertB);
          // прочитали коэффициенты KA из таблицы
-         auto &gr13 = cpu::CpuMemory::Instance().mGr13;
-         LdCB->LKSetting(gr13.A2); // сохранили итоговые КА в А1
+         auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+         LdCB->LKSetting(gr13.A); // сохранили итоговые КА в А1
          gr13.Write(); // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -7093,8 +7093,8 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr12 = cpu::CpuMemory::Instance().mGr12;
-         ResetKA(gr12.A1); // сбросили коэффициенты А1 в единичку
+         auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
+         ResetKA(gr12.A); // сбросили коэффициенты А1 в единичку
          gr12.Write(); // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -7111,8 +7111,8 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr13 = cpu::CpuMemory::Instance().mGr13;
-         ResetKA(gr13.A2); // сбросили коэффициенты А2 в единичку
+         auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+         ResetKA(gr13.A); // сбросили коэффициенты А2 в единичку
          gr13.Write(); // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -7274,9 +7274,9 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr12 = cpu::CpuMemory::Instance().mGr12;
+         auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
          gr12.Read(); // прочитали коэффициенты А из DB71
-         LdCA->LKRead(gr12.A1); // сохранили прочитанные коэффициенты в ReadKA
+         LdCA->LKRead(gr12.A); // сохранили прочитанные коэффициенты в ReadKA
          for (int i = 0; i < LDCQTY; i++)
          { // записали коэффициенты в таблицу
             sgLoadSertA->Cells[4][i + 1] =
@@ -7297,9 +7297,9 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr13 = cpu::CpuMemory::Instance().mGr13;
+         auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
          gr13.Read(); // прочитали коэффициенты А из DB70
-         LdCB->LKRead(gr13.A2); // сохранили прочитанные коэффициенты в ReadKA
+         LdCB->LKRead(gr13.A); // сохранили прочитанные коэффициенты в ReadKA
          for (int i = 0; i < LDCQTY; i++)
          { // записали коэффициенты в таблицу
             sgLoadSertB->Cells[4][i + 1] =

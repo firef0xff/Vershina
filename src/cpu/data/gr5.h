@@ -17,32 +17,26 @@ public:
    {
       POLLS_COUNT = 250,
       STEPS_COUNT = 100,
+      ARRAYS_COUNT = 2
    };
 
    bool Read();
    void Write();
 
-   int32_t poll_step_TA[POLLS_COUNT];
-   int32_t step_TA[STEPS_COUNT];
+   int32_t poll_step_T[POLLS_COUNT];
+   int32_t step_T[STEPS_COUNT];
 
 private:
    friend class cpu::CpuMemory;
-   GR5();
+   GR5(const wchar_t* group_name, const wchar_t *addresses[] );
    GR5( const GR5& ) = delete;
    void operator = ( const GR5& ) = delete;
 
-   enum
-   {
-       ARRAYS_COUNT = 2
-   };
-
    unsigned long long mGroupID = 0;
-   wchar_t const* mAdresses[ ARRAYS_COUNT ] =
-   {
-      L"S7:[S7 connection_4]DB7,DINT0,250",
-      L"S7:[S7 connection_4]DB21,DINT0,100"
-   };
 };
+
+extern wchar_t const* Gr5Pos1Adresses[ GR5::ARRAYS_COUNT ];
+extern wchar_t const* Gr5Pos1Name;
 
 }
 

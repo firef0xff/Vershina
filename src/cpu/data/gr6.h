@@ -16,32 +16,25 @@ public:
    enum
    {
       ITEMS_COUNT = 100,
+      ARRAYS_COUNT = 2
    };
 
    bool Read();
    void Write();
 
-   float setting_A0[ITEMS_COUNT];
-   float setting_A1[ITEMS_COUNT];
+   float setting_0[ITEMS_COUNT];
+   float setting_1[ITEMS_COUNT];
 
 private:
    friend class cpu::CpuMemory;
-   GR6();
+   GR6(const wchar_t* group_name, const wchar_t *addresses[] );
    GR6( const GR6& ) = delete;
    void operator = ( const GR6& ) = delete;
 
-   enum
-   {
-       ARRAYS_COUNT = 2
-   };
-
    unsigned long long mGroupID = 0;
-   wchar_t const* mAdresses[ ARRAYS_COUNT ] =
-   {
-      L"S7:[S7 connection_4]DB23,REAL0,100",
-      L"S7:[S7 connection_4]DB23,REAL100,100"
-   };
 };
+extern wchar_t const* Gr6Pos1Adresses[ GR6::ARRAYS_COUNT ];
+extern wchar_t const* Gr6Pos1Name;
 
 }
 

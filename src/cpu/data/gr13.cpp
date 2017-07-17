@@ -7,44 +7,64 @@ namespace cpu
 {
 namespace data
 {
-GR13::GR13()
+extern wchar_t const* Gr12Pos2AdressesA[ GR12::ITEMS_COUNT ] =
 {
-    memset( A2, 0, sizeof(A2) );
-    memset( Q2, 0, sizeof(Q2) );
-    mAGroupID = opc::miniOPC::Instance().AddGroup( L"GR13A", mAdressesA, ITEMS_COUNT );
-    mQGroupID = opc::miniOPC::Instance().AddGroup( L"GR13Q", mAdressesQ, ITEMS_COUNT );
-}
+   // Коэффициент коррекции прямой ход
+   L"S7:[S7 connection_4]DB70,REAL180", L"S7:[S7 connection_4]DB70,REAL188",
+   L"S7:[S7 connection_4]DB70,REAL196", L"S7:[S7 connection_4]DB70,REAL204",
+   L"S7:[S7 connection_4]DB70,REAL212", L"S7:[S7 connection_4]DB70,REAL2",
+   L"S7:[S7 connection_4]DB70,REAL10", L"S7:[S7 connection_4]DB70,REAL18",
+   L"S7:[S7 connection_4]DB70,REAL26", L"S7:[S7 connection_4]DB70,REAL34",
+   L"S7:[S7 connection_4]DB70,REAL42", L"S7:[S7 connection_4]DB70,REAL50",
+   L"S7:[S7 connection_4]DB70,REAL58", L"S7:[S7 connection_4]DB70,REAL66",
+   L"S7:[S7 connection_4]DB70,REAL74", L"S7:[S7 connection_4]DB70,REAL260",
+   L"S7:[S7 connection_4]DB70,REAL268", L"S7:[S7 connection_4]DB70,REAL276",
+   L"S7:[S7 connection_4]DB70,REAL284", L"S7:[S7 connection_4]DB70,REAL292",
 
-bool GR13::Read()
+   // Коэффициент коррекции обратный ход
+
+   L"S7:[S7 connection_4]DB70,REAL300", L"S7:[S7 connection_4]DB70,REAL308",
+   L"S7:[S7 connection_4]DB70,REAL316", L"S7:[S7 connection_4]DB70,REAL324",
+   L"S7:[S7 connection_4]DB70,REAL332", L"S7:[S7 connection_4]DB70,REAL100",
+   L"S7:[S7 connection_4]DB70,REAL108", L"S7:[S7 connection_4]DB70,REAL116",
+   L"S7:[S7 connection_4]DB70,REAL124", L"S7:[S7 connection_4]DB70,REAL132",
+   L"S7:[S7 connection_4]DB70,REAL140", L"S7:[S7 connection_4]DB70,REAL148",
+   L"S7:[S7 connection_4]DB70,REAL156", L"S7:[S7 connection_4]DB70,REAL164",
+   L"S7:[S7 connection_4]DB70,REAL172", L"S7:[S7 connection_4]DB70,REAL220",
+   L"S7:[S7 connection_4]DB70,REAL228", L"S7:[S7 connection_4]DB70,REAL236",
+   L"S7:[S7 connection_4]DB70,REAL244", L"S7:[S7 connection_4]DB70,REAL252"
+};
+extern wchar_t const* Gr12Pos2NameA = L"Gr12Pos2A";
+
+extern wchar_t const* Gr12Pos2AdressesQ[ GR12::ITEMS_COUNT ]=
 {
-   OPCITEMSTATE* rez = opc::miniOPC::Instance().Read( mAGroupID );
-   if (!rez)//ошибка подключения..
-      return false;
-   for (size_t i = 0; i < ITEMS_COUNT; i++)
-      A2[ i ] = rez[i].vDataValue.fltVal;
-   opc::miniOPC::Instance().OpcMassFree( mAGroupID, rez );
+   // Граница действия прямой ход
+   L"S7:[S7 connection_4]DB70,REAL184", L"S7:[S7 connection_4]DB70,REAL192",
+   L"S7:[S7 connection_4]DB70,REAL200", L"S7:[S7 connection_4]DB70,REAL208",
+   L"S7:[S7 connection_4]DB70,REAL216", L"S7:[S7 connection_4]DB70,REAL6",
+   L"S7:[S7 connection_4]DB70,REAL14", L"S7:[S7 connection_4]DB70,REAL22",
+   L"S7:[S7 connection_4]DB70,REAL30", L"S7:[S7 connection_4]DB70,REAL38",
+   L"S7:[S7 connection_4]DB70,REAL46", L"S7:[S7 connection_4]DB70,REAL54",
+   L"S7:[S7 connection_4]DB70,REAL62", L"S7:[S7 connection_4]DB70,REAL70",
+   L"S7:[S7 connection_4]DB70,REAL78", L"S7:[S7 connection_4]DB70,REAL264",
+   L"S7:[S7 connection_4]DB70,REAL272", L"S7:[S7 connection_4]DB70,REAL280",
+   L"S7:[S7 connection_4]DB70,REAL288", L"S7:[S7 connection_4]DB70,REAL296",
 
+   // Граница действия обратный ход
 
-   rez = opc::miniOPC::Instance().Read( mQGroupID );
-   if (!rez)//ошибка подключения..
-      return false;
-   for (size_t i = 0; i < ITEMS_COUNT; i++)
-      Q2[ i ] = rez[i].vDataValue.fltVal;
-   opc::miniOPC::Instance().OpcMassFree( mQGroupID, rez );
+   L"S7:[S7 connection_4]DB70,REAL304", L"S7:[S7 connection_4]DB70,REAL312",
+   L"S7:[S7 connection_4]DB70,REAL320", L"S7:[S7 connection_4]DB70,REAL328",
+   L"S7:[S7 connection_4]DB70,REAL336", L"S7:[S7 connection_4]DB70,REAL104",
+   L"S7:[S7 connection_4]DB70,REAL112", L"S7:[S7 connection_4]DB70,REAL120",
+   L"S7:[S7 connection_4]DB70,REAL128", L"S7:[S7 connection_4]DB70,REAL136",
+   L"S7:[S7 connection_4]DB70,REAL144", L"S7:[S7 connection_4]DB70,REAL152",
+   L"S7:[S7 connection_4]DB70,REAL160", L"S7:[S7 connection_4]DB70,REAL168",
+   L"S7:[S7 connection_4]DB70,REAL176", L"S7:[S7 connection_4]DB70,REAL224",
+   L"S7:[S7 connection_4]DB70,REAL232", L"S7:[S7 connection_4]DB70,REAL240",
+   L"S7:[S7 connection_4]DB70,REAL248", L"S7:[S7 connection_4]DB70,REAL256"
+};
+extern wchar_t const* Gr12Pos2NameQ = L"Gr12Pos2Q";
 
-   return true;
-}
-
-void GR13::Write()
-{
-   HRESULT res = E_FAIL;
-   while ( res == E_FAIL )
-      res = opc::miniOPC::Instance().WriteMass( mAGroupID, 0, ITEMS_COUNT, static_cast<void*>( A2 ), opc::tFLOAT );
-
-   res = E_FAIL;
-   while ( res == E_FAIL )
-      res = opc::miniOPC::Instance().WriteMass( mQGroupID, 0, ITEMS_COUNT, static_cast<void*>( Q2 ), opc::tFLOAT );
-}
 
 }
 }

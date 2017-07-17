@@ -27,16 +27,16 @@ public:
     data::GR3 mGr3;
 
     //A
-    data::GR4 mGr4;
-    data::GR5 mGr5;
-    data::GR6 mGr6;
-    data::GR12 mGr12;
+    data::GR4 mGr4Pos1;
+    data::GR5 mGr5Pos1;
+    data::GR6 mGr6Pos1;
+    data::GR12 mGr12Pos1;
 
     //B
-    data::GR8 mGr8;
-    data::GR9 mGr9;
-    data::GR10 mGr10;
-    data::GR13 mGr13;
+    data::GR4 mGr4Pos2;
+    data::GR5 mGr5Pos2;
+    data::GR6 mGr6Pos2;
+    data::GR12 mGr12Pos2;
 private:
     CpuMemory();
     CpuMemory( CpuMemory const& ) = delete;
