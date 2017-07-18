@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <Comctrls.hpp>
 #include "def.h"
-#include "opcrw.h"
 #include <memory>
 // объявление общих переменных ----------------------------------------------
 extern TRichEdit *pPrt; // указатель на компонент для вывода протокола
@@ -87,41 +86,6 @@ extern float Tsettings[2][MAXNUMOFSTEPS];
 extern bool switch_Carriage1;
 extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-
-// переменные группы CtrlGr7 ------------------------------------------------
-// блок DB1
-extern int read_TA[MAXNUMOFPOLLS];
-// блок DB2
-extern float read_VA[MAXNUMOFPOLLS];
-// блок DB3
-extern float read_SA[MAXNUMOFPOLLS];
-// блок DB4
-extern float read_LA[MAXNUMOFPOLLS];
-// блок DB5
-extern float read_RA[MAXNUMOFPOLLS];
-// блок DB6
-extern float read_TempA[MAXNUMOFPOLLS];
-// адреса переменных в группе 7
-extern wchar_t *Gr7ItemsNme[GR7ARRAYSNUM];
-// End of CtrlGr7 -----------------------------------------------------------
-
-// переменные группы CtrlGr11 -----------------------------------------------
-// блок DB11
-extern int read_TB[MAXNUMOFPOLLS];
-// блок DB12
-extern float read_VB[MAXNUMOFPOLLS];
-// блок DB13
-extern float read_SB[MAXNUMOFPOLLS];
-// блок DB14
-extern float read_LB[MAXNUMOFPOLLS];
-// блок DB15
-extern float read_RB[MAXNUMOFPOLLS];
-// блок DB16
-extern float read_TempB[MAXNUMOFPOLLS];
-// адреса переменных в группе 11
-extern wchar_t *Gr11ItemsNme[GR11ARRAYSNUM];
-// End of CtrlGr11 ----------------------------------------------------------
-
 
 // объявление общих функций -------------------------------------------------
 void ClearTProg(void); // сброс программы по времени

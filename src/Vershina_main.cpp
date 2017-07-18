@@ -10,8 +10,6 @@
 #include "Common.h"
 #include "Sertification.h"
 #include "Vershina_main.h"
-#include "opcrw.h"
-#include "OPCControl.h"
 #include "TyreProt.h"
 #include "Head_band.h"
 #include "Login.h"
@@ -25,7 +23,6 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TmfRB *mfRB;
-std::unique_ptr<OPCRW>pOPC; // указатель на класс OPCRW
 std::unique_ptr<Tyre>InpTyre(new Tyre());
 // покрышка для ввода и редактирования протокола
 std::unique_ptr<Tyre>TyreA(new Tyre()); // покрышка в поз. А
@@ -1588,13 +1585,7 @@ void __fastcall TmfRB::onOPCControlStartExec(TObject *Sender)
 
 void __fastcall TmfRB::OPCControlStartExec(void)
 {
-   static bool OPCNewOK = true;
    LogPrintF(LogFName(), "Старт управления стендом");
-   if (OPCNewOK)
-   {
-      pOPC.reset(new OPCRW);
-      OPCNewOK = false;
-   }
    if (OPCConnectOK && !OPCControlOn)
    {
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
@@ -1986,7 +1977,7 @@ void __fastcall TmfRB::OnReadCycleTimer(TObject *Sender)
    }
    if (StendConnection)
    {
-      pOPC->ReadCycleParameters();
+      cpu::CpuMemory::Instance().ReadCycleParameters();
       sbRB->Panels->Items[1]->Text = "Cnt=" + String(NextCycleCount());
       if (CurrSMode1 == 2)
       {
@@ -5342,8 +5333,9 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
    OPCControlPause(tReadCycleTimer);
    LogPrint("Загрузка результатов испытаний из контроллера по поз. A");
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
+   auto &gr7 = cpu::CpuMemory::Instance().mGr7Pos1;
    gr3.Read();
-   pOPC->ReadGr7();
+   gr7.Read();
    OPCControlResume(tReadCycleTimer);
    TyreA->TotalS = gr3.S_end_cycle_1; // fakt_distance_1
    TyreA->TotalTime = gr3.T_end_cycle_1; // fakt_time_1
@@ -5358,29 +5350,29 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
    SGClear(sgTestResultA, 0); // чистка таблицы
    for (int i = 0; i < MAXNUMOFPOLLS && i < TyreA->PollsNo; i++)
    {
-      if (read_TA[i] != 0 && read_VA[i] != 0 && read_SA[i] != 0 && read_LA[i]
-         != 0 && read_RA[i] != 0 && read_TempA[i])
+      if (gr7.read_T[i] != 0 && gr7.read_V[i] != 0 && gr7.read_S[i] != 0 && gr7.read_L[i]
+         != 0 && gr7.read_R[i] != 0 && gr7.read_Temp[i])
       { // +1 для отображения строки данных после пуволнения программы     + отсечка пустых данных
          sgTestResultA->Cells[0][sgTestResultA->RowCount - 1] =
             String(i + 1) + ":";
          sgTestResultA->Cells[1][sgTestResultA->RowCount - 1] =
-            mSecToHMSStr(read_TA[i]);
-         TyreA->rT[i] = read_TA[i];
+            mSecToHMSStr(gr7.read_T[i]);
+         TyreA->rT[i] = gr7.read_T[i];
          sgTestResultA->Cells[2][sgTestResultA->RowCount - 1] =
-            FloatToStrF(read_VA[i], ffFixed, 6, 2);
-         TyreA->rV[i] = read_VA[i];
+            FloatToStrF(gr7.read_V[i], ffFixed, 6, 2);
+         TyreA->rV[i] = gr7.read_V[i];
          sgTestResultA->Cells[3][sgTestResultA->RowCount - 1] =
-            FloatToStrF(read_SA[i], ffFixed, 6, 2);
-         TyreA->rS[i] = read_SA[i];
+            FloatToStrF(gr7.read_S[i], ffFixed, 6, 2);
+         TyreA->rS[i] = gr7.read_S[i];
          sgTestResultA->Cells[4][sgTestResultA->RowCount - 1] =
-            FloatToStrF(read_LA[i], ffFixed, 6, 2);
-         TyreA->rL[i] = read_LA[i];
+            FloatToStrF(gr7.read_L[i], ffFixed, 6, 2);
+         TyreA->rL[i] = gr7.read_L[i];
          sgTestResultA->Cells[5][sgTestResultA->RowCount - 1] =
-            FloatToStrF(read_RA[i], ffFixed, 6, 2);
-         TyreA->rR[i] = read_RA[i];
+            FloatToStrF(gr7.read_R[i], ffFixed, 6, 2);
+         TyreA->rR[i] = gr7.read_R[i];
          sgTestResultA->Cells[6][sgTestResultA->RowCount - 1] =
-            FloatToStrF(read_TempA[i], ffFixed, 6, 2);
-         TyreA->rTemp[i] = read_TempA[i];
+            FloatToStrF(gr7.read_Temp[i], ffFixed, 6, 2);
+         TyreA->rTemp[i] = gr7.read_Temp[i];
          sgTestResultA->RowCount++;
       }
    }
@@ -5405,8 +5397,9 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
    OPCControlPause(tReadCycleTimer);
    LogPrint("Загрузка результатов испытаний из контроллера по поз. B");
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
+   auto &gr11 = cpu::CpuMemory::Instance().mGr7Pos2;
    gr3.Read();
-   pOPC->ReadGr11();
+   gr11.Read();
    OPCControlResume(tReadCycleTimer);
    TyreB->TotalS = gr3.S_end_cycle_2; // fakt_distance_2
    TyreB->TotalTime = gr3.T_end_cycle_2; // fakt_time_2
@@ -5421,29 +5414,29 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
    SGClear(sgTestResultB, 0); // чистка таблицы
    for (int i = 0; i < MAXNUMOFPOLLS && i < TyreB->PollsNo; i++)
    {
-      if (read_TB[i] != 0 && read_VB[i] != 0 && read_SB[i] != 0 && read_LB[i]
-         != 0 && read_RB[i] != 0 && read_TempB[i])
+      if (gr11.read_T[i] != 0 && gr11.read_V[i] != 0 && gr11.read_S[i] != 0 && gr11.read_L[i]
+         != 0 && gr11.read_R[i] != 0 && gr11.read_Temp[i])
       { // +1 для отображения строки данных после пуволнения программы   + отсечка пустых данных
          sgTestResultB->Cells[0][sgTestResultB->RowCount - 1] =
             String(i + 1) + ":";
          sgTestResultB->Cells[1][sgTestResultB->RowCount - 1] =
-            mSecToHMSStr(read_TB[i]);
-         TyreB->rT[i] = read_TB[i];
+            mSecToHMSStr(gr11.read_T[i]);
+         TyreB->rT[i] = gr11.read_T[i];
          sgTestResultB->Cells[2][sgTestResultB->RowCount - 1] =
-            FloatToStrF(read_VB[i], ffFixed, 6, 2);
-         TyreB->rV[i] = read_VB[i];
+            FloatToStrF(gr11.read_V[i], ffFixed, 6, 2);
+         TyreB->rV[i] = gr11.read_V[i];
          sgTestResultB->Cells[3][sgTestResultB->RowCount - 1] =
-            FloatToStrF(read_SB[i], ffFixed, 6, 2);
-         TyreB->rS[i] = read_SB[i];
+            FloatToStrF(gr11.read_S[i], ffFixed, 6, 2);
+         TyreB->rS[i] = gr11.read_S[i];
          sgTestResultB->Cells[4][sgTestResultB->RowCount - 1] =
-            FloatToStrF(read_LB[i], ffFixed, 6, 2);
-         TyreB->rL[i] = read_LB[i];
+            FloatToStrF(gr11.read_L[i], ffFixed, 6, 2);
+         TyreB->rL[i] = gr11.read_L[i];
          sgTestResultB->Cells[5][sgTestResultB->RowCount - 1] =
-            FloatToStrF(read_RB[i], ffFixed, 6, 2);
-         TyreB->rR[i] = read_RB[i];
+            FloatToStrF(gr11.read_R[i], ffFixed, 6, 2);
+         TyreB->rR[i] = gr11.read_R[i];
          sgTestResultB->Cells[6][sgTestResultB->RowCount - 1] =
-            FloatToStrF(read_TempB[i], ffFixed, 6, 2);
-         TyreB->rTemp[i] = read_TempB[i];
+            FloatToStrF(gr11.read_Temp[i], ffFixed, 6, 2);
+         TyreB->rTemp[i] = gr11.read_Temp[i];
          sgTestResultB->RowCount++;
       }
    }

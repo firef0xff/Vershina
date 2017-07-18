@@ -5,10 +5,8 @@
 #include <StrUtils.hpp>
 #pragma hdrstop
 #include "def.h"
-#include "opcrw.h"
 #include "TyreProt.h"
 #include "Common.h"
-#include "OPCControl.h"
 
 // ---------------------------------------------------------------------------
 
@@ -109,48 +107,6 @@ int prog_step_T[MAXNUMOFSTEPS] =
 {0}; // массив шагов по времени
 float Tsettings[2][MAXNUMOFSTEPS] =
 {0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-
-// переменные группы CtrlGr7 ------------------------------------------------
-// блок DB1
-int read_TA[MAXNUMOFPOLLS];
-// блок DB2
-float read_VA[MAXNUMOFPOLLS];
-// блок DB3
-float read_SA[MAXNUMOFPOLLS];
-// блок DB4
-float read_LA[MAXNUMOFPOLLS];
-// блок DB5
-float read_RA[MAXNUMOFPOLLS];
-// блок DB6
-float read_TempA[MAXNUMOFPOLLS];
-// адреса переменных в группе 7
-wchar_t *Gr7ItemsNme[GR7ARRAYSNUM] =
-{L"S7:[S7 connection_4]DB1,DINT2,250", L"S7:[S7 connection_4]DB2,REAL2,250",
-   L"S7:[S7 connection_4]DB3,REAL2,250", L"S7:[S7 connection_4]DB4,REAL2,250",
-   L"S7:[S7 connection_4]DB5,REAL2,250", L"S7:[S7 connection_4]DB6,REAL2,250",
-};
-// End of CtrlGr7 -----------------------------------------------------------
-
-// переменные группы CtrlGr11 -----------------------------------------------
-// блок DB11
-int read_TB[MAXNUMOFPOLLS];
-// блок DB12
-float read_VB[MAXNUMOFPOLLS];
-// блок DB13
-float read_SB[MAXNUMOFPOLLS];
-// блок DB14
-float read_LB[MAXNUMOFPOLLS];
-// блок DB15
-float read_RB[MAXNUMOFPOLLS];
-// блок DB16
-float read_TempB[MAXNUMOFPOLLS];
-// адреса переменных в группе 11
-wchar_t *Gr11ItemsNme[GR11ARRAYSNUM] =
-{L"S7:[S7 connection_4]DB11,DINT2,250", L"S7:[S7 connection_4]DB12,REAL2,250",
-   L"S7:[S7 connection_4]DB13,REAL2,250", L"S7:[S7 connection_4]DB14,REAL2,250",
-   L"S7:[S7 connection_4]DB15,REAL2,250", L"S7:[S7 connection_4]DB16,REAL2,250",
-};
-// End of CtrlGr11 ----------------------------------------------------------
 
 // сброс программы по времени
 void ClearTProg(void)

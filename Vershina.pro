@@ -14,7 +14,6 @@ INCLUDEPATH += OPC\
 HEADERS +=\
    src/*.h\
    src/login/*.h\
-   src/opc/*.h\
    src/sert/*.h\
    SQL/*.h\
 
@@ -22,8 +21,6 @@ SOURCES +=\
    src/*.cpp\
    src/login/*.cpp\
    src/login/dialogs/*.cpp\
-   src/opc/*.c\
-   src/opc/*.cpp\
    src/sert/*.cpp\
    src/splash_screen/*.cpp\
    src/support_functions/*.cpp\
@@ -38,9 +35,11 @@ HEADERS +=\
    src/cpu/data/gr4.h\
    src/cpu/data/gr5.h\
    src/cpu/data/gr6.h\
+   src/cpu/data/gr7.h\
    src/cpu/data/gr8.h\
    src/cpu/data/gr9.h\
    src/cpu/data/gr10.h\
+   src/cpu/data/gr11.h\
    src/cpu/data/gr12.h\
    src/cpu/data/gr13.h\
    src/login/dialogs/*.h\
@@ -77,9 +76,11 @@ SOURCES +=\
    src/cpu/data/gr4.cpp\
    src/cpu/data/gr5.cpp\
    src/cpu/data/gr6.cpp\
+   src/cpu/data/gr7.cpp\
    src/cpu/data/gr8.cpp\
    src/cpu/data/gr9.cpp\
    src/cpu/data/gr10.cpp\
+   src/cpu/data/gr11.cpp\
    src/cpu/data/gr12.cpp\
    src/cpu/data/gr13.cpp\
    MD5/MD5.cpp\

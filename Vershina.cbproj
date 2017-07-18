@@ -355,27 +355,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -754,12 +739,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
@@ -873,6 +873,10 @@
             <DependentOn>src\cpu\data\gr10.h</DependentOn>
             <BuildOrder>50</BuildOrder>
         </CppCompile>
+        <CppCompile Include="src\cpu\data\gr11.cpp">
+            <DependentOn>src\cpu\data\gr11.h</DependentOn>
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
         <CppCompile Include="src\cpu\data\gr12.cpp">
             <DependentOn>src\cpu\data\gr12.h</DependentOn>
             <BuildOrder>51</BuildOrder>
@@ -900,6 +904,10 @@
         <CppCompile Include="src\cpu\data\gr6.cpp">
             <DependentOn>src\cpu\data\gr6.h</DependentOn>
             <BuildOrder>47</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\cpu\data\gr7.cpp">
+            <DependentOn>src\cpu\data\gr7.h</DependentOn>
+            <BuildOrder>53</BuildOrder>
         </CppCompile>
         <CppCompile Include="src\cpu\data\gr8.cpp">
             <DependentOn>src\cpu\data\gr8.h</DependentOn>
@@ -939,14 +947,6 @@
             <DependentOn>src\login\Login.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
-        <CppCompile Include="src\opc\OPCControl.cpp">
-            <DependentOn>src\opc\OPCControl.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="src\opc\opcrw.cpp">
-            <DependentOn>src\opc\opcrw.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
-        </CppCompile>
         <CppCompile Include="src\sert\Sertification.cpp">
             <DependentOn>src\sert\Sertification.h</DependentOn>
             <BuildOrder>9</BuildOrder>
@@ -981,12 +981,12 @@
         <ResFiles Include="Vershina.res">
             <BuildOrder>0</BuildOrder>
         </ResFiles>
+        <FormResources Include="src\login\AppManagnent.dfm"/>
+        <FormResources Include="src\splash_screen\Head_band.dfm"/>
+        <FormResources Include="src\Vershina_main.dfm"/>
+        <FormResources Include="src\login\Login.dfm"/>
         <FormResources Include="src\login\dialogs\User_Data.dfm"/>
         <FormResources Include="src\login\dialogs\GroupSelect.dfm"/>
-        <FormResources Include="src\login\Login.dfm"/>
-        <FormResources Include="src\login\AppManagnent.dfm"/>
-        <FormResources Include="src\Vershina_main.dfm"/>
-        <FormResources Include="src\splash_screen\Head_band.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
