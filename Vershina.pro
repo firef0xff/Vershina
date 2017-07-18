@@ -16,6 +16,11 @@ HEADERS +=\
    src/login/*.h\
    src/sert/*.h\
    SQL/*.h\
+    src/sert/v_sert.h \
+    src/sert/l_sert.h \
+    src/sert/t_sert.h \
+    src/sert/r_sert.h \
+    src/sert/l_calibr.h
 
 SOURCES +=\
    src/*.cpp\
@@ -25,6 +30,11 @@ SOURCES +=\
    src/splash_screen/*.cpp\
    src/support_functions/*.cpp\
    SQL/*.cpp\
+    src/sert/v_sert.cpp \
+    src/sert/l_sert.cpp \
+    src/sert/t_sert.cpp \
+    src/sert/r_sert.cpp \
+    src/sert/l_calibr.cpp
 
 HEADERS +=\
    src/cpu/cpu_memory.h\

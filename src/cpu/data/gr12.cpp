@@ -98,13 +98,32 @@ bool GR12::Read()
 
 void GR12::Write()
 {
+   WriteA();
+   WriteQ();
+}
+
+void GR12::ResetKA()
+{
+   for( int i = 0; i < ITEMS_COUNT; i++ )
+   {
+      A[i] = 1.0;
+   }
+   WriteA();
+}
+
+void GR12::WriteA()
+{
    HRESULT res = E_FAIL;
    while ( res == E_FAIL )
       res = opc::miniOPC::Instance().WriteMass( mAGroupID, 0, ITEMS_COUNT, static_cast<void*>( A ), opc::tFLOAT );
 
-   res = E_FAIL;
+}
+void GR12::WriteQ()
+{
+   HRESULT res = E_FAIL;
    while ( res == E_FAIL )
       res = opc::miniOPC::Instance().WriteMass( mQGroupID, 0, ITEMS_COUNT, static_cast<void*>( Q ), opc::tFLOAT );
+
 }
 
 }

@@ -947,17 +947,29 @@
             <DependentOn>src\login\Login.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
-        <CppCompile Include="src\sert\Sertification.cpp">
-            <DependentOn>src\sert\Sertification.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
+        <CppCompile Include="src\sert\l_calibr.cpp">
+            <DependentOn>src\sert\l_calibr.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
         </CppCompile>
-        <CppCompile Include="src\sert\SpeedSertification.cpp">
-            <DependentOn>src\sert\SpeedSertification.h</DependentOn>
-            <BuildOrder>10</BuildOrder>
+        <CppCompile Include="src\sert\l_sert.cpp">
+            <DependentOn>src\sert\l_sert.h</DependentOn>
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\sert\r_sert.cpp">
+            <DependentOn>src\sert\r_sert.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
         </CppCompile>
         <CppCompile Include="src\sert\TyreProt.cpp">
             <DependentOn>src\sert\TyreProt.h</DependentOn>
             <BuildOrder>11</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\sert\t_sert.cpp">
+            <DependentOn>src\sert\t_sert.h</DependentOn>
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\sert\v_sert.cpp">
+            <DependentOn>src\sert\v_sert.h</DependentOn>
+            <BuildOrder>53</BuildOrder>
         </CppCompile>
         <CppCompile Include="src\splash_screen\Head_band.cpp">
             <Form>Headband</Form>

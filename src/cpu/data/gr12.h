@@ -24,12 +24,17 @@ public:
    float A[ITEMS_COUNT];
    float Q[ITEMS_COUNT];
 
+   void ResetKA();
+
 private:
    friend class cpu::CpuMemory;
    GR12( const wchar_t *group_a_name, const wchar_t *a_addresses[],
          const wchar_t *group_q_name, const wchar_t *q_addresses[]);
    GR12( const GR12& ) = delete;
    void operator = ( const GR12& ) = delete;
+
+   void WriteA();
+   void WriteQ();
 
    uint64_t mAGroupID = 0;
    uint64_t mQGroupID = 0;

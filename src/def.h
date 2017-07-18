@@ -1,19 +1,11 @@
-﻿#define ADDRLEN         100    // Максимальная длина строки для адреса одного элемента
+﻿#define STAND_NO 13 //номер стенда для выовда в отчет и интерфейс
 
-#define GR7ARRAYSNUM      6    // количество массивов в группе 7
-#define GR7ARRAYSIZE    250    // размер массивов в группе 7
-
-#define GR11ARRAYSNUM     6    // количество массивов в группе 11
-#define GR11ARRAYSIZE   250    // размер массивов в группе 11
-
-
-#define GR13ITEMSNUM     80    // количество переменных в группе 13
-#define GR13ARRAYSIZE    40    // количество переменных в массиве группы 13
-
+#define ADDRLEN         100    // Максимальная длина строки для адреса одного элемента
 
 
 #define MAXNUMOFSTEPS   100    // максимальное количество шагов программы испытаний
 #define MAXNUMOFPOLLS   250    // максимальное количество опросов
+
 // определение собственных сообщений
 #define WM_LogPrint  WM_USER
 #define WM_DataShow  WM_USER+1
@@ -24,12 +16,8 @@
 #define WRITEGR1ITEM   2
 // метки управления для функции OnDataShow
 #define COMMONPRMSHOW  0
+
 // размеры таблиц для аттестации
-#define VQTY          33
-#define LDQTY         25
-#define TQTY          20
-#define RQTY          20
-#define LDCQTY		  39
 #define LOWTLIM      -50
 #define UPPERTLIM    150
 

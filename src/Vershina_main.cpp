@@ -8,16 +8,21 @@
 #include "def.h"
 #include "opc.h"
 #include "Common.h"
-#include "Sertification.h"
 #include "Vershina_main.h"
-#include "TyreProt.h"
-#include "Head_band.h"
-#include "Login.h"
-#include "AppManagnent.h"
+#include "sert/TyreProt.h"
+#include "splash_screen/Head_band.h"
+#include "login/Login.h"
+#include "login/AppManagnent.h"
 #include "support_functions/functions.h"
-#include "cpu_memory.h"
+#include "src/cpu/cpu_memory.h"
 #include <memory>
 #include <algorithm>
+
+#include "src/sert/l_calibr.h"
+#include "src/sert/l_sert.h"
+#include "src/sert/r_sert.h"
+#include "src/sert/t_sert.h"
+#include "src/sert/v_sert.h"
 
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -27,15 +32,17 @@ std::unique_ptr<Tyre>InpTyre(new Tyre());
 // покрышка для ввода и редактирования протокола
 std::unique_ptr<Tyre>TyreA(new Tyre()); // покрышка в поз. А
 std::unique_ptr<Tyre>TyreB(new Tyre()); // покрышка в поз. Б
-std::unique_ptr<LSert>LdSA(new LSert()); // Сертификация нагрузки поз А
-std::unique_ptr<LSert>LdSB(new LSert()); // Сертификация нагрузки поз Б
-std::unique_ptr<TSert>TSA(new TSert()); // Сертификация температуры поз А
-std::unique_ptr<TSert>TSB(new TSert()); // Сертификация температуры поз Б
-std::unique_ptr<RSert>RSA(new RSert()); // Сертификация радиуса поз А
-std::unique_ptr<RSert>RSB(new RSert()); // Сертификация радиуса поз Б
-std::unique_ptr<VSert>VS(new VSert()); // сертификация скорости барабана
-std::unique_ptr<LCalibr>LdCA(new LCalibr()); // калибровка тензодатчика поз. А
-std::unique_ptr<LCalibr>LdCB(new LCalibr()); // калибровка тензодатчика поз. Б
+
+std::unique_ptr<sert::LSert>LdSA(new sert::LSert("А")); // Сертификация нагрузки поз А
+std::unique_ptr<sert::LSert>LdSB(new sert::LSert("Б")); // Сертификация нагрузки поз Б
+std::unique_ptr<sert::TSert>TSA(new sert::TSert("А")); // Сертификация температуры поз А
+std::unique_ptr<sert::TSert>TSB(new sert::TSert("Б")); // Сертификация температуры поз Б
+std::unique_ptr<sert::RSert>RSA(new sert::RSert("А")); // Сертификация радиуса поз А
+std::unique_ptr<sert::RSert>RSB(new sert::RSert("Б")); // Сертификация радиуса поз Б
+std::unique_ptr<sert::VSert>VS(new sert::VSert()); // сертификация скорости барабана
+
+std::unique_ptr<sert::LCalibr>LdCA(new sert::LCalibr("А")); // калибровка тензодатчика поз. А
+std::unique_ptr<sert::LCalibr>LdCB(new sert::LCalibr("Б")); // калибровка тензодатчика поз. Б
 TPrinter *pProtPrt = Printer(); // указатель на принтер
 char DecimalSeparator = '.';
 
@@ -148,8 +155,8 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) : TForm(Owner), closing(false)
       mfRB->Width = MFWIDTH;
       auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
       auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
-      LdCA->LKQInit( gr12.Q, gr12.A);
-      LdCB->LKQInit( gr13.Q, gr13.A);
+      LdCA->LKQInit( gr12 );
+      LdCB->LKQInit( gr13 );
       pPrt = reLog;
       reLog->Clear();
       pProtPrt->Canvas->Font->Name = "Lucida Console";
@@ -351,8 +358,8 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
    int TblW = C0W + C1W + C2W + C3W + C4W + 28, H1 = 40, LSp1 = 10;
    int TblH = tsLoadCalibrAH - H1, CellH =
-      std::max(ceil(double(TblH / (LDCQTY + 1))) - 1, 16.0)
-      /* , Cell0H=40;TblH-(LDCQTY+1)*CellH */ ; // -LDCQTY;
+      std::max(ceil(double(TblH / (sert::LCalibr::ITEMS_COUNT + 1))) - 1, 16.0)
+      /* , Cell0H=40;TblH-(sert::LCalibr::ITEMS_COUNT+1)*CellH */ ; // -sert::LCalibr::ITEMS_COUNT;
    pLoadSertATtl->Height = H1;
    sgLoadSertA->ColWidths[0] = C0W;
    sgLoadSertA->ColWidths[1] = C1W;
@@ -366,15 +373,15 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)
    sgLoadSertA->Cells[3][0] = "Измерение";
    sgLoadSertA->Cells[4][0] = "Коэффицент";
    sgLoadSertA->RowHeights[0] = CellH;
-   for (int i = 1; i < LDCQTY + 1; i++)
+   for (int i = 1; i < sert::LCalibr::ITEMS_COUNT + 1; i++)
       sgLoadSertA->RowHeights[i] = CellH;
-   for (int i = 0; i < LDCQTY; i++)
+   for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgLoadSertA->Cells[0][i + 1] = "  " + String(i + 1) + ":";
       else
          sgLoadSertA->Cells[0][i + 1] = " " + String(i + 1) + ":";
-      sgLoadSertA->Cells[1][i + 1] = LdCA->sTLd[i];
+      sgLoadSertA->Cells[1][i + 1] = LdCA->sTLd[i].c_str();
       if (LdCA->ReadoutLd[i] != 0.0)
          sgLoadSertA->Cells[2][i + 1] = "   " + FloatToStrF(LdCA->ReadoutLd[i],
          ffFixed, 6, 2);
@@ -468,8 +475,8 @@ void __fastcall TmfRB::DesignLoadSertBPanel(void)
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
    int TblW = C0W + C1W + C2W + C3W + C4W + 28, H1 = 40, LSp1 = 10;
    int TblH = tsLoadCalibrAH - H1, CellH =
-      std::max(ceil(double(TblH / (LDCQTY + 1))) - 1, 16.0)
-      /* , Cell0H=40;TblH-(LDCQTY+1)*CellH */ ; // -LDCQTY;
+      std::max(ceil(double(TblH / (sert::LCalibr::ITEMS_COUNT + 1))) - 1, 16.0)
+      /* , Cell0H=40;TblH-(sert::LCalibr::ITEMS_COUNT+1)*CellH */ ; // -sert::LCalibr::ITEMS_COUNT;
    pLoadSertBTtl->Height = H1;
    sgLoadSertB->ColWidths[0] = C0W;
    sgLoadSertB->ColWidths[1] = C1W;
@@ -483,15 +490,15 @@ void __fastcall TmfRB::DesignLoadSertBPanel(void)
    sgLoadSertB->Cells[3][0] = "Измерение";
    sgLoadSertB->Cells[4][0] = "Коэффицент";
    sgLoadSertB->RowHeights[0] = CellH;
-   for (int i = 1; i < LDCQTY + 1; i++)
+   for (int i = 1; i < sert::LCalibr::ITEMS_COUNT + 1; i++)
       sgLoadSertB->RowHeights[i] = CellH;
-   for (int i = 0; i < LDCQTY; i++)
+   for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgLoadSertB->Cells[0][i + 1] = "  " + String(i + 1) + ":";
       else
          sgLoadSertB->Cells[0][i + 1] = " " + String(i + 1) + ":";
-      sgLoadSertB->Cells[1][i + 1] = LdCB->sTLd[i];
+      sgLoadSertB->Cells[1][i + 1] = LdCB->sTLd[i].c_str();
       if (LdCB->ReadoutLd[i] != 0.0)
          sgLoadSertB->Cells[2][i + 1] = "   " + FloatToStrF(LdCB->ReadoutLd[i],
          ffFixed, 6, 2);
@@ -632,7 +639,7 @@ void __fastcall TmfRB::DesignLoadCalibrAPanel(void)
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
    int TblW = C0W + C1W + C2W + C3W + C4W + 30, H1 = 40, LSp1 = 10;
    int TblH = tsLoadCalibrAH - H1, CellH =
-      std::max((TblH - 5) / (LDQTY + 1), 16);
+      std::max((TblH - 5) / (sert::LSert::ITEMS_COUNT + 1), 16);
    pLoadCalibrATtl->Height = H1;
    sgLoadCalibrA->ColWidths[0] = C0W;
    sgLoadCalibrA->ColWidths[1] = C1W;
@@ -645,16 +652,16 @@ void __fastcall TmfRB::DesignLoadCalibrAPanel(void)
    sgLoadCalibrA->Cells[2][0] = "Измерение";
    sgLoadCalibrA->Cells[3][0] = "Показание";
    sgLoadCalibrA->Cells[4][0] = "Погрешность";
-   for (int i = 0; i < LDQTY + 1; i++)
+   for (int i = 0; i < sert::LSert::ITEMS_COUNT + 1; i++)
       sgLoadCalibrA->RowHeights[i] = CellH;
-   for (int i = 0; i < LDQTY; i++)
+   for (int i = 0; i < sert::LSert::ITEMS_COUNT; i++)
    {
       sgLoadCalibrA->RowHeights[i] = CellH;
       if (i < 9)
          sgLoadCalibrA->Cells[0][i + 1] = "  " + String(i + 1) + ":";
       else
          sgLoadCalibrA->Cells[0][i + 1] = " " + String(i + 1) + ":";
-      sgLoadCalibrA->Cells[1][i + 1] = LdSA->sTLd[i];
+      sgLoadCalibrA->Cells[1][i + 1] = LdSA->sTLd[i].c_str();
       if (LdSA->ReadoutLd[i] != 0.0)
       {
          sgLoadCalibrA->Cells[2][i + 1] =
@@ -735,7 +742,7 @@ void __fastcall TmfRB::DesignLoadCalibrBPanel(void)
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
    int TblW = C0W + C1W + C2W + C3W + C4W + 30, H1 = 40, LSp1 = 10;
    int TblH = tsLoadCalibrAH - H1, CellH =
-      std::max((TblH - 5) / (LDQTY + 1), 16);
+      std::max((TblH - 5) / (sert::LSert::ITEMS_COUNT + 1), 16);
    pLoadCalibrBTtl->Height = H1;
    sgLoadCalibrB->ColWidths[0] = C0W;
    sgLoadCalibrB->ColWidths[1] = C1W;
@@ -748,15 +755,15 @@ void __fastcall TmfRB::DesignLoadCalibrBPanel(void)
    sgLoadCalibrB->Cells[2][0] = "Измерение";
    sgLoadCalibrB->Cells[3][0] = "Показание";
    sgLoadCalibrB->Cells[4][0] = "Погрешность";
-   for (int i = 0; i < LDQTY + 1; i++)
+   for (int i = 0; i < sert::LSert::ITEMS_COUNT + 1; i++)
       sgLoadCalibrB->RowHeights[i] = CellH;
-   for (int i = 0; i < LDQTY; i++)
+   for (int i = 0; i < sert::LSert::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgLoadCalibrB->Cells[0][i + 1] = "  " + String(i + 1) + ":";
       else
          sgLoadCalibrB->Cells[0][i + 1] = " " + String(i + 1) + ":";
-      sgLoadCalibrB->Cells[1][i + 1] = LdSB->sTLd[i];
+      sgLoadCalibrB->Cells[1][i + 1] = LdSB->sTLd[i].c_str();
       if (LdSB->ReadoutLd[i] != 0.0)
       {
          sgLoadCalibrB->Cells[2][i + 1] =
@@ -836,8 +843,8 @@ void __fastcall TmfRB::DesignRCalibrAPanel(void)
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
    int TblW = C0W + C1W + C2W + C3W + 7, H1 = 40, LSp1 = 10;
-   sgRCalibrA->RowCount = RQTY + 1;
-   int TblH = tsRCalibrAH - H1, CellH = (TblH - RQTY / 3) / (RQTY + 1);
+   sgRCalibrA->RowCount = sert::RSert::ITEMS_COUNT + 1;
+   int TblH = tsRCalibrAH - H1, CellH = (TblH - sert::RSert::ITEMS_COUNT / 3) / (sert::RSert::ITEMS_COUNT + 1);
    pRCalibrATtl->Height = H1;
    sgRCalibrA->ColWidths[0] = C0W;
    sgRCalibrA->ColWidths[1] = C1W;
@@ -848,9 +855,9 @@ void __fastcall TmfRB::DesignRCalibrAPanel(void)
    sgRCalibrA->Cells[1][0] = "Показание";
    sgRCalibrA->Cells[2][0] = "Измерение";
    sgRCalibrA->Cells[3][0] = "Погрешность";
-   for (int i = 0; i < RQTY + 1; i++)
+   for (int i = 0; i < sert::RSert::ITEMS_COUNT + 1; i++)
       sgRCalibrA->RowHeights[i] = CellH;
-   for (int i = 0; i < RQTY; i++)
+   for (int i = 0; i < sert::RSert::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgRCalibrA->Cells[0][i + 1] = "  " + String(i + 1) + ":";
@@ -923,8 +930,8 @@ void __fastcall TmfRB::DesignRCalibrBPanel(void)
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
    int TblW = C0W + C1W + C2W + C3W + 7, H1 = 40, LSp1 = 10;
-   sgRCalibrB->RowCount = RQTY + 1;
-   int TblH = tsRCalibrAH - H1, CellH = (TblH - RQTY / 3) / (RQTY + 1);
+   sgRCalibrB->RowCount = sert::RSert::ITEMS_COUNT + 1;
+   int TblH = tsRCalibrAH - H1, CellH = (TblH - sert::RSert::ITEMS_COUNT / 3) / (sert::RSert::ITEMS_COUNT + 1);
    pRCalibrBTtl->Height = H1;
    sgRCalibrB->ColWidths[0] = C0W;
    sgRCalibrB->ColWidths[1] = C1W;
@@ -935,9 +942,9 @@ void __fastcall TmfRB::DesignRCalibrBPanel(void)
    sgRCalibrB->Cells[1][0] = "Показание";
    sgRCalibrB->Cells[2][0] = "Измерение";
    sgRCalibrB->Cells[3][0] = "Погрешность";
-   for (int i = 0; i < RQTY + 1; i++)
+   for (int i = 0; i < sert::RSert::ITEMS_COUNT + 1; i++)
       sgRCalibrB->RowHeights[i] = CellH;
-   for (int i = 0; i < RQTY; i++)
+   for (int i = 0; i < sert::RSert::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgRCalibrB->Cells[0][i + 1] = "  " + String(i + 1) + ":";
@@ -1010,8 +1017,8 @@ void __fastcall TmfRB::DesignTCalibrAPanel(void)
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
    int TblW = C0W + C1W + C2W + C3W + 7, H1 = 40, LSp1 = 10;
-   sgTCalibrA->RowCount = TQTY + 1;
-   int TblH = tsTCalibrAH - H1, CellH = (TblH - TQTY / 3) / (TQTY + 1);
+   sgTCalibrA->RowCount = sert::TSert::ITEMS_COUNT + 1;
+   int TblH = tsTCalibrAH - H1, CellH = (TblH - sert::TSert::ITEMS_COUNT / 3) / (sert::TSert::ITEMS_COUNT + 1);
    pTCalibrATtl->Height = H1;
    sgTCalibrA->ColWidths[0] = C0W;
    sgTCalibrA->ColWidths[1] = C1W;
@@ -1022,9 +1029,9 @@ void __fastcall TmfRB::DesignTCalibrAPanel(void)
    sgTCalibrA->Cells[1][0] = "Показание";
    sgTCalibrA->Cells[2][0] = "Измерение";
    sgTCalibrA->Cells[3][0] = "Погрешность";
-   for (int i = 0; i < TQTY + 1; i++)
+   for (int i = 0; i < sert::TSert::ITEMS_COUNT + 1; i++)
       sgTCalibrA->RowHeights[i] = CellH;
-   for (int i = 0; i < TQTY; i++)
+   for (int i = 0; i < sert::TSert::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgTCalibrA->Cells[0][i + 1] = "  " + String(i + 1) + ":";
@@ -1098,8 +1105,8 @@ void __fastcall TmfRB::DesignTCalibrBPanel(void)
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
    int TblW = C0W + C1W + C2W + C3W + 7, H1 = 40, LSp1 = 10;
-   sgTCalibrB->RowCount = TQTY + 1;
-   int TblH = tsTCalibrAH - H1, CellH = (TblH - TQTY / 3) / (TQTY + 1);
+   sgTCalibrB->RowCount = sert::TSert::ITEMS_COUNT + 1;
+   int TblH = tsTCalibrAH - H1, CellH = (TblH - sert::TSert::ITEMS_COUNT / 3) / (sert::TSert::ITEMS_COUNT + 1);
    pTCalibrBTtl->Height = H1;
    sgTCalibrB->ColWidths[0] = C0W;
    sgTCalibrB->ColWidths[1] = C1W;
@@ -1110,9 +1117,9 @@ void __fastcall TmfRB::DesignTCalibrBPanel(void)
    sgTCalibrB->Cells[1][0] = "Показание";
    sgTCalibrB->Cells[2][0] = "Измерение";
    sgTCalibrB->Cells[3][0] = "Погрешность";
-   for (int i = 0; i < TQTY + 1; i++)
+   for (int i = 0; i < sert::TSert::ITEMS_COUNT + 1; i++)
       sgTCalibrB->RowHeights[i] = CellH;
-   for (int i = 0; i < TQTY; i++)
+   for (int i = 0; i < sert::TSert::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgTCalibrB->Cells[0][i + 1] = "  " + String(i + 1) + ":";
@@ -1199,13 +1206,13 @@ void __fastcall TmfRB::DesignSpdCalibrPanel(void)
    sgSpeedCalibr->Cells[3][0] = "Измерение";
    sgSpeedCalibr->Cells[4][0] = "Погрешность";
 
-   for (int i = 0; i < VQTY; i++)
+   for (int i = 0; i < sert::VSert::ITEMS_COUNT; i++)
    {
       if (i < 9)
          sgSpeedCalibr->Cells[0][i + 1] = "  " + String(i + 1) + ":";
       else
          sgSpeedCalibr->Cells[0][i + 1] = " " + String(i + 1) + ":";
-      sgSpeedCalibr->Cells[1][i + 1] = VS->sTV[i];
+      sgSpeedCalibr->Cells[1][i + 1] = VS->sTV[i].c_str();
       sgSpeedCalibr->Cells[2][i + 1] = "";
       sgSpeedCalibr->Cells[3][i + 1] = "";
       sgSpeedCalibr->Cells[4][i + 1] = "";
@@ -5715,7 +5722,7 @@ void __fastcall TmfRB::OnCalibrDrawCell(TObject *Sender, int ACol, int ARow,
 
 void __fastcall TmfRB::OnPrintSpdCalibrProtocol(TObject *Sender)
 { // Распечатать протокол (Аттестация барабана)
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintSpdCalibrProt)
    { // ручное сохранение
       FileName = acPrintSpdCalibrProt->Dialog->FileName;
@@ -5726,7 +5733,7 @@ void __fastcall TmfRB::OnPrintSpdCalibrProtocol(TObject *Sender)
       FileName = strSpdCalibr + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.scprt'");
    }
-   VS->PrintProtocol(FileName);
+   VS->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации барабана сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -5950,7 +5957,7 @@ void __fastcall TmfRB::OnPump2Off(TObject *Sender)
 void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
 {
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   LSert *LdSert;
+   sert::LSert *LdSert;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
    TLabeledEdit *leLoadSet, *leMeasLoad;
@@ -6041,7 +6048,7 @@ void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
 void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
 {
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   LSert *LdSert;
+   sert::LSert *LdSert;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
    TLabeledEdit *leLoadSet, *leMeasLoad;
@@ -6155,7 +6162,7 @@ void __fastcall TmfRB::OnLoadCalibrTableClear(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadCalibrCalc(TObject *Sender)
 {
-   LSert *LdSert;
+   sert::LSert *LdSert;
    TStringGrid *sgLoad;
    TLabeledEdit *leMeasLoad, *leReadoutLoad;
    if ((TButton*)Sender == btnLoadCalibrCalcA)
@@ -6196,7 +6203,7 @@ void __fastcall TmfRB::OnLoadCalibrCalc(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintLoadCalibrProtA(TObject *Sender)
 { // Распечатать протокол (Аттестация по нагрузке) А
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintLoadCalibrProtA)
    { // ручное сохранение
       FileName = acPrintLoadCalibrProtA->Dialog->FileName;
@@ -6207,7 +6214,7 @@ void __fastcall TmfRB::OnPrintLoadCalibrProtA(TObject *Sender)
       FileName = strLoadCalibrA + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.lcprt'");
    }
-   LdSA->PrintProtocol(FileName, "А");
+   LdSA->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации нагрузки поз. А сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -6218,7 +6225,7 @@ void __fastcall TmfRB::OnPrintLoadCalibrProtA(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintLoadCalibrProtB(TObject *Sender)
 { // Распечатать протокол (Аттестация по нагрузке) Б
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintLoadCalibrProtB)
    { // ручное сохранение
       FileName = acPrintLoadCalibrProtB->Dialog->FileName;
@@ -6229,7 +6236,7 @@ void __fastcall TmfRB::OnPrintLoadCalibrProtB(TObject *Sender)
       FileName = strLoadCalibrB + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.lcprt'");
    }
-   LdSB->PrintProtocol(FileName, "Б");
+   LdSB->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации нагрузки поз. Б сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -6240,7 +6247,7 @@ void __fastcall TmfRB::OnPrintLoadCalibrProtB(TObject *Sender)
 
 void __fastcall TmfRB::OnNextCalibrTBtn(TObject *Sender)
 {
-   TSert *TS;
+   sert::TSert *TS;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgTbl;
    TLabeledEdit *leMeas;
@@ -6307,7 +6314,7 @@ void __fastcall TmfRB::OnNextCalibrTBtn(TObject *Sender)
 
 void __fastcall TmfRB::OnPrevCalibrTBtn(TObject *Sender)
 {
-   TSert *TS;
+   sert::TSert *TS;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgTbl;
    TLabeledEdit *leMeas;
@@ -6392,7 +6399,7 @@ void __fastcall TmfRB::OnTCalibrTableClear(TObject *Sender)
 
 void __fastcall TmfRB::OnTCalibrCalc(TObject *Sender)
 {
-   TSert *TS;
+   sert::TSert *TS;
    TStringGrid *sgTbl;
    TLabeledEdit *leMeas, *leRead;
    if ((TButton*)Sender == btnTCalibrCalcA)
@@ -6435,7 +6442,7 @@ void __fastcall TmfRB::OnTCalibrCalc(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintTCalibrProtA(TObject *Sender)
 { // Распечатать протокол (Аттестация по температуре) А
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintTCalibrProtA)
    { // ручное сохранение
       FileName = acPrintTCalibrProtA->Dialog->FileName;
@@ -6446,7 +6453,7 @@ void __fastcall TmfRB::OnPrintTCalibrProtA(TObject *Sender)
       FileName = strTCalibrA + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.tcprt'");
    }
-   TSA->PrintProtocol(FileName, "А");
+   TSA->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации датчика температуры поз. А сохранен в файле \""
       + FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -6457,7 +6464,7 @@ void __fastcall TmfRB::OnPrintTCalibrProtA(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintTCalibrProtB(TObject *Sender)
 { // Распечатать протокол (Аттестация по температуре) Б
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintTCalibrProtB)
    { // ручное сохранение
       FileName = acPrintTCalibrProtB->Dialog->FileName;
@@ -6468,7 +6475,7 @@ void __fastcall TmfRB::OnPrintTCalibrProtB(TObject *Sender)
       FileName = strTCalibrB + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.tcprt'");
    }
-   TSB->PrintProtocol(FileName, "Б");
+   TSB->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации датчика температуры поз. Б сохранен в файле \""
       + FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -6479,7 +6486,7 @@ void __fastcall TmfRB::OnPrintTCalibrProtB(TObject *Sender)
 
 void __fastcall TmfRB::OnNextCalibrRBtn(TObject *Sender)
 {
-   RSert *RS;
+   sert::RSert *RS;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgTbl;
    TLabeledEdit *leMeas;
@@ -6543,7 +6550,7 @@ void __fastcall TmfRB::OnNextCalibrRBtn(TObject *Sender)
 
 void __fastcall TmfRB::OnPrevCalibrRBtn(TObject *Sender)
 {
-   RSert *RS;
+   sert::RSert *RS;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgTbl;
    TLabeledEdit *leMeas;
@@ -6626,7 +6633,7 @@ void __fastcall TmfRB::OnRCalibrTableClear(TObject *Sender)
 
 void __fastcall TmfRB::OnRCalibrCalc(TObject *Sender)
 {
-   RSert *RS;
+   sert::RSert *RS;
    TStringGrid *sgTbl;
    TLabeledEdit *leMeas, *leRead;
    if ((TButton*)Sender == btnRCalibrCalcA)
@@ -6666,7 +6673,7 @@ void __fastcall TmfRB::OnRCalibrCalc(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintRCalibrProtA(TObject *Sender)
 { // Распечатать протокол (Аттестация по радиусу) А
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintRCalibrProtA)
    { // ручное сохранение
       FileName = acPrintRCalibrProtA->Dialog->FileName;
@@ -6677,7 +6684,7 @@ void __fastcall TmfRB::OnPrintRCalibrProtA(TObject *Sender)
       FileName = strRCalibrA + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.rcprt'");
    }
-   RSA->PrintProtocol(FileName, "А");
+   RSA->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации датчика положения поз. А сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -6688,7 +6695,7 @@ void __fastcall TmfRB::OnPrintRCalibrProtA(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintRCalibrProtB(TObject *Sender)
 { // Распечатать протокол (Аттестация по радиусу) Б
-   String FileName;
+   AnsiString FileName;
    if (Sender == acPrintRCalibrProtB)
    { // ручное сохранение
       FileName = acPrintRCalibrProtB->Dialog->FileName;
@@ -6699,7 +6706,7 @@ void __fastcall TmfRB::OnPrintRCalibrProtB(TObject *Sender)
       FileName = strRCalibrB + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.rcprt'");
    }
-   RSB->PrintProtocol(FileName, "Б");
+   RSB->PrintProtocol(FileName.c_str());
    LogPrint("Протокол аттестации датчика положения поз. Б сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -6711,7 +6718,7 @@ void __fastcall TmfRB::OnPrintRCalibrProtB(TObject *Sender)
 void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
 {
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   LCalibr *LdCalibr;
+   sert::LCalibr *LdCalibr;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
    TLabeledEdit *leLoadSet, *leMeasLoad;
@@ -6801,7 +6808,7 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
 void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
 {
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   LCalibr *LdCalibr;
+   sert::LCalibr *LdCalibr;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
    TLabeledEdit *leLoadSet, *leMeasLoad;
@@ -6909,7 +6916,7 @@ void __fastcall TmfRB::OnLoadSertTableClear(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSertCalc(TObject *Sender)
 {
-   LCalibr *LdCalibr;
+   sert::LCalibr *LdCalibr;
    TStringGrid *sgLoad;
    TLabeledEdit *leMeasLoad, *leReadoutLoad;
    if ((TButton*)Sender == btnLoadSertCalcA)
@@ -6967,7 +6974,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
          ReadLSertTable(LdCA.get(), sgLoadSertA);
          // прочитали коэффициенты KA из таблицы
          auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
-         LdCA->LKSetting(gr12.A); // сохранили итоговые КА в А1
+         LdCA->LKSetting(gr12); // сохранили итоговые КА в А1
          gr12.Write(); // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -6987,7 +6994,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
          ReadLSertTable(LdCB.get(), sgLoadSertB);
          // прочитали коэффициенты KA из таблицы
          auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
-         LdCB->LKSetting(gr13.A); // сохранили итоговые КА в А1
+         LdCB->LKSetting(gr13); // сохранили итоговые КА в А1
          gr13.Write(); // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -7004,7 +7011,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintLoadSertProtA(TObject *Sender)
 { // Распечатать протокол (калибровка тезодатчиков) А
-   String FileName;
+   AnsiString FileName;
    if (Sender == acLoadSertPrintProtA)
    { // ручное сохранение
       FileName = acLoadSertPrintProtA->Dialog->FileName;
@@ -7015,7 +7022,7 @@ void __fastcall TmfRB::OnPrintLoadSertProtA(TObject *Sender)
       FileName = strSertPrintProtA + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.tcprt'");
    }
-   LdCA->PrintProtocol(FileName, "А");
+   LdCA->PrintProtocol(FileName.c_str());
    LogPrint("Протокол калибровки тензодатчика поз. А сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -7026,7 +7033,7 @@ void __fastcall TmfRB::OnPrintLoadSertProtA(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintLoadSertProtB(TObject *Sender)
 { // Распечатать протокол (калибровка тезодатчиков) Б
-   String FileName;
+   AnsiString FileName;
    if (Sender == acLoadSertPrintProtB)
    { // ручное сохранение
       FileName = acLoadSertPrintProtB->Dialog->FileName;
@@ -7037,7 +7044,7 @@ void __fastcall TmfRB::OnPrintLoadSertProtB(TObject *Sender)
       FileName = strSertPrintProtB + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.tcprt'");
    }
-   LdCB->PrintProtocol(FileName, "Б");
+   LdCB->PrintProtocol(FileName.c_str());
    LogPrint("Протокол калибровки тензодатчика поз. Б сохранен в файле \"" +
       FileName + "\"");
    sbRB->Panels->Items[2]->Text =
@@ -7087,8 +7094,7 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       {
          OPCControlPause(tReadCycleTimer);
          auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
-         ResetKA(gr12.A); // сбросили коэффициенты А1 в единичку
-         gr12.Write(); // записали А1 в DB71
+         gr12.ResetKA(); // сбросили коэффициенты А1 в единичку // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
             "Коэффициенты калибровки тензодатчика по поз. А в контроллере сброшены!";
@@ -7105,8 +7111,7 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       {
          OPCControlPause(tReadCycleTimer);
          auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
-         ResetKA(gr13.A); // сбросили коэффициенты А2 в единичку
-         gr13.Write(); // записали А2 в DB70
+         gr13.ResetKA(); // сбросили коэффициенты А2 в единичку // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
             "Коэффициенты калибровки тензодатчика по поз. Б в контроллере сброшены!";
@@ -7151,7 +7156,7 @@ void __fastcall TmfRB::OnSGSelectCell(TObject *Sender, int ACol, int ARow,
 
 void __fastcall TmfRB::OnTLimitsCalc(TObject *Sender)
 {
-   TSert *TS;
+   sert::TSert *TS;
    // TStringGrid *sgTemp;
    TEdit *edLowLimit, *edUpLimit;
    if ((TButton*)Sender == btnTLimitsCalcA)
@@ -7241,9 +7246,9 @@ void __fastcall TmfRB::OnTLimitsLoadToPLC(TObject *Sender)
 
 void __fastcall TmfRB::ReadLSertTable
    ( // считывание значений из таблицы в массив
-   LCalibr *LC, TStringGrid *Table)
+   sert::LCalibr *LC, TStringGrid *Table)
 {
-   for (int i = 0; i < LDCQTY; i++)
+   for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
    {
       String tmp = Table->Cells[4][i + 1];
       if (DecimalSeparator == '.')
@@ -7269,8 +7274,8 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
          OPCControlPause(tReadCycleTimer);
          auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
          gr12.Read(); // прочитали коэффициенты А из DB71
-         LdCA->LKRead(gr12.A); // сохранили прочитанные коэффициенты в ReadKA
-         for (int i = 0; i < LDCQTY; i++)
+         LdCA->LKRead(gr12); // сохранили прочитанные коэффициенты в ReadKA
+         for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
          { // записали коэффициенты в таблицу
             sgLoadSertA->Cells[4][i + 1] =
                FloatToStrF(LdCA-> /* Read */ KA[i], ffFixed, 8, 5);
@@ -7292,8 +7297,8 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
          OPCControlPause(tReadCycleTimer);
          auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
          gr13.Read(); // прочитали коэффициенты А из DB70
-         LdCB->LKRead(gr13.A); // сохранили прочитанные коэффициенты в ReadKA
-         for (int i = 0; i < LDCQTY; i++)
+         LdCB->LKRead(gr13); // сохранили прочитанные коэффициенты в ReadKA
+         for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
          { // записали коэффициенты в таблицу
             sgLoadSertB->Cells[4][i + 1] =
                FloatToStrF(LdCB-> /* Read */ KA[i], ffFixed, 8, 5);

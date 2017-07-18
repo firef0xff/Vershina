@@ -152,15 +152,6 @@ void ClearSProg(void)
 
 // общие функции ------------------------------------------------------------
 
-void __fastcall ResetKA(float *A) // сброс массива А в единичку
-{
-   for (int i = 0; i < GR13ARRAYSIZE; i++)
-   {
-      A[i] = 1.0;
-   }
-}
-// ---- End of ResetKA -------------------------------------------------------
-
 // Печати сроки Str в окне протокола цветом CClr ----------------------------
 void __fastcall LogPrint(String Str, TColor CClr)
 {

@@ -25,7 +25,7 @@
 #include <DB.hpp>
 #include "SQL.h"
 #include <System.Actions.hpp>
-
+#include "src/sert/l_calibr.h"
 // ---------------------------------------------------------------------------
 class TmfRB : public TForm
 {
@@ -824,7 +824,7 @@ private: // User declarations
    void __fastcall ShowProtDataOnScrn(void);
    void __fastcall ShowProtAData(void);
    void __fastcall ShowProtBData(void);
-   void __fastcall ReadLSertTable(LCalibr *, TStringGrid *);
+   void __fastcall ReadLSertTable(sert::LCalibr *, TStringGrid *);
    void CheckStend(void);
    void GetSettings(void);
    void SetIndication(TEdit *Indicator, bool state);

@@ -90,7 +90,6 @@ extern bool switch_Carriage2;
 // объявление общих функций -------------------------------------------------
 void ClearTProg(void); // сброс программы по времени
 void ClearSProg(void); // сброс программы по пути
-void __fastcall ResetKA(float *A); // сброс массива А в единичку
 void __fastcall LogPrint( // Вывод сообщений в окно протокола
    String, TColor = clWhite);
 void __fastcall SLogPrint
