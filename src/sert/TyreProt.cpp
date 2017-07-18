@@ -1,11 +1,9 @@
 ﻿// ---------------------------------------------------------------------------
+#include "TyreProt.h"
+#include "src/Common.h"
+
 #include <stdio.h>
 #include <StrUtils.hpp>
-#pragma hdrstop
-
-#include "TyreProt.h"
-#include "Common.h"
-
 // ---------------------------------------------------------------------------
 
 #pragma package(smart_init)
