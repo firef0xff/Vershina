@@ -1,8 +1,11 @@
 ﻿#include "v_sert.h"
 #include <cstring>
 #include <cstdio>
-#include "src/Common.h"
 #include "src/def.h"
+#include "../support_functions/date_time.h"
+#include "../support_functions/str_convert.h"
+#include "../log/log.h"
+
 namespace sert
 {
 
@@ -21,9 +24,9 @@ VSert::VSert():
 
 
       if (TargetV[i] < 100.0)
-         sTV[i] = std::string( AnsiString( "      " + FloatToStrF(TargetV[i], ffFixed, 5, 2) ).c_str() );
+         sTV[i] = "      " + FloatToStringF(TargetV[i], 5, 2);
       else
-         sTV[i] = std::string( AnsiString( "    " + FloatToStrF(TargetV[i], ffFixed, 6, 2) ).c_str() );
+         sTV[i] = "    " + FloatToStringF(TargetV[i], 6, 2);
    }
    Clear();
 }
@@ -40,26 +43,26 @@ void VSert::PrintProtocol( std::string const& fn)
    FILE *fprint = std::fopen(fn.c_str(), "wt");
    if (fprint == nullptr )
    {
-      LogPrint("Can't open file \"" + AnsiString(fn.c_str()) + "\" for printing!", clRed);
+      logger::LogPrint( "Can't open file \"" + fn + "\" for printing!", logger::lcRED );
       return;
    }
 
-   fprintf(fprint, "%s                                    Стенд %d\n\n", AnsiString(Now().DateTimeString()).c_str(), STAND_NO );
-   fprintf(fprint, "Определение относительной погрешности задания и \n");
-   fprintf(fprint, "поддержания линейной скорости барабана \n\n");
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
-   fprintf(fprint, "| №  |заданное | скорость, |скорость, |относительная|\n");
-   fprintf(fprint, "|    |значение | измеренная|показанная| погрешность |\n");
-   fprintf(fprint, "|    |скорости | тахометром|на монито-| задания ско-|\n");
-   fprintf(fprint, "|    |  км/час |  км/час   |ре, км/час| рости, %    |\n");
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s                                    Стенд %s\n\n", dt::ToString( dt::Now() ).c_str(), STAND_NO );
+   fprintf(fprint, "%s","Определение относительной погрешности задания и \n");
+   fprintf(fprint, "%s","поддержания линейной скорости барабана \n\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s","| №  |заданное | скорость, |скорость, |относительная|\n");
+   fprintf(fprint, "%s","|    |значение | измеренная|показанная| погрешность |\n");
+   fprintf(fprint, "%s","|    |скорости | тахометром|на монито-| задания ско-|\n");
+   fprintf(fprint, "%s","|    |  км/час |  км/час   |ре, км/час| рости, %    |\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
 
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
       fprintf(fprint, "| %2d |  %6.2f |   %6.2f  |  %6.2f  |   %7.2f   |\n",
                        i + 1, TargetV[i], MeasuredV[i], ReadoutV[i], RelError[i]);
    }
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
    fclose(fprint);
 }
 

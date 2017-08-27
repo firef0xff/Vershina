@@ -1,14 +1,16 @@
 ﻿#include "l_calibr.h"
 #include <cstring>
 #include <cstdio>
-#include "src/Common.h"
 #include "src/def.h"
+#include "../support_functions/str_convert.h"
+#include "../support_functions/date_time.h"
+#include "../log/log.h"
 
 namespace sert
 {
 LCalibr::LCalibr(const std::string &pos):
-   loaded(false),
    Index(0),
+   loaded(false),
    mPos(pos)
 {
    TargetLd[0] = 5;
@@ -37,7 +39,7 @@ LCalibr::LCalibr(const std::string &pos):
    }
    for (int i = 0; i < ITEMS_COUNT; i++)
    { // столбец заданных нагрузок
-      sTLd[i] = std::string( AnsiString( "   " + FloatToStrF(TargetLd[i], ffFixed, 5, 2) ).c_str() );
+      sTLd[i] = "   " + FloatToStringF( TargetLd[i], 5, 2 );
    }
 
    Clear();
@@ -88,23 +90,22 @@ void LCalibr::PrintProtocol(std::string const& fn )
    FILE *fprint = fopen(fn.c_str(), "wt");
    if (fprint  == nullptr)
    {
-      LogPrint("Can't open file \"" + AnsiString(fn.c_str()) + "\" for printing!", clRed);
+      logger::LogPrint( "Can't open file \"" + fn + "\" for printing!", logger::lcRED );
       return;
    }
-   fprintf(fprint, "%s  Стенд %d ПОЗ. %s\n\n",
-      AnsiString(Now().DateTimeString()).c_str(), STAND_NO, mPos.c_str());
-   fprintf(fprint, "          ПРОТОКОЛ КАЛИБРОВКИ ТЕНЗОДАТЧИКА\n\n");
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
-   fprintf(fprint, "| №  | задание | измерение | контроль | коэффициент |\n");
-   fprintf(fprint, "|    |   кН    |    кН     |    кН    |     %       |\n");
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s  Стенд %s ПОЗ. %s\n\n",dt::ToString( dt::Now() ).c_str(), STAND_NO, mPos.c_str());
+   fprintf(fprint, "%s","          ПРОТОКОЛ КАЛИБРОВКИ ТЕНЗОДАТЧИКА\n\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s","| №  | задание | измерение | контроль | коэффициент |\n");
+   fprintf(fprint, "%s","|    |   кН    |    кН     |    кН    |     %       |\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
 
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
       fprintf(fprint, "| %2d |  %6.2f |   %6.2f  |  %6.2f  |  %9.6f  |\n",
          i + 1, TargetLd[i], ReadoutLd[i], MeasuredLd[i], KA[i]);
    }
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
    fclose(fprint);
 }
 }

@@ -71,13 +71,13 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <PackageImports>vclx.bpi;vcl.bpi;dbrtl.bpi;Rave75VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;dsnap.bpi;dsnapcon.bpi;teeUI.bpi;teedb.bpi;tee.bpi;adortl.bpi;vclib.bpi;ibxpress.bpi;dbxcds.bpi;dbexpress.bpi;DbxCommonDriver.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;IntrawebDB_90_100.bpi;Intraweb_90_100.bpi;VclSmp.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;$(PackageImports)</PackageImports>
         <BCC_wpar>false</BCC_wpar>
-        <IncludePath>communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;$(BDS)\include;$(IncludePath)</IncludePath>
+        <IncludePath>src\prg\;communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;$(BDS)\include;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;vclimg.lib;dbrtl.lib;adortl.lib</AllPackageLibs>
-        <ILINK_LibraryPath>communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;..\..\Projects;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>src\prg\;communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;..\..\Projects;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <Defines>WINDOWS;$(Defines)</Defines>
+        <Defines>WINDOWS;NO_CONST_EXPR;$(Defines)</Defines>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(ModuleName)</VerInfo_Keys>
@@ -355,12 +355,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -739,27 +754,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
@@ -947,6 +947,10 @@
             <DependentOn>src\login\Login.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <CppCompile Include="src\prg\time_programm.cpp">
+            <DependentOn>src\prg\time_programm.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
         <CppCompile Include="src\sert\l_calibr.cpp">
             <DependentOn>src\sert\l_calibr.h</DependentOn>
             <BuildOrder>55</BuildOrder>
@@ -977,9 +981,25 @@
             <DependentOn>src\splash_screen\Head_band.h</DependentOn>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
+        <CppCompile Include="src\support_functions\date_time.cpp">
+            <DependentOn>src\support_functions\date_time.h</DependentOn>
+            <BuildOrder>56</BuildOrder>
+        </CppCompile>
         <CppCompile Include="src\support_functions\functions.cpp">
             <DependentOn>src\support_functions\functions.h</DependentOn>
             <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\support_functions\print_support.cpp">
+            <DependentOn>src\support_functions\print_support.h</DependentOn>
+            <BuildOrder>57</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\support_functions\serialize.cpp">
+            <DependentOn>src\support_functions\serialize.h</DependentOn>
+            <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="src\support_functions\str_convert.cpp">
+            <DependentOn>src\support_functions\str_convert.h</DependentOn>
+            <BuildOrder>59</BuildOrder>
         </CppCompile>
         <CppCompile Include="src\Vershina.cpp">
             <BuildOrder>1</BuildOrder>

@@ -73,22 +73,14 @@ extern float poll_step_S[MAXNUMOFPOLLS]; // массив опросов по п�
 extern float prog_step_S[MAXNUMOFSTEPS]; // массив шагов по пути
 extern float Ssettings[2][MAXNUMOFSTEPS];
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-// программа по времени
-extern String TProgFName; // имя файла для сохранения программы по времени
-extern String TProgName; // имя программы испытаний по времени
-extern float TTyrePressure; // давление в шине
-extern int total_step_T; // суммарное кол-во шагов программы по времени
-extern int total_T; // суммарная продолжительность программы по времени, мсек
-extern int num_T_poll; // количество опросов по времени
-extern int poll_step_T[MAXNUMOFPOLLS]; // массив опросов по времени
-extern int prog_step_T[MAXNUMOFSTEPS]; // массив шагов по времени
-extern float Tsettings[2][MAXNUMOFSTEPS];
+
+void __fastcall ReadSProgFmFile(void);
+void __fastcall WriteSProgToFile(void);
 extern bool switch_Carriage1;
 extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
 // объявление общих функций -------------------------------------------------
-void ClearTProg(void); // сброс программы по времени
 void ClearSProg(void); // сброс программы по пути
 void __fastcall LogPrint( // Вывод сообщений в окно протокола
    String, TColor = clWhite);
@@ -111,13 +103,7 @@ void __fastcall OPCControlStart(TTimer*); // Запуск управления �
 void __fastcall OPCControlStop(TTimer*); // Останов управления стендом
 void __fastcall OPCControlPause(TTimer*); // Приостановка управления стендом
 void __fastcall OPCControlResume(TTimer*); // Возобновление управления стендом
-String __fastcall mSecToHMSStr(int tm);
-// перевод целого кол-ва мсек в строку чч:мм:сс
-String __fastcall ReadString(FILE *fp); // чтение строки типа String из файла
-void __fastcall WriteString( // запись строки типа String в файл
-   String ws, FILE *fp);
-void __fastcall ReadSProgFmFile(void); // прочитать программу по пути из файла
-void __fastcall WriteSProgToFile(void); // записать программу по пути в файл
+
 float __fastcall StrToFlt(String);
 // Преобразование строки в значение типа float
 int __fastcall StrToI(String); // ПРеобразование строки в значение типа int
@@ -126,12 +112,6 @@ String __fastcall FltToStr( // Преобразование числа в стр
    TFloatFormat ff, // формат
    int l, // длина строки
    int r); // длина дробной части
-String __fastcall IntToS( // Преобразование целого в строку длиной l
-   int i, // преобразуемое число
-   int l); // длина строки
-void __fastcall ReadTProgFmFile(void);
-// прочитать программу по времени из файла
-void __fastcall WriteTProgToFile(void); // записать программу по времени в файл
 void __fastcall LeastSquares
    ( // расчет коэффициентов A и B методом наименьших квадратов
    float X[], // массив X

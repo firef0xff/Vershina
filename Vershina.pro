@@ -14,27 +14,25 @@ INCLUDEPATH += OPC\
 HEADERS +=\
    src/*.h\
    src/login/*.h\
-   src/sert/*.h\
    SQL/*.h\
-    src/sert/v_sert.h \
-    src/sert/l_sert.h \
-    src/sert/t_sert.h \
-    src/sert/r_sert.h \
-    src/sert/l_calibr.h
+   src/login/dialogs/*.h\
+   src/splash_screen/*.h\
+   src/support_functions/functoins.h\
+   src/support_functions/print_support.h\
+    src/prg/time_programm.h
+
 
 SOURCES +=\
    src/*.cpp\
    src/login/*.cpp\
    src/login/dialogs/*.cpp\
-   src/sert/*.cpp\
    src/splash_screen/*.cpp\
    src/support_functions/*.cpp\
-   SQL/*.cpp\
-    src/sert/v_sert.cpp \
-    src/sert/l_sert.cpp \
-    src/sert/t_sert.cpp \
-    src/sert/r_sert.cpp \
-    src/sert/l_calibr.cpp
+   src/support_functions/print_support.cpp\
+   SQL/*.cpp \
+    src/prg/time_programm.cpp
+
+
 
 HEADERS +=\
    src/cpu/cpu_memory.h\
@@ -52,9 +50,15 @@ HEADERS +=\
    src/cpu/data/gr11.h\
    src/cpu/data/gr12.h\
    src/cpu/data/gr13.h\
-   src/login/dialogs/*.h\
-   src/splash_screen/*.h\
-   src/support_functions/*.h\
+   src/support_functions/str_convert.h\
+   src/support_functions/serialize.h\
+   src/log/log.h\
+   src/sert/l_calibr.h\
+   src/sert/l_sert.h \
+   src/sert/v_sert.h \
+   src/sert/t_sert.h \
+   src/sert/r_sert.h \
+   src/sert/TyreProt.h\
    MD5/MD5.h\
    OPC/opc.h\
    OPC/miniOPC.h\
@@ -75,8 +79,10 @@ HEADERS +=\
    communication/owen/types/owen_string.h\
    communication/owen/funcs/owen_read.h\
    communication/owen/funcs/owen_write.h\
-   communication/buffer_tools.h
-   communication/swap_endian.h
+   communication/buffer_tools.h\
+   communication/swap_endian.h\
+   date/date.h \
+    src/support_functions/date_time.h \
 
 SOURCES +=\
    src/cpu/cpu_memory.cpp\
@@ -93,6 +99,15 @@ SOURCES +=\
    src/cpu/data/gr11.cpp\
    src/cpu/data/gr12.cpp\
    src/cpu/data/gr13.cpp\
+   src/support_functions/str_convert.cpp\
+   src/support_functions/serialize.cpp\
+   src/log/log.cpp\
+   src/sert/l_calibr.cpp\
+   src/sert/l_sert.cpp\
+   src/sert/v_sert.cpp\
+   src/sert/t_sert.cpp\
+   src/sert/r_sert.cpp\
+   src/sert/TyreProt.cpp\
    MD5/MD5.cpp\
    OPC/opc_i.c\
    OPC/impl/demo_mode.cpp\
@@ -108,6 +123,8 @@ SOURCES +=\
    communication/owen/types/owen_string.cpp\
    communication/owen/funcs/owen_read.cpp\
    communication/owen/funcs/owen_write.cpp\
+   src/support_functions/date_time.cpp \
+
 
 
 OTHER_FILES +=\

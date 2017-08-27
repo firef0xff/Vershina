@@ -1,8 +1,9 @@
 ﻿#include "t_sert.h"
 #include <cstring>
 #include <cstdio>
-#include "src/Common.h"
 #include "src/def.h"
+#include "../support_functions/date_time.h"
+#include "../log/log.h"
 
 namespace sert
 {
@@ -25,18 +26,17 @@ void TSert::PrintProtocol(std::string const& fn)
    FILE *fprint = fopen(fn.c_str(), "wt");
    if( fprint == nullptr )
    {
-      LogPrint("Can't open file \"" + AnsiString(fn.c_str()) + "\" for printing!", clRed);
+      logger::LogPrint( "Can't open file \"" + fn + "\" for printing!", logger::lcRED );
       return;
    }
-   fprintf(fprint, "%s  Стенд %d ПОЗ. %s\n\n",
-      AnsiString(Now().DateTimeString()).c_str(), STAND_NO ,mPos.c_str());
-   fprintf(fprint, "Определение абсолютной погрешности измерения\n");
-   fprintf(fprint, "температуры окружающего воздуха\n\n");
-   fprintf(fprint, "+----+------------+-----------+-----------+\n");
-   fprintf(fprint, "| №  |температура,| показания |абсолютная |\n");
-   fprintf(fprint, "|    |измеренная  |на мониторе|погрешность|\n");
-   fprintf(fprint, "|    |термометром |     С     |    С      |\n");
-   fprintf(fprint, "+----+------------+-----------+-----------+\n");
+   fprintf(fprint, "%s  Стенд %s ПОЗ. %s\n\n", dt::ToString( dt::Now() ).c_str(), STAND_NO ,mPos.c_str());
+   fprintf(fprint, "%s","Определение абсолютной погрешности измерения\n");
+   fprintf(fprint, "%s","температуры окружающего воздуха\n\n");
+   fprintf(fprint, "%s","+----+------------+-----------+-----------+\n");
+   fprintf(fprint, "%s","| №  |температура,| показания |абсолютная |\n");
+   fprintf(fprint, "%s","|    |измеренная  |на мониторе|погрешность|\n");
+   fprintf(fprint, "%s","|    |термометром |     С     |    С      |\n");
+   fprintf(fprint, "%s","+----+------------+-----------+-----------+\n");
 
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
@@ -45,7 +45,7 @@ void TSert::PrintProtocol(std::string const& fn)
       fprintf(fprint, "| %2d |   %6.2f   |   %6.2f  |  %7.2f  |\n", i + 1,
          ReadoutT[i], MeasuredT[i], RelError[i]);
    }
-   fprintf(fprint, "+----+------------+-----------+-----------+\n");
+   fprintf(fprint, "%s","+----+------------+-----------+-----------+\n");
    fclose(fprint);
 }
 }

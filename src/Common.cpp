@@ -12,11 +12,11 @@
 
 #pragma package(smart_init)
 #ifdef _DEBUG
-extern int ThreadCounter = 0;
+int ThreadCounter = 0;
 #endif
-extern bool needSaveA = false, needSaveB = false;
+bool needSaveA = false, needSaveB = false;
 // индикаторы автосохранения протоколов за испытание
-extern bool StendConnection = false; // индикатор связи со стендом
+bool StendConnection = false; // индикатор связи со стендом
 
 bool switch_Carriage1 = false;
 // триггеры для обработки сообщений остановки каретки
@@ -94,40 +94,6 @@ float prog_step_S[MAXNUMOFSTEPS] =
 {0}; // массив шагов по пути
 float Ssettings[2][MAXNUMOFSTEPS] =
 {0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-// программа по времени
-String TProgFName = ""; // имя файла для сохранения программы по времени
-String TProgName = ""; // имя программы испытаний по времени
-float TTyrePressure = 0; // давление в шине
-int total_step_T = 0; // суммарное кол-во шагов программы по времени
-int total_T = 0; // суммарная продолжительность программы по времени, мсек
-int num_T_poll = 0; // количество опросов по времени
-int poll_step_T[MAXNUMOFPOLLS] =
-{0}; // массив опросов по времени
-int prog_step_T[MAXNUMOFSTEPS] =
-{0}; // массив шагов по времени
-float Tsettings[2][MAXNUMOFSTEPS] =
-{0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-
-// сброс программы по времени
-void ClearTProg(void)
-{
-   for (size_t i = 0; i < MAXNUMOFPOLLS; i++) // массив опросов по времени
-   {
-      poll_step_T[i] = 0;
-   }
-   for (size_t i = 0; i < MAXNUMOFSTEPS; i++)
-   {
-      prog_step_T[i] = 0; // массив шагов по времени
-      Tsettings[0][i] = 0; // массив нагрузок (1-й столбец)
-      Tsettings[1][i] = 0; // массив скоростей (2-й столбец)
-   }
-   TProgFName = ""; // имя файла для сохранения программы по времени
-   TProgName = ""; // имя программы испытаний по времени
-   TTyrePressure = 0.0; // давление в шине
-   total_step_T = 0; // суммарное кол-во шагов программы по времени
-   total_T = 0; // суммарная продолжительность программы по времени, мсек
-   num_T_poll = 0; // количество опросов по времени
-}
 
 // сброс программы по пути
 void ClearSProg(void)
@@ -205,51 +171,6 @@ void __fastcall OPCControlStop(TTimer* t) // Останов управления
 }
 // ---- End of OPCControlStop ------------------------------------------------
 
-String __fastcall mSecToHMSStr(int tm)
-   // перевод целого кол-ва мсек в строку чч:мм:сс
-{
-   int s = tm / 1000, h, m;
-   h = s / 3600;
-   s -= h * 3600;
-   m = s / 60;
-   s -= m * 60;
-   String ws = "";
-   // часы
-   if (h == 0)
-      ws = "00:";
-   else if (h < 10)
-      ws = "0" + String(h) + ":";
-   else
-      ws = String(h) + ":";
-#ifdef _NOS_SHOW_SEK
-   // минуты
-   if (m == 0)
-      ws += "00";
-   else if (m < 10)
-      ws += "0" + String(m);
-   else
-      ws += String(m);
-#endif
-#ifndef _NOS_SHOW_SEK
-   // минуты
-   if (m == 0)
-      ws += "00:";
-   else if (m < 10)
-      ws += "0" + String(m) + ":";
-   else
-      ws += String(m) + ":";
-   // секукны
-   if (s == 0)
-      ws += "00";
-   else if (s < 10)
-      ws += "0" + String(s);
-   else
-      ws += String(s);
-#endif
-   return ws;
-}
-// ---- End of mSecToHMSStr --------------------------------------------------
-
 void __fastcall ReadSProgFmFile(void) // прочитать программу по пути из файла
 {
    FILE *fparam;
@@ -298,7 +219,6 @@ void __fastcall WriteSProgToFile(void) // записать программу п
    // LogPrint("Total_S="+FloatToStrF(total_S,ffFixed,7,2),clAqua);
 }
 // ---- End of WriteSProgFmFile ----------------------------------------------
-
 float __fastcall StrToFlt(String ws)
    // Преобразование строки в значение типа float
 {
@@ -328,67 +248,6 @@ int __fastcall StrToI(String ws) // ПРеобразование строки в
       return StrToInt(s);
 }
 // ---- End of StrToI --------------------------------------------------------
-
-String __fastcall ReadString(FILE *fp) // чтение строки типа String из файла
-{
-   char is[1024];
-   short it;
-   fread(&it, sizeof(short), 1, fp);
-   fread(is, sizeof(char), it, fp);
-   is[it] = 0;
-   return String(is);
-}
-// ---- End of ReadString ----------------------------------------------------
-
-void __fastcall WriteString( // запись строки типа String в файл
-   String ws, FILE *fp)
-{
-   short it = strlen(AnsiString(ws).c_str());
-   fwrite(&it, sizeof(short), 1, fp);
-   fwrite(AnsiString(ws).c_str(), sizeof(char), it, fp);
-}
-// ---- End of WriteString ---------------------------------------------------
-
-void __fastcall ReadTProgFmFile(void) // прочитать программу по времени из файла
-{
-   FILE *fparam;
-   if ((fparam = fopen(AnsiString(TProgFName).c_str(), "rb")) == NULL)
-   {
-      LogPrint("Can't open file \"" + TProgFName + "\" for reading!", clRed);
-      return;
-   }
-   TProgName = ReadString(fparam);
-   fread(&TTyrePressure, sizeof(float), 1, fparam);
-   fread(&total_step_T, sizeof(int), 1, fparam);
-   fread(&total_T, sizeof(int), 1, fparam);
-   fread(&num_T_poll, sizeof(int), 1, fparam);
-   fread(&Tsettings[0][0], sizeof(Tsettings), 1, fparam);
-   fread(&prog_step_T[0], sizeof(prog_step_T), 1, fparam);
-   fread(&poll_step_T[0], sizeof(poll_step_T), 1, fparam);
-   fclose(fparam);
-   LogPrint("Loading TProg fm file: Total T=" + mSecToHMSStr(total_T), clLime);
-}
-// ---- End of ReadTProgFmFile -----------------------------------------------
-
-void __fastcall WriteTProgToFile(void) // записать программу по времени в файл
-{
-   FILE *fparam;
-   if ((fparam = fopen(AnsiString(TProgFName).c_str(), "wb")) == NULL)
-   {
-      LogPrint("Can't open file \"" + TProgFName + "\" for writing!", clRed);
-      return;
-   }
-   WriteString(TProgName, fparam);
-   fwrite(&TTyrePressure, sizeof(float), 1, fparam);
-   fwrite(&total_step_T, sizeof(int), 1, fparam);
-   fwrite(&total_T, sizeof(int), 1, fparam);
-   fwrite(&num_T_poll, sizeof(int), 1, fparam);
-   fwrite(&Tsettings[0][0], sizeof(Tsettings), 1, fparam);
-   fwrite(&prog_step_T[0], sizeof(prog_step_T), 1, fparam);
-   fwrite(&poll_step_T[0], sizeof(poll_step_T), 1, fparam);
-   fclose(fparam);
-}
-// ---- End of WriteTProgFmFile ----------------------------------------------
 
 String __fastcall FileNameParse
    ( // Функция выделения имени файла из полного пути
@@ -502,18 +361,3 @@ String __fastcall FltToStr( // Преобразование числа в стр
    return ws;
 }
 // ---- End of FltToStr -----------------------------------------------------
-
-String __fastcall IntToS( // Преобразование целого в строку длиной l
-   int i, // преобразуемое число
-   int l) // длина строки
-{
-   String ws;
-   ws = String(i);
-   int wl = ws.Length();
-   if (wl < l)
-   {
-      ws = String(DupeString(' ', l - wl)) + ws;
-   }
-   return ws;
-}
-// ---- End of IntToS ------------------------------------------------------

@@ -22,8 +22,7 @@ public:
    bool Read();
    void Write();
 
-   float setting_0[ITEMS_COUNT];
-   float setting_1[ITEMS_COUNT];
+   float setting[ARRAYS_COUNT][ITEMS_COUNT];
 
 private:
    friend class cpu::CpuMemory;

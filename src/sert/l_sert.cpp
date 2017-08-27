@@ -1,9 +1,10 @@
 ﻿#include "l_sert.h"
 #include <cstring>
 #include <cstdio>
-#include "src/Common.h"
 #include "src/def.h"
-
+#include "../support_functions/str_convert.h"
+#include "../support_functions/date_time.h"
+#include "../log/log.h"
 namespace sert
 {
 LSert::LSert(const std::string &pos):
@@ -28,9 +29,9 @@ LSert::LSert(const std::string &pos):
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
       if (i == 0 || i == ITEMS_COUNT - 1)
-         sTLd[i] = std::string( AnsiString( "   " + FloatToStrF(TargetLd[i], ffFixed, 5, 2) ).c_str() );
+         sTLd[i] = "   " + FloatToStringF( TargetLd[i], 5, 2 );
       else
-         sTLd[i] = std::string( AnsiString("  " + FloatToStrF(TargetLd[i], ffFixed, 5, 2) ).c_str() );
+         sTLd[i] = FloatToStringF( TargetLd[i], 5, 2 );
    }
    Clear();
 }
@@ -48,28 +49,27 @@ void LSert::PrintProtocol(std::string const& fn)
    FILE *fprint = fopen(fn.c_str(), "wt");
    if (fprint == nullptr)
    {
-      LogPrint("Can't open file \"" + AnsiString(fn.c_str()) + "\" for printing!", clRed);
+      logger::LogPrint( "Can't open file \"" + fn + "\" for printing!", logger::lcRED );
       return;
    }
-   fprintf(fprint, "%s  Стенд %d ПОЗ. %s\n\n",
-      AnsiString(Now().DateTimeString()).c_str(), STAND_NO, mPos.c_str());
-   fprintf(fprint, "Определение относительной погрешности задания и \n");
-   fprintf(fprint, "и поддержания силы прижатия шины к барабану\n\n");
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
-   fprintf(fprint, "| №  |заданное | нагрузка, | значение |относительная|\n");
-   fprintf(fprint, "|    |значение |измеренная | нагрузки,|погрешность  |\n");
-   fprintf(fprint, "|    |нагрузки,|динамомет- |показанное|задания силы |\n");
-   fprintf(fprint, "|    |   кН    |ром, кН    |на монито-|     %       |\n");
-   fprintf(fprint, "|    |         |           |ре стенда,|             |\n");
-   fprintf(fprint, "|    |         |           |    кН    |             |\n");
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s  Стенд %s ПОЗ. %s\n\n", dt::ToString( dt::Now() ).c_str(), STAND_NO, mPos.c_str());
+   fprintf(fprint, "%s","Определение относительной погрешности задания и \n");
+   fprintf(fprint, "%s","и поддержания силы прижатия шины к барабану\n\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s","| №  |заданное | нагрузка, | значение |относительная|\n");
+   fprintf(fprint, "%s","|    |значение |измеренная | нагрузки,|погрешность  |\n");
+   fprintf(fprint, "%s","|    |нагрузки,|динамомет- |показанное|задания силы |\n");
+   fprintf(fprint, "%s","|    |   кН    |ром, кН    |на монито-|     %       |\n");
+   fprintf(fprint, "%s","|    |         |           |ре стенда,|             |\n");
+   fprintf(fprint, "%s","|    |         |           |    кН    |             |\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
 
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
       fprintf(fprint, "| %2d |  %6.2f |   %6.2f  |  %6.2f  |   %7.2f   |\n",
          i + 1, TargetLd[i], MeasuredLd[i], ReadoutLd[i], RelError[i]);
    }
-   fprintf(fprint, "+----+---------+-----------+----------+-------------+\n");
+   fprintf(fprint, "%s","+----+---------+-----------+----------+-------------+\n");
    fclose(fprint);
 }
 

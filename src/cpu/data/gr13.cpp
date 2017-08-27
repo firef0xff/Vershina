@@ -7,7 +7,7 @@ namespace cpu
 {
 namespace data
 {
-extern wchar_t const* Gr12Pos2AdressesA[ GR12::ITEMS_COUNT ] =
+wchar_t const* Gr12Pos2AdressesA[ GR12::ITEMS_COUNT ] =
 {
    // Коэффициент коррекции прямой ход
    L"S7:[S7 connection_4]DB70,REAL180", L"S7:[S7 connection_4]DB70,REAL188",
@@ -34,9 +34,9 @@ extern wchar_t const* Gr12Pos2AdressesA[ GR12::ITEMS_COUNT ] =
    L"S7:[S7 connection_4]DB70,REAL228", L"S7:[S7 connection_4]DB70,REAL236",
    L"S7:[S7 connection_4]DB70,REAL244", L"S7:[S7 connection_4]DB70,REAL252"
 };
-extern wchar_t const* Gr12Pos2NameA = L"Gr12Pos2A";
+wchar_t const* Gr12Pos2NameA = L"Gr12Pos2A";
 
-extern wchar_t const* Gr12Pos2AdressesQ[ GR12::ITEMS_COUNT ]=
+wchar_t const* Gr12Pos2AdressesQ[ GR12::ITEMS_COUNT ]=
 {
    // Граница действия прямой ход
    L"S7:[S7 connection_4]DB70,REAL184", L"S7:[S7 connection_4]DB70,REAL192",
@@ -63,7 +63,7 @@ extern wchar_t const* Gr12Pos2AdressesQ[ GR12::ITEMS_COUNT ]=
    L"S7:[S7 connection_4]DB70,REAL232", L"S7:[S7 connection_4]DB70,REAL240",
    L"S7:[S7 connection_4]DB70,REAL248", L"S7:[S7 connection_4]DB70,REAL256"
 };
-extern wchar_t const* Gr12Pos2NameQ = L"Gr12Pos2Q";
+wchar_t const* Gr12Pos2NameQ = L"Gr12Pos2Q";
 
 
 }

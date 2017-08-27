@@ -23,11 +23,14 @@
 #include "src/sert/r_sert.h"
 #include "src/sert/t_sert.h"
 #include "src/sert/v_sert.h"
+#include "support_functions/print_support.h"
+#include "prg/time_programm.h"
 
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TmfRB *mfRB;
+TimeProgramm TimePrg;
 std::unique_ptr<Tyre>InpTyre(new Tyre());
 // покрышка для ввода и редактирования протокола
 std::unique_ptr<Tyre>TyreA(new Tyre()); // покрышка в поз. А
@@ -1296,13 +1299,13 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
       {
          if (TyreA->TestMode == 0)
          {
-            stP2CParL1C1->Caption = mSecToHMSStr(old_time_1);
+            stP2CParL1C1->Caption = AnsiString(dt::mSecToHMSStr(old_time_1).c_str());
             stP2CParL2C1->Caption = FloatToStrF(old_dist_1, ffFixed, 7, 2);
             stP2CParL3C1->Caption = FloatToStrF(old_speed_1, ffFixed, 7, 2);
             stP2CParL4C1->Caption = FloatToStrF(old_load_1, ffFixed, 7, 2);
             stP2CParL5C1->Caption = FloatToStrF(old_temp_1, ffFixed, 5, 1);
             stP2CParL6C1->Caption = FloatToStrF(old_radius_1, ffFixed, 5, 1);
-            stP2CParL7C1->Caption = mSecToHMSStr(gr1.next_step_time1);
+            stP2CParL7C1->Caption = AnsiString(dt::mSecToHMSStr(gr1.next_step_time1).c_str());
             stP2CParL1C2->Caption = "";
             stP2CParL2C2->Caption = "";
             stP2CParL3C2->Caption = "";
@@ -1320,7 +1323,7 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
             stP2CParL5C1->Caption = "";
             stP2CParL6C1->Caption = "";
             stP2CParL7C1->Caption = "";
-            stP2CParL1C2->Caption = mSecToHMSStr(old_time_1);
+            stP2CParL1C2->Caption = AnsiString(dt::mSecToHMSStr(old_time_1).c_str());
             stP2CParL2C2->Caption = FloatToStrF(old_dist_1, ffFixed, 7, 2);
             stP2CParL3C2->Caption = FloatToStrF(old_speed_1, ffFixed, 7, 2);
             stP2CParL4C2->Caption = FloatToStrF(old_load_1, ffFixed, 7, 2);
@@ -1332,7 +1335,7 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
       old_step_1 = cur_step_1;
       if (TyreA->TestMode == 0)
       {
-         stP1CParL1C3->Caption = mSecToHMSStr(gr2.next_set_time1);
+         stP1CParL1C3->Caption = AnsiString(dt::mSecToHMSStr(gr2.next_set_time1).c_str());
          // время след шага
       }
       else
@@ -1376,13 +1379,13 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
       {
          if (TyreB->TestMode == 0)
          {
-            stP2CParL1C3->Caption = mSecToHMSStr(old_time_2);
+            stP2CParL1C3->Caption = AnsiString(dt::mSecToHMSStr(old_time_2).c_str());
             stP2CParL2C3->Caption = FloatToStrF(old_dist_2, ffFixed, 7, 2);
             stP2CParL3C3->Caption = FloatToStrF(old_speed_2, ffFixed, 7, 2);
             stP2CParL4C3->Caption = FloatToStrF(old_load_2, ffFixed, 7, 2);
             stP2CParL5C3->Caption = FloatToStrF(old_temp_2, ffFixed, 5, 1);
             stP2CParL6C3->Caption = FloatToStrF(old_radius_2, ffFixed, 5, 1);
-            stP2CParL7C3->Caption = mSecToHMSStr(gr1.next_step_time2);
+            stP2CParL7C3->Caption = AnsiString(dt::mSecToHMSStr(gr1.next_step_time2).c_str());
             stP2CParL1C4->Caption = "";
             stP2CParL2C4->Caption = "";
             stP2CParL3C4->Caption = "";
@@ -1400,7 +1403,7 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
             stP2CParL5C3->Caption = "";
             stP2CParL6C3->Caption = "";
             stP2CParL7C3->Caption = "";
-            stP2CParL1C4->Caption = mSecToHMSStr(old_time_2);
+            stP2CParL1C4->Caption = AnsiString(dt::mSecToHMSStr(old_time_2).c_str());
             stP2CParL2C4->Caption = FloatToStrF(old_dist_2, ffFixed, 7, 2);
             stP2CParL3C4->Caption = FloatToStrF(old_speed_2, ffFixed, 7, 2);
             stP2CParL4C4->Caption = FloatToStrF(old_load_2, ffFixed, 7, 2);
@@ -1412,7 +1415,7 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
       old_step_2 = cur_step_2;
       if (TyreB->TestMode == 0)
       {
-         stP1CParL1C6->Caption = mSecToHMSStr(gr2.next_set_time2);
+         stP1CParL1C6->Caption = AnsiString(dt::mSecToHMSStr(gr2.next_set_time2).c_str());
          // время след шага
       }
       else
@@ -1448,15 +1451,15 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
    {
       stP1CurDate->Caption = Now().DateTimeString();
       if (TyreA->TestMode == 0)
-         stP1CParL1C1->Caption = mSecToHMSStr(gr3.T_end_cycle_1);
+         stP1CParL1C1->Caption = AnsiString(dt::mSecToHMSStr(gr3.T_end_cycle_1).c_str());
       else
          stP1CParL1C1->Caption = "";
       if (TyreB->TestMode == 0)
-         stP1CParL1C4->Caption = mSecToHMSStr(gr3.T_end_cycle_2);
+         stP1CParL1C4->Caption = AnsiString(dt::mSecToHMSStr(gr3.T_end_cycle_2).c_str());
       else
          stP1CParL1C4->Caption = "";
-      stP1CParL1C2->Caption = mSecToHMSStr(gr1.fakt_time_1);
-      stP1CParL1C5->Caption = mSecToHMSStr(gr1.fakt_time_2);
+      stP1CParL1C2->Caption = AnsiString(dt::mSecToHMSStr(gr1.fakt_time_1).c_str());
+      stP1CParL1C5->Caption = AnsiString(dt::mSecToHMSStr(gr1.fakt_time_2).c_str());
       if (TyreA->TestMode == 1)
          stP1CParL2C1->Caption = FloatToStrF(gr3.S_end_cycle_1, ffFixed, 7, 2);
       else
@@ -1756,7 +1759,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    cbControlLateralA->Checked = gr1.ControlLateralA;
    if (gr1.Stop1 && needSaveA && save)
    {
-      TyreA->Stop = Now();
+      TyreA->Stop = dt::Now();
       btnLoadTestResPosA->Click(); // авто сохраниние
    }
 
@@ -1770,7 +1773,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    cbControlLateralB->Checked = gr1.ControlLateralB;
    if (gr1.Stop2 && needSaveB && save)
    {
-      TyreB->Stop = Now();
+      TyreB->Stop = dt::Now();
       btnLoadTestResPosB->Click(); // авто сохраниние
    }
    // обработка остальных индикаторов
@@ -2104,9 +2107,9 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
          needSaveA = true;
          ClearStepVals1();
          UpdateProgData();
-         if (TyreA->Start == TDateTime())
-            TyreA->Start = Now();
-         TyreA->Stop = TDateTime();
+         if (TyreA->Start == dt::DateTime())
+            TyreA->Start = dt::Now();
+         TyreA->Stop = dt::DateTime();
          sbRB->Panels->Items[2]->Text = "Старт поз. А!";
          LogPrintF(LogFName(), "Старт поз. А!", clWhite);
       }
@@ -2116,7 +2119,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
          gr1.Stop1 = true;
          if (needSaveA)
          {
-            TyreA->Stop = Now();
+            TyreA->Stop = dt::Now();
             btnLoadTestResPosA->Click(); // авто сохраниние
          }
          sbRB->Panels->Items[2]->Text = "Стоп поз. А!";
@@ -2192,9 +2195,9 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
          needSaveB = true;
          ClearStepVals2();
          UpdateProgData();
-         if (TyreB->Start == TDateTime())
-            TyreB->Start = Now();
-         TyreB->Stop = TDateTime();
+         if (TyreB->Start == dt::DateTime())
+            TyreB->Start = dt::Now();
+         TyreB->Stop = dt::DateTime();
          sbRB->Panels->Items[2]->Text = "Старт поз. Б!";
          LogPrintF(LogFName(), "Старт поз. Б!", clWhite);
       }
@@ -2204,7 +2207,7 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
          gr1.Stop2 = true;
          if (needSaveB)
          {
-            TyreB->Stop = Now();
+            TyreB->Stop = dt::Now();
             btnLoadTestResPosB->Click(); // авто сохраниние
          }
          sbRB->Panels->Items[2]->Text = "Стоп поз. Б!";
@@ -2724,8 +2727,8 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      gr6.setting_0[i] = Ssettings[0][i];
-      gr6.setting_1[i] = Ssettings[1][i];
+      gr6.setting[0][i] = Ssettings[0][i];
+      gr6.setting[1][i] = Ssettings[1][i];
       gr4.step_S[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
@@ -2777,8 +2780,8 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
-      gr10.setting_0[i] = Ssettings[0][i];
-      gr10.setting_1[i] = Ssettings[1][i];
+      gr10.setting[0][i] = Ssettings[0][i];
+      gr10.setting[1][i] = Ssettings[1][i];
       gr8.step_S[i] = prog_step_S[i];
    }
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
@@ -3011,21 +3014,20 @@ void __fastcall TmfRB::OnTProgFileSaveAs(TObject *Sender)
    // проверка вызывающего действия
    if (Sender == acTProgFileSaveAs)
    { // ручное сохранение
-      TProgFName = acTProgFileSaveAs->Dialog->FileName;
+      TimePrg.TProgFName = AnsiString( acTProgFileSaveAs->Dialog->FileName ).c_str();
       acTProgFileSaveAs->Dialog->FileName = "";
    }
    else
    { // автосейв
-      TProgFName = strTimeProg + Now().FormatString
-         ("yyyy_mm_dd_hh_nn_ss'.tprg'");
+      TimePrg.TProgFName = AnsiString(strTimeProg + Now().FormatString("yyyy_mm_dd_hh_nn_ss'.tprg'")).c_str();
    }
    sbRB->Panels->Items[2]->Text = "Сохраняем программу по времени в файл!";
 
-   LogPrint("Программа по времени сохраняется в файле \"" + TProgFName + "\"!",
+   LogPrint("Программа по времени сохраняется в файле \"" + AnsiString(TimePrg.TProgFName.c_str()) + "\"!",
       clAqua);
-   WriteTProgToFile();
+   TimePrg.Save();
    sbRB->Panels->Items[2]->Text = "Программа по времени сохранена в файле \"" +
-      FileNameParse(TProgFName) + "\"";
+      FileNameParse(AnsiString(TimePrg.TProgFName.c_str())) + "\"";
    btnCheckTProg->Enabled = false;
    btnSaveTProgToFile->Enabled = true;
    btnLoadTProgToPosA->Enabled = true;
@@ -3036,12 +3038,12 @@ void __fastcall TmfRB::OnTProgFileSaveAs(TObject *Sender)
 void __fastcall TmfRB::OnTProgFileOpen(TObject *Sender)
 {
    sbRB->Panels->Items[2]->Text = "Читаем программу по времени из файла!";
-   TProgFName = acTProgFileOpen->Dialog->FileName;
+   TimePrg.TProgFName = AnsiString(acTProgFileOpen->Dialog->FileName).c_str();
    LogPrint("Программа по времени читается из файла \"" +
-      FileNameParse(TProgFName) + "\"!", clAqua);
-   ReadTProgFmFile();
+      FileNameParse(AnsiString(TimePrg.TProgFName.c_str())) + "\"!", clAqua);
+   TimePrg.Load();
    sbRB->Panels->Items[2]->Text = "Программа по времени прочитана из файла \"" +
-      FileNameParse(TProgFName) + "\"";
+      FileNameParse(AnsiString(TimePrg.TProgFName.c_str())) + "\"";
    ShowTProg();
    btnCheckTProg->Enabled = false;
    btnSaveTProgToFile->Enabled = true;
@@ -3058,25 +3060,15 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    }
    auto &gr5 = cpu::CpuMemory::Instance().mGr5Pos1;
    auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
-   sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
-   // читаем программу из ячеек и загружаем в контроллер поз. А
-   for (int i = 0; i < MAXNUMOFSTEPS; i++)
-   {
-      gr6.setting_0[i] = Tsettings[0][i];
-      gr6.setting_1[i] = Tsettings[1][i];
-      gr5.step_T[i] = prog_step_T[i];
-   }
-   for (int i = 0; i < MAXNUMOFPOLLS; i++)
-   {
-      gr5.poll_step_T[i] = poll_step_T[i];
-   }
-   RunProgNameA = TProgName;
-   SetCurrProgA(RunProgNameA);
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
+   sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
+   TimePrg.ToCpu( gr5, gr6 );
+   RunProgNameA = AnsiString(TimePrg.TProgName.c_str());
+   SetCurrProgA(RunProgNameA);
    stP1L2ProgNameA->Caption = RunProgNameA;
    TyreA->InitPressure = StrToFlt(leTTyrePressure->Text);
    gr3.S_end_cycle_1 = TyreA->TotalS = 0;
-   gr3.T_end_cycle_1 = TyreA->TotalTime = total_T;
+   gr3.T_end_cycle_1 = TyreA->TotalTime = TimePrg.total_T;
    gr3.type_cycle_1 = TyreA->TestMode = 0;
    gr3.StepsQty1 = TyreA->StepsNo = StrToInt(leTTotalStepsQty->Text);
    gr3.PollsQty1 = TyreA->PollsNo = StrToInt(leTPollingTotalQty->Text);
@@ -3119,24 +3111,14 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
    auto &gr9 = cpu::CpuMemory::Instance().mGr5Pos2;
    auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
-   // читаем программу из ячеек и загружаем в контроллер поз. Б
-   for (int i = 0; i < MAXNUMOFSTEPS; i++)
-   {
-      gr10.setting_0[i] = Tsettings[0][i];
-      gr10.setting_1[i] = Tsettings[1][i];
-      gr9.step_T[i] = prog_step_T[i];
-   }
-   for (int i = 0; i < MAXNUMOFPOLLS; i++)
-   {
-      gr9.poll_step_T[i] = poll_step_T[i];
-   }
-   RunProgNameB = TProgName;
+   TimePrg.ToCpu( gr9, gr10 );
+   RunProgNameB = AnsiString(TimePrg.TProgName.c_str());
    SetCurrProgB(RunProgNameB);
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
    stP1L2ProgNameB->Caption = RunProgNameB;
    TyreB->InitPressure = StrToFlt(leSTyrePressure->Text);
    gr3.S_end_cycle_2 = TyreB->TotalS = 0;
-   gr3.T_end_cycle_2 = TyreB->TotalTime = total_T;
+   gr3.T_end_cycle_2 = TyreB->TotalTime = TimePrg.total_T;
    gr3.type_cycle_2 = TyreB->TestMode = 0;
    gr3.StepsQty2 = TyreB->StepsNo = StrToInt(leTTotalStepsQty->Text);
    gr3.PollsQty2 = TyreB->PollsNo = StrToInt(leTPollingTotalQty->Text);
@@ -3260,13 +3242,13 @@ void __fastcall TmfRB::OnSGKeyPress(TObject *Sender, char &Key)
 void __fastcall TmfRB::OnTProgCheck(TObject *Sender)
 {
    // чистка старых данных
-   ClearTProg();
+   TimePrg.Clear();
    // читаем программу из ячеек таблиц, проверяем и записываем в массивы
-   TProgName = leTProgName->Text;
-   TTyrePressure = StrToFlt(leTTyrePressure->Text);
-   leTTyrePressure->Text = FloatToStrF(TTyrePressure, ffFixed, 6, 1);
-   total_step_T = 0;
-   total_T = 0;
+   TimePrg.TProgName = AnsiString(leTProgName->Text).c_str();
+   TimePrg.TTyrePressure = StrToFlt(leTTyrePressure->Text);
+   leTTyrePressure->Text = FloatToStrF(TimePrg.TTyrePressure, ffFixed, 6, 1);
+   TimePrg.total_step_T = 0;
+   TimePrg.total_T = 0;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
       double Load = StrToFlt(sgTProgram->Cells[1][i + 1]), Speed =
@@ -3275,82 +3257,82 @@ void __fastcall TmfRB::OnTProgCheck(TObject *Sender)
          StrToI(sgTProgram->Cells[4][i + 1]) * 60 * 1000;
       if (!CheckLoad(Load) || !CheckSpeed(Speed) || (!CheckTime(Time) && Time))
       {
-         ClearTProg(); // чистка данных
+         TimePrg.Clear(); // чистка данных
          AnsiString msg = "Введено не корректное значение в строке " +
             AnsiString(i + 1);
          MessageBox(Handle, msg.c_str(), _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
-      Tsettings[0][i] = Load;
-      if (Tsettings[0][i] == 0)
+      TimePrg.Tsettings[0][i] = Load;
+      if (TimePrg.Tsettings[0][i] == 0)
       { // если нагрузка в этой строчке равна 0
          if (i > 0)
-            total_step_T = i;
+            TimePrg.total_step_T = i;
          else
          {
             sbRB->Panels->Items[2]->Text =
                "Не задано ни одного значения нагрузки!";
             MessageBox(Handle, _T("Не задано ни одного значения нагрузки!"),
                _T("Ошибка"), MB_ICONERROR | MB_OK);
-            ClearTProg(); // чистка данных
+            TimePrg.Clear(); // чистка данных
          }
          break; // то прекратить ввод из таблицы
       }
-      sgTProgram->Cells[1][i + 1] = FloatToStrF(Tsettings[0][i], ffFixed, 6, 2);
+      sgTProgram->Cells[1][i + 1] = FloatToStrF(TimePrg.Tsettings[0][i], ffFixed, 6, 2);
 
-      Tsettings[1][i] = Speed;
-      if (Tsettings[1][i] == 0)
+      TimePrg.Tsettings[1][i] = Speed;
+      if (TimePrg.Tsettings[1][i] == 0)
       { // если скорость равна 0
          if (i > 0)
          { // если строка не первая - взять из предыдущей строки
-            Tsettings[1][i] = Tsettings[1][i - 1];
+            TimePrg.Tsettings[1][i] = TimePrg.Tsettings[1][i - 1];
          }
          else
          { // иначе ни одной скорости не задано - прекратить ввод из таблицы
             sbRB->Panels->Items[2]->Text =
                "Не задано ни одного значения скорости!";
-            total_step_T = 0;
+            TimePrg.total_step_T = 0;
             MessageBox(Handle, _T("Не задано ни одного значения скорости!"),
                _T("Ошибка"), MB_ICONERROR | MB_OK);
-            ClearTProg(); // чистка данных
+            TimePrg.Clear(); // чистка данных
             break;
          }
       }
-      sgTProgram->Cells[2][i + 1] = FloatToStrF(Tsettings[1][i], ffFixed, 6, 2);
+      sgTProgram->Cells[2][i + 1] = FloatToStrF(TimePrg.Tsettings[1][i], ffFixed, 6, 2);
 
-      prog_step_T[i] = Time;
-      if (prog_step_T[i] == 0)
+      TimePrg.prog_step_T[i] = Time;
+      if (TimePrg.prog_step_T[i] == 0)
       { // если продолжительность шага равна 0
          if (i > 0)
          { // если строка не первая - взять из предыдущей строки
-            prog_step_T[i] = prog_step_T[i - 1];
+            TimePrg.prog_step_T[i] = TimePrg.prog_step_T[i - 1];
          }
          else
          { // иначе не задано продолжительности - прекратить ввод из таблицы
             sbRB->Panels->Items[2]->Text =
                "Не задано ни одного значения продолжительности шага!";
-            total_step_T = 0;
+            TimePrg.total_step_T = 0;
             MessageBox(Handle,
                _T("Не задано ни одного значения продолжительности шага!"),
                _T("Ошибка"), MB_ICONERROR | MB_OK);
-            ClearTProg(); // чистка данных
+            TimePrg.Clear(); // чистка данных
             break;
          }
       }
-      sgTProgram->Cells[3][i + 1] = String(prog_step_T[i] / 1000 / 3600);
+      sgTProgram->Cells[3][i + 1] = String(TimePrg.prog_step_T[i] / 1000 / 3600);
       sgTProgram->Cells[4][i + 1] =
-         String((prog_step_T[i] / 1000 -
-         prog_step_T[i] / 1000 / 3600 * 3600) / 60);
-      total_T += prog_step_T[i];
+         String((TimePrg.prog_step_T[i] / 1000 -
+         TimePrg.prog_step_T[i] / 1000 / 3600 * 3600) / 60);
+      TimePrg.total_T += TimePrg.prog_step_T[i];
    }
-   leTTotalStepsQty->Text = String(total_step_T);
-   if (total_step_T == 0)
+   leTTotalStepsQty->Text = String(TimePrg.total_step_T);
+   if (TimePrg.total_step_T == 0)
    {
       leTotalTestTime->Text = "";
       return;
    }
-   leTotalTestTime->Text = mSecToHMSStr(total_T);
-   num_T_poll = 0;
+   leTotalTestTime->Text = AnsiString(dt::mSecToHMSStr(TimePrg.total_T).c_str());
+   TimePrg.num_T_poll = 0;
    int total_poll_T = 0;
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
    {
@@ -3358,14 +3340,14 @@ void __fastcall TmfRB::OnTProgCheck(TObject *Sender)
          StrToI(sgTPolling->Cells[2][i + 1]) * 60 * 1000;
       if (!CheckTime(Time) && Time)
       {
-         ClearTProg(); // чистка данных
+         TimePrg.Clear(); // чистка данных
          AnsiString msg = "Введено не корректное значение опроса в строке " +
             AnsiString(i + 1);
          MessageBox(Handle, msg.c_str(), _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
-      poll_step_T[i] = Time;
-      if (poll_step_T[i] == 0)
+      TimePrg.poll_step_T[i] = Time;
+      if (TimePrg.poll_step_T[i] == 0)
       {
          if (i == 0)
          {
@@ -3373,29 +3355,29 @@ void __fastcall TmfRB::OnTProgCheck(TObject *Sender)
                "Не задано ни одного времени опроса!";
             MessageBox(Handle, _T("Не задано ни одного времени опроса!"),
                _T("Ошибка"), MB_ICONERROR | MB_OK);
-            ClearTProg(); // чистка данных
+            TimePrg.Clear(); // чистка данных
             break;
          }
          else
          {
-            poll_step_T[i] = poll_step_T[i - 1];
+            TimePrg.poll_step_T[i] = TimePrg.poll_step_T[i - 1];
          }
       }
-      sgTPolling->Cells[1][i + 1] = String(poll_step_T[i] / 1000 / 3600);
+      sgTPolling->Cells[1][i + 1] = String(TimePrg.poll_step_T[i] / 1000 / 3600);
       sgTPolling->Cells[2][i + 1] =
-         String((poll_step_T[i] / 1000 -
-         poll_step_T[i] / 1000 / 3600 * 3600) / 60);
-      total_poll_T += poll_step_T[i];
-      num_T_poll++;
-      if (total_poll_T >= total_T)
+         String((TimePrg.poll_step_T[i] / 1000 -
+         TimePrg.poll_step_T[i] / 1000 / 3600 * 3600) / 60);
+      total_poll_T += TimePrg.poll_step_T[i];
+      TimePrg.num_T_poll++;
+      if (total_poll_T >= TimePrg.total_T)
          break;
    }
-   if (num_T_poll == 0)
+   if (TimePrg.num_T_poll == 0)
    {
       leTPollingTotalQty->Text = "";
       return;
    }
-   leTPollingTotalQty->Text = String(num_T_poll);
+   leTPollingTotalQty->Text = String(TimePrg.num_T_poll);
    sbRB->Panels->Items[2]->Text = "Программа проверена!";
    btnCheckTProg->Enabled = false;
    btnSaveTProgToFile->Enabled = true;
@@ -4231,26 +4213,26 @@ void __fastcall TmfRB::DesignManualPanel(void)
 void __fastcall TmfRB::ShowTProg(void)
    // отобразить программу по времени на экране
 {
-   leTProgName->Text = TProgName;
-   leTTyrePressure->Text = FloatToStrF(TTyrePressure, ffFixed, 6, 1);
-   leTTotalStepsQty->Text = String(total_step_T);
-   leTotalTestTime->Text = mSecToHMSStr(total_T);
-   leTPollingTotalQty->Text = String(num_T_poll);
-   for (int i = 0; i < total_step_T; i++)
+   leTProgName->Text = AnsiString(TimePrg.TProgName.c_str());
+   leTTyrePressure->Text = FloatToStrF(TimePrg.TTyrePressure, ffFixed, 6, 1);
+   leTTotalStepsQty->Text = String(TimePrg.total_step_T);
+   leTotalTestTime->Text = AnsiString(dt::mSecToHMSStr(TimePrg.total_T).c_str());
+   leTPollingTotalQty->Text = String(TimePrg.num_T_poll);
+   for (int i = 0; i < TimePrg.total_step_T; i++)
    {
-      sgTProgram->Cells[1][i + 1] = FloatToStrF(Tsettings[0][i], ffFixed, 6, 2);
-      sgTProgram->Cells[2][i + 1] = FloatToStrF(Tsettings[1][i], ffFixed, 6, 2);
-      sgTProgram->Cells[3][i + 1] = String(prog_step_T[i] / 1000 / 3600);
+      sgTProgram->Cells[1][i + 1] = FloatToStrF(TimePrg.Tsettings[0][i], ffFixed, 6, 2);
+      sgTProgram->Cells[2][i + 1] = FloatToStrF(TimePrg.Tsettings[1][i], ffFixed, 6, 2);
+      sgTProgram->Cells[3][i + 1] = String(TimePrg.prog_step_T[i] / 1000 / 3600);
       sgTProgram->Cells[4][i + 1] =
-         String((prog_step_T[i] / 1000 -
-         prog_step_T[i] / 1000 / 3600 * 3600) / 60);
+         String((TimePrg.prog_step_T[i] / 1000 -
+         TimePrg.prog_step_T[i] / 1000 / 3600 * 3600) / 60);
    }
-   for (int i = 0; i < num_T_poll; i++)
+   for (int i = 0; i < TimePrg.num_T_poll; i++)
    {
-      sgTPolling->Cells[1][i + 1] = String(poll_step_T[i] / 1000 / 3600);
+      sgTPolling->Cells[1][i + 1] = String(TimePrg.poll_step_T[i] / 1000 / 3600);
       sgTPolling->Cells[2][i + 1] =
-         String((poll_step_T[i] / 1000 -
-         poll_step_T[i] / 1000 / 3600 * 3600) / 60);
+         String((TimePrg.poll_step_T[i] / 1000 -
+         TimePrg.poll_step_T[i] / 1000 / 3600 * 3600) / 60);
    }
 }
 // ---- End of ShowTProg -----------------------------------------------------
@@ -4278,15 +4260,15 @@ void __fastcall TmfRB::ShowSProg(void) // отобразить программ�
 void __fastcall TmfRB::OnNewTProg(TObject *Sender)
 {
    leTProgName->Text = "";
-   TProgName = "";
+   TimePrg.TProgName = "";
    leTTyrePressure->Text = "";
-   TTyrePressure = 0.0;
+   TimePrg.TTyrePressure = 0.0;
    leTTotalStepsQty->Text = "";
-   total_step_T = 0;
+   TimePrg.total_step_T = 0;
    leTotalTestTime->Text = "00:00:00";
-   total_T = 0;
+   TimePrg.total_T = 0;
    leTPollingTotalQty->Text = "";
-   num_T_poll = 0;
+   TimePrg.num_T_poll = 0;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
       sgTProgram->Cells[1][i + 1] = "";
@@ -4299,7 +4281,7 @@ void __fastcall TmfRB::OnNewTProg(TObject *Sender)
       sgTPolling->Cells[1][i + 1] = "";
       sgTPolling->Cells[2][i + 1] = "";
    }
-   ClearTProg(); // удаление старых данных из массивов
+   TimePrg.Clear(); // удаление старых данных из массивов
 }
 // ---------------------------------------------------------------------------
 
@@ -4482,16 +4464,16 @@ void __fastcall TmfRB::ShowProtAData(void)
 {
    pCurrentProtATtl->Caption =
       "ПРОТОКОЛ ИСПЫТАНИЙ" // № "+String(TyreA->ProtNo)+
-      " НА СТЕНДЕ " + TyreA->StandName + " (ПОЗ. А)";
-   leTyreSyzeA->Text = TyreA->Size;
-   leTyreModelA->Text = TyreA->Model;
-   leManDateA->Text = TyreA->CustomDate(); // DateToStr(TyreA->ManufactDate);
+      " НА СТЕНДЕ " + AnsiString(TyreA->StandName.c_str()) + " (ПОЗ. А)";
+   leTyreSyzeA->Text = AnsiString(TyreA->Size.c_str());
+   leTyreModelA->Text = AnsiString(TyreA->Model.c_str());
+   leManDateA->Text = AnsiString(TyreA->CustomDate().c_str()); // DateToStr(TyreA->ManufactDate);
    leSerialNoA->Text = String(TyreA->SerialNo);
-   leManufacturerA->Text = TyreA->Manufacturer;
-   leTestCustomerA->Text = TyreA->TestCustomer;
+   leManufacturerA->Text = AnsiString(TyreA->Manufacturer.c_str());
+   leTestCustomerA->Text = AnsiString(TyreA->TestCustomer.c_str());
    leFormNoA->Text = String(TyreA->FormNo);
    lePerfSpecNoA->Text = String(TyreA->PerfSpecNo);
-   leTestProcA->Text = TyreA->TestProcedure;
+   leTestProcA->Text = AnsiString(TyreA->TestProcedure.c_str());
    leDrumD_A->Text = FloatToStrF(TyreA->DrumDiameter, ffFixed, 7, 2);
    leOrderNoA->Text = String(TyreA->OrderNo);
    if (TyreA->Type == 0)
@@ -4500,16 +4482,16 @@ void __fastcall TmfRB::ShowProtAData(void)
    else
       pTyreParamATtl->Caption =
          "ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ" /* ДИАГОНАЛЬНОЙ */ "ШИНЫ";
-   leLoadIndA->Text = TyreA->LoadIndex;
+   leLoadIndA->Text = AnsiString(TyreA->LoadIndex.c_str());
    leMaxLoadA->Text = FloatToStrF(TyreA->MaxLoad, ffFixed, 6, 2);
-   leSpeedIndA->Text = TyreA->SpeedInd;
+   leSpeedIndA->Text = AnsiString(TyreA->SpeedInd.c_str());
    leMaxSpeedA->Text = FloatToStrF(TyreA->MaxSpeed, ffFixed, 6, 2);
    leTyreWideA->Text = FloatToStrF(TyreA->ProfileWide, ffFixed, 6, 2);
    LogPrint("Profile Wide A=" + FloatToStrF(TyreA->ProfileWide, ffFixed, 6, 1),
       clAqua);
    leStaticR_A->Text = FloatToStrF(TyreA->StaticR, ffFixed, 6, 1);
    leOuterD_A->Text = FloatToStrF(TyreA->OuterD, ffFixed, 6, 2);
-   leRimA->Text = TyreA->WheelRim;
+   leRimA->Text = AnsiString(TyreA->WheelRim.c_str());
    leQMaxPressureA->Text = FloatToStrF(TyreA->MaxLoadPress, ffFixed, 6, 2);
    pTestResTtlA->Caption = "РЕЗУЛЬТАТЫ ИСПЫТАНИЙ";
    leTyrePressureA->Text = FloatToStrF(TyreA->InitPressure, ffFixed, 6, 2);
@@ -4523,7 +4505,7 @@ void __fastcall TmfRB::ShowProtAData(void)
    {
       leTestModeA->Text = "по времени";
       leTestDurationA->EditLabel->Caption = "время обкатки";
-      leTestDurationA->Text = mSecToHMSStr(TyreA->TotalTime);
+      leTestDurationA->Text = AnsiString(dt::mSecToHMSStr(TyreA->TotalTime).c_str());
    }
    leStepQtyA->Text = String(TyreA->StepsNo);
    lePollsQtyA->Text = String(TyreA->PollsNo);
@@ -4535,16 +4517,16 @@ void __fastcall TmfRB::ShowProtBData(void)
 {
    pCurrentProtBTtl->Caption =
       "ПРОТОКОЛ ИСПЫТАНИЙ" // № "+String(TyreB->ProtNo)+
-      " НА СТЕНДЕ " + TyreB->StandName + " (ПОЗ. Б)";
-   leTyreSyzeB->Text = TyreB->Size;
-   leTyreModelB->Text = TyreB->Model;
-   leManDateB->Text = TyreB->CustomDate(); // DateToStr(TyreB->ManufactDate);
+      " НА СТЕНДЕ " + AnsiString(TyreB->StandName.c_str()) + " (ПОЗ. Б)";
+   leTyreSyzeB->Text = AnsiString(TyreB->Size.c_str());
+   leTyreModelB->Text = AnsiString(TyreB->Model.c_str());
+   leManDateB->Text = AnsiString(TyreB->CustomDate().c_str());; // DateToStr(TyreB->ManufactDate);
    leSerialNoB->Text = String(TyreB->SerialNo);
-   leManufacturerB->Text = TyreB->Manufacturer;
-   leTestCustomerB->Text = TyreB->TestCustomer;
+   leManufacturerB->Text = AnsiString(TyreB->Manufacturer.c_str());
+   leTestCustomerB->Text = AnsiString(TyreB->TestCustomer.c_str());
    leFormNoB->Text = String(TyreB->FormNo);
    lePerfSpecNoB->Text = String(TyreB->PerfSpecNo);
-   leTestProcB->Text = TyreB->TestProcedure;
+   leTestProcB->Text = AnsiString(TyreB->TestProcedure.c_str());
    leDrumD_B->Text = FloatToStrF(TyreB->DrumDiameter, ffFixed, 7, 2);
    leOrderNoB->Text = String(TyreB->OrderNo);
    if (TyreB->Type == 0)
@@ -4553,14 +4535,14 @@ void __fastcall TmfRB::ShowProtBData(void)
    else
       pTyreParamBTtl->Caption =
          "ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ" /* ДИАГОНАЛЬНОЙ */ "ШИНЫ";
-   leLoadIndB->Text = TyreB->LoadIndex;
+   leLoadIndB->Text = AnsiString(TyreB->LoadIndex.c_str());
    leMaxLoadB->Text = FloatToStrF(TyreB->MaxLoad, ffFixed, 6, 2);
-   leSpeedIndB->Text = TyreB->SpeedInd;
+   leSpeedIndB->Text = AnsiString(TyreB->SpeedInd.c_str());;
    leMaxSpeedB->Text = FloatToStrF(TyreB->MaxSpeed, ffFixed, 6, 2);
    leTyreWideB->Text = FloatToStrF(TyreB->ProfileWide, ffFixed, 6, 2);
    leStaticR_B->Text = FloatToStrF(TyreB->StaticR, ffFixed, 6, 1);
    leOuterD_B->Text = FloatToStrF(TyreB->OuterD, ffFixed, 6, 2);
-   leRimB->Text = TyreB->WheelRim;
+   leRimB->Text = AnsiString(TyreB->WheelRim.c_str());
    leQMaxPressureB->Text = FloatToStrF(TyreB->MaxLoadPress, ffFixed, 6, 2);
    pTestResTtlB->Caption = "РЕЗУЛЬТАТЫ ИСПЫТАНИЙ";
    leTyrePressureB->Text = FloatToStrF(TyreB->InitPressure, ffFixed, 6, 2);
@@ -4574,7 +4556,7 @@ void __fastcall TmfRB::ShowProtBData(void)
    {
       leTestModeB->Text = "по времени";
       leTestDurationB->EditLabel->Caption = "время обкатки";
-      leTestDurationB->Text = mSecToHMSStr(TyreB->TotalTime);
+      leTestDurationB->Text = AnsiString( dt::mSecToHMSStr(TyreB->TotalTime).c_str());
    }
    leStepQtyB->Text = String(TyreB->StepsNo);
    lePollsQtyB->Text = String(TyreB->PollsNo);
@@ -4585,26 +4567,26 @@ void __fastcall TmfRB::ReadProtDataFmScrn(void)
    // прочитать данные протокола из экрана в InpTyre
 {
    InpTyre->ProtNo = StrToI(leProtocolNo->Text);
-   InpTyre->Size = leTyreSize->Text;
-   InpTyre->Model = leTyreType->Text;
-   InpTyre->TestProcedure = leTestProc->Text;
-   InpTyre->StandName = leStandNo->Text;
-   InpTyre->Manufacturer = leManufacturer->Text;
+   InpTyre->Size = AnsiString(leTyreSize->Text).c_str();
+   InpTyre->Model = AnsiString(leTyreType->Text).c_str();
+   InpTyre->TestProcedure = AnsiString(leTestProc->Text).c_str();
+   InpTyre->StandName = AnsiString(leStandNo->Text).c_str();
+   InpTyre->Manufacturer = AnsiString(leManufacturer->Text).c_str();
    InpTyre->DrumDiameter = StrToFloat(leDrumD->Text);
-   InpTyre->TestCustomer = leCustomer->Text;
+   InpTyre->TestCustomer = AnsiString(leCustomer->Text).c_str();
    // InpTyre->ManufactDate =StrToDate(meManDate->EditText);
-   InpTyre->CustomDate(meManDate->EditText);
+   InpTyre->CustomDate(AnsiString(meManDate->EditText).c_str());
    InpTyre->SerialNo = StrToI(leSeralNo->Text);
    InpTyre->PerfSpecNo = StrToI(lePerfSpecNo->Text);
    InpTyre->OrderNo = StrToI(leOrderNo->Text);
    InpTyre->FormNo = StrToI(leFormNo->Text);
-   InpTyre->LoadIndex = leLoadIndex->Text;
+   InpTyre->LoadIndex = AnsiString(leLoadIndex->Text).c_str();
    InpTyre->MaxLoad = StrToFlt(leMaxLoad->Text);
-   InpTyre->SpeedInd = leSpeedIndex->Text;
+   InpTyre->SpeedInd = AnsiString(leSpeedIndex->Text).c_str();
    InpTyre->MaxSpeed = StrToFlt(leMaxSpeed->Text);
    InpTyre->StaticR = StrToFlt(leStaticR->Text);
    InpTyre->OuterD = StrToFlt(leOuterD->Text);
-   InpTyre->WheelRim = leRim->Text;
+   InpTyre->WheelRim = AnsiString(leRim->Text).c_str();
    InpTyre->MaxLoadPress = StrToFlt(leQMaxPressure->Text);
    InpTyre->ProfileWide = StrToI(leTyreWide->Text);
    InpTyre->Type = rgTyreType->ItemIndex;
@@ -5262,14 +5244,14 @@ void __fastcall TmfRB::OnProtTtlFileSaveAs(TObject *Sender)
       FileName = strTitleProt + Now().FormatString
          ("yyyy_mm_dd_hh_nn_ss'.prottitle'");
    }
-   InpTyre->WriteTyreToFile(FileName);
+   InpTyre->WriteToFile(AnsiString(FileName).c_str());
    LogPrint("Протокол сохранен в файле \"" + FileName + "\"");
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnProtTtlFileOpen(TObject *Sender)
 {
-   InpTyre->ReadTyreFmFile(acProtTitleFileOpen->Dialog->FileName);
+   InpTyre->ReadFromFile(AnsiString(acProtTitleFileOpen->Dialog->FileName).c_str());
    ShowProtDataOnScrn();
    LogPrint("Протокол прочитан из файла \"" +
       acProtTitleFileOpen->Dialog->FileName + "\"");
@@ -5279,9 +5261,9 @@ void __fastcall TmfRB::OnProtTtlFileOpen(TObject *Sender)
 void __fastcall TmfRB::OnLoadProtToPosA(TObject *Sender)
 {
    ReadProtDataFmScrn();
-   *TyreA = *InpTyre;
+   TyreA->ImportTemplate( *InpTyre );
    ShowProtAData();
-   TyreTypeA = TyreA->Model;
+   TyreTypeA = AnsiString(TyreA->Model.c_str());
    stP1L1TyreTypeA->Caption = TyreTypeA;
    LogPrint("Протокол загружен в поз. А");
 }
@@ -5290,9 +5272,9 @@ void __fastcall TmfRB::OnLoadProtToPosA(TObject *Sender)
 void __fastcall TmfRB::OnLoadProtToPosB(TObject *Sender)
 {
    ReadProtDataFmScrn();
-   *TyreB = *InpTyre;
+   TyreB->ImportTemplate( *InpTyre );
    ShowProtBData();
-   TyreTypeB = TyreB->Model;
+   TyreTypeB = AnsiString(TyreB->Model.c_str());
    stP1L1TyreTypeB->Caption = TyreTypeB;
    LogPrint("Протокол загружен в поз. Б");
 }
@@ -5302,25 +5284,25 @@ void __fastcall TmfRB::ShowProtDataOnScrn(void)
    // отобразить данные протокола из InpTyre на экране
 {
    leProtocolNo->Text = String(InpTyre->ProtNo);
-   leTyreSize->Text = InpTyre->Size;
-   leTyreType->Text = InpTyre->Model;
-   leTestProc->Text = InpTyre->TestProcedure;
-   leStandNo->Text = InpTyre->StandName;
-   leManufacturer->Text = InpTyre->Manufacturer;
+   leTyreSize->Text = AnsiString(InpTyre->Size.c_str());
+   leTyreType->Text = AnsiString(InpTyre->Model.c_str());
+   leTestProc->Text = AnsiString(InpTyre->TestProcedure.c_str());
+   leStandNo->Text = AnsiString(InpTyre->StandName.c_str());
+   leManufacturer->Text = AnsiString(InpTyre->Manufacturer.c_str());
    leDrumD->Text = FloatToStrF(InpTyre->DrumDiameter, ffFixed, 6, 2);
-   leCustomer->Text = InpTyre->TestCustomer;
-   meManDate->EditText = InpTyre->CustomDate();
+   leCustomer->Text = AnsiString(InpTyre->TestCustomer.c_str());
+   meManDate->EditText = AnsiString(InpTyre->CustomDate().c_str());
    leSeralNo->Text = String(InpTyre->SerialNo);
    lePerfSpecNo->Text = String(InpTyre->PerfSpecNo);
    leOrderNo->Text = String(InpTyre->OrderNo);
    leFormNo->Text = String(InpTyre->FormNo);
-   leLoadIndex->Text = InpTyre->LoadIndex;
+   leLoadIndex->Text = AnsiString(InpTyre->LoadIndex.c_str());
    leMaxLoad->Text = FloatToStrF(InpTyre->MaxLoad, ffFixed, 6, 2);
-   leSpeedIndex->Text = InpTyre->SpeedInd;
+   leSpeedIndex->Text = AnsiString(InpTyre->SpeedInd.c_str());
    leMaxSpeed->Text = FloatToStrF(InpTyre->MaxSpeed, ffFixed, 6, 2);
    leStaticR->Text = FloatToStrF(InpTyre->StaticR, ffFixed, 6, 2);
    leOuterD->Text = FloatToStrF(InpTyre->OuterD, ffFixed, 6, 2);
-   leRim->Text = InpTyre->WheelRim;
+   leRim->Text = AnsiString(InpTyre->WheelRim.c_str());
    leQMaxPressure->Text = FloatToStrF(InpTyre->MaxLoadPress, ffFixed, 6, 2);
    leTyreWide->Text = String(InpTyre->ProfileWide);
    rgTyreType->ItemIndex = InpTyre->Type;
@@ -5363,7 +5345,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
          sgTestResultA->Cells[0][sgTestResultA->RowCount - 1] =
             String(i + 1) + ":";
          sgTestResultA->Cells[1][sgTestResultA->RowCount - 1] =
-            mSecToHMSStr(gr7.read_T[i]);
+            AnsiString(dt::mSecToHMSStr(gr7.read_T[i]).c_str());
          TyreA->rT[i] = gr7.read_T[i];
          sgTestResultA->Cells[2][sgTestResultA->RowCount - 1] =
             FloatToStrF(gr7.read_V[i], ffFixed, 6, 2);
@@ -5427,7 +5409,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
          sgTestResultB->Cells[0][sgTestResultB->RowCount - 1] =
             String(i + 1) + ":";
          sgTestResultB->Cells[1][sgTestResultB->RowCount - 1] =
-            mSecToHMSStr(gr11.read_T[i]);
+            AnsiString(dt::mSecToHMSStr(gr11.read_T[i]).c_str());
          TyreB->rT[i] = gr11.read_T[i];
          sgTestResultB->Cells[2][sgTestResultB->RowCount - 1] =
             FloatToStrF(gr11.read_V[i], ffFixed, 6, 2);
@@ -5496,7 +5478,7 @@ void __fastcall TmfRB::OnPrintProtPosAToFile(TObject *Sender)
    { // автосейв
       FileName = strProtA + Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prtprot'");
    }
-   TyreA->PrintProtToFile(FileName, "А");
+   TyreA->PrintProtToFile(AnsiString(FileName).c_str(), "А");
    needSaveA = !gr1.Stop1;
    LogPrint("Результаты испытаний по поз. А сохранены в файле \"" +
       FileName + "\"");
@@ -5518,7 +5500,7 @@ void __fastcall TmfRB::OnPrintProtPosBToFile(TObject *Sender)
    { // автосейв
       FileName = strProtB + Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prtprot'");
    }
-   TyreB->PrintProtToFile(FileName, "Б");
+   TyreB->PrintProtToFile(AnsiString(FileName).c_str(), "Б");
    needSaveB = !gr1.Stop2;
    LogPrint("Результаты испытаний по поз. Б сохранены в файле \"" +
       FileName + "\"");
@@ -7380,7 +7362,7 @@ void __fastcall TmfRB::OnPrintProtocol(TObject *Sender)
    if ((TButton*)Sender == btnPrintTestResPosA)
    {
       sbRB->Panels->Items[2]->Text = "Печать протокола испытаний по поз. А!";
-      TyreA->PrintProtocol(pProtPrt, "А");
+      printing::Print( pProtPrt, *TyreA, "А" );
       sbRB->Panels->Items[2]->Text =
          "Протокол испытаний по поз. А выведен на принтер!";
       LogPrintF(LogFName(), "Протокол испытаний по поз. А выведен на принтер!",
@@ -7389,7 +7371,7 @@ void __fastcall TmfRB::OnPrintProtocol(TObject *Sender)
    if ((TButton*)Sender == btnPrintTestResPosB)
    {
       sbRB->Panels->Items[2]->Text = "Печать протокола испытаний по поз. Б!";
-      TyreB->PrintProtocol(pProtPrt, "Б");
+      printing::Print( pProtPrt, *TyreB, "Б" );
       sbRB->Panels->Items[2]->Text =
          "Протокол испытаний по поз. Б выведен на принтер!";
       LogPrintF(LogFName(), "Протокол испытаний по поз. Б выведен на принтер!",
