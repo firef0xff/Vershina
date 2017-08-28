@@ -25,12 +25,14 @@
 #include "src/sert/v_sert.h"
 #include "support_functions/print_support.h"
 #include "prg/time_programm.h"
+#include "prg/path_programm.h"
 
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TmfRB *mfRB;
 TimeProgramm TimePrg;
+PathProgramm PathPrg;
 std::unique_ptr<Tyre>InpTyre(new Tyre());
 // покрышка для ввода и редактирования протокола
 std::unique_ptr<Tyre>TyreA(new Tyre()); // покрышка в поз. А
@@ -2679,17 +2681,17 @@ void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
 
 void __fastcall TmfRB::OnSProgFileOpen(TObject *Sender)
 {
-   SProgFName = acSProgFileOpen->Dialog->FileName;
-   LogPrint("Загрузить программу по пути из файла \"" + SProgFName + "\"!",
+   PathPrg.SProgFName = AnsiString(acSProgFileOpen->Dialog->FileName).c_str();
+   LogPrint("Загрузить программу по пути из файла \"" + AnsiString(PathPrg.SProgFName.c_str()) + "\"!",
       clAqua);
-   ReadSProgFmFile();
+   PathPrg.Load();
    ShowSProg();
    btnCheckSProg->Enabled = false;
    btnSaveSProgToFile->Enabled = true;
    btnLoadSProgToPosA->Enabled = true;
    btnLoadSProgToPosB->Enabled = true;
    sbRB->Panels->Items[2]->Text = "Программа по пути загружена из файла \"" +
-      FileNameParse(SProgFName) + "\"!";
+      FileNameParse(AnsiString(PathPrg.SProgFName.c_str())) + "\"!";
 }
 // ---------------------------------------------------------------------------
 
@@ -2698,19 +2700,19 @@ void __fastcall TmfRB::OnSProgFileSaveAs(TObject *Sender)
    // проверка вызывающего действия
    if (Sender == acSProgFileSaveAs)
    { // ручное сохранение
-      SProgFName = acSProgFileSaveAs->Dialog->FileName;
+      PathPrg.SProgFName = AnsiString(acSProgFileSaveAs->Dialog->FileName).c_str();
       acSProgFileSaveAs->Dialog->FileName = "";
    }
    else
    { // автосейв
-      SProgFName = strDistProg + Now().FormatString
-         ("yyyy_mm_dd_hh_nn_ss'.sprg'");
+      PathPrg.SProgFName = AnsiString(strDistProg + Now().FormatString
+         ("yyyy_mm_dd_hh_nn_ss'.sprg'")).c_str();
    }
-   LogPrint("Сохранить программу по пути в файле \"" + SProgFName + "\"!",
+   LogPrint("Сохранить программу по пути в файле \"" + AnsiString(PathPrg.SProgFName.c_str()) + "\"!",
       clAqua);
-   WriteSProgToFile();
+   PathPrg.Save();
    sbRB->Panels->Items[2]->Text = "Программа по пути сохранена в файле \"" +
-      FileNameParse(SProgFName) + "\"";
+      FileNameParse(AnsiString(PathPrg.SProgFName.c_str())) + "\"";
 }
 // ---------------------------------------------------------------------------
 
@@ -2725,18 +2727,9 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    // читаем программу из ячеек и загружаем в контроллер поз. А
    auto &gr4 = cpu::CpuMemory::Instance().mGr4Pos1;
    auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
-   for (int i = 0; i < MAXNUMOFSTEPS; i++)
-   {
-      gr6.setting[0][i] = Ssettings[0][i];
-      gr6.setting[1][i] = Ssettings[1][i];
-      gr4.step_S[i] = prog_step_S[i];
-   }
-   for (int i = 0; i < MAXNUMOFPOLLS; i++)
-   {
-      gr4.poll_step_S[i] = poll_step_S[i];
-   }
+   PathPrg.ToCpu( gr4, gr6 );
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   RunProgNameA = SProgName;
+   RunProgNameA = AnsiString(PathPrg.SProgName.c_str());
    SetCurrProgA(RunProgNameA);
    stP1L2ProgNameA->Caption = RunProgNameA;
    TyreA->InitPressure = StrToFlt(leSTyrePressure->Text);
@@ -2778,17 +2771,8 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    // читаем программу из ячеек и загружаем в контроллер поз. B
    auto &gr8 = cpu::CpuMemory::Instance().mGr4Pos2;
    auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
-   for (int i = 0; i < MAXNUMOFSTEPS; i++)
-   {
-      gr10.setting[0][i] = Ssettings[0][i];
-      gr10.setting[1][i] = Ssettings[1][i];
-      gr8.step_S[i] = prog_step_S[i];
-   }
-   for (int i = 0; i < MAXNUMOFPOLLS; i++)
-   {
-      gr8.poll_step_S[i] = poll_step_S[i];
-   }
-   RunProgNameB = SProgName;
+   PathPrg.ToCpu( gr8, gr10 );
+   RunProgNameB = AnsiString(PathPrg.SProgName.c_str());
    SetCurrProgB(RunProgNameB);
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
    stP1L2ProgNameB->Caption = RunProgNameB;
@@ -4239,20 +4223,20 @@ void __fastcall TmfRB::ShowTProg(void)
 
 void __fastcall TmfRB::ShowSProg(void) // отобразить программу по пути на экране
 {
-   leSProgName->Text = SProgName;
-   leSTyrePressure->Text = FloatToStrF(STyrePressure, ffFixed, 6, 1);
-   leSTotalStepsQty->Text = String(total_step_S);
-   leTotalTestS->Text = FloatToStrF(total_S, ffFixed, 7, 2);
-   leSPollingTotalQty->Text = String(num_S_poll);
-   for (int i = 0; i < total_step_S; i++)
+   leSProgName->Text = AnsiString(PathPrg.SProgName.c_str());
+   leSTyrePressure->Text = FloatToStrF(PathPrg.STyrePressure, ffFixed, 6, 1);
+   leSTotalStepsQty->Text = String(PathPrg.total_step_S);
+   leTotalTestS->Text = FloatToStrF(PathPrg.total_S, ffFixed, 7, 2);
+   leSPollingTotalQty->Text = String(PathPrg.num_S_poll);
+   for (int i = 0; i < PathPrg.total_step_S; i++)
    {
-      sgSProgram->Cells[1][i + 1] = FloatToStrF(Ssettings[0][i], ffFixed, 6, 2);
-      sgSProgram->Cells[2][i + 1] = FloatToStrF(Ssettings[1][i], ffFixed, 6, 2);
-      sgSProgram->Cells[3][i + 1] = FloatToStrF(prog_step_S[i], ffFixed, 6, 2);
+      sgSProgram->Cells[1][i + 1] = FloatToStrF(PathPrg.Ssettings[0][i], ffFixed, 6, 2);
+      sgSProgram->Cells[2][i + 1] = FloatToStrF(PathPrg.Ssettings[1][i], ffFixed, 6, 2);
+      sgSProgram->Cells[3][i + 1] = FloatToStrF(PathPrg.prog_step_S[i], ffFixed, 6, 2);
    }
-   for (int i = 0; i < num_S_poll; i++)
+   for (int i = 0; i < PathPrg.num_S_poll; i++)
    {
-      sgSPolling->Cells[1][i + 1] = FloatToStrF(poll_step_S[i], ffFixed, 6, 2);
+      sgSPolling->Cells[1][i + 1] = FloatToStrF(PathPrg.poll_step_S[i], ffFixed, 6, 2);
    }
 }
 // ---- End of ShowSProg -----------------------------------------------------
@@ -4296,13 +4280,13 @@ void __fastcall TmfRB::OnSGTEnter(TObject *Sender)
 
 void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
 {
-   ClearSProg(); // чистка старых данных
+   PathPrg.Clear(); // чистка старых данных
    // читаем программу из ячеек таблиц, проверяем и записываем в массивы
-   SProgName = leSProgName->Text;
-   STyrePressure = StrToFlt(leSTyrePressure->Text);
-   leSTyrePressure->Text = FloatToStrF(STyrePressure, ffFixed, 6, 1);
-   total_step_S = 0;
-   total_S = 0;
+   PathPrg.SProgName = AnsiString(leSProgName->Text).c_str();
+   PathPrg.STyrePressure = StrToFlt(leSTyrePressure->Text);
+   leSTyrePressure->Text = FloatToStrF(PathPrg.STyrePressure, ffFixed, 6, 1);
+   PathPrg.total_step_S = 0;
+   PathPrg.total_S = 0;
    // ввод из первой таблицы нагрузок, скоростей и путей
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
@@ -4312,17 +4296,17 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
       if (!CheckLoad(Load) || !CheckSpeed(Speed) ||
          (!CheckDistance(Distance) && Distance))
       {
-         ClearSProg(); // чистка данных
+         PathPrg.Clear(); // чистка данных
          AnsiString msg = "Введено не корректное значение в строке " +
             AnsiString(i + 1);
          MessageBox(Handle, msg.c_str(), _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
-      Ssettings[0][i] = Load; // нагрузки
-      if (Ssettings[0][i] == 0)
+      PathPrg.Ssettings[0][i] = Load; // нагрузки
+      if (PathPrg.Ssettings[0][i] == 0)
       { // если нагрузка в этой строчке равна 0
          if (i > 0)
-            total_step_S = i;
+            PathPrg.total_step_S = i;
          // строка не первая - запомнить количество шагов программы по пути
          else
          {
@@ -4331,14 +4315,14 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
          }
          break; // и прекратить ввод из таблицы
       }
-      sgSProgram->Cells[1][i + 1] = FloatToStrF(Ssettings[0][i], ffFixed, 6, 2);
+      sgSProgram->Cells[1][i + 1] = FloatToStrF(PathPrg.Ssettings[0][i], ffFixed, 6, 2);
 
-      Ssettings[1][i] = Speed; // скорости
-      if (Ssettings[1][i] == 0)
+      PathPrg.Ssettings[1][i] = Speed; // скорости
+      if (PathPrg.Ssettings[1][i] == 0)
       { // если скорость равна 0
          if (i > 0)
          { // если строка не первая - взять из предыдущей строки
-            Ssettings[1][i] = Ssettings[1][i - 1];
+            PathPrg.Ssettings[1][i] = PathPrg.Ssettings[1][i - 1];
          }
          else
          { // иначе ни одной скорости не задано - прекратить ввод из таблицы
@@ -4346,19 +4330,19 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
                _T("Ошибка"), MB_ICONERROR | MB_OK);
             sbRB->Panels->Items[2]->Text =
                "Не задано ни одного значения скорости!";
-            total_step_S = 0;
-            ClearSProg(); // чистка данных
+            PathPrg.total_step_S = 0;
+            PathPrg.Clear(); // чистка данных
             break;
          }
       }
 
-      sgSProgram->Cells[2][i + 1] = FloatToStrF(Ssettings[1][i], ffFixed, 6, 2);
-      prog_step_S[i] = Distance;
-      if (prog_step_S[i] == 0)
+      sgSProgram->Cells[2][i + 1] = FloatToStrF(PathPrg.Ssettings[1][i], ffFixed, 6, 2);
+      PathPrg.prog_step_S[i] = Distance;
+      if (PathPrg.prog_step_S[i] == 0)
       { // если длина пути шага равна 0
          if (i > 0)
          { // если строка не первая - взять из предыдущей строки
-            prog_step_S[i] = prog_step_S[i - 1];
+            PathPrg.prog_step_S[i] = PathPrg.prog_step_S[i - 1];
          }
          else
          { // иначе не задано длины пути шага - прекратить ввод из таблицы
@@ -4366,22 +4350,22 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
                _T("Ошибка"), MB_ICONERROR | MB_OK);
             sbRB->Panels->Items[2]->Text =
                "Не задано ни одного значения пути шага!";
-            total_step_S = 0;
-            ClearSProg(); // чистка данных
+            PathPrg.total_step_S = 0;
+            PathPrg.Clear(); // чистка данных
             break;
          }
       }
-      sgSProgram->Cells[3][i + 1] = FloatToStrF(prog_step_S[i], ffFixed, 6, 2);
-      total_S += prog_step_S[i];
+      sgSProgram->Cells[3][i + 1] = FloatToStrF(PathPrg.prog_step_S[i], ffFixed, 6, 2);
+      PathPrg.total_S += PathPrg.prog_step_S[i];
    } // конец обработки таблицы нагрузок, скоростей и путей
-   leSTotalStepsQty->Text = String(total_step_S);
-   if (total_step_S == 0)
+   leSTotalStepsQty->Text = String(PathPrg.total_step_S);
+   if (PathPrg.total_step_S == 0)
    {
       leTotalTestTime->Text = "";
       return;
    }
-   leTotalTestS->Text = FloatToStrF(total_S, ffFixed, 6, 2);
-   num_S_poll = 0;
+   leTotalTestS->Text = FloatToStrF(PathPrg.total_S, ffFixed, 6, 2);
+   PathPrg.num_S_poll = 0;
    float total_poll_S = 0;
    // ввод из второй таблицы опросов по пути
    for (int i = 0; i < MAXNUMOFPOLLS; i++)
@@ -4389,15 +4373,14 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
       double Distance = StrToFlt(sgSPolling->Cells[1][i + 1]);
       if (!CheckDistance(Distance) && Distance)
       {
-         ClearSProg(); // чистка данных
+         PathPrg.Clear(); // чистка данных
          AnsiString msg = "Введено не корректное значение опроса в строке " +
             AnsiString(i + 1);
          MessageBox(Handle, msg.c_str(), _T("Ошибка"), MB_ICONERROR | MB_OK);
-         ClearSProg(); // чистка данных
          return;
       }
-      poll_step_S[i] = Distance;
-      if (poll_step_S[i] == 0)
+      PathPrg.poll_step_S[i] = Distance;
+      if (PathPrg.poll_step_S[i] == 0)
       {
          if (i == 0)
          {
@@ -4405,26 +4388,26 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
                _T("Ошибка"), MB_ICONERROR | MB_OK);
             sbRB->Panels->Items[2]->Text =
                "Не задано ни одного пути для опроса!";
-            ClearSProg(); // чистка данных
+            PathPrg.Clear(); // чистка данных
             break;
          }
          else
          {
-            poll_step_S[i] = poll_step_S[i - 1];
+            PathPrg.poll_step_S[i] = PathPrg.poll_step_S[i - 1];
          }
       }
-      sgSPolling->Cells[1][i + 1] = FloatToStrF(poll_step_S[i], ffFixed, 6, 2);
-      total_poll_S += poll_step_S[i];
-      num_S_poll++;
-      if (total_poll_S >= total_S)
+      sgSPolling->Cells[1][i + 1] = FloatToStrF(PathPrg.poll_step_S[i], ffFixed, 6, 2);
+      total_poll_S += PathPrg.poll_step_S[i];
+      PathPrg.num_S_poll++;
+      if (total_poll_S >= PathPrg.total_S)
          break;
    }
-   if (num_S_poll == 0)
+   if (PathPrg.num_S_poll == 0)
    {
       leSPollingTotalQty->Text = "";
       return;
    }
-   leSPollingTotalQty->Text = String(num_S_poll);
+   leSPollingTotalQty->Text = String(PathPrg.num_S_poll);
    sbRB->Panels->Items[2]->Text = "Программа проверена!";
    btnCheckSProg->Enabled = false;
    btnSaveSProgToFile->Enabled = true;
@@ -4436,15 +4419,15 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
 void __fastcall TmfRB::OnNewSProg(TObject *Sender)
 {
    leSProgName->Text = "";
-   SProgName = "";
+   PathPrg.SProgName = "";
    leSTyrePressure->Text = "";
-   STyrePressure = 0.0;
+   PathPrg.STyrePressure = 0.0;
    leSTotalStepsQty->Text = "";
-   total_step_S = 0;
+   PathPrg.total_step_S = 0;
    leTotalTestS->Text = "0";
-   total_S = 0;
+   PathPrg.total_S = 0;
    leSPollingTotalQty->Text = "";
-   num_S_poll = 0;
+   PathPrg.num_S_poll = 0;
    for (int i = 0; i < MAXNUMOFSTEPS; i++)
    {
       sgSProgram->Cells[1][i + 1] = "";
@@ -4455,7 +4438,7 @@ void __fastcall TmfRB::OnNewSProg(TObject *Sender)
    {
       sgSPolling->Cells[1][i + 1] = "";
    }
-   ClearSProg(); // чистка старых данных
+   PathPrg.Clear(); // чистка старых данных
 }
 // ---------------------------------------------------------------------------
 

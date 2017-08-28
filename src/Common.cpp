@@ -80,42 +80,6 @@ String TyreTypeA = "А", TyreTypeB = "Б"; // тип покрышки
 String RunProgNameA = "Прог 1", RunProgNameB = "Прог 2";
 // наименвание программы обкатки
 
-// рабочие переменные для программ испытаний
-// программа по пути
-String SProgFName = ""; // имя файла для сохранения программы по пути
-String SProgName = ""; // имя программы испытаний по пути
-float STyrePressure = 0; // давление в шине
-int total_step_S = 0; // суммарное кол-во шагов программы по пути
-float total_S = 0; // суммарная продолжительность программы по пути, км
-int num_S_poll = 0; // количество опросов по пути
-float poll_step_S[MAXNUMOFPOLLS] =
-{0}; // массив опросов по пути
-float prog_step_S[MAXNUMOFSTEPS] =
-{0}; // массив шагов по пути
-float Ssettings[2][MAXNUMOFSTEPS] =
-{0}; // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
-
-// сброс программы по пути
-void ClearSProg(void)
-{
-   for (size_t i = 0; i < MAXNUMOFPOLLS; i++) // массив опросов по пути
-   {
-      poll_step_S[i] = 0;
-   }
-   for (size_t i = 0; i < MAXNUMOFSTEPS; i++)
-   {
-      prog_step_S[i] = 0; // массив шагов по времени
-      Ssettings[0][i] = 0; // массив нагрузок (1-й столбец)
-      Ssettings[1][i] = 0; // массив скоростей (2-й столбец)
-   }
-   SProgFName = ""; // имя файла для сохранения программы по пути
-   SProgName = ""; // имя программы испытаний по пути
-   STyrePressure = 0.0; // давление в шине
-   total_step_S = 0; // суммарное кол-во шагов программы по пути
-   total_S = 0.0; // суммарная продолжительность программы по пути, км
-   num_S_poll = 0; // количество опросов по пути
-}
-
 // общие функции ------------------------------------------------------------
 
 // Печати сроки Str в окне протокола цветом CClr ----------------------------
@@ -171,54 +135,6 @@ void __fastcall OPCControlStop(TTimer* t) // Останов управления
 }
 // ---- End of OPCControlStop ------------------------------------------------
 
-void __fastcall ReadSProgFmFile(void) // прочитать программу по пути из файла
-{
-   FILE *fparam;
-   float w;
-   if ((fparam = fopen(AnsiString(SProgFName).c_str(), "rb")) == NULL)
-   {
-      LogPrint("Can't open file \"" + SProgFName + "\" for reading!", clRed);
-      return;
-   }
-   SProgName = ReadString(fparam);
-   fread(&STyrePressure, sizeof(float), 1, fparam);
-   fread(&total_step_S, sizeof(int), 1, fparam);
-   fread(&total_S, sizeof(float), 1, fparam);
-   fread(&num_S_poll, sizeof(int), 1, fparam);
-   fread(&Ssettings[0][0], sizeof(Ssettings), 1, fparam);
-   fread(&prog_step_S[0], sizeof(prog_step_S), 1, fparam);
-   fread(&poll_step_S[0], sizeof(poll_step_S), 1, fparam);
-   fclose(fparam);
-   // LogPrint("Total_S="+FloatToStrF(total_S,ffFixed,7,2),clAqua);
-   // LogPrint("Num_S_poll="+String(num_S_poll),clAqua);
-   // LogPrint("poll_step__S[0]="+FloatToStrF(poll_step_S[0],ffFixed,7,2),clAqua);
-   // LogPrint("Total_S="+FloatToStrF(total_S,ffFixed,7,2),clAqua);
-}
-// ---- End of ReadSProgFmFile -----------------------------------------------
-
-void __fastcall WriteSProgToFile(void) // записать программу по пути в файл
-{
-   FILE *fparam;
-   if ((fparam = fopen(AnsiString(SProgFName).c_str(), "wb")) == NULL)
-   {
-      LogPrint("Can't open file \"" + SProgFName + "\" for writing!", clRed);
-      return;
-   }
-   WriteString(SProgName, fparam);
-   fwrite(&STyrePressure, sizeof(float), 1, fparam);
-   fwrite(&total_step_S, sizeof(int), 1, fparam);
-   fwrite(&total_S, sizeof(float), 1, fparam);
-   fwrite(&num_S_poll, sizeof(int), 1, fparam);
-   fwrite(&Ssettings[0][0], sizeof(Ssettings), 1, fparam);
-   fwrite(&prog_step_S[0], sizeof(prog_step_S), 1, fparam);
-   fwrite(&poll_step_S[0], sizeof(poll_step_S), 1, fparam);
-   fclose(fparam);
-   // LogPrint("Total_S="+FloatToStrF(total_S,ffFixed,7,2),clAqua);
-   // LogPrint("Num_S_poll="+String(num_S_poll),clAqua);
-   // LogPrint("poll_step__S[0]="+FloatToStrF(poll_step_S[0],ffFixed,7,2),clAqua);
-   // LogPrint("Total_S="+FloatToStrF(total_S,ffFixed,7,2),clAqua);
-}
-// ---- End of WriteSProgFmFile ----------------------------------------------
 float __fastcall StrToFlt(String ws)
    // Преобразование строки в значение типа float
 {

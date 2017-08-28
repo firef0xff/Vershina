@@ -62,26 +62,13 @@ extern std::unique_ptr<Tyre>InpTyre,
 extern String TyreTypeA, TyreTypeB; // тип покрышки
 extern String RunProgNameA, RunProgNameB; // наименвание программы обкатки
 // рабочие переменные для программ испытаний
-// программа по пути
-extern String SProgFName; // имя файла для сохранения программы по пути
-extern String SProgName; // имя программы испытаний по пути
-extern float STyrePressure; // давление в шине
-extern int total_step_S; // суммарное кол-во шагов программы по пути
-extern float total_S; // суммарная продолжительность программы по пути, км
-extern int num_S_poll; // количество опросов по пути
-extern float poll_step_S[MAXNUMOFPOLLS]; // массив опросов по пути
-extern float prog_step_S[MAXNUMOFSTEPS]; // массив шагов по пути
-extern float Ssettings[2][MAXNUMOFSTEPS];
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
-void __fastcall ReadSProgFmFile(void);
-void __fastcall WriteSProgToFile(void);
 extern bool switch_Carriage1;
 extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
 // объявление общих функций -------------------------------------------------
-void ClearSProg(void); // сброс программы по пути
 void __fastcall LogPrint( // Вывод сообщений в окно протокола
    String, TColor = clWhite);
 void __fastcall SLogPrint

@@ -2,6 +2,7 @@
 #ifndef gr6H
 #define gr6H
 #include "../data_block_base.h"
+#include "gr5.h"
 #include <stdint.h>
 
 namespace cpu
@@ -15,7 +16,7 @@ class GR6 :public InOut
 public:
    enum
    {
-      ITEMS_COUNT = 100,
+      ITEMS_COUNT = GR5::STEPS_COUNT,
       ARRAYS_COUNT = 2
    };
 

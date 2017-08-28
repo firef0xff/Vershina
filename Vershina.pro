@@ -19,7 +19,8 @@ HEADERS +=\
    src/splash_screen/*.h\
    src/support_functions/functoins.h\
    src/support_functions/print_support.h\
-    src/prg/time_programm.h
+    src/prg/path_programm.h
+
 
 
 SOURCES +=\
@@ -30,7 +31,7 @@ SOURCES +=\
    src/support_functions/*.cpp\
    src/support_functions/print_support.cpp\
    SQL/*.cpp \
-    src/prg/time_programm.cpp
+    src/prg/path_programm.cpp
 
 
 
@@ -59,6 +60,7 @@ HEADERS +=\
    src/sert/t_sert.h \
    src/sert/r_sert.h \
    src/sert/TyreProt.h\
+   src/prg/time_programm.h\
    MD5/MD5.h\
    OPC/opc.h\
    OPC/miniOPC.h\
@@ -108,6 +110,7 @@ SOURCES +=\
    src/sert/t_sert.cpp\
    src/sert/r_sert.cpp\
    src/sert/TyreProt.cpp\
+src/prg/time_programm.cpp\
    MD5/MD5.cpp\
    OPC/opc_i.c\
    OPC/impl/demo_mode.cpp\
