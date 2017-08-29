@@ -796,7 +796,6 @@ private: // User declarations
 
    void __fastcall SetCommonParam(void);
    void __fastcall ShowCommonParam(void);
-   void __fastcall OnLogPrint(TMessage&);
    void __fastcall OnDataShow(TMessage&);
    void __fastcall OnOPCCmd(TMessage&);
    void __fastcall ShowStatus(bool save = true);
@@ -847,10 +846,9 @@ public: // User declarations
    __fastcall TmfRB(TComponent* Owner);
    __fastcall ~TmfRB();
    BEGIN_MESSAGE_MAP
-      MESSAGE_HANDLER(WM_LogPrint, TMessage, OnLogPrint)
       MESSAGE_HANDLER(WM_DataShow, TMessage, OnDataShow)
       MESSAGE_HANDLER(WM_OPCCmd, TMessage, OnOPCCmd)
-      END_MESSAGE_MAP(TComponent)
+   END_MESSAGE_MAP(TComponent)
 };
 
 // ---------------------------------------------------------------------------

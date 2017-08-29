@@ -4,12 +4,12 @@
 #pragma hdrstop
 
 //---------------------------------------------------------------------------
-USEFORM("login\AppManagnent.cpp", AppManagment);
-USEFORM("splash_screen\Head_band.cpp", Headband);
-USEFORM("Vershina_main.cpp", mfRB);
-USEFORM("login\Login.cpp", LogInwnd);
-USEFORM("login\dialogs\User_Data.cpp", UserData);
 USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
+USEFORM("login\AppManagnent.cpp", AppManagment);
+USEFORM("login\dialogs\User_Data.cpp", UserData);
+USEFORM("login\Login.cpp", LogInwnd);
+USEFORM("Vershina_main.cpp", mfRB);
+USEFORM("splash_screen\Head_band.cpp", Headband);
 //---------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

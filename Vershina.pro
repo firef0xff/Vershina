@@ -11,27 +11,26 @@ DEFINES +=__fastcall\
 INCLUDEPATH += OPC\
                communication/owen\
 
-HEADERS +=\
-   src/*.h\
-   src/login/*.h\
-   SQL/*.h\
-   src/login/dialogs/*.h\
-   src/splash_screen/*.h\
-   src/support_functions/functoins.h\
-   src/support_functions/print_support.h\
-    src/prg/path_programm.h
+#HEADERS +=\
+#   src/*.h\
+#   src/login/*.h\
+#   SQL/*.h\
+#   src/login/dialogs/*.h\
+#   src/splash_screen/*.h\
+#   src/support_functions/functoins.h\
+#   src/support_functions/print_support.h\
 
 
 
-SOURCES +=\
-   src/*.cpp\
-   src/login/*.cpp\
-   src/login/dialogs/*.cpp\
-   src/splash_screen/*.cpp\
-   src/support_functions/*.cpp\
-   src/support_functions/print_support.cpp\
-   SQL/*.cpp \
-    src/prg/path_programm.cpp
+#SOURCES +=\
+#   src/*.cpp\
+#   src/login/*.cpp\
+#   src/login/dialogs/*.cpp\
+#   src/splash_screen/*.cpp\
+#   src/support_functions/*.cpp\
+#   src/support_functions/print_support.cpp\
+#   SQL/*.cpp \
+
 
 
 
@@ -54,6 +53,7 @@ HEADERS +=\
    src/support_functions/str_convert.h\
    src/support_functions/serialize.h\
    src/log/log.h\
+    src/log/log_impl.h\
    src/sert/l_calibr.h\
    src/sert/l_sert.h \
    src/sert/v_sert.h \
@@ -61,6 +61,7 @@ HEADERS +=\
    src/sert/r_sert.h \
    src/sert/TyreProt.h\
    src/prg/time_programm.h\
+   src/prg/path_programm.h \
    MD5/MD5.h\
    OPC/opc.h\
    OPC/miniOPC.h\
@@ -104,13 +105,15 @@ SOURCES +=\
    src/support_functions/str_convert.cpp\
    src/support_functions/serialize.cpp\
    src/log/log.cpp\
+   src/log/log_impl.cpp\
    src/sert/l_calibr.cpp\
    src/sert/l_sert.cpp\
    src/sert/v_sert.cpp\
    src/sert/t_sert.cpp\
    src/sert/r_sert.cpp\
    src/sert/TyreProt.cpp\
-src/prg/time_programm.cpp\
+   src/prg/time_programm.cpp\
+   src/prg/path_programm.cpp \
    MD5/MD5.cpp\
    OPC/opc_i.c\
    OPC/impl/demo_mode.cpp\

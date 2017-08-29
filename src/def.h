@@ -6,7 +6,6 @@
 #define MAXNUMOFPOLLS   250    // максимальное количество опросов
 
 // определение собственных сообщений
-#define WM_LogPrint  WM_USER
 #define WM_DataShow  WM_USER+1
 #define WM_OPCCmd    WM_USER+2
 // метки управления по переменной OPCCtrlStat

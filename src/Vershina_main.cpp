@@ -26,6 +26,7 @@
 #include "support_functions/print_support.h"
 #include "prg/time_programm.h"
 #include "prg/path_programm.h"
+#include "log/log_impl.h"
 
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -162,7 +163,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) : TForm(Owner), closing(false)
       auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
       LdCA->LKQInit( gr12 );
       LdCB->LKQInit( gr13 );
-      pPrt = reLog;
+      InitLogger( reLog );
       reLog->Clear();
       pProtPrt->Canvas->Font->Name = "Lucida Console";
       pProtPrt->Canvas->Font->Size = 10;
@@ -176,7 +177,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) : TForm(Owner), closing(false)
       tReadCycleTimer->Interval = 1000;
       sbRB->Panels->Items[0]->Text = "Соединения со стендом нет";
       sbRB->Panels->Items[3]->Text = Now().DateTimeString();
-      LogPrintF(LogFName(), "Старт программы!", clAqua);
+      LogPrint( "Старт программы!", clAqua);
       OnMainFormCreate(this);
       CheckStend(); // проверка соединения и попытка восстановить соединение
       GetSettings(); // чтение настроек сохранения
@@ -1447,7 +1448,7 @@ void __fastcall TmfRB::ShowCommonParam(void) // отображение общи�
    }
 
    // вывод в файл журнала:
-   // LogPrintF(LogFName()," Текущая скорость="+FloatToStrF(*fakt_speed,ffFixed,7,2));
+   // LogPrint(" Текущая скорость="+FloatToStrF(*fakt_speed,ffFixed,7,2));
    // отображение на вкладке "ТЕКУЩЕЕ СОСТОЯНИЕ"
    if (pcRB->ActivePage == tsCurrentStatus)
    {
@@ -1597,7 +1598,7 @@ void __fastcall TmfRB::onOPCControlStartExec(TObject *Sender)
 
 void __fastcall TmfRB::OPCControlStartExec(void)
 {
-   LogPrintF(LogFName(), "Старт управления стендом");
+   LogPrint( "Старт управления стендом");
    if (OPCConnectOK && !OPCControlOn)
    {
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
@@ -1616,19 +1617,19 @@ void __fastcall TmfRB::OPCControlStartExec(void)
       CurrMode2 = BUnion(gr1.AutoMode2, gr1.ManualMode2);
       CurrSMode1 = BUnion(gr1.Start1, gr1.Stop1);
       CurrSMode2 = BUnion(gr1.Start2, gr1.Stop2);
-      LogPrintF(LogFName(), "First CurrMode1=" + String(CurrMode1), clSkyBlue);
-      LogPrintF(LogFName(), "First CurrMode2=" + String(CurrMode2), clSkyBlue);
-      LogPrintF(LogFName(), "First CurrSMode1=" + String(CurrSMode1),
+      LogPrint( "First CurrMode1=" + String(CurrMode1), clSkyBlue);
+      LogPrint( "First CurrMode2=" + String(CurrMode2), clSkyBlue);
+      LogPrint( "First CurrSMode1=" + String(CurrSMode1),
          clSkyBlue);
-      LogPrintF(LogFName(), "First CurrSMode2=" + String(CurrSMode2),
+      LogPrint( "First CurrSMode2=" + String(CurrSMode2),
          clSkyBlue);
-      LogPrintF(LogFName(), "First Auto1: " + BoolToStr(gr1.AutoMode1, true) +
+      LogPrint( "First Auto1: " + BoolToStr(gr1.AutoMode1, true) +
          ", Man1: " + BoolToStr(gr1.ManualMode1, true), clSkyBlue);
-      LogPrintF(LogFName(), "First Start1: " + BoolToStr(gr1.Start1, true) +
+      LogPrint( "First Start1: " + BoolToStr(gr1.Start1, true) +
          ", Stop1: " + BoolToStr(gr1.Stop1, true), clSkyBlue);
-      LogPrintF(LogFName(), "First Auto2: " + BoolToStr(gr1.AutoMode2, true) +
+      LogPrint( "First Auto2: " + BoolToStr(gr1.AutoMode2, true) +
          ", Man2: " + BoolToStr(gr1.ManualMode2, true), clSkyBlue);
-      LogPrintF(LogFName(), "First Start2: " + BoolToStr(gr1.Start2, true) +
+      LogPrint( "First Start2: " + BoolToStr(gr1.Start2, true) +
          ", Stop2: " + BoolToStr(gr1.Stop2, true), clSkyBlue);
       // запрещение обработчика кнопок
       // Handle1On=false;
@@ -1652,21 +1653,21 @@ void __fastcall TmfRB::OPCControlStartExec(void)
       }
       // печать текущих режимов
       if (gr1.AutoMode1)
-         LogPrintF(LogFName(), "Поз. А в автоматическом режиме!", clWhite);
+         LogPrint( "Поз. А в автоматическом режиме!", clWhite);
       else
-         LogPrintF(LogFName(), "Поз. А в ручном режиме!", clWhite);
+         LogPrint( "Поз. А в ручном режиме!", clWhite);
       if (gr1.Start1)
-         LogPrintF(LogFName(), "Поз. А в режиме Старт!", clWhite);
+         LogPrint( "Поз. А в режиме Старт!", clWhite);
       else
-         LogPrintF(LogFName(), "Поз. А в режиме Стоп!", clWhite);
+         LogPrint( "Поз. А в режиме Стоп!", clWhite);
       if (gr1.AutoMode2)
-         LogPrintF(LogFName(), "Поз. Б в автоматическом режиме!", clWhite);
+         LogPrint( "Поз. Б в автоматическом режиме!", clWhite);
       else
-         LogPrintF(LogFName(), "Поз. Б в ручном режиме!", clWhite);
+         LogPrint( "Поз. Б в ручном режиме!", clWhite);
       if (gr1.Start2)
-         LogPrintF(LogFName(), "Поз. Б в режиме Старт!", clWhite);
+         LogPrint( "Поз. Б в режиме Старт!", clWhite);
       else
-         LogPrintF(LogFName(), "Поз. Б в режиме Стоп!", clWhite);
+         LogPrint( "Поз. Б в режиме Стоп!", clWhite);
       // сохранение текущих режимов
       OldMode1 = CurrMode1;
       OldMode2 = CurrMode2;
@@ -1688,7 +1689,7 @@ void __fastcall TmfRB::OPCControlStartExec(void)
    }
    else
    {
-      LogPrintF(LogFName(), "Ошибка соединения со стендом", clRed);
+      LogPrint( "Ошибка соединения со стендом", clRed);
       sbRB->Panels->Items[0]->Text = "Ошибка соединения со стендом";
       MessageBoxW(Handle, L"Ошибка соединения со стендом",
          L"Ошибка соединения со стендом", MB_OK | MB_ICONERROR | MB_DEFBUTTON1);
@@ -1716,7 +1717,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    // печать в случае изменения режима
    if (CurrMode1 != OldMode1)
    {
-      LogPrintF(LogFName(), "Auto1: " + BoolToStr(gr1.AutoMode1, true) +
+      LogPrint( "Auto1: " + BoolToStr(gr1.AutoMode1, true) +
          ", Man1: " + BoolToStr(gr1.ManualMode1, true));
       if (gr1.AutoMode1)
          sbRB->Panels->Items[2]->Text = "Поз. А в автоматическом режиме!";
@@ -1725,7 +1726,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    }
    if (CurrSMode1 != OldSMode1)
    {
-      LogPrintF(LogFName(), "Start1: " + BoolToStr(gr1.Start1, true) +
+      LogPrint( "Start1: " + BoolToStr(gr1.Start1, true) +
          ", Stop1: " + BoolToStr(gr1.Stop1, true));
       if (gr1.Start1)
          sbRB->Panels->Items[2]->Text = "Старт поз. А!";
@@ -1734,7 +1735,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    }
    if (CurrMode2 != OldMode2)
    {
-      LogPrintF(LogFName(), "Auto2: " + BoolToStr(gr1.AutoMode2, true) +
+      LogPrint( "Auto2: " + BoolToStr(gr1.AutoMode2, true) +
          ", Man2: " + BoolToStr(gr1.ManualMode2, true));
       if (gr1.AutoMode2)
          sbRB->Panels->Items[2]->Text = "Поз. Б в автоматическом режиме!";
@@ -1743,7 +1744,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    }
    if (CurrSMode2 != OldSMode2)
    {
-      LogPrintF(LogFName(), "Start2: " + BoolToStr(gr1.Start2, true) +
+      LogPrint( "Start2: " + BoolToStr(gr1.Start2, true) +
          ", Stop2: " + BoolToStr(gr1.Stop2, true));
       if (gr1.Start2)
          sbRB->Panels->Items[2]->Text = "Старт поз. Б!";
@@ -1851,11 +1852,11 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    {
       if (StendConnection)
       { // соединение установлено
-         LogPrintF(LogFName(), "Соединение со стендом установлено", clRed);
+         LogPrint( "Соединение со стендом установлено", clRed);
       }
       else
       { // соединение потеряно
-         LogPrintF(LogFName(), "Соединение со стендом потеряно", clRed);
+         LogPrint( "Соединение со стендом потеряно", clRed);
       }
    }
    oldstate = StendConnection; // запоминание текущего состояния связи
@@ -1863,7 +1864,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    if (!sbCarriage1Off->Down && gr1.Carriage1Off && !switch_Carriage1)
    {
       sbRB->Panels->Items[2]->Text = "Каретка А в исходном положении!";
-      LogPrintF(LogFName(), "Каретка А в исходном положении!", clWhite);
+      LogPrint( "Каретка А в исходном положении!", clWhite);
    }
    sbCarriage1Off->Down = gr1.Carriage1Off;
    switch_Carriage1 = gr1.Carriage1Off;
@@ -1871,7 +1872,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    if (!sbCarriage2Off->Down && gr1.Carriage2Off && !switch_Carriage2)
    {
       sbRB->Panels->Items[2]->Text = "Каретка Б в исходном положении!";
-      LogPrintF(LogFName(), "Каретка Б в исходном положении!", clWhite);
+      LogPrint( "Каретка Б в исходном положении!", clWhite);
    }
    sbCarriage2Off->Down = gr1.Carriage2Off;
    switch_Carriage2 = gr1.Carriage2Off;
@@ -1890,7 +1891,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
       {
          sbRB->Panels->Items[2]->Text =
             "Превышение нагрузки на шаге на стороне 1";
-         LogPrintF(LogFName(), "Превышение нагрузки на шаге на стороне 1",
+         LogPrint( "Превышение нагрузки на шаге на стороне 1",
             clYellow);
          ShowMessage("Превышение нагрузки на шаге на стороне 1");
       }
@@ -1903,7 +1904,7 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
       {
          sbRB->Panels->Items[2]->Text =
             "Превышение нагрузки на шаге на стороне 2";
-         LogPrintF(LogFName(), "Превышение нагрузки на шаге на стороне 2",
+         LogPrint( "Превышение нагрузки на шаге на стороне 2",
             clYellow);
          ShowMessage("Превышение нагрузки на шаге на стороне 2");
       }
@@ -1914,19 +1915,12 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
 
 void __fastcall TmfRB::OnOPCControlStopExec(TObject *Sender)
 {
-   LogPrintF(LogFName(), "OPC Control OFF!", clAqua);
+   LogPrint( "OPC Control OFF!", clAqua);
    OPCControlOn = false;
    OPCControlStop(tReadCycleTimer);
    sbRB->Panels->Items[0]->Text = "Соединения со стендом нет";
 }
 // ---- End of OnOPCControlStopExec ------------------------------------------
-
-void __fastcall TmfRB::OnLogPrint(TMessage& wm)
-   // обработчик сообщений печати в окне протокола
-{
-   LogPrint(LogMess, (TColor)wm.LParam);
-}
-// ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnDataShow(TMessage& wm)
    // обработчик сообщений отображения данных
@@ -1957,8 +1951,7 @@ void __fastcall TmfRB::OnOPCCmd(TMessage& wm)
       }
       else
       {
-         LogMess = "ReadGr1 error!";
-         SendMessage(MainFormHandle, WM_LogPrint, 0, (long)clRed);
+         LogPrint("ReadGr1 error!", clRed);
       }
       break;
    case WRITEGR1ITEM:
@@ -2071,14 +2064,14 @@ void __fastcall TmfRB::OnRGPos1ModeClick(TObject *Sender)
          gr1.AutoMode1 = true;
          gr1.ManualMode1 = false;
          sbRB->Panels->Items[2]->Text = "Поз. А в автоматическом режиме!";
-         LogPrintF(LogFName(), "Поз. А в автоматическом режиме!", clWhite);
+         LogPrint( "Поз. А в автоматическом режиме!", clWhite);
       }
       else
       {
          gr1.AutoMode1 = false;
          gr1.ManualMode1 = true;
          sbRB->Panels->Items[2]->Text = "Поз. А в ручном режиме!";
-         LogPrintF(LogFName(), "Поз. А в ручном режиме!", clWhite);
+         LogPrint( "Поз. А в ручном режиме!", clWhite);
       }
       OPCControlPause(tReadCycleTimer);
       gr1.Write();
@@ -2113,7 +2106,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
             TyreA->Start = dt::Now();
          TyreA->Stop = dt::DateTime();
          sbRB->Panels->Items[2]->Text = "Старт поз. А!";
-         LogPrintF(LogFName(), "Старт поз. А!", clWhite);
+         LogPrint( "Старт поз. А!", clWhite);
       }
       else
       {
@@ -2125,7 +2118,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
             btnLoadTestResPosA->Click(); // авто сохраниние
          }
          sbRB->Panels->Items[2]->Text = "Стоп поз. А!";
-         LogPrintF(LogFName(), "Стоп поз. А!", clWhite);
+         LogPrint( "Стоп поз. А!", clWhite);
       }
       OPCControlPause(tReadCycleTimer);
       gr1.Write();
@@ -2160,14 +2153,14 @@ void __fastcall TmfRB::OnRGPos2ModeClick(TObject *Sender)
          gr1.AutoMode2 = true;
          gr1.ManualMode2 = false;
          sbRB->Panels->Items[2]->Text = "Поз. Б в автоматическом режиме!";
-         LogPrintF(LogFName(), "Поз. Б в автоматическом режиме!", clWhite);
+         LogPrint( "Поз. Б в автоматическом режиме!", clWhite);
       }
       else
       {
          gr1.AutoMode2 = false;
          gr1.ManualMode2 = true;
          sbRB->Panels->Items[2]->Text = "Поз. Б в ручном режиме!";
-         LogPrintF(LogFName(), "Поз. Б в ручном режиме!", clWhite);
+         LogPrint( "Поз. Б в ручном режиме!", clWhite);
       }
       OPCControlPause(tReadCycleTimer);
       gr1.Write();
@@ -2201,7 +2194,7 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
             TyreB->Start = dt::Now();
          TyreB->Stop = dt::DateTime();
          sbRB->Panels->Items[2]->Text = "Старт поз. Б!";
-         LogPrintF(LogFName(), "Старт поз. Б!", clWhite);
+         LogPrint( "Старт поз. Б!", clWhite);
       }
       else
       {
@@ -2213,7 +2206,7 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
             btnLoadTestResPosB->Click(); // авто сохраниние
          }
          sbRB->Panels->Items[2]->Text = "Стоп поз. Б!";
-         LogPrintF(LogFName(), "Стоп поз. Б!", clWhite);
+         LogPrint( "Стоп поз. Б!", clWhite);
       }
       OPCControlPause(tReadCycleTimer);
       gr1.Write();
@@ -2281,7 +2274,7 @@ void __fastcall TmfRB::OnDrumOn(TObject *Sender)
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Барабан включен!";
-         LogPrintF(LogFName(), "Барабан включен");
+         LogPrint( "Барабан включен");
       }
       else
       {
@@ -2310,7 +2303,7 @@ void __fastcall TmfRB::OnDrumOff(TObject *Sender)
          gr1.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Барабан выключен!";
-         LogPrintF(LogFName(), "Барабан выключен");
+         LogPrint( "Барабан выключен");
       }
       else
       {
@@ -2356,7 +2349,7 @@ void __fastcall TmfRB::OnCarriage1To(TObject *Sender)
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Каретка А движется к барабану!";
-         LogPrintF(LogFName(),
+         LogPrint(
             "Ручной режим, каретка 1 к барабану, установлена нагрузка=" +
             FloatToStr(gr3.Loading_1));
       }
@@ -2404,7 +2397,7 @@ void __fastcall TmfRB::OnCarriage1From(TObject *Sender)
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Каретка А движется от барабана!";
-         LogPrintF(LogFName(),
+         LogPrint(
             "Ручной режим, каретка 1 от барабана, установлена нагрузка=" +
             FloatToStr(gr3.Loading_1));
       }
@@ -2438,7 +2431,7 @@ void __fastcall TmfRB::OnCarriage1Stop(TObject *Sender)
          gr1.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Каретка А остановлена!";
-         LogPrintF(LogFName(), "Ручной режим, каретка 1 остановлена");
+         LogPrint( "Ручной режим, каретка 1 остановлена");
       }
       else
       {
@@ -2484,7 +2477,7 @@ void __fastcall TmfRB::OnCarriage2To(TObject *Sender)
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Каретка Б движется к барабану!";
-         LogPrintF(LogFName(),
+         LogPrint(
             "Ручной режим, каретка 2 к барабану, установлена нагрузка=" +
             FloatToStr(gr3.Loading_2));
       }
@@ -2518,7 +2511,7 @@ void __fastcall TmfRB::OnCarriage2Stop(TObject *Sender)
          gr1.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Каретка Б остановлена!";
-         LogPrintF(LogFName(), "Ручной режим, каретка 2 остановлена");
+         LogPrint( "Ручной режим, каретка 2 остановлена");
       }
       else
       {
@@ -2564,7 +2557,7 @@ void __fastcall TmfRB::OnCarriage2From(TObject *Sender)
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Каретка Б движется от барабана!";
-         LogPrintF(LogFName(),
+         LogPrint(
             "Ручной режим, каретка 2 от барабана, установлена нагрузка=" +
             FloatToStr(gr3.Loading_2));
       }
@@ -2597,7 +2590,7 @@ void __fastcall TmfRB::OnGeneralStop(TObject *Sender)
       gr1.Write();
       OPCControlResume(tReadCycleTimer);
       sbRB->Panels->Items[2]->Text = "Стенд остановлен!";
-      LogPrintF(LogFName(), "Общая остановка стенда!");
+      LogPrint( "Общая остановка стенда!");
    }
    else
    {
@@ -2738,7 +2731,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    gr3.type_cycle_1 = TyreA->TestMode = 1;
    gr3.StepsQty1 = TyreA->StepsNo = StrToInt(leSTotalStepsQty->Text);
    gr3.PollsQty1 = TyreA->PollsNo = StrToInt(leSPollingTotalQty->Text);
-   LogPrintF(LogFName(), "Программа по пути, поз. А: путь=" +
+   LogPrint( "Программа по пути, поз. А: путь=" +
       FloatToStrF(gr3.S_end_cycle_1, ffFixed, 9, 2) + ", шагов программы=" +
       String(gr3.StepsQty1) + ", опросов=" + String(gr3.PollsQty1));
    CheckStend();
@@ -2749,7 +2742,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
       gr4.Write();
       gr6.Write();
       OPCControlResume(tReadCycleTimer);
-      LogPrintF(LogFName(), "Программа по пути загружена в поз. А!");
+      LogPrint( "Программа по пути загружена в поз. А!");
       sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. А!";
    }
    else
@@ -2782,7 +2775,7 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    gr3.type_cycle_2 = TyreB->TestMode = 1;
    gr3.StepsQty2 = TyreB->StepsNo = StrToInt(leSTotalStepsQty->Text);
    gr3.PollsQty2 = TyreB->PollsNo = StrToInt(leSPollingTotalQty->Text);
-   LogPrintF(LogFName(), "Программа по пути, поз. Б: путь=" +
+   LogPrint( "Программа по пути, поз. Б: путь=" +
       FloatToStrF(gr3.S_end_cycle_2, ffFixed, 9, 2) + ", шагов программы=" +
       String(gr3.StepsQty2) + ", опросов=" + String(gr3.PollsQty2));
    CheckStend();
@@ -3057,7 +3050,7 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    gr3.StepsQty1 = TyreA->StepsNo = StrToInt(leTTotalStepsQty->Text);
    gr3.PollsQty1 = TyreA->PollsNo = StrToInt(leTPollingTotalQty->Text);
    ShowProtAData();
-   LogPrintF(LogFName(), "Программа по времени, поз. А: время=" +
+   LogPrint( "Программа по времени, поз. А: время=" +
       String(gr3.T_end_cycle_1) + ", шагов программы=" + String(gr3.StepsQty1) +
       ", опросов=" + String(gr3.PollsQty1));
    CheckStend();
@@ -3073,7 +3066,7 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
       btnSaveTProgToFile->Enabled = true;
       btnLoadTProgToPosA->Enabled = true;
       btnLoadTProgToPosB->Enabled = true;
-      LogPrintF(LogFName(), "Программа по времени загружена в поз. А!");
+      LogPrint( "Программа по времени загружена в поз. А!");
       LogPrint("Программа по времени загружена в поз. А!", clAqua);
       sbRB->Panels->Items[2]->Text = "Программа по времени загружена в поз. А!";
 
@@ -3107,7 +3100,7 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
    gr3.StepsQty2 = TyreB->StepsNo = StrToInt(leTTotalStepsQty->Text);
    gr3.PollsQty2 = TyreB->PollsNo = StrToInt(leTPollingTotalQty->Text);
    ShowProtBData();
-   LogPrintF(LogFName(), "Программа по времени, поз. Б: время=" +
+   LogPrint( "Программа по времени, поз. Б: время=" +
       String(gr3.T_end_cycle_2) + ", шагов программы=" + String(gr3.StepsQty2) +
       ", опросов=" + String(gr3.PollsQty2));
    CheckStend();
@@ -3123,7 +3116,7 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
       btnSaveTProgToFile->Enabled = true;
       btnLoadTProgToPosA->Enabled = true;
       btnLoadTProgToPosB->Enabled = true;
-      LogPrintF(LogFName(), "Программа по времени загружена в поз. Б!");
+      LogPrint( "Программа по времени загружена в поз. Б!");
       LogPrint("Программа по времени загружена в поз. Б!", clAqua);
       sbRB->Panels->Items[2]->Text = "Программа по времени загружена в поз. Б!";
    }
@@ -5722,7 +5715,7 @@ void __fastcall TmfRB::OnPump1On(TObject *Sender)
             // if(pcCalibration->ActivePage==tsLoadCalibrA || pcCalibration->ActivePage==tsLoadCalibrB){
             gr3.Loading_1 = LdSA->TargetLd[LdSA->Index];
             LogPrint("Mode: LoadSert, LoadingA=" + FloatToStr(gr3.Loading_1));
-            LogPrintF(LogFName(),
+            LogPrint(
                "Режим аттестации нагрузки, насос 1 включен, установлена нагрузка=" +
                FloatToStr(gr3.Loading_1));
             // }
@@ -5733,7 +5726,7 @@ void __fastcall TmfRB::OnPump1On(TObject *Sender)
             {
                gr3.Loading_1 = LdCA->TargetLd[LdCA->Index];
                LogPrint("Mode: LoadCalibr, LoadingA=" + FloatToStr(gr3.Loading_1));
-               LogPrintF(LogFName(),
+               LogPrint(
                   "Режим калибровки нагрузки, насос 1 включен, установлена нагрузка=" +
                   FloatToStr(gr3.Loading_1));
                leCurrentLoadSertSetA->Text =
@@ -5798,7 +5791,7 @@ void __fastcall TmfRB::OnPump1Off(TObject *Sender)
          gr1.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Насос 1 выключен!";
-         LogPrintF(LogFName(), "Насос 1 выключен");
+         LogPrint( "Насос 1 выключен");
       }
       else
       {
@@ -5831,7 +5824,7 @@ void __fastcall TmfRB::OnPump2On(TObject *Sender)
             gr3.Loading_2 = LdSB->TargetLd[LdSB->Index];
             // leCurrentLoadSertSetB->Text=FloatToStrF(*Loading_2,ffFixed,6,2);
             LogPrint("Mode: LoadSert, LoadingB=" + FloatToStr(gr3.Loading_2));
-            LogPrintF(LogFName(),
+            LogPrint(
                "Режим аттестации нагрузки, насос 2 включен, установлена нагрузка=" +
                FloatToStr(gr3.Loading_2));
             // }
@@ -5841,7 +5834,7 @@ void __fastcall TmfRB::OnPump2On(TObject *Sender)
             gr3.Loading_2 = LdCB->TargetLd[LdCB->Index];
             // leCurrentLoadSertSetB->Text=FloatToStrF(*Loading_2,ffFixed,6,2);
             LogPrint("Mode: LoadCalibr, LoadingB=" + FloatToStr(gr3.Loading_2));
-            LogPrintF(LogFName(),
+            LogPrint(
                "Режим калибровки нагрузки, насос 2 включен, установлена нагрузка=" +
                FloatToStr(gr3.Loading_2));
          }
@@ -5903,7 +5896,7 @@ void __fastcall TmfRB::OnPump2Off(TObject *Sender)
          gr1.Write();
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text = "Насос 2 выключен!";
-         LogPrintF(LogFName(), "Насос 2 выключен");
+         LogPrint( "Насос 2 выключен");
       }
       else
       {
@@ -7291,15 +7284,15 @@ void __fastcall TmfRB::OnRShiftLoadToPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         LogPrintF(LogFName(),
+         LogPrint(
             "Текущие значения пределов радиусов для поз. А:");
-         LogPrintF(LogFName(), "Нижний: " + FloatToStrF(gr3.Rad1LowLimit, ffFixed,
+         LogPrint( "Нижний: " + FloatToStrF(gr3.Rad1LowLimit, ffFixed,
             7, 2) + ", верхний: " + FloatToStrF(gr3.Rad1UpLimit, ffFixed, 7, 2));
          shift = StrToFlt(leRShiftA->Text);
          gr3.Rad1LowLimit += shift;
          gr3.Rad1UpLimit += shift;
-         LogPrintF(LogFName(), "Новые значения пределов радиусов для поз. А:");
-         LogPrintF(LogFName(), "Нижний: " + FloatToStrF(gr3.Rad1LowLimit, ffFixed,
+         LogPrint( "Новые значения пределов радиусов для поз. А:");
+         LogPrint( "Нижний: " + FloatToStrF(gr3.Rad1LowLimit, ffFixed,
             7, 2) + ", верхний: " + FloatToStrF(gr3.Rad1UpLimit, ffFixed, 7, 2));
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
@@ -7316,15 +7309,15 @@ void __fastcall TmfRB::OnRShiftLoadToPLC(TObject *Sender)
    {
       if (OPCConnectOK)
       {
-         LogPrintF(LogFName(),
+         LogPrint(
          "Текущие значения пределов радиусов для поз. Б:");
-         LogPrintF(LogFName(), "Нижний: " + FloatToStrF(gr3.Rad2LowLimit, ffFixed,
+         LogPrint( "Нижний: " + FloatToStrF(gr3.Rad2LowLimit, ffFixed,
             7, 2) + ", верхний: " + FloatToStrF(gr3.Rad2UpLimit, ffFixed, 7, 2));
          shift = StrToFlt(leRShiftB->Text);
          gr3.Rad2LowLimit += shift;
          gr3.Rad2UpLimit += shift;
-         LogPrintF(LogFName(), "Новые значения пределов радиусов для поз. Б:");
-         LogPrintF(LogFName(), "Нижний: " + FloatToStrF(gr3.Rad2LowLimit, ffFixed,
+         LogPrint( "Новые значения пределов радиусов для поз. Б:");
+         LogPrint( "Нижний: " + FloatToStrF(gr3.Rad2LowLimit, ffFixed,
             7, 2) + ", верхний: " + FloatToStrF(gr3.Rad2UpLimit, ffFixed, 7, 2));
          gr3.Write();
          OPCControlResume(tReadCycleTimer);
@@ -7348,7 +7341,7 @@ void __fastcall TmfRB::OnPrintProtocol(TObject *Sender)
       printing::Print( pProtPrt, *TyreA, "А" );
       sbRB->Panels->Items[2]->Text =
          "Протокол испытаний по поз. А выведен на принтер!";
-      LogPrintF(LogFName(), "Протокол испытаний по поз. А выведен на принтер!",
+      LogPrint( "Протокол испытаний по поз. А выведен на принтер!",
          clSkyBlue);
    }
    if ((TButton*)Sender == btnPrintTestResPosB)
@@ -7357,7 +7350,7 @@ void __fastcall TmfRB::OnPrintProtocol(TObject *Sender)
       printing::Print( pProtPrt, *TyreB, "Б" );
       sbRB->Panels->Items[2]->Text =
          "Протокол испытаний по поз. Б выведен на принтер!";
-      LogPrintF(LogFName(), "Протокол испытаний по поз. Б выведен на принтер!",
+      LogPrint( "Протокол испытаний по поз. Б выведен на принтер!",
          clSkyBlue);
    }
 }

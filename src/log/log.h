@@ -11,6 +11,13 @@ enum LineColor
    lcWHITE,
    lcRED,
    lcLIME,
+   lcMONEYGREEN,
+   lcAQUA,
+   lcSKYBLUE,
+   lcGREEN,
+   lcYELLOW,
+   lcOLIVE,
+
 };
 
 void LogPrint( std::string msg, LineColor c = lcWHITE );

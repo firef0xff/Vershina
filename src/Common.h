@@ -7,9 +7,7 @@
 #include "def.h"
 #include <memory>
 // объявление общих переменных ----------------------------------------------
-extern TRichEdit *pPrt; // указатель на компонент для вывода протокола
 extern HWND MainFormHandle; // дескриптор окна основной формы
-extern String LogMess; // Строка для печати сообщений в журнале
 extern HANDLE hOPCCtrlThrd; // Handler для потока CPU
 extern unsigned OPCCtrlThrdID; // идентификатор потока CPU
 extern bool OPCControlOn; // Управление OPC-сервером запущено
@@ -69,44 +67,32 @@ extern bool switch_Carriage2;
 // массив нагрузок (1-й столбец) и скоростей (2-й столбец)
 
 // объявление общих функций -------------------------------------------------
-void __fastcall LogPrint( // Вывод сообщений в окно протокола
-   String, TColor = clWhite);
-void __fastcall SLogPrint
-   ( // Вывод сообщений в окно протокола при помощи SendMessage
-   String, TColor = clWhite);
-void __fastcall PLogPrint
-   ( // Вывод сообщений в окно протокола при помощи PostMessage
-   String, TColor = clWhite);
-void __fastcall LogPrintF( // Вывод сообщений в файл журнала
-   String FNme, // имя файла журнала
-   String Mess, // сообщение
-   TColor = clLime); // цвет сообщения в окне
-String __fastcall LogFName(void); // Генерация имени файла журнала
-String __fastcall FileNameParse
+
+String  FileNameParse
    ( // Функция выделения имени файла из полного пути
    String SFN);
-int __fastcall NextCycleCount(void); // увеличение цикла счетчика на 1
-void __fastcall OPCControlStart(TTimer*); // Запуск управления стендом
-void __fastcall OPCControlStop(TTimer*); // Останов управления стендом
-void __fastcall OPCControlPause(TTimer*); // Приостановка управления стендом
-void __fastcall OPCControlResume(TTimer*); // Возобновление управления стендом
+int  NextCycleCount(void); // увеличение цикла счетчика на 1
+void  OPCControlStart(TTimer*); // Запуск управления стендом
+void  OPCControlStop(TTimer*); // Останов управления стендом
+void  OPCControlPause(TTimer*); // Приостановка управления стендом
+void  OPCControlResume(TTimer*); // Возобновление управления стендом
 
-float __fastcall StrToFlt(String);
+float  StrToFlt(String);
 // Преобразование строки в значение типа float
-int __fastcall StrToI(String); // ПРеобразование строки в значение типа int
-String __fastcall FltToStr( // Преобразование числа в строку длиной l
+int  StrToI(String); // ПРеобразование строки в значение типа int
+String  FltToStr( // Преобразование числа в строку длиной l
    float f, // преобразуемое число
    TFloatFormat ff, // формат
    int l, // длина строки
    int r); // длина дробной части
-void __fastcall LeastSquares
+void  LeastSquares
    ( // расчет коэффициентов A и B методом наименьших квадратов
    float X[], // массив X
    float Y[], // массив Y
    int N, // размерность массива
    float &A, //
    float &B); //
-int __fastcall BUnion(bool b1, bool b2);
+int  BUnion(bool b1, bool b2);
 // объединение занчений аргументов в целое значение
 
 // настройки сохранения
