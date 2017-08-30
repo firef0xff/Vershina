@@ -2,7 +2,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-
+#include <thread>
 //---------------------------------------------------------------------------
 USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
 USEFORM("login\AppManagnent.cpp", AppManagment);
@@ -11,6 +11,14 @@ USEFORM("login\Login.cpp", LogInwnd);
 USEFORM("Vershina_main.cpp", mfRB);
 USEFORM("splash_screen\Head_band.cpp", Headband);
 //---------------------------------------------------------------------------
+struct VS2013_threading_fix
+{
+    VS2013_threading_fix()
+    {
+        _Cnd_do_broadcast_at_thread_exit();
+    }
+} threading_fix;
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
    try

@@ -17,6 +17,8 @@ public:
    {
       ITEMS_COUNT = 40,
    };
+   GR12( const wchar_t *group_a_name, const wchar_t *a_addresses[],
+         const wchar_t *group_q_name, const wchar_t *q_addresses[]);
 
    bool Read();
    void Write();
@@ -28,8 +30,6 @@ public:
 
 private:
    friend class cpu::CpuMemory;
-   GR12( const wchar_t *group_a_name, const wchar_t *a_addresses[],
-         const wchar_t *group_q_name, const wchar_t *q_addresses[]);
    GR12( const GR12& ) = delete;
    void operator = ( const GR12& ) = delete;
 

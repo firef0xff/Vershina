@@ -9,23 +9,44 @@ namespace
 {
 static std::unique_ptr< CpuMemory > CPU_MEMORY;
 static std::mutex CPU_MEMORY_MUTEX;
+
+//A
+data::GR4 Gr4Pos1( cpu::data::Gr4Pos1Name, cpu::data::Gr4Pos1Adresses );
+data::GR5 Gr5Pos1( cpu::data::Gr5Pos1Name, cpu::data::Gr5Pos1Adresses );
+data::GR6 Gr6Pos1( cpu::data::Gr6Pos1Name, cpu::data::Gr6Pos1Adresses );
+data::GR7 Gr7Pos1( cpu::data::Gr7Pos1Name, cpu::data::Gr7Pos1Adresses );
+data::GR12 Gr12Pos1( cpu::data::Gr12Pos1NameA, cpu::data::Gr12Pos1AdressesA,
+                     cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ );
+
+//B
+data::GR4 Gr4Pos2( cpu::data::Gr4Pos2Name, cpu::data::Gr4Pos2Adresses );
+data::GR5 Gr5Pos2( cpu::data::Gr5Pos2Name, cpu::data::Gr5Pos2Adresses );
+data::GR6 Gr6Pos2( cpu::data::Gr6Pos2Name, cpu::data::Gr6Pos2Adresses );
+data::GR7 Gr7Pos2( cpu::data::Gr7Pos2Name, cpu::data::Gr7Pos2Adresses );
+data::GR12 Gr12Pos2( cpu::data::Gr12Pos2NameA, cpu::data::Gr12Pos2AdressesA,
+                     cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ );
+
 }//namespace
 
-CpuMemory::CpuMemory():
-   mGr4Pos1( cpu::data::Gr4Pos1Name, cpu::data::Gr4Pos1Adresses ),
-   mGr5Pos1( cpu::data::Gr5Pos1Name, cpu::data::Gr5Pos1Adresses ),
-   mGr6Pos1( cpu::data::Gr6Pos1Name, cpu::data::Gr6Pos1Adresses ),
-   mGr7Pos1( cpu::data::Gr7Pos1Name, cpu::data::Gr7Pos1Adresses ),
-   mGr12Pos1( cpu::data::Gr12Pos1NameA, cpu::data::Gr12Pos1AdressesA,
-              cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ),
-
-   mGr4Pos2( cpu::data::Gr4Pos2Name, cpu::data::Gr4Pos2Adresses ),
-   mGr5Pos2( cpu::data::Gr5Pos2Name, cpu::data::Gr5Pos2Adresses ),
-   mGr6Pos2( cpu::data::Gr6Pos2Name, cpu::data::Gr6Pos2Adresses ),
-   mGr7Pos2( cpu::data::Gr7Pos2Name, cpu::data::Gr7Pos2Adresses ),
-   mGr12Pos2( cpu::data::Gr12Pos2NameA, cpu::data::Gr12Pos2AdressesA,
-              cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ)
+Position::Position( data::GR4& gr4,
+                      data::GR5& gr5,
+                      data::GR6& gr6,
+                      data::GR7& gr7,
+                      data::GR12& gr12 ):
+                  mGr4( gr4 ),
+                  mGr5( gr5 ),
+                  mGr6( gr6 ),
+                  mGr7( gr7 ),
+                  mGr12( gr12 )
 {}
+
+CpuMemory::CpuMemory():
+   mPos1( Gr4Pos1, Gr5Pos1, Gr6Pos1, Gr7Pos1, Gr12Pos1 ),
+   mPos2( Gr4Pos2, Gr5Pos2, Gr6Pos2, Gr7Pos2, Gr12Pos2 )
+{
+   mPos.push_back( &mPos1 );
+   mPos.push_back( &mPos2 );
+}
 CpuMemory::~CpuMemory()
 {}
 
@@ -42,7 +63,7 @@ CpuMemory& CpuMemory::Instance()
     return *CPU_MEMORY;
 }
 
-int CpuMemory::ReadCycleParameters(void) // чтение циклических параметров
+int CpuMemory::ReadCycleParameters() // чтение циклических параметров
 {
    if ( mGr1.Read() && mGr2.Read() )
    {

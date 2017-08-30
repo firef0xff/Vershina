@@ -11,25 +11,25 @@ DEFINES +=__fastcall\
 INCLUDEPATH += OPC\
                communication/owen\
 
-#HEADERS +=\
-#   src/*.h\
-#   src/login/*.h\
-#   SQL/*.h\
-#   src/login/dialogs/*.h\
-#   src/splash_screen/*.h\
-#   src/support_functions/functoins.h\
-#   src/support_functions/print_support.h\
+HEADERS +=\
+   src/*.h\
+   src/login/*.h\
+   SQL/*.h\
+   src/login/dialogs/*.h\
+   src/splash_screen/*.h\
+   src/support_functions/functoins.h\
+   src/support_functions/print_support.h\
 
 
 
-#SOURCES +=\
-#   src/*.cpp\
-#   src/login/*.cpp\
-#   src/login/dialogs/*.cpp\
-#   src/splash_screen/*.cpp\
-#   src/support_functions/*.cpp\
-#   src/support_functions/print_support.cpp\
-#   SQL/*.cpp \
+SOURCES +=\
+   src/*.cpp\
+   src/login/*.cpp\
+   src/login/dialogs/*.cpp\
+   src/splash_screen/*.cpp\
+   src/support_functions/*.cpp\
+   src/support_functions/print_support.cpp\
+   SQL/*.cpp \
 
 
 

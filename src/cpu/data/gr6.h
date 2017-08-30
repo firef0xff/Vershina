@@ -19,6 +19,7 @@ public:
       ITEMS_COUNT = GR5::STEPS_COUNT,
       ARRAYS_COUNT = 2
    };
+   GR6(const wchar_t* group_name, const wchar_t *addresses[] );
 
    bool Read();
    void Write();
@@ -27,7 +28,6 @@ public:
 
 private:
    friend class cpu::CpuMemory;
-   GR6(const wchar_t* group_name, const wchar_t *addresses[] );
    GR6( const GR6& ) = delete;
    void operator = ( const GR6& ) = delete;
 

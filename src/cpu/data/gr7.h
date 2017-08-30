@@ -18,6 +18,7 @@ public:
       ITEMS_COUNT = 250,
       ARRAYS_COUNT = 6
    };
+   GR7(const wchar_t* group_name, const wchar_t *addresses[] );
 
    bool Read();
    void Reset();
@@ -31,7 +32,6 @@ public:
 private:
    void Write();
    friend class cpu::CpuMemory;
-   GR7(const wchar_t* group_name, const wchar_t *addresses[] );
    GR7( const GR7& ) = delete;
    void operator = ( const GR7& ) = delete;
 

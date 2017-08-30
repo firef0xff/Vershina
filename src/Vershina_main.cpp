@@ -159,8 +159,8 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) : TForm(Owner), closing(false)
       MainFormHandle = mfRB->Handle;
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
-      auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
-      auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+      auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
+      auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
       LdCA->LKQInit( gr12 );
       LdCB->LKQInit( gr13 );
       InitLogger( reLog );
@@ -2718,8 +2718,8 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    LogPrint("Загрузка программы по пути в поз. А!", clAqua);
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
-   auto &gr4 = cpu::CpuMemory::Instance().mGr4Pos1;
-   auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
+   auto &gr4 = cpu::CpuMemory::Instance().mPos1.mGr4;
+   auto &gr6 = cpu::CpuMemory::Instance().mPos1.mGr6;
    PathPrg.ToCpu( gr4, gr6 );
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
    RunProgNameA = AnsiString(PathPrg.SProgName.c_str());
@@ -2762,8 +2762,8 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    LogPrint("Загрузка программы по пути в поз. Б!", clAqua);
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. Б!";
    // читаем программу из ячеек и загружаем в контроллер поз. B
-   auto &gr8 = cpu::CpuMemory::Instance().mGr4Pos2;
-   auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
+   auto &gr8 = cpu::CpuMemory::Instance().mPos2.mGr4;
+   auto &gr10 = cpu::CpuMemory::Instance().mPos2.mGr6;
    PathPrg.ToCpu( gr8, gr10 );
    RunProgNameB = AnsiString(PathPrg.SProgName.c_str());
    SetCurrProgB(RunProgNameB);
@@ -3035,8 +3035,8 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    {
       return;
    }
-   auto &gr5 = cpu::CpuMemory::Instance().mGr5Pos1;
-   auto &gr6 = cpu::CpuMemory::Instance().mGr6Pos1;
+   auto &gr5 = cpu::CpuMemory::Instance().mPos1.mGr5;
+   auto &gr6 = cpu::CpuMemory::Instance().mPos1.mGr6;
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
    TimePrg.ToCpu( gr5, gr6 );
@@ -3086,8 +3086,8 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
       return;
    }
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
-   auto &gr9 = cpu::CpuMemory::Instance().mGr5Pos2;
-   auto &gr10 = cpu::CpuMemory::Instance().mGr6Pos2;
+   auto &gr9 = cpu::CpuMemory::Instance().mPos2.mGr5;
+   auto &gr10 = cpu::CpuMemory::Instance().mPos2.mGr6;
    TimePrg.ToCpu( gr9, gr10 );
    RunProgNameB = AnsiString(TimePrg.TProgName.c_str());
    SetCurrProgB(RunProgNameB);
@@ -5298,7 +5298,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
    OPCControlPause(tReadCycleTimer);
    LogPrint("Загрузка результатов испытаний из контроллера по поз. A");
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   auto &gr7 = cpu::CpuMemory::Instance().mGr7Pos1;
+   auto &gr7 = cpu::CpuMemory::Instance().mPos1.mGr7;
    gr3.Read();
    gr7.Read();
    OPCControlResume(tReadCycleTimer);
@@ -5362,7 +5362,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
    OPCControlPause(tReadCycleTimer);
    LogPrint("Загрузка результатов испытаний из контроллера по поз. B");
    auto &gr3 = cpu::CpuMemory::Instance().mGr3;
-   auto &gr11 = cpu::CpuMemory::Instance().mGr7Pos2;
+   auto &gr11 = cpu::CpuMemory::Instance().mPos2.mGr7;
    gr3.Read();
    gr11.Read();
    OPCControlResume(tReadCycleTimer);
@@ -6931,7 +6931,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
          OPCControlPause(tReadCycleTimer);
          ReadLSertTable(LdCA.get(), sgLoadSertA);
          // прочитали коэффициенты KA из таблицы
-         auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
+         auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
          LdCA->LKSetting(gr12); // сохранили итоговые КА в А1
          gr12.Write(); // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
@@ -6951,7 +6951,7 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
          OPCControlPause(tReadCycleTimer);
          ReadLSertTable(LdCB.get(), sgLoadSertB);
          // прочитали коэффициенты KA из таблицы
-         auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+         auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
          LdCB->LKSetting(gr13); // сохранили итоговые КА в А1
          gr13.Write(); // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
@@ -7051,7 +7051,7 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
+         auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
          gr12.ResetKA(); // сбросили коэффициенты А1 в единичку // записали А1 в DB71
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -7068,7 +7068,7 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+         auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
          gr13.ResetKA(); // сбросили коэффициенты А2 в единичку // записали А2 в DB70
          OPCControlResume(tReadCycleTimer);
          sbRB->Panels->Items[2]->Text =
@@ -7230,7 +7230,7 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr12 = cpu::CpuMemory::Instance().mGr12Pos1;
+         auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
          gr12.Read(); // прочитали коэффициенты А из DB71
          LdCA->LKRead(gr12); // сохранили прочитанные коэффициенты в ReadKA
          for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
@@ -7253,7 +7253,7 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
       if (OPCConnectOK)
       {
          OPCControlPause(tReadCycleTimer);
-         auto &gr13 = cpu::CpuMemory::Instance().mGr12Pos2;
+         auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
          gr13.Read(); // прочитали коэффициенты А из DB70
          LdCB->LKRead(gr13); // сохранили прочитанные коэффициенты в ReadKA
          for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)

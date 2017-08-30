@@ -2,6 +2,7 @@
 #ifndef cpu_memoryH
 #define cpu_memoryH
 
+#include <vector>
 #include "data/gr1.h"
 #include "data/gr2.h"
 #include "data/gr3.h"
@@ -16,8 +17,25 @@
 #include "data/gr12.h"
 #include "data/gr13.h"
 
+
 namespace cpu
 {
+
+class Position
+{
+public:
+   Position( data::GR4& gr4,
+             data::GR5& gr5,
+             data::GR6& gr6,
+             data::GR7& gr7,
+             data::GR12& gr12 );
+
+   data::GR4& mGr4;
+   data::GR5& mGr5;
+   data::GR6& mGr6;
+   data::GR7& mGr7;
+   data::GR12& mGr12;
+};
 
 class CpuMemory
 {
@@ -29,21 +47,11 @@ public:
     data::GR2 mGr2;
     data::GR3 mGr3;
 
-    //A
-    data::GR4 mGr4Pos1;
-    data::GR5 mGr5Pos1;
-    data::GR6 mGr6Pos1;
-    data::GR7 mGr7Pos1;
-    data::GR12 mGr12Pos1;
+    Position mPos1;
+    Position mPos2;
 
-    //B
-    data::GR4 mGr4Pos2;
-    data::GR5 mGr5Pos2;
-    data::GR6 mGr6Pos2;
-    data::GR7 mGr7Pos2;
-    data::GR12 mGr12Pos2;
-
-    int ReadCycleParameters(void);
+    std::vector<Position*> mPos;
+    int ReadCycleParameters();
 
 private:
     CpuMemory();

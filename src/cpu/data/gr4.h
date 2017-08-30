@@ -19,6 +19,7 @@ public:
       STEPS_COUNT = 100,
       ARRAYS_COUNT = 2
    };
+   GR4(const wchar_t* group_name, const wchar_t *addresses[] );
 
    bool Read();
    void Write();
@@ -28,7 +29,6 @@ public:
 
 private:
    friend class cpu::CpuMemory;
-   GR4(const wchar_t* group_name, const wchar_t *addresses[] );
    GR4( const GR4& ) = delete;
    void operator = ( const GR4& ) = delete;
 
