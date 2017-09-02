@@ -20,8 +20,6 @@ HEADERS +=\
    src/support_functions/functoins.h\
    src/support_functions/print_support.h\
 
-
-
 SOURCES +=\
    src/*.cpp\
    src/login/*.cpp\
@@ -30,9 +28,6 @@ SOURCES +=\
    src/support_functions/*.cpp\
    src/support_functions/print_support.cpp\
    SQL/*.cpp \
-
-
-
 
 HEADERS +=\
    src/cpu/cpu_memory.h\
@@ -50,16 +45,18 @@ HEADERS +=\
    src/cpu/data/gr11.h\
    src/cpu/data/gr12.h\
    src/cpu/data/gr13.h\
+   src/cpu/data/common_params.h\
    src/support_functions/str_convert.h\
    src/support_functions/serialize.h\
    src/log/log.h\
-    src/log/log_impl.h\
+   src/log/log_impl.h\
    src/sert/l_calibr.h\
    src/sert/l_sert.h \
    src/sert/v_sert.h \
    src/sert/t_sert.h \
    src/sert/r_sert.h \
    src/sert/TyreProt.h\
+   src/pos/ui_pos.h \
    src/prg/time_programm.h\
    src/prg/path_programm.h \
    MD5/MD5.h\
@@ -85,7 +82,7 @@ HEADERS +=\
    communication/buffer_tools.h\
    communication/swap_endian.h\
    date/date.h \
-    src/support_functions/date_time.h \
+   src/support_functions/date_time.h \
 
 SOURCES +=\
    src/cpu/cpu_memory.cpp\
@@ -102,6 +99,8 @@ SOURCES +=\
    src/cpu/data/gr11.cpp\
    src/cpu/data/gr12.cpp\
    src/cpu/data/gr13.cpp\
+   src/cpu/data/common_params.cpp\
+   src/pos/ui_pos.cpp \
    src/support_functions/str_convert.cpp\
    src/support_functions/serialize.cpp\
    src/log/log.cpp\

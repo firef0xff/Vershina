@@ -9,7 +9,7 @@ class Tyre;
 namespace printing
 {
    // печать протокола на принтер pprt
-   void Print(TPrinter *pprt, Tyre const & data, std::string side);
+   void Print(TPrinter *pprt, Tyre const & data );
 }
 
 #endif // PRINTSUPPORT_H

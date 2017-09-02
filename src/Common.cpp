@@ -5,112 +5,40 @@
 #include <StrUtils.hpp>
 #pragma hdrstop
 #include "def.h"
-#include "TyreProt.h"
 #include "Common.h"
 #include "log/log_impl.h"
 
 // ---------------------------------------------------------------------------
 
 #pragma package(smart_init)
-#ifdef _DEBUG
-int ThreadCounter = 0;
-#endif
-bool needSaveA = false, needSaveB = false;
 // индикаторы автосохранения протоколов за испытание
 bool StendConnection = false; // индикатор связи со стендом
-
-bool switch_Carriage1 = false;
-// триггеры для обработки сообщений остановки каретки
-bool switch_Carriage2 = false;
-
-String strDistProg = "", strTimeProg = "", strProtA = "", strProtB = "",
-   strTitleProt = "", strLoadCalibrA = "", strLoadCalibrB = "", strTCalibrA =
-   "", strTCalibrB = "", strRCalibrA = "", strRCalibrB = "", strSpdCalibr = "",
-   strSertPrintProtA = "", strSertPrintProtB = "";
-bool AutoSave = false;
-HWND MainFormHandle; // дескриптор окна основной формы
-HANDLE hOPCCtrlThrd; // Handler для потока CPU
-unsigned OPCCtrlThrdID; // идентификатор потока CPU
 bool OPCControlOn = false; // Управление OPC-сервером запущено
 bool OPCConnectOK = false; // соединение с OPC-сервером установлено
-int OldMode1, CurrMode1; // предидущий и текущий режим ручной/авто поз. 1
-int OldMode2, CurrMode2; // предидущий и текущий режим ручной/авто поз. 2
-int OldSMode1, CurrSMode1; // предидущий и текущий режим старт/стоп поз. 1
-int OldSMode2, CurrSMode2; // предидущий и текущий режим старт/стоп поз. 2
-int old_step_1 = 1; // предидущий номер шага по поз. 1
-int cur_step_1 = 1; // текущий номер шага по поз. 1
-int old_step_2 = 1; // предидущий номер шага по поз. 2
-int cur_step_2 = 1; // текущий номер шага по поз. 2
-float old_speed_1 = 0.0; // предидущая скорость по поз. 1
-float cur_speed_1 = 0.0; // текущая скорость по поз. 1
-int old_time_1 = 0; // продолжительность предидущего шага поз. 1
-int cur_time_1 = 0; // продолжительность текущего шага поз. 1
-float old_dist_1 = 0.0; // путь на предидущем шаге поз. 1
-float cur_dist_1 = 0.0; // путь на текущем шаге поз. 1
-float old_load_1 = 0.0; // нагрузка на предидущем шаге поз. 1
-float cur_load_1 = 0.0; // нагрузка на текущем шаге поз. 1
-float old_temp_1 = 0.0; // температура на предидущем шаге поз. 1
-float cur_temp_1 = 0.0; // температура на текущем шаге поз. 1
-float old_radius_1 = 0.0; // радиус на предидущем шаге поз. 1
-float cur_radius_1 = 0.0; // радиус на текущем шаге поз. 1
-float old_speed_2 = 0.0; // предидущая скорость по поз. 2
-float cur_speed_2 = 0.0; // текущая скорость по поз. 2
-int old_time_2 = 0; // продолжительность предидущего шага поз. 2
-int cur_time_2 = 0; // продолжительность текущего шага поз. 2
-float old_dist_2 = 0.0; // путь на предидущем шаге поз. 2
-float cur_dist_2 = 0.0; // путь на текущем шаге поз. 2
-float old_load_2 = 0.0; // нагрузка на предидущем шаге поз. 2
-float cur_load_2 = 0.0; // нагрузка на текущем шаге поз. 2
-float old_temp_2 = 0.0; // температура на предидущем шаге поз. 2
-float cur_temp_2 = 0.0; // температура на текущем шаге поз. 2
-float old_radius_2 = 0.0; // радиус на предидущем шаге поз. 2
-float cur_radius_2 = 0.0; // радиус на текущем шаге поз. 2
-bool CurrentStart1 = false; // Текущее состояние поз. 1
-bool CurrentStart2 = false; // Текущее состояние поз. 2
-// bool      Handle1On=true;       // Обработка событий по поз. 1 включена
-// bool      Handle2On=true;       // Обработка событий по поз. 2 включена
 short OPCCtrlStat = 0; // управляющая переменная цикла управления стендом
 long TimerCycleCnt = 0; // Счетчик циклов таймера
-// переменные протокола
-// Tyre      *InpTyre,             // покрышка для ввода и редактирования протокола
-// *TyreA,               // покрышка в поз. А
-// *TyreB;               // покрышка в поз. Б
-String TyreTypeA = "А", TyreTypeB = "Б"; // тип покрышки
-String RunProgNameA = "Прог 1", RunProgNameB = "Прог 2";
-// наименвание программы обкатки
-
-// общие функции ------------------------------------------------------------
-
-// ---- End of LogPrint ------------------------------------------------------
-
 void  OPCControlStart(TTimer* t) // Запуск управления стендом
 {
    OPCControlOn = true;
    t->Enabled = true;
 }
-// ---- End of OPCControlStart -----------------------------------------------
-
 void  OPCControlPause(TTimer* t) // Приостановка управления стендом
 {
    LogPrint("Приостановка контроля управлением!", clLime);
    t->Enabled = false;
 }
-// ---- End of OPCControlPause -----------------------------------------------
-
 void  OPCControlResume(TTimer* t) // Возобновление управления стендом
 {
    LogPrint("Возобновление контроля управлением!", clLime);
    t->Enabled = true;
 }
-// ---- End of OPCControlResume ----------------------------------------------
-
 void  OPCControlStop(TTimer* t) // Останов управления стендом
 {
    LogPrint("Останов контроля управлением!", clLime);
    t->Enabled = false;
    OPCControlOn = false;
 }
-// ---- End of OPCControlStop ------------------------------------------------
+
 
 float  StrToFlt(String ws)
    // Преобразование строки в значение типа float

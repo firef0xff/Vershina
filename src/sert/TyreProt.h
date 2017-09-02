@@ -51,7 +51,8 @@ public:
    float rR[cpu::data::GR7::ITEMS_COUNT];
    float rTemp[cpu::data::GR7::ITEMS_COUNT];
 
-   Tyre();
+   std::string mSide;
+   Tyre( std::string const& side);
 
    void ImportTemplate ( Tyre const& );
 
@@ -59,7 +60,7 @@ public:
    // запись полей Tyre в файл с именем fname
    void ReadFromFile(String fname);
    // чтение полей Tyre из файла с именем fname
-   void PrintProtToFile(String fname, String side);
+   void PrintProtToFile(String fname);
    // печать протокола испытаний в файл fname
    void Clear(void);
    // очистка массивов (они варварским способом не чистятся, просто копируют значения из дргого массива)

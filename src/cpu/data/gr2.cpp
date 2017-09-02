@@ -6,12 +6,49 @@ namespace cpu
 
 namespace data
 {
+wchar_t const* Gr2Pos1Adresses[ GR2::INT_COUNT + GR2::FLOAT_COUNT ] =
+{
+   //int
+   L"S7:[S7 connection_4]DB20,DINT188",
 
-GR2::GR2()
+   //float
+   L"S7:[S7 connection_4]DB20,REAL18",
+   L"S7:[S7 connection_4]DB20,REAL22",
+   L"S7:[S7 connection_4]DB20,REAL30",
+   L"S7:[S7 connection_4]DB20,REAL34",
+   L"S7:[S7 connection_4]DB20,REAL46",
+   L"S7:[S7 connection_4]DB20,REAL50",
+   L"S7:[S7 connection_4]DB20,REAL156",
+   L"S7:[S7 connection_4]DB20,REAL164",
+   L"S7:[S7 connection_4]DB20,REAL172",
+   L"S7:[S7 connection_4]DB20,REAL196",
+};
+wchar_t const* Gr2Pos2Adresses[ GR2::INT_COUNT + GR2::FLOAT_COUNT ] =
+{
+   //int
+   L"S7:[S7 connection_4]DB20,DINT192",
+
+   //float
+   L"S7:[S7 connection_4]DB20,REAL58",
+   L"S7:[S7 connection_4]DB20,REAL62",
+   L"S7:[S7 connection_4]DB20,REAL70",
+   L"S7:[S7 connection_4]DB20,REAL74",
+   L"S7:[S7 connection_4]DB20,REAL86",
+   L"S7:[S7 connection_4]DB20,REAL90",
+   L"S7:[S7 connection_4]DB20,REAL160",
+   L"S7:[S7 connection_4]DB20,REAL168",
+   L"S7:[S7 connection_4]DB20,REAL176",
+   L"S7:[S7 connection_4]DB20,REAL200"
+};
+
+wchar_t const* Gr2Pos1Name = L"Gr2Pos1";
+wchar_t const* Gr2Pos2Name = L"Gr2Pos2";
+
+GR2::GR2(const wchar_t* group_name, const wchar_t *addresses[] )
 {
    memset( mIntData, 0, sizeof(mIntData) );
    memset( mFloatData, 0, sizeof(mFloatData) );
-   mGroupID = opc::miniOPC::Instance().AddGroup( L"GR2", mAdresses, INT_COUNT + FLOAT_COUNT );
+   mGroupID = opc::miniOPC::Instance().AddGroup( group_name, addresses, INT_COUNT + FLOAT_COUNT );
 }
 
 void GR2::Write()

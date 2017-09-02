@@ -25,7 +25,12 @@
 #include <DB.hpp>
 #include "SQL.h"
 #include <System.Actions.hpp>
-#include "src/sert/l_calibr.h"
+
+#include <memory>
+#include "pos/ui_pos.h"
+#include "prg/time_programm.h"
+#include "prg/path_programm.h"
+
 // ---------------------------------------------------------------------------
 class TmfRB : public TForm
 {
@@ -794,10 +799,17 @@ private: // User declarations
 
    std::unique_ptr<cSQL>DB;
 
+   Tyre InpTyre;
+   sert::VSert VS;
+   TimeProgramm TimePrg;
+   PathProgramm PathPrg;
+
+   UIPosData mPosA;
+   UIPosData mPosB;
+   UICommonData mData;
+
    void __fastcall SetCommonParam(void);
    void __fastcall ShowCommonParam(void);
-   void __fastcall OnDataShow(TMessage&);
-   void __fastcall OnOPCCmd(TMessage&);
    void __fastcall ShowStatus(bool save = true);
    void __fastcall DesignSProgTable(void);
    void __fastcall DesignTProgTable(void);
@@ -827,10 +839,10 @@ private: // User declarations
    void CheckStend(void);
    void GetSettings(void);
    void SetIndication(TEdit *Indicator, bool state);
-   void SetCurrProgA(String name);
-   String GetCurrProgA(void);
-   void SetCurrProgB(String name);
-   String GetCurrProgB(void);
+   void SetCurrProgA(std::string const& name);
+   std::string GetCurrProgA(void);
+   void SetCurrProgB(const std::string &name);
+   std::string GetCurrProgB(void);
    void UpdateProgData(void);
    bool CheckLoad(double load, float& value, TColor& color);
    bool CheckSpeed(double Speed, float& value, TColor& color);
@@ -845,10 +857,6 @@ private: // User declarations
 public: // User declarations
    __fastcall TmfRB(TComponent* Owner);
    __fastcall ~TmfRB();
-   BEGIN_MESSAGE_MAP
-      MESSAGE_HANDLER(WM_DataShow, TMessage, OnDataShow)
-      MESSAGE_HANDLER(WM_OPCCmd, TMessage, OnOPCCmd)
-   END_MESSAGE_MAP(TComponent)
 };
 
 // ---------------------------------------------------------------------------

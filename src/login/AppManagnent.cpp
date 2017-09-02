@@ -66,30 +66,30 @@ void TAppManagment::Get_Users(void)
 void TAppManagment::Get_Paths(void)
 {
    cbMode->Checked = Get_param(L"File_Save_Mode") == "Auto" ? true : false;
-   leDistProg->Text = Get_param(L"Sprog");
-   leTimeProg->Text = Get_param(L"Tprog");
-   leProtA->Text = Get_param(L"TestResPosA");
-   leProtB->Text = Get_param(L"TestResPosB");
-   leTitleProt->Text = Get_param(L"ProtTtl");
+   leDistProg->Text = AnsiString(Get_param(L"Sprog").c_str());
+   leTimeProg->Text = AnsiString(Get_param(L"Tprog").c_str());
+   leProtA->Text = AnsiString(Get_param(L"TestResPosA").c_str());
+   leProtB->Text = AnsiString(Get_param(L"TestResPosB").c_str());
+   leTitleProt->Text = AnsiString(Get_param(L"ProtTtl").c_str());
 
-   leLoadCalibrA->Text = Get_param(L"LoadCalibrTableA");
-   leLoadCalibrB->Text = Get_param(L"LoadCalibrTableB");
-   leTCalibrA->Text = Get_param(L"TCalibrTableA");
-   leTCalibrB->Text = Get_param(L"TCalibrTableB");
-   leRCalibrA->Text = Get_param(L"RCalibrTableA");
-   leRCalibrB->Text = Get_param(L"RCalibrTableB");
-   leSpdCalibr->Text = Get_param(L"SpdCalibrTable");
+   leLoadCalibrA->Text = AnsiString(Get_param(L"LoadCalibrTableA").c_str());
+   leLoadCalibrB->Text = AnsiString(Get_param(L"LoadCalibrTableB").c_str());
+   leTCalibrA->Text = AnsiString(Get_param(L"TCalibrTableA").c_str());
+   leTCalibrB->Text = AnsiString(Get_param(L"TCalibrTableB").c_str());
+   leRCalibrA->Text = AnsiString(Get_param(L"RCalibrTableA").c_str());
+   leRCalibrB->Text = AnsiString(Get_param(L"RCalibrTableB").c_str());
+   leSpdCalibr->Text = AnsiString(Get_param(L"SpdCalibrTable").c_str());
 
-   leSertPrintProtA->Text = Get_param(L"LoadSertPrintProtA");
-   leSertPrintProtB->Text = Get_param(L"LoadSertPrintProtB");
+   leSertPrintProtA->Text = AnsiString(Get_param(L"LoadSertPrintProtA").c_str());
+   leSertPrintProtB->Text = AnsiString(Get_param(L"LoadSertPrintProtB").c_str());
 }
 
-String TAppManagment::Get_param(String param_name)
+std::string TAppManagment::Get_param(String param_name)
 {
    return Get_param(param_name, DB);
 }
 
-String TAppManagment::Get_param(String param_name, std::unique_ptr<cSQL>& DB)
+std::string TAppManagment::Get_param(String param_name, std::unique_ptr<cSQL>& DB)
 {
    std::unique_ptr<TADOQuery>rez
       (DB->SendSQL("Select Value from settings where param=\'" + param_name +
@@ -100,7 +100,7 @@ String TAppManagment::Get_param(String param_name, std::unique_ptr<cSQL>& DB)
       result = rez->FieldByName("Value")->Value.IsNull() ? UnicodeString() :
          rez->FieldByName("Value")->Value.operator UnicodeString(); ;
    }
-   return result;
+   return AnsiString(result).c_str();
 }
 
 void TAppManagment::Set_Param(String param_name, String value)

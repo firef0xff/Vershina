@@ -98,12 +98,12 @@ private: // User declarations
 
    void Get_Users(void); // загрузка пользователей
    void Get_Paths(void); // загрузка путей сохранения
-   String Get_param(String param_name); // получение значения параметра
+   std::string Get_param(String param_name); // получение значения параметра
    void Set_Param(String param_name, String value); // запись значения параметра
    void Get_Groups(int Row); // отображение списка групп для пользователя
 
 public: // User declarations
-   static String Get_param(String param_name, std::unique_ptr<cSQL>& DB);
+   static std::string Get_param(String param_name, std::unique_ptr<cSQL>& DB);
    static void Set_Param(String param_name, String value,
       std::unique_ptr<cSQL>& DB);
    __fastcall TAppManagment(TComponent* Owner, std::unique_ptr<cSQL>& db);

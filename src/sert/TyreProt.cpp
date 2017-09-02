@@ -7,7 +7,8 @@
 #include "../support_functions/date_time.h"
 #include "../support_functions/serialize.h"
 
-Tyre::Tyre()
+Tyre::Tyre(const std::string &side):
+   mSide(side)
 {
    ProtNo = 0; // номер протокола
    Size = String(10, ' '); // размер шины
@@ -210,7 +211,7 @@ void Tyre::ReadFromFile(String fname) // чтение полей Tyre из фа�
    fclose(fparam);
 }
 
-void Tyre::PrintProtToFile(String fname, String side) // печать протокола испытаний в файл fname
+void Tyre::PrintProtToFile(String fname) // печать протокола испытаний в файл fname
 {
    FILE *fprint = fopen(fname.c_str(), "wt");
    if (fprint == nullptr)
@@ -219,7 +220,7 @@ void Tyre::PrintProtToFile(String fname, String side) // печать прото
       return;
    }
    fprintf(fprint, "%s\n\n", dt::ToString(dt::Now()).c_str());
-   fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName + side).c_str());
+   fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName + mSide).c_str());
    fprintf(fprint, "     Изготовитель: %10s     Заказчик: %s  Заказ №: %5d\n",Manufacturer.c_str(), TestCustomer.c_str(),OrderNo);
    fprintf(fprint, "           Модель: %10s            Размер: %10s\n",Model.c_str(), Size.c_str());
    fprintf(fprint, "Дата изготовления: %10s      Порядковый №: %5d\n",CustomDate().c_str(), SerialNo);

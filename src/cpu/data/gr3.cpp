@@ -6,12 +6,58 @@ namespace cpu
 
 namespace data
 {
+wchar_t const* Gr3Pos1Adresses[ GR3::INT_COUNT + GR3::FLOAT_COUNT] =
+{
+   //int
+   L"S7:[S7 connection_4]DB10,DINT10",
+   L"S7:[S7 connection_4]DB10,INT4",
+   L"S7:[S7 connection_4]DB10,INT34",
+   L"S7:[S7 connection_4]DB10,INT36",
 
-GR3::GR3()
+   //float
+   L"S7:[S7 connection_4]DB10,REAL18",
+   L"S7:[S7 connection_4]DB10,REAL26",
+   L"S7:[S7 connection_4]DB10,REAL30",
+   L"S7:[S7 connection_4]DB10,REAL74",
+   L"S7:[S7 connection_4]DB10,REAL82",
+   L"S7:[S7 connection_4]DB10,REAL90",
+   L"S7:[S7 connection_4]DB10,REAL94",
+   L"S7:[S7 connection_4]DB10,REAL98",
+   L"S7:[S7 connection_4]DB10,REAL102",
+   L"S7:[S7 connection_4]DB10,REAL122",
+   L"S7:[S7 connection_4]DB10,REAL126",
+
+};
+wchar_t const* Gr3Pos2Adresses[ GR3::INT_COUNT + GR3::FLOAT_COUNT] =
+{
+   //int
+   L"S7:[S7 connection_4]DB10,DINT46",
+   L"S7:[S7 connection_4]DB10,INT40",
+   L"S7:[S7 connection_4]DB10,INT70",
+   L"S7:[S7 connection_4]DB10,INT72",
+
+   //float
+   L"S7:[S7 connection_4]DB10,REAL54",
+   L"S7:[S7 connection_4]DB10,REAL62",
+   L"S7:[S7 connection_4]DB10,REAL66",
+   L"S7:[S7 connection_4]DB10,REAL78",
+   L"S7:[S7 connection_4]DB10,REAL86",
+   L"S7:[S7 connection_4]DB10,REAL106",
+   L"S7:[S7 connection_4]DB10,REAL110",
+   L"S7:[S7 connection_4]DB10,REAL114",
+   L"S7:[S7 connection_4]DB10,REAL118",
+   L"S7:[S7 connection_4]DB10,REAL130",
+   L"S7:[S7 connection_4]DB10,REAL134"
+};
+
+wchar_t const* Gr3Pos1Name = L"Gr3Pos1";
+wchar_t const* Gr3Pos2Name = L"Gr3Pos2";
+
+GR3::GR3(const wchar_t* group_name, const wchar_t *addresses[] )
 {
    memset( mIntData, 0, sizeof(mIntData) );
    memset( mFloatData, 0, sizeof(mFloatData) );
-   mGroupID = opc::miniOPC::Instance().AddGroup( L"GR2", mAdresses, INT_COUNT + FLOAT_COUNT );
+   mGroupID = opc::miniOPC::Instance().AddGroup( group_name, addresses, INT_COUNT + FLOAT_COUNT );
 }
 
 void GR3::Write()

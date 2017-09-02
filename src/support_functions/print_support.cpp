@@ -6,7 +6,7 @@
 
 namespace printing
 {
-void Print(TPrinter *pprt, Tyre const& data, std::string side) // печать протокола на принтер pprt
+void Print(TPrinter *pprt, Tyre const& data) // печать протокола на принтер pprt
 {
    std::string wstr[60] = {""};
    int left[60];
@@ -31,7 +31,7 @@ void Print(TPrinter *pprt, Tyre const& data, std::string side) // печать �
    int lineY = UpperMarg + fHeight;
    int LineCnt = 0;
 
-   wstr[LineCnt] = "ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* std::string(ProtNo)+ */ " НА СТЕНДЕ " + data.StandName + side;
+   wstr[LineCnt] = "ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* std::string(ProtNo)+ */ " НА СТЕНДЕ " + data.StandName + data.mSide;
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;
    wstr[++LineCnt] = "     Изготовитель: " + data.Manufacturer + "     Заказчик: " + data.TestCustomer + "  Заказ №: " + std::to_string(data.OrderNo);
    left[LineCnt] = LeftMarg;
