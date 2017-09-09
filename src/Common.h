@@ -5,25 +5,12 @@
 #include <Comctrls.hpp>
 #include "def.h"
 #include <string>
-// объявление общих переменных ----------------------------------------------
-extern bool OPCControlOn; // Управление OPC-сервером запущено
-extern bool OPCConnectOK; // соединение с OPC-сервером установлено
-extern short OPCCtrlStat; // управляющая переменная цикла управления стендом
-extern long TimerCycleCnt; // Счетчик циклов таймера
-extern bool StendConnection; // индикатор связи со стендом
-// переменные протокола
 
 // объявление общих функций -------------------------------------------------
 
 String  FileNameParse
    ( // Функция выделения имени файла из полного пути
    String SFN);
-int  NextCycleCount(void); // увеличение цикла счетчика на 1
-void  OPCControlStart(TTimer*); // Запуск управления стендом
-void  OPCControlStop(TTimer*); // Останов управления стендом
-void  OPCControlPause(TTimer*); // Приостановка управления стендом
-void  OPCControlResume(TTimer*); // Возобновление управления стендом
-
 float  StrToFlt(String);
 // Преобразование строки в значение типа float
 int  StrToI(String); // ПРеобразование строки в значение типа int

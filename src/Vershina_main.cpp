@@ -138,10 +138,19 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
       DecimalSeparator = '.';
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
-      auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
-      auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
-      mPosA.mLdC.LKQInit( gr12 );
-      mPosB.mLdC.LKQInit( gr13 );
+
+      cpu::CpuMemory::OnConnected(
+      [this]()
+      {
+         auto& inst_cpu = cpu::CpuMemory::Instance();
+
+         std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+         auto &gr12 = *inst_cpu.mPos1->mGr12;
+         auto &gr13 = *inst_cpu.mPos2->mGr12;
+         mPosA.mLdC.LKQInit( gr12 );
+         mPosB.mLdC.LKQInit( gr13 );
+      });
+
       InitLogger( reLog );
       reLog->Clear();
       pProtPrt->Canvas->Font->Name = "Lucida Console";
@@ -152,8 +161,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
       SetCommonParam();
       ShowCommonParam();
       pcRB->ActivePage = tsCurrentStatus;
-      tReadCycleTimer->Enabled = false;
-      tReadCycleTimer->Interval = 1000;
       sbRB->Panels->Items[0]->Text = "Соединения со стендом нет";
       sbRB->Panels->Items[3]->Text = Now().DateTimeString();
       LogPrint( "Старт программы!", clAqua);
@@ -171,7 +178,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
       {
          stP1L2ProgNameB->Caption = AnsiString(mPosB.RunProgName.c_str());
       }
-//      hbnd->Hide();
    }
    else
    {
@@ -196,13 +202,15 @@ __fastcall TmfRB::~TmfRB()
 void __fastcall TmfRB::OnCommonParamReadExec(TObject *Sender)
 {
    auto &inst = cpu::CpuMemory::Instance();
+   if ( !inst.IsConnected() )
+      return;
    inst.ReadCycleParameters();
    ShowStatus();
    ShowCommonParam();
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::SetCommonParam(void)
+void TmfRB::SetCommonParam(void)
    // настройка таблицы общих параметров
 {
    stP1L1TyreTypeA->Caption = AnsiString(mPosA.TyreType.c_str());
@@ -213,7 +221,7 @@ void __fastcall TmfRB::SetCommonParam(void)
 }
 // ---- End of SetCommonParam ------------------------------------------------
 
-void __fastcall TmfRB::DesignSProgTable(void)
+void TmfRB::DesignSProgTable(void)
    // создание таблицы для ввода программы испытаний по пути
 {
    const int Col0Width = 30, Col1Width = 80, Col2Width = 105, Col3Width = 65;
@@ -335,7 +343,7 @@ void __fastcall TmfRB::DesignSProgTable(void)
 }
 // ---- End of DesignSProgTable ----------------------------------------------
 
-void __fastcall TmfRB::DesignLoadSertAPanel(void)
+void TmfRB::DesignLoadSertAPanel(void)
    // расположение компонент на панели калибровки нагрузки поз. А
 {
 
@@ -453,7 +461,7 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)
 }
 // ---- End of DesignLoadSertAPanel ------------------------------------------
 
-void __fastcall TmfRB::DesignLoadSertBPanel(void)
+void TmfRB::DesignLoadSertBPanel(void)
    // расположение компонент на панели калибровки нагрузки поз. Б
 {
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
@@ -570,7 +578,7 @@ void __fastcall TmfRB::DesignLoadSertBPanel(void)
 }
 // ---- End of DesignLoadSertBPanel ------------------------------------------
 
-void __fastcall TmfRB::DesignTSertPanel(void)
+void TmfRB::DesignTSertPanel(void)
    // расположение компонент на панели калибровки температуры
 {
    int H1 = 26, LSp1 = 10;
@@ -588,7 +596,7 @@ void __fastcall TmfRB::DesignTSertPanel(void)
 }
 // ---- End of DesignTSertPanel ----------------------------------------------
 
-void __fastcall TmfRB::DesignRSertPanel(void)
+void TmfRB::DesignRSertPanel(void)
    // расположение компонент на панели калибровки датчиков радиуса
 {
    int H1 = 26, LSp1 = 10;
@@ -617,7 +625,7 @@ void __fastcall TmfRB::DesignRSertPanel(void)
 }
 // ---- End of DesignRSertPanel ----------------------------------------------
 
-void __fastcall TmfRB::DesignLoadCalibrAPanel(void)
+void TmfRB::DesignLoadCalibrAPanel(void)
    // расположение компонент на панели аттестации нагрузки поз. А
 {
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
@@ -720,7 +728,7 @@ void __fastcall TmfRB::DesignLoadCalibrAPanel(void)
 }
 // ---- End of DesignLoadCalibrAPanel ----------------------------------------
 
-void __fastcall TmfRB::DesignLoadCalibrBPanel(void)
+void TmfRB::DesignLoadCalibrBPanel(void)
    // расположение компонент на панели аттестации нагрузки поз. Б
 {
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
@@ -822,7 +830,7 @@ void __fastcall TmfRB::DesignLoadCalibrBPanel(void)
 }
 // ---- End of DesignLoadCalibrBPanel ----------------------------------------
 
-void __fastcall TmfRB::DesignRCalibrAPanel(void)
+void TmfRB::DesignRCalibrAPanel(void)
    // расположение компонент на панели аттестации радиуса поз. А
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
@@ -909,7 +917,7 @@ void __fastcall TmfRB::DesignRCalibrAPanel(void)
 }
 // ---- End of DesignRCalibrAPanel -------------------------------------------
 
-void __fastcall TmfRB::DesignRCalibrBPanel(void)
+void TmfRB::DesignRCalibrBPanel(void)
    // расположение компонент на панели аттестации радиуса поз. Б
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
@@ -996,7 +1004,7 @@ void __fastcall TmfRB::DesignRCalibrBPanel(void)
 }
 // ---- End of DesignRCalibrBPanel -------------------------------------------
 
-void __fastcall TmfRB::DesignTCalibrAPanel(void)
+void TmfRB::DesignTCalibrAPanel(void)
    // расположение компонент на панели аттестации температуры поз. А
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
@@ -1084,7 +1092,7 @@ void __fastcall TmfRB::DesignTCalibrAPanel(void)
 }
 // ---- End of DesignTCalibrAPanel -------------------------------------------
 
-void __fastcall TmfRB::DesignTCalibrBPanel(void)
+void TmfRB::DesignTCalibrBPanel(void)
    // расположение компонент на панели аттестации температуры поз. Б
 {
    const int C0W = 30, C1W = 70, C2W = 70, C3W = 80;
@@ -1172,7 +1180,7 @@ void __fastcall TmfRB::DesignTCalibrBPanel(void)
 }
 // ---- End of DesignTCalibrBAPanel -------------------------------------------
 
-void __fastcall TmfRB::DesignSpdCalibrPanel(void)
+void TmfRB::DesignSpdCalibrPanel(void)
    // расположение компонент на панели аттестации барабана
 {
    const int C0W = 30, C1W = 60, C2W = 70, C3W = 70, C4W = 80;
@@ -1259,16 +1267,21 @@ void __fastcall TmfRB::DesignSpdCalibrPanel(void)
 }
 // ---- End of DesignSpdCalibrPanel ------------------------------------------
 
-void __fastcall TmfRB::ShowCommonParam(void) // отображение общих параметров
+void TmfRB::ShowCommonParam(void) // отображение общих параметров
 {
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    // если по поз. 1 идет испытание обрабатывать шаг
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr2p1 = cpu::CpuMemory::Instance().mPos1.mGr2;
-   auto &gr2p2 = cpu::CpuMemory::Instance().mPos2.mGr2;
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   auto &cmnp = inst_cpu.mCommonParams;
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr2p1 = *inst_cpu.mPos1->mGr2;
+   auto &gr2p2 = *inst_cpu.mPos2->mGr2;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    if (mPosA.CurrSMode == 2)
    {
       if (mPosA.old_step != mPosA.cur_step)
@@ -1579,12 +1592,24 @@ void __fastcall TmfRB::onOPCControlStartExec(TObject *Sender)
 void __fastcall TmfRB::OPCControlStartExec(void)
 {
    LogPrint( "Старт управления стендом");
-   if (OPCConnectOK && !OPCControlOn)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
+      LogPrint( "Ошибка соединения со стендом", clRed);
+      sbRB->Panels->Items[0]->Text = "Ошибка соединения со стендом";
+      MessageBoxW(Handle, L"Ошибка соединения со стендом",
+         L"Ошибка соединения со стендом", MB_OK | MB_ICONERROR | MB_DEFBUTTON1);
+      return;
+   }
+
+   if ( !ShowTimer->Enabled )
+   {
+      std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
       // прочитать состояние и установить состояние на панели
-      auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-      auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
+      auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+      auto &gr1p2 = *inst_cpu.mPos2->mGr1;
       gr1p1.Read();
       gr1p2.Read();
 
@@ -1655,39 +1680,51 @@ void __fastcall TmfRB::OPCControlStartExec(void)
       ShowStatus(false);
       ShowCommonParam();
       // запуск цикла опроса
-      OPCControlStart(tReadCycleTimer);
-      OPCControlOn = true;
+      ShowTimer->Enabled = true;
       // разрешение обработчиков
-      // Handle1On=true;
-      // Handle2On=true;
-   }
-   else if (OPCConnectOK && OPCControlOn)
-   {
-      sbRB->Panels->Items[2]->Text = "Control alredy ON!";
    }
    else
    {
-      LogPrint( "Ошибка соединения со стендом", clRed);
-      sbRB->Panels->Items[0]->Text = "Ошибка соединения со стендом";
-      MessageBoxW(Handle, L"Ошибка соединения со стендом",
-         L"Ошибка соединения со стендом", MB_OK | MB_ICONERROR | MB_DEFBUTTON1);
+      sbRB->Panels->Items[2]->Text = "Control alredy ON!";
    }
 }
 
 void TmfRB::CheckStend(void)
 {
-   if (!(OPCConnectOK && OPCControlOn))
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!(inst_cpu.IsConnected() && ShowTimer->Enabled))
    { // соединение со стендом
       OPCControlStartExec();
    }
 }
 
 // ---- End of OnOPCControlStartExec -----------------------------------------
-void __fastcall TmfRB::ShowStatus(bool save) // отображение состояния на панелях
+void TmfRB::ShowStatus(bool save) // отображение состояния на панелях
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   static bool oldstate = false;
+   SetIndication(eStendConnection, inst_cpu.IsConnected());
+   if (oldstate != inst_cpu.IsConnected()) // запись в логах изменения состояния
+   {
+      if (inst_cpu.IsConnected())
+      { // соединение установлено
+         LogPrint( "Соединение со стендом установлено", clRed);
+      }
+      else
+      { // соединение потеряно
+         LogPrint( "Соединение со стендом потеряно", clRed);
+      }
+   }
+   oldstate = inst_cpu.IsConnected(); // запоминание текущего состояния связи
+
+
+   if (!inst_cpu.IsConnected())
+      return;
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &cmnp = inst_cpu.mCommonParams;
    sbRB->Panels->Items[3]->Text = Now().DateTimeString();
    // определение текущих режимов
    mPosA.CurrMode = BUnion(gr1p1.AutoMode, gr1p1.ManualMode);
@@ -1825,22 +1862,6 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
    {
       eOilTemp->Color = clGreen;
    }
-
-   static bool oldstate = false;
-   SetIndication(eStendConnection, StendConnection);
-   if (oldstate != StendConnection) // запись в логах изменения состояния
-   {
-      if (StendConnection)
-      { // соединение установлено
-         LogPrint( "Соединение со стендом установлено", clRed);
-      }
-      else
-      { // соединение потеряно
-         LogPrint( "Соединение со стендом потеряно", clRed);
-      }
-   }
-   oldstate = StendConnection; // запоминание текущего состояния связи
-
    if (!sbCarriage1Off->Down && gr1p1.CarriageOff && !mPosA.switch_Carriage)
    {
       sbRB->Panels->Items[2]->Text = "Каретка А в исходном положении!";
@@ -1896,61 +1917,50 @@ void __fastcall TmfRB::ShowStatus(bool save) // отображение сост�
 void __fastcall TmfRB::OnOPCControlStopExec(TObject *Sender)
 {
    LogPrint( "OPC Control OFF!", clAqua);
-   OPCControlOn = false;
-   OPCControlStop(tReadCycleTimer);
+   ShowTimer->Enabled = false;
    sbRB->Panels->Items[0]->Text = "Соединения со стендом нет";
 }
 // ---- End of OnOPCControlStopExec ------------------------------------------
 
-void __fastcall TmfRB::OnReadCycleTimer(TObject *Sender)
+void __fastcall TmfRB::OnReadCycleTimer(TObject */*Sender*/)
 {
-   static int connection_try = 0;
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr2p1 = cpu::CpuMemory::Instance().mPos1.mGr2;
-   auto &gr2p2 = cpu::CpuMemory::Instance().mPos2.mGr2;
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
-   if (!StendConnection)
-   {
-      connection_try++;
-      tReadCycleTimer->Interval = connection_try > 3 ? 30000 : 1000;
-      CheckStend();
-      Application->ProcessMessages();
-   }
-   else
-   {
-      connection_try = 0;
-      tReadCycleTimer->Interval = 1000;
-   }
-   if (StendConnection)
-   {
-      cpu::CpuMemory::Instance().ReadCycleParameters();
-      sbRB->Panels->Items[1]->Text = "Cnt=" + String(NextCycleCount());
-      if (mPosA.CurrSMode == 2)
-      {
-         mPosA.cur_speed = cmnp.fakt_speed;
-         mPosA.cur_dist = gr2p1.fakt_distance;
-         mPosA.cur_time = gr1p1.fakt_time;
-         mPosA.cur_load = gr2p1.fakt_loading;
-         mPosA.cur_radius = gr2p1.fakt_radius;
-         mPosA.cur_temp = gr2p1.fakt_temper;
-         mPosA.cur_step = gr1p1.step_write;
-      }
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
 
-      if (mPosB.CurrSMode == 2)
-      {
-         mPosB.cur_speed = cmnp.fakt_speed;
-         mPosB.cur_dist = gr2p2.fakt_distance;
-         mPosB.cur_time = gr1p2.fakt_time;
-         mPosB.cur_load = gr2p2.fakt_loading;
-         mPosB.cur_radius = gr2p2.fakt_radius;
-         mPosB.cur_temp = gr2p2.fakt_temper;
-         mPosB.cur_step = gr1p2.step_write;
-      }
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr2p1 = *inst_cpu.mPos1->mGr2;
+   auto &gr2p2 = *inst_cpu.mPos2->mGr2;
+   auto &cmnp = inst_cpu.mCommonParams;
 
-      ShowStatus();
-      ShowCommonParam();
+   inst_cpu.ReadCycleParameters();
+   sbRB->Panels->Items[1]->Text = "Cnt=" + String(++mCount);
+   if (mPosA.CurrSMode == 2)
+   {
+      mPosA.cur_speed = cmnp.fakt_speed;
+      mPosA.cur_dist = gr2p1.fakt_distance;
+      mPosA.cur_time = gr1p1.fakt_time;
+      mPosA.cur_load = gr2p1.fakt_loading;
+      mPosA.cur_radius = gr2p1.fakt_radius;
+      mPosA.cur_temp = gr2p1.fakt_temper;
+      mPosA.cur_step = gr1p1.step_write;
    }
+
+   if (mPosB.CurrSMode == 2)
+   {
+      mPosB.cur_speed = cmnp.fakt_speed;
+      mPosB.cur_dist = gr2p2.fakt_distance;
+      mPosB.cur_time = gr1p2.fakt_time;
+      mPosB.cur_load = gr2p2.fakt_loading;
+      mPosB.cur_radius = gr2p2.fakt_radius;
+      mPosB.cur_temp = gr2p2.fakt_temper;
+      mPosB.cur_step = gr1p2.step_write;
+   }
+
+   ShowStatus();
+   ShowCommonParam();
 }
 
 void TmfRB::ClearStepVals1(void)
@@ -1994,442 +2004,439 @@ void TmfRB::ClearStepVals2(void)
 
 void __fastcall TmfRB::OnRGPos1ModeClick(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
    CheckStend();
-   if (OPCConnectOK)
-   {
-      if (sbAutomatA->Down && !sbManualA->Down)
-      {
-         gr1p1.AutoMode = true;
-         gr1p1.ManualMode = false;
-         sbRB->Panels->Items[2]->Text = "Поз. А в автоматическом режиме!";
-         LogPrint( "Поз. А в автоматическом режиме!", clWhite);
-      }
-      else
-      {
-         gr1p1.AutoMode = false;
-         gr1p1.ManualMode = true;
-         sbRB->Panels->Items[2]->Text = "Поз. А в ручном режиме!";
-         LogPrint( "Поз. А в ручном режиме!", clWhite);
-      }
-      OPCControlPause(tReadCycleTimer);
-      gr1p1.Write();
-      OPCControlResume(tReadCycleTimer);
-   }
-   else
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       sbAutomatA->Down = false;
       sbManualA->Down = true;
+      sbRB->Panels->Items[2]->Text = "Нельзя выдать команду - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   if (sbAutomatA->Down && !sbManualA->Down)
+   {
+      gr1p1.AutoMode = true;
+      gr1p1.ManualMode = false;
+      sbRB->Panels->Items[2]->Text = "Поз. А в автоматическом режиме!";
+      LogPrint( "Поз. А в автоматическом режиме!", clWhite);
+   }
+   else
+   {
       gr1p1.AutoMode = false;
       gr1p1.ManualMode = true;
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя выдать команду - нет соединения со стендом!";
+      sbRB->Panels->Items[2]->Text = "Поз. А в ручном режиме!";
+      LogPrint( "Поз. А в ручном режиме!", clWhite);
    }
+   gr1p1.Write();
+
 }
 // ---- End of OnRGPos1ModeClick ---------------------------------------------
 
 void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
 {
    CheckStend();
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   if (OPCConnectOK)
-   {
-      if (sbStartA->Down && !sbStopA->Down)
-      {
-         gr1p1.Start = true;
-         gr1p1.Stop = false;
-         mPosA.needSave = true;
-         ClearStepVals1();
-         UpdateProgData();
-         if (mPosA.mTyre.Start == dt::DateTime())
-            mPosA.mTyre.Start = dt::Now();
-         mPosA.mTyre.Stop = dt::DateTime();
-         sbRB->Panels->Items[2]->Text = "Старт поз. А!";
-         LogPrint( "Старт поз. А!", clWhite);
-      }
-      else
-      {
-         gr1p1.Start = false;
-         gr1p1.Stop = true;
-         if (mPosA.needSave)
-         {
-            mPosA.mTyre.Stop = dt::Now();
-            btnLoadTestResPosA->Click(); // авто сохраниние
-         }
-         sbRB->Panels->Items[2]->Text = "Стоп поз. А!";
-         LogPrint( "Стоп поз. А!", clWhite);
-      }
-      OPCControlPause(tReadCycleTimer);
-      gr1p1.Write();
-      OPCControlResume(tReadCycleTimer);
-   }
-   else
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       sbStartA->Down = false;
       sbStopA->Down = true;
+      sbRB->Panels->Items[2]->Text = "Нельзя выдать команду - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   if (sbStartA->Down && !sbStopA->Down)
+   {
+      gr1p1.Start = true;
+      gr1p1.Stop = false;
+      mPosA.needSave = true;
+      ClearStepVals1();
+      UpdateProgData();
+      if (mPosA.mTyre.Start == dt::DateTime())
+         mPosA.mTyre.Start = dt::Now();
+      mPosA.mTyre.Stop = dt::DateTime();
+      sbRB->Panels->Items[2]->Text = "Старт поз. А!";
+      LogPrint( "Старт поз. А!", clWhite);
+   }
+   else
+   {
       gr1p1.Start = false;
       gr1p1.Stop = true;
-      sbRB->Panels->Items[2]->Text = "Нельзя выдать команду - нет соединения со стендом!";
+      if (mPosA.needSave)
+      {
+         mPosA.mTyre.Stop = dt::Now();
+         btnLoadTestResPosA->Click(); // авто сохраниние
+      }
+      sbRB->Panels->Items[2]->Text = "Стоп поз. А!";
+      LogPrint( "Стоп поз. А!", clWhite);
    }
+   gr1p1.Write();
 }
 
 // ---- End of OnRGPos1StartStopClick ----------------------------------------
 void __fastcall TmfRB::cbControlLateralAClick(TObject *Sender)
 { // вкл/выкл контроля бокового разрыва поз А
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
    gr1p1.ControlLateral = cbControlLateralA->Checked;
    gr1p1.Write();
 }
 
 void __fastcall TmfRB::OnRGPos2ModeClick(TObject *Sender)
 {
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
    CheckStend();
-   if (OPCConnectOK)
-   {
-      if (sbAutomatB->Down && !sbManualB->Down)
-      {
-         gr1p2.AutoMode = true;
-         gr1p2.ManualMode = false;
-         sbRB->Panels->Items[2]->Text = "Поз. Б в автоматическом режиме!";
-         LogPrint( "Поз. Б в автоматическом режиме!", clWhite);
-      }
-      else
-      {
-         gr1p2.AutoMode = false;
-         gr1p2.ManualMode = true;
-         sbRB->Panels->Items[2]->Text = "Поз. Б в ручном режиме!";
-         LogPrint( "Поз. Б в ручном режиме!", clWhite);
-      }
-      OPCControlPause(tReadCycleTimer);
-      gr1p2.Write();
-      OPCControlResume(tReadCycleTimer);
-   }
-   else
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       sbAutomatB->Down = false;
       sbManualB->Down = true;
+      sbRB->Panels->Items[2]->Text = "Нельзя выдать команду - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   if (sbAutomatB->Down && !sbManualB->Down)
+   {
+      gr1p2.AutoMode = true;
+      gr1p2.ManualMode = false;
+      sbRB->Panels->Items[2]->Text = "Поз. Б в автоматическом режиме!";
+      LogPrint( "Поз. Б в автоматическом режиме!", clWhite);
+   }
+   else
+   {
       gr1p2.AutoMode = false;
       gr1p2.ManualMode = true;
-      sbRB->Panels->Items[2]->Text = "Нельзя выдать команду - нет соединения со стендом!";
+      sbRB->Panels->Items[2]->Text = "Поз. Б в ручном режиме!";
+      LogPrint( "Поз. Б в ручном режиме!", clWhite);
    }
+   gr1p2.Write();
+
 }
 // ---- End of OnRGPos2ModeClick ---------------------------------------------
 
 void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
 {
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
    CheckStend();
-   if (OPCConnectOK)
-   {
-      if (sbStartB->Down && !sbStopB->Down)
-      {
-         gr1p2.Start = true;
-         gr1p2.Stop = false;
-         mPosB.needSave = true;
-         ClearStepVals2();
-         UpdateProgData();
-         if (mPosB.mTyre.Start == dt::DateTime())
-            mPosB.mTyre.Start = dt::Now();
-         mPosB.mTyre.Stop = dt::DateTime();
-         sbRB->Panels->Items[2]->Text = "Старт поз. Б!";
-         LogPrint( "Старт поз. Б!", clWhite);
-      }
-      else
-      {
-         gr1p2.Start = false;
-         gr1p2.Stop = true;
-         if (mPosB.needSave)
-         {
-            mPosB.mTyre.Stop = dt::Now();
-            btnLoadTestResPosB->Click(); // авто сохраниние
-         }
-         sbRB->Panels->Items[2]->Text = "Стоп поз. Б!";
-         LogPrint( "Стоп поз. Б!", clWhite);
-      }
-      OPCControlPause(tReadCycleTimer);
-      gr1p2.Write();
-      OPCControlResume(tReadCycleTimer);
-   }
-   else
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       sbStartB->Down = false;
       sbStopB->Down = true;
-      gr1p2.Start = false;
-      gr1p2.Stop = true;
       sbRB->Panels->Items[2]->Text =
          "Нельзя выдать команду - нет соединения со стендом!";
+      return;
    }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   if (sbStartB->Down && !sbStopB->Down)
+   {
+      gr1p2.Start = true;
+      gr1p2.Stop = false;
+      mPosB.needSave = true;
+      ClearStepVals2();
+      UpdateProgData();
+      if (mPosB.mTyre.Start == dt::DateTime())
+         mPosB.mTyre.Start = dt::Now();
+      mPosB.mTyre.Stop = dt::DateTime();
+      sbRB->Panels->Items[2]->Text = "Старт поз. Б!";
+      LogPrint( "Старт поз. Б!", clWhite);
+   }
+   else
+   {
+      gr1p2.Start = false;
+      gr1p2.Stop = true;
+      if (mPosB.needSave)
+      {
+         mPosB.mTyre.Stop = dt::Now();
+         btnLoadTestResPosB->Click(); // авто сохраниние
+      }
+      sbRB->Panels->Items[2]->Text = "Стоп поз. Б!";
+      LogPrint( "Стоп поз. Б!", clWhite);
+   }
+   gr1p2.Write();
 }
 
 // ---- End of OnRGPos2StartStopClick ----------------------------------------
 void __fastcall TmfRB::cbControlLateralBClick(TObject *Sender)
 { // вкл/выкл контроля бокового разрыва поз Б
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
    gr1p2.ControlLateral = cbControlLateralB->Checked;
    gr1p2.Write();
 }
 
 void __fastcall TmfRB::OnDrumOn(TObject *Sender)
 {
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      if (gr1p1.ManualMode && gr1p2.ManualMode)
-      {
-         cmnp.DrumOn = true;
-         cmnp.DrumOff = false;
-         if (pcRB->ActivePage == tsManual)
-         {
-            double t = leSetDrumSpeed->Text.Trim().ToDouble();
-            if (CheckSpeed(t))
-            {
-               cmnp.DrumSpeed = t;
-            }
-            else
-            {
-               MessageBox(Handle,
-                  _T("Значение скорости должно быть в пределах от MIN_SPEED до MAX_SPEED")
-                  , _T("Ошибка"), MB_ICONERROR | MB_OK);
-               return;
-            }
 
-            tbCurrentDrumSpeed->SelEnd = tbCurrentDrumSpeed->Max -static_cast<int>(cmnp.DrumSpeed);
-            tbCurrentDrumSpeed->SelStart = tbCurrentDrumSpeed->Max -static_cast<int>(cmnp.DrumSpeed);
-         }
-         if (pcRB->ActivePage == tsCalibration)
-         {
-            if (pcCalibration->ActivePage == tsSpeedCalibr)
-            {
-               cmnp.DrumSpeed = VS.TargetV[VS.Index];
-            }
-         }
-         OPCControlPause(tReadCycleTimer);
-         cmnp.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Барабан включен!";
-         LogPrint( "Барабан включен");
-      }
-      else
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить барабан - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &cmnp = inst_cpu.mCommonParams;
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   if (gr1p1.ManualMode && gr1p2.ManualMode)
+   {
+      cmnp.DrumOn = true;
+      cmnp.DrumOff = false;
+      if (pcRB->ActivePage == tsManual)
       {
-         sbRB->Panels->Items[2]->Text =
-            "Барабан не включен - стенд не в ручном режиме!";
+         double t = leSetDrumSpeed->Text.Trim().ToDouble();
+         if (CheckSpeed(t))
+         {
+            cmnp.DrumSpeed = t;
+         }
+         else
+         {
+            MessageBox(Handle,
+               _T("Значение скорости должно быть в пределах от MIN_SPEED до MAX_SPEED")
+               , _T("Ошибка"), MB_ICONERROR | MB_OK);
+            return;
+         }
+
+         tbCurrentDrumSpeed->SelEnd = tbCurrentDrumSpeed->Max -static_cast<int>(cmnp.DrumSpeed);
+         tbCurrentDrumSpeed->SelStart = tbCurrentDrumSpeed->Max -static_cast<int>(cmnp.DrumSpeed);
       }
+      if (pcRB->ActivePage == tsCalibration)
+      {
+         if (pcCalibration->ActivePage == tsSpeedCalibr)
+         {
+            cmnp.DrumSpeed = VS.TargetV[VS.Index];
+         }
+      }
+      cmnp.Write();
+      sbRB->Panels->Items[2]->Text = "Барабан включен!";
+      LogPrint( "Барабан включен");
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить барабан - нет соединения со стендом!";
+         "Барабан не включен - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 void __fastcall TmfRB::OnDrumOff(TObject *Sender)
 {
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode && gr1p2.ManualMode)
-      {
-         cmnp.DrumOn = false;
-         cmnp.DrumOff = true;
-         OPCControlPause(tReadCycleTimer);
-         cmnp.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Барабан выключен!";
-         LogPrint( "Барабан выключен");
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Барабан не выключен - стенд не в ручном режиме!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя выключить барабан - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &cmnp = inst_cpu.mCommonParams;
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   if (gr1p1.ManualMode && gr1p2.ManualMode)
+   {
+      cmnp.DrumOn = false;
+      cmnp.DrumOff = true;
+      cmnp.Write();
+      sbRB->Panels->Items[2]->Text = "Барабан выключен!";
+      LogPrint( "Барабан выключен");
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя выключить барабан - нет соединения со стендом!";
+         "Барабан не выключен - стенд не в ручном режиме!";
    }
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnCarriage1To(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode)
-      {
-         double t = leSetLoad1->Text.Trim().ToDouble();
-         if (CheckLoad(t))
-            gr3p1.Loading = t;
-         else
-         {
-            MessageBox(Handle,
-               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
-               _T("Ошибка"), MB_ICONERROR | MB_OK);
-            return;
-         }
-         tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
-         tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
-         gr1p1.CarriageTo = true;
-         gr1p1.CarriageFrom = false;
-         sbCarr1Fm->Down = gr1p1.CarriageFrom;
-         sbCarr1To->Down = gr1p1.CarriageTo;
-         OPCControlPause(tReadCycleTimer);
-         gr3p1.Write();
-         gr1p1.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Каретка А движется к барабану!";
-         LogPrint(
-            "Ручной режим, каретка 1 к барабану, установлена нагрузка=" +
-            FloatToStr(gr3p1.Loading));
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить каретку А - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   if (gr1p1.ManualMode)
+   {
+      double t = leSetLoad1->Text.Trim().ToDouble();
+      if (CheckLoad(t))
+         gr3p1.Loading = t;
       else
       {
-         sbRB->Panels->Items[2]->Text =
-            "Каретка А не включена - стенд не в ручном режиме!";
+         MessageBox(Handle,
+            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Ошибка"), MB_ICONERROR | MB_OK);
+         return;
       }
+      tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
+      tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
+      gr1p1.CarriageTo = true;
+      gr1p1.CarriageFrom = false;
+      sbCarr1Fm->Down = gr1p1.CarriageFrom;
+      sbCarr1To->Down = gr1p1.CarriageTo;
+      gr3p1.Write();
+      gr1p1.Write();
+      sbRB->Panels->Items[2]->Text = "Каретка А движется к барабану!";
+      LogPrint(
+         "Ручной режим, каретка 1 к барабану, установлена нагрузка=" +
+         FloatToStr(gr3p1.Loading));
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить каретку А - нет соединения со стендом!";
+         "Каретка А не включена - стенд не в ручном режиме!";
    }
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnCarriage1From(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode)
-      {
-         double t = leSetLoad1->Text.Trim().ToDouble();
-         if (CheckLoad(t))
-            gr3p1.Loading = t;
-         else
-         {
-            MessageBox(Handle,
-               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
-               _T("Ошибка"), MB_ICONERROR | MB_OK);
-            return;
-         }
-         tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
-         tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
-         gr1p1.CarriageTo = false;
-         gr1p1.CarriageFrom = true;
-         sbCarr1Fm->Down = gr1p1.CarriageFrom;
-         sbCarr1To->Down = gr1p1.CarriageTo;
-         OPCControlPause(tReadCycleTimer);
-         gr3p1.Write();
-         gr1p1.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Каретка А движется от барабана!";
-         LogPrint(
-            "Ручной режим, каретка 1 от барабана, установлена нагрузка=" +
-            FloatToStr(gr3p1.Loading));
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить каретку А - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   if (gr1p1.ManualMode)
+   {
+      double t = leSetLoad1->Text.Trim().ToDouble();
+      if (CheckLoad(t))
+         gr3p1.Loading = t;
       else
       {
-         sbRB->Panels->Items[2]->Text =
-            "Каретка А не включена - стенд не в ручном режиме!";
+         MessageBox(Handle,
+            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Ошибка"), MB_ICONERROR | MB_OK);
+         return;
       }
+      tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
+      tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
+      gr1p1.CarriageTo = false;
+      gr1p1.CarriageFrom = true;
+      sbCarr1Fm->Down = gr1p1.CarriageFrom;
+      sbCarr1To->Down = gr1p1.CarriageTo;
+      gr3p1.Write();
+      gr1p1.Write();
+      sbRB->Panels->Items[2]->Text = "Каретка А движется от барабана!";
+      LogPrint(
+         "Ручной режим, каретка 1 от барабана, установлена нагрузка=" +
+         FloatToStr(gr3p1.Loading));
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить каретку А - нет соединения со стендом!";
+         "Каретка А не включена - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnCarriage1Stop(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode)
-      {
-         gr1p1.CarriageTo = false;
-         gr1p1.CarriageFrom = false;
-         sbCarr1Fm->Down = gr1p1.CarriageFrom;
-         sbCarr1To->Down = gr1p1.CarriageTo;
-         OPCControlPause(tReadCycleTimer);
-         gr1p1.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Каретка А остановлена!";
-         LogPrint( "Ручной режим, каретка 1 остановлена");
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Каретка А не остановлена - стенд не в ручном режиме!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя остановить каретку А - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   if (gr1p1.ManualMode)
+   {
+      gr1p1.CarriageTo = false;
+      gr1p1.CarriageFrom = false;
+      sbCarr1Fm->Down = gr1p1.CarriageFrom;
+      sbCarr1To->Down = gr1p1.CarriageTo;
+      gr1p1.Write();
+      sbRB->Panels->Items[2]->Text = "Каретка А остановлена!";
+      LogPrint( "Ручной режим, каретка 1 остановлена");
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя остановить каретку А - нет соединения со стендом!";
+         "Каретка А не остановлена - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnCarriage2To(TObject *Sender)
 {
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p2.ManualMode)
-      {
-         double t = leSetLoad2->Text.Trim().ToDouble();
-         if (CheckLoad(t))
-            gr3p2.Loading = t;
-         else
-         {
-            MessageBox(Handle,
-               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
-               _T("Ошибка"), MB_ICONERROR | MB_OK);
-            return;
-         }
-         tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
-         tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
-         gr1p2.CarriageTo = true;
-         gr1p2.CarriageFrom = false;
-         sbCarr2Fm->Down = gr1p2.CarriageFrom;
-         sbCarr2To->Down = gr1p2.CarriageTo;
-         OPCControlPause(tReadCycleTimer);
-         gr3p2.Write();
-         gr1p2.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Каретка Б движется к барабану!";
-         LogPrint(
-            "Ручной режим, каретка 2 к барабану, установлена нагрузка=" +
-            FloatToStr(gr3p2.Loading));
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить каретку Б - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   if (gr1p2.ManualMode)
+   {
+      double t = leSetLoad2->Text.Trim().ToDouble();
+      if (CheckLoad(t))
+         gr3p2.Loading = t;
       else
       {
-         sbRB->Panels->Items[2]->Text =
-            "Каретка Б не включена - стенд не в ручном режиме!";
+         MessageBox(Handle,
+            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Ошибка"), MB_ICONERROR | MB_OK);
+         return;
       }
+      tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
+      tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
+      gr1p2.CarriageTo = true;
+      gr1p2.CarriageFrom = false;
+      sbCarr2Fm->Down = gr1p2.CarriageFrom;
+      sbCarr2To->Down = gr1p2.CarriageTo;
+      gr3p2.Write();
+      gr1p2.Write();
+      sbRB->Panels->Items[2]->Text = "Каретка Б движется к барабану!";
+      LogPrint(
+         "Ручной режим, каретка 2 к барабану, установлена нагрузка=" +
+         FloatToStr(gr3p2.Loading));
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить каретку Б - нет соединения со стендом!";
+         "Каретка Б не включена - стенд не в ручном режиме!";
    }
 }
 // ---------------------------------------------------------------------------
@@ -2437,107 +2444,106 @@ void __fastcall TmfRB::OnCarriage2To(TObject *Sender)
 void __fastcall TmfRB::OnCarriage2Stop(TObject *Sender)
 {
    CheckStend();
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p2.ManualMode)
-      {
-         gr1p2.CarriageTo = false;
-         gr1p2.CarriageFrom = false;
-         sbCarr2Fm->Down = gr1p2.CarriageFrom;
-         sbCarr2To->Down = gr1p2.CarriageTo;
-         OPCControlPause(tReadCycleTimer);
-         gr1p2.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Каретка Б остановлена!";
-         LogPrint( "Ручной режим, каретка 2 остановлена");
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Каретка Б не остановлена - стенд не в ручном режиме!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя остановить каретку Б - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   if (gr1p2.ManualMode)
+   {
+      gr1p2.CarriageTo = false;
+      gr1p2.CarriageFrom = false;
+      sbCarr2Fm->Down = gr1p2.CarriageFrom;
+      sbCarr2To->Down = gr1p2.CarriageTo;
+      gr1p2.Write();
+      sbRB->Panels->Items[2]->Text = "Каретка Б остановлена!";
+      LogPrint( "Ручной режим, каретка 2 остановлена");
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя остановить каретку Б - нет соединения со стендом!";
+         "Каретка Б не остановлена - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnCarriage2From(TObject *Sender)
 {
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p2.ManualMode)
-      {
-         double t = leSetLoad2->Text.Trim().ToDouble();
-         if (CheckLoad(t))
-            gr3p2.Loading = t;
-         else
-         {
-            MessageBox(Handle,
-               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
-               _T("Ошибка"), MB_ICONERROR | MB_OK);
-            return;
-         }
-         tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
-         tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
-         gr1p2.CarriageTo = false;
-         gr1p2.CarriageFrom = true;
-         sbCarr2Fm->Down = gr1p2.CarriageFrom;
-         sbCarr2To->Down = gr1p2.CarriageTo;
-         OPCControlPause(tReadCycleTimer);
-         gr3p2.Write();
-         gr1p2.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Каретка Б движется от барабана!";
-         LogPrint(
-            "Ручной режим, каретка 2 от барабана, установлена нагрузка=" +
-            FloatToStr(gr3p2.Loading));
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить каретку Б - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   if (gr1p2.ManualMode)
+   {
+      double t = leSetLoad2->Text.Trim().ToDouble();
+      if (CheckLoad(t))
+         gr3p2.Loading = t;
       else
       {
-         sbRB->Panels->Items[2]->Text =
-            "Каретка Б не включена - стенд не в ручном режиме!";
+         MessageBox(Handle,
+            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Ошибка"), MB_ICONERROR | MB_OK);
+         return;
       }
+      tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
+      tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
+      gr1p2.CarriageTo = false;
+      gr1p2.CarriageFrom = true;
+      sbCarr2Fm->Down = gr1p2.CarriageFrom;
+      sbCarr2To->Down = gr1p2.CarriageTo;
+      gr3p2.Write();
+      gr1p2.Write();
+      sbRB->Panels->Items[2]->Text = "Каретка Б движется от барабана!";
+      LogPrint(
+         "Ручной режим, каретка 2 от барабана, установлена нагрузка=" +
+         FloatToStr(gr3p2.Loading));
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить каретку Б - нет соединения со стендом!";
+         "Каретка Б не включена - стенд не в ручном режиме!";
    }
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnGeneralStop(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
    CheckStend();
-   if (OPCConnectOK)
-   {
-      // *Reset1=true;  *Reset2=true;
-      gr1p1.Start = false;
-      gr1p1.Stop = true;
-      gr1p2.Start = false;
-      gr1p2.Stop = true;
-      OPCControlPause(tReadCycleTimer);
-      gr1p1.Write();
-      gr1p2.Write();
-      OPCControlResume(tReadCycleTimer);
-      sbRB->Panels->Items[2]->Text = "Стенд остановлен!";
-      LogPrint( "Общая остановка стенда!");
-   }
-   else
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       sbRB->Panels->Items[2]->Text =
          "Нельзя остановить стенд - нет соединения со стендом!";
+      return;
    }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   // *Reset1=true;  *Reset2=true;
+   gr1p1.Start = false;
+   gr1p1.Stop = true;
+   gr1p2.Start = false;
+   gr1p2.Stop = true;
+   gr1p1.Write();
+   gr1p2.Write();
+   sbRB->Panels->Items[2]->Text = "Стенд остановлен!";
+   LogPrint( "Общая остановка стенда!");
+
 }
 // ---------------------------------------------------------------------------
 
@@ -2556,8 +2562,6 @@ void __fastcall TmfRB::OnTestModeChange(TObject *Sender)
 
 void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
 {
-   // Handle1On=false;
-   // Handle2On=false;
    mfRB->Left = 0;
    mfRB->Top = 0;
    mfRB->Height = MFHEIGHT;
@@ -2608,8 +2612,6 @@ void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
    DesignSpdCalibrPanel();
    DesignTSertPanel();
    DesignRSertPanel();
-   // Handle1On=true;
-   // Handle2On=true;
 }
 // ---------------------------------------------------------------------------
 
@@ -2657,12 +2659,23 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
       return;
    }
    LogPrint("Загрузка программы по пути в поз. А!", clAqua);
+
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Недьзя загрузить программу по пути в поз. А - нет связи со станком!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. А!";
    // читаем программу из ячеек и загружаем в контроллер поз. А
-   auto &gr4 = cpu::CpuMemory::Instance().mPos1.mGr4;
-   auto &gr6 = cpu::CpuMemory::Instance().mPos1.mGr6;
+   auto &gr4 = *inst_cpu.mPos1->mGr4;
+   auto &gr6 = *inst_cpu.mPos1->mGr6;
    PathPrg.ToCpu( gr4, gr6 );
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
    mPosA.RunProgName = PathPrg.SProgName;
    SetCurrProgA(mPosA.RunProgName);
    stP1L2ProgNameA->Caption = AnsiString(mPosA.RunProgName.c_str());
@@ -2675,22 +2688,12 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    LogPrint( "Программа по пути, поз. А: путь=" +
       FloatToStrF(gr3p1.S_end_cycle, ffFixed, 9, 2) + ", шагов программы=" +
       String(gr3p1.StepsQty) + ", опросов=" + String(gr3p1.PollsQty));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      OPCControlPause(tReadCycleTimer);
-      gr3p1.Write();
-      gr4.Write();
-      gr6.Write();
-      OPCControlResume(tReadCycleTimer);
-      LogPrint( "Программа по пути загружена в поз. А!");
-      sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. А!";
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по пути в поз. А - нет связи со станком!";
-   }
+
+   gr3p1.Write();
+   gr4.Write();
+   gr6.Write();
+   LogPrint( "Программа по пути загружена в поз. А!");
+   sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. А!";
 }
 // ---------------------------------------------------------------------------
 
@@ -2701,14 +2704,25 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
       return;
    }
    LogPrint("Загрузка программы по пути в поз. Б!", clAqua);
+
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Недьзя загрузить программу по пути в поз. Б - нет связи со станком!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    sbRB->Panels->Items[2]->Text = "Загрузка программы по пути в поз. Б!";
    // читаем программу из ячеек и загружаем в контроллер поз. B
-   auto &gr8 = cpu::CpuMemory::Instance().mPos2.mGr4;
-   auto &gr10 = cpu::CpuMemory::Instance().mPos2.mGr6;
+   auto &gr8 = *inst_cpu.mPos2->mGr4;
+   auto &gr10 = *inst_cpu.mPos2->mGr6;
    PathPrg.ToCpu( gr8, gr10 );
    mPosB.RunProgName = PathPrg.SProgName;
    SetCurrProgB(mPosB.RunProgName);
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    stP1L2ProgNameB->Caption = AnsiString(mPosB.RunProgName.c_str());
    mPosB.mTyre.InitPressure = StrToFlt(leSTyrePressure->Text);
    gr3p2.S_end_cycle = mPosB.mTyre.TotalS = StrToFlt(leTotalTestS->Text);
@@ -2719,25 +2733,16 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    LogPrint( "Программа по пути, поз. Б: путь=" +
       FloatToStrF(gr3p2.S_end_cycle, ffFixed, 9, 2) + ", шагов программы=" +
       String(gr3p2.StepsQty) + ", опросов=" + String(gr3p2.PollsQty));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      OPCControlPause(tReadCycleTimer);
-      gr3p2.Write();
-      gr8.Write();
-      gr10.Write();
-      OPCControlResume(tReadCycleTimer);
-      sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. Б!";
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по пути в поз. Б - нет связи со станком!";
-   }
+
+   gr3p2.Write();
+   gr8.Write();
+   gr10.Write();
+   sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. Б!";
+
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::DesignTProgTable(void)
+void TmfRB::DesignTProgTable(void)
    // создание таблицы для ввода программы испытаний по времени
 {
    const int Col0Width = 30, Col1Width = 80, Col2Width = 105, Col3Width = 67,
@@ -2976,9 +2981,20 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    {
       return;
    }
-   auto &gr5 = cpu::CpuMemory::Instance().mPos1.mGr5;
-   auto &gr6 = cpu::CpuMemory::Instance().mPos1.mGr6;
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
+
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Недьзя загрузить программу по времени в поз. А - нет связи со станком!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr5 = *inst_cpu.mPos1->mGr5;
+   auto &gr6 = *inst_cpu.mPos1->mGr6;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
    TimePrg.ToCpu( gr5, gr6 );
    mPosA.RunProgName = TimePrg.TProgName;
@@ -2994,29 +3010,20 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    LogPrint( "Программа по времени, поз. А: время=" +
       String(gr3p1.T_end_cycle) + ", шагов программы=" + String(gr3p1.StepsQty) +
       ", опросов=" + String(gr3p1.PollsQty));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      OPCControlPause(tReadCycleTimer);
-      btnResetResPosA->Click();
-      gr3p1.Write();
-      gr5.Write();
-      gr6.Write();
-      OPCControlResume(tReadCycleTimer);
-      btnCheckTProg->Enabled = false;
-      btnSaveTProgToFile->Enabled = true;
-      btnLoadTProgToPosA->Enabled = true;
-      btnLoadTProgToPosB->Enabled = true;
-      LogPrint( "Программа по времени загружена в поз. А!");
-      LogPrint("Программа по времени загружена в поз. А!", clAqua);
-      sbRB->Panels->Items[2]->Text = "Программа по времени загружена в поз. А!";
 
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по времени в поз. А - нет связи со станком!";
-   }
+
+   btnResetResPosA->Click();
+   gr3p1.Write();
+   gr5.Write();
+   gr6.Write();
+   btnCheckTProg->Enabled = false;
+   btnSaveTProgToFile->Enabled = true;
+   btnLoadTProgToPosA->Enabled = true;
+   btnLoadTProgToPosB->Enabled = true;
+   LogPrint( "Программа по времени загружена в поз. А!");
+   LogPrint("Программа по времени загружена в поз. А!", clAqua);
+   sbRB->Panels->Items[2]->Text = "Программа по времени загружена в поз. А!";
+
 }
 // ---------------------------------------------------------------------------
 
@@ -3026,13 +3033,24 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
    {
       return;
    }
+
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Недьзя загрузить программу по времени в поз. Б - нет связи со станком!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
-   auto &gr9 = cpu::CpuMemory::Instance().mPos2.mGr5;
-   auto &gr10 = cpu::CpuMemory::Instance().mPos2.mGr6;
+   auto &gr9 = *inst_cpu.mPos2->mGr5;
+   auto &gr10 = *inst_cpu.mPos2->mGr6;
    TimePrg.ToCpu( gr9, gr10 );
    mPosB.RunProgName = TimePrg.TProgName;
    SetCurrProgB(mPosB.RunProgName);
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    stP1L2ProgNameB->Caption = AnsiString(mPosB.RunProgName.c_str());
    mPosB.mTyre.InitPressure = StrToFlt(leSTyrePressure->Text);
    gr3p2.S_end_cycle = mPosB.mTyre.TotalS = 0;
@@ -3044,28 +3062,19 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
    LogPrint( "Программа по времени, поз. Б: время=" +
       String(gr3p2.T_end_cycle) + ", шагов программы=" + String(gr3p2.StepsQty) +
       ", опросов=" + String(gr3p2.PollsQty));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      OPCControlPause(tReadCycleTimer);
-      btnResetResPosB->Click();
-      gr3p2.Write();
-      gr9.Write();
-      gr10.Write();
-      OPCControlResume(tReadCycleTimer);
-      btnCheckTProg->Enabled = false;
-      btnSaveTProgToFile->Enabled = true;
-      btnLoadTProgToPosA->Enabled = true;
-      btnLoadTProgToPosB->Enabled = true;
-      LogPrint( "Программа по времени загружена в поз. Б!");
-      LogPrint("Программа по времени загружена в поз. Б!", clAqua);
-      sbRB->Panels->Items[2]->Text = "Программа по времени загружена в поз. Б!";
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по времени в поз. Б - нет связи со станком!";
-   }
+
+   btnResetResPosB->Click();
+   gr3p2.Write();
+   gr9.Write();
+   gr10.Write();
+   btnCheckTProg->Enabled = false;
+   btnSaveTProgToFile->Enabled = true;
+   btnLoadTProgToPosA->Enabled = true;
+   btnLoadTProgToPosB->Enabled = true;
+   LogPrint( "Программа по времени загружена в поз. Б!");
+   LogPrint("Программа по времени загружена в поз. Б!", clAqua);
+   sbRB->Panels->Items[2]->Text = "Программа по времени загружена в поз. Б!";
+
 }
 // ---------------------------------------------------------------------------
 
@@ -3323,7 +3332,7 @@ void __fastcall TmfRB::OnLEKeyDown(TObject *Sender, WORD &Key,
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::DesignCmmnParPanel(void)
+void TmfRB::DesignCmmnParPanel(void)
    // расположение компонент на панели общих параметров
 {
    int C0Width = pParam1Width / 4;
@@ -3811,7 +3820,7 @@ void __fastcall TmfRB::DesignCmmnParPanel(void)
 }
 // ---- End of DesignCmmnParPanel --------------------------------------------
 
-void __fastcall TmfRB::DesignManualPanel(void)
+void TmfRB::DesignManualPanel(void)
    // расположение компонент на панели ручного управления
 {
    int gbHeight = tsManualHeight - 20;
@@ -4128,7 +4137,7 @@ void __fastcall TmfRB::DesignManualPanel(void)
 }
 // ---- End of DesignManualPanel ---------------------------------------------
 
-void __fastcall TmfRB::ShowTProg(void)
+void TmfRB::ShowTProg(void)
    // отобразить программу по времени на экране
 {
    leTProgName->Text = AnsiString(TimePrg.TProgName.c_str());
@@ -4155,7 +4164,7 @@ void __fastcall TmfRB::ShowTProg(void)
 }
 // ---- End of ShowTProg -----------------------------------------------------
 
-void __fastcall TmfRB::ShowSProg(void) // отобразить программу по пути на экране
+void TmfRB::ShowSProg(void) // отобразить программу по пути на экране
 {
    leSProgName->Text = AnsiString(PathPrg.SProgName.c_str());
    leSTyrePressure->Text = FloatToStrF(PathPrg.STyrePressure, ffFixed, 6, 1);
@@ -4376,7 +4385,7 @@ void __fastcall TmfRB::OnNewSProg(TObject *Sender)
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::ShowProtAData(void)
+void TmfRB::ShowProtAData(void)
    // отобразить шапку протокола в панели поз. А
 {
    pCurrentProtATtl->Caption =
@@ -4429,7 +4438,7 @@ void __fastcall TmfRB::ShowProtAData(void)
 }
 // ---- End of ShowProtAData -------------------------------------------------
 
-void __fastcall TmfRB::ShowProtBData(void)
+void TmfRB::ShowProtBData(void)
    // отобразить шапку протокола в панели поз. Б
 {
    pCurrentProtBTtl->Caption =
@@ -4480,7 +4489,7 @@ void __fastcall TmfRB::ShowProtBData(void)
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::ReadProtDataFmScrn(void)
+void TmfRB::ReadProtDataFmScrn(void)
    // прочитать данные протокола из экрана в InpTyre
 {
    InpTyre.ProtNo = StrToI(leProtocolNo->Text);
@@ -4514,7 +4523,7 @@ void __fastcall TmfRB::ReadProtDataFmScrn(void)
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::DesignNewProtPanel(void)
+void TmfRB::DesignNewProtPanel(void)
    // расположение компонент на панели нового протокола
 {
    int LblShift11 = leProtocolNo->EditLabel->Width, LblShift12 =
@@ -4686,7 +4695,7 @@ void __fastcall TmfRB::DesignNewProtPanel(void)
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::DesignProtAPanel(void)
+void TmfRB::DesignProtAPanel(void)
    // расположение компонент на панели протокола поз. А
 {
    int LblShift11 = lePerfSpecNoA->EditLabel->Width, LblShift12 =
@@ -4902,7 +4911,7 @@ void __fastcall TmfRB::DesignProtAPanel(void)
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::DesignProtBPanel(void)
+void TmfRB::DesignProtBPanel(void)
    // расположение компонент на панели протокола поз. Б
 {
    int LblShift11 = lePerfSpecNoB->EditLabel->Width, LblShift12 =
@@ -5197,7 +5206,7 @@ void __fastcall TmfRB::OnLoadProtToPosB(TObject *Sender)
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::ShowProtDataOnScrn(void)
+void TmfRB::ShowProtDataOnScrn(void)
    // отобразить данные протокола из InpTyre на экране
 {
    leProtocolNo->Text = String(InpTyre.ProtNo);
@@ -5231,18 +5240,18 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
 {
 #ifndef _mDEBUG
    CheckStend();
-   if (!OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       return;
    }
 #endif
-   OPCControlPause(tReadCycleTimer);
    LogPrint("Загрузка результатов испытаний из контроллера по поз. A");
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr7 = cpu::CpuMemory::Instance().mPos1.mGr7;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr7 = *inst_cpu.mPos1->mGr7;
    gr3p1.Read();
    gr7.Read();
-   OPCControlResume(tReadCycleTimer);
    mPosA.mTyre.TotalS = gr3p1.S_end_cycle; // fakt_distance_1
    mPosA.mTyre.TotalTime = gr3p1.T_end_cycle; // fakt_time_1
    mPosA.mTyre.TestMode = gr3p1.type_cycle;
@@ -5295,18 +5304,18 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
 {
 #ifndef _mDEBUG
    CheckStend();
-   if (!OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
       return;
    }
 #endif
-   OPCControlPause(tReadCycleTimer);
    LogPrint("Загрузка результатов испытаний из контроллера по поз. B");
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
-   auto &gr11 = cpu::CpuMemory::Instance().mPos2.mGr7;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   auto &gr11 = *inst_cpu.mPos2->mGr7;
    gr3p2.Read();
    gr11.Read();
-   OPCControlResume(tReadCycleTimer);
    mPosB.mTyre.TotalS = gr3p2.S_end_cycle; // fakt_distance_2
    mPosB.mTyre.TotalTime = gr3p2.T_end_cycle; // fakt_time_2
    mPosB.mTyre.TestMode = gr3p2.type_cycle;
@@ -5357,7 +5366,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
 
 void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
 {
-   int res = Application->MessageBox(L"Подтвердите завершение работы",
+   int res = MessageBoxW(Handle, L"Подтвердите завершение работы",
       L"Выйти из программы?", MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2);
    if (res == IDNO)
    {
@@ -5372,8 +5381,11 @@ void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
 
 void __fastcall TmfRB::OnPrintProtPosAToFile(TObject *Sender)
 { // Сохранить результаты испытаний в файле  А
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
    String FileName;
    if (Sender == acPrintProtPosAToFile)
    { // ручное сохранение
@@ -5395,8 +5407,11 @@ void __fastcall TmfRB::OnPrintProtPosAToFile(TObject *Sender)
 
 void __fastcall TmfRB::OnPrintProtPosBToFile(TObject *Sender)
 { // Сохранить результаты испытаний в файле Б
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
    String FileName;
    if (Sender == acProtTitleFileSaveAs)
    { // ручное сохранение
@@ -5450,7 +5465,17 @@ void __fastcall TmfRB::OnVCalibrCalc(TObject *Sender)
 
 void __fastcall TmfRB::OnNextCalibrVBtn(TObject *Sender)
 {
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя задать скорость - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &cmnp = inst_cpu.mCommonParams;
 
    int Ind = VS.Index;
    int RowCnt = sgSpeedCalibr->RowCount;
@@ -5486,22 +5511,24 @@ void __fastcall TmfRB::OnNextCalibrVBtn(TObject *Sender)
       sgSpeedCalibr->TopRow++;
    leCurrentVSet->Text = FloatToStrF(VS.TargetV[VS.Index], ffFixed, 6, 2);
    cmnp.DrumSpeed = VS.TargetV[VS.Index];
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      cmnp.Write();
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя задать скорость - нет соединения со стендом!";
-   }
+   cmnp.Write();
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnPrevCalibrVBtn(TObject *Sender)
 {
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя задать скорость - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &cmnp = inst_cpu.mCommonParams;
    int Ind = VS.Index;
    int RowCnt = sgSpeedCalibr->RowCount;
    // перерисовка предыдущей ячейки
@@ -5533,17 +5560,7 @@ void __fastcall TmfRB::OnPrevCalibrVBtn(TObject *Sender)
       sgSpeedCalibr->TopRow--;
    leCurrentVSet->Text = FloatToStrF(VS.TargetV[VS.Index], ffFixed, 6, 2);
    cmnp.DrumSpeed = VS.TargetV[VS.Index];
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      cmnp.Write();
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя задать скорость - нет соединения со стендом!";
-   }
-
+   cmnp.Write();
 }
 // ---------------------------------------------------------------------------
 
@@ -5631,225 +5648,240 @@ void __fastcall TmfRB::OnPrintSpdCalibrProtocol(TObject *Sender)
 
 void __fastcall TmfRB::OnPump1On(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode && gr1p2.ManualMode)
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить насос - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+
+   if (gr1p1.ManualMode && gr1p2.ManualMode)
+   {
+      gr1p1.PumpOn = true;
+      gr1p1.KeepLoad = true;
+      if (pcRB->ActivePage == tsCalibration)
       {
-         gr1p1.PumpOn = true;
-         gr1p1.KeepLoad = true;
-         if (pcRB->ActivePage == tsCalibration)
+         // if(pcCalibration->ActivePage==tsLoadCalibrA || pcCalibration->ActivePage==tsLoadCalibrB){
+         gr3p1.Loading = mPosA.mLdS.TargetLd[mPosA.mLdS.Index];
+         LogPrint("Mode: LoadSert, LoadingA=" + FloatToStr(gr3p1.Loading));
+         LogPrint(
+            "Режим аттестации нагрузки, насос 1 включен, установлена нагрузка=" +
+            FloatToStr(gr3p1.Loading));
+         // }
+      }
+      else if (pcRB->ActivePage == tsSert)
+      {
+         if (pcSert->ActivePage == tsLoadSert)
          {
-            // if(pcCalibration->ActivePage==tsLoadCalibrA || pcCalibration->ActivePage==tsLoadCalibrB){
-            gr3p1.Loading = mPosA.mLdS.TargetLd[mPosA.mLdS.Index];
-            LogPrint("Mode: LoadSert, LoadingA=" + FloatToStr(gr3p1.Loading));
+            gr3p1.Loading = mPosA.mLdC.TargetLd[mPosA.mLdC.Index];
+            LogPrint("Mode: LoadCalibr, LoadingA=" + FloatToStr(gr3p1.Loading));
             LogPrint(
-               "Режим аттестации нагрузки, насос 1 включен, установлена нагрузка=" +
+               "Режим калибровки нагрузки, насос 1 включен, установлена нагрузка=" +
                FloatToStr(gr3p1.Loading));
-            // }
+            leCurrentLoadSertSetA->Text =
+               FloatToStrF(gr3p1.Loading, ffFixed, 6, 2);
          }
-         else if (pcRB->ActivePage == tsSert)
-         {
-            if (pcSert->ActivePage == tsLoadSert)
-            {
-               gr3p1.Loading = mPosA.mLdC.TargetLd[mPosA.mLdC.Index];
-               LogPrint("Mode: LoadCalibr, LoadingA=" + FloatToStr(gr3p1.Loading));
-               LogPrint(
-                  "Режим калибровки нагрузки, насос 1 включен, установлена нагрузка=" +
-                  FloatToStr(gr3p1.Loading));
-               leCurrentLoadSertSetA->Text =
-                  FloatToStrF(gr3p1.Loading, ffFixed, 6, 2);
-            }
-         }
-         OPCControlPause(tReadCycleTimer);
-         gr3p1.Write();
-         gr1p1.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Насос 1 включен!";
+      }
+      gr3p1.Write();
+      gr1p1.Write();
+      sbRB->Panels->Items[2]->Text = "Насос 1 включен!";
 #ifdef USEPROCESSDELAY
-         TLabeledEdit *leMeasLoad = 0;
-         if (Sender == btnSertPumpOnA)
-         {
-            leMeasLoad = leMeasLoadSertA;
-         }
-         if (Sender == btnPumpOnA)
-         {
-            leMeasLoad = leMeasuredLoadA;
-         }
-         if (leMeasLoad)
-         {
-            leMeasLoad->ReadOnly = true;
-            leMeasLoad->Color = clSilver;
-            const int slp = 500; // 500 мс для слипа
-            for (int i = 0; i < DELAY_TIME; i += slp)
-            {
-               Sleep(slp);
-               Application->ProcessMessages(); // обработка сообщений винды
-            }
-            leMeasLoad->Color = clWindow;
-            leMeasLoad->ReadOnly = false;
-         }
-#endif
-      }
-      else
+      TLabeledEdit *leMeasLoad = 0;
+      if (Sender == btnSertPumpOnA)
       {
-         sbRB->Panels->Items[2]->Text =
-            "Насос 1 не включен - стенд не в ручном режиме!";
+         leMeasLoad = leMeasLoadSertA;
       }
+      if (Sender == btnPumpOnA)
+      {
+         leMeasLoad = leMeasuredLoadA;
+      }
+      if (leMeasLoad)
+      {
+         leMeasLoad->ReadOnly = true;
+         leMeasLoad->Color = clSilver;
+         const int slp = 500; // 500 мс для слипа
+         for (int i = 0; i < DELAY_TIME; i += slp)
+         {
+            Sleep(slp);
+            Application->ProcessMessages(); // обработка сообщений винды
+         }
+         leMeasLoad->Color = clWindow;
+         leMeasLoad->ReadOnly = false;
+      }
+#endif
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить насос - нет соединения со стендом!";
+         "Насос 1 не включен - стенд не в ручном режиме!";
    }
+
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnPump1Off(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode && gr1p2.ManualMode)
-      {
-         gr1p1.PumpOn = false;
-         gr1p1.KeepLoad = false;
-         OPCControlPause(tReadCycleTimer);
-         gr1p1.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Насос 1 выключен!";
-         LogPrint( "Насос 1 выключен");
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Насос 1 не выключен - стенд не в ручном режиме!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя выключить насос - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   if (gr1p1.ManualMode && gr1p2.ManualMode)
+   {
+      gr1p1.PumpOn = false;
+      gr1p1.KeepLoad = false;
+      gr1p1.Write();
+      sbRB->Panels->Items[2]->Text = "Насос 1 выключен!";
+      LogPrint( "Насос 1 выключен");
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя выключить насос - нет соединения со стендом!";
+         "Насос 1 не выключен - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnPump2On(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode && gr1p2.ManualMode)
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя включить насос - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   if (gr1p1.ManualMode && gr1p2.ManualMode)
+   {
+      gr1p2.PumpOn = true;
+      gr1p2.KeepLoad = true;
+      if (pcRB->ActivePage == tsCalibration)
       {
-         gr1p2.PumpOn = true;
-         gr1p2.KeepLoad = true;
-         if (pcRB->ActivePage == tsCalibration)
-         {
-            // if(pcCalibration->ActivePage==tsLoadCalibrA || pcCalibration->ActivePage==tsLoadCalibrB){
-            gr3p2.Loading = mPosB.mLdS.TargetLd[mPosB.mLdS.Index];
-            // leCurrentLoadSertSetB->Text=FloatToStrF(*Loading_2,ffFixed,6,2);
-            LogPrint("Mode: LoadSert, LoadingB=" + FloatToStr(gr3p2.Loading));
-            LogPrint(
-               "Режим аттестации нагрузки, насос 2 включен, установлена нагрузка=" +
-               FloatToStr(gr3p2.Loading));
-            // }
-         }
-         else if (pcRB->ActivePage == tsSert)
-         {
-            gr3p2.Loading = mPosB.mLdC.TargetLd[mPosB.mLdC.Index];
-            // leCurrentLoadSertSetB->Text=FloatToStrF(*Loading_2,ffFixed,6,2);
-            LogPrint("Mode: LoadCalibr, LoadingB=" + FloatToStr(gr3p2.Loading));
-            LogPrint(
-               "Режим калибровки нагрузки, насос 2 включен, установлена нагрузка=" +
-               FloatToStr(gr3p2.Loading));
-         }
-         OPCControlPause(tReadCycleTimer);
-         gr3p2.Write();
-         gr1p2.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Насос 2 включен!";
+         // if(pcCalibration->ActivePage==tsLoadCalibrA || pcCalibration->ActivePage==tsLoadCalibrB){
+         gr3p2.Loading = mPosB.mLdS.TargetLd[mPosB.mLdS.Index];
+         // leCurrentLoadSertSetB->Text=FloatToStrF(*Loading_2,ffFixed,6,2);
+         LogPrint("Mode: LoadSert, LoadingB=" + FloatToStr(gr3p2.Loading));
+         LogPrint(
+            "Режим аттестации нагрузки, насос 2 включен, установлена нагрузка=" +
+            FloatToStr(gr3p2.Loading));
+         // }
+      }
+      else if (pcRB->ActivePage == tsSert)
+      {
+         gr3p2.Loading = mPosB.mLdC.TargetLd[mPosB.mLdC.Index];
+         // leCurrentLoadSertSetB->Text=FloatToStrF(*Loading_2,ffFixed,6,2);
+         LogPrint("Mode: LoadCalibr, LoadingB=" + FloatToStr(gr3p2.Loading));
+         LogPrint(
+            "Режим калибровки нагрузки, насос 2 включен, установлена нагрузка=" +
+            FloatToStr(gr3p2.Loading));
+      }
+      gr3p2.Write();
+      gr1p2.Write();
+      sbRB->Panels->Items[2]->Text = "Насос 2 включен!";
 #ifdef USEPROCESSDELAY
-         TLabeledEdit *leMeasLoad = 0;
-         if (Sender == btnSertPumpOnB)
-         {
-            leMeasLoad = leMeasLoadSertB;
-         }
-         if (Sender == btnPumpOnB)
-         {
-            leMeasLoad = leMeasuredLoadB;
-         }
-         if (leMeasLoad)
-         {
-            leMeasLoad->ReadOnly = true;
-            leMeasLoad->Color = clSilver;
-            const int slp = 500; // 500 мс для слипа
-            for (int i = 0; i < DELAY_TIME; i += slp)
-            {
-               Sleep(slp);
-               Application->ProcessMessages(); // обработка сообщений винды
-            }
-            leMeasLoad->Color = clWindow;
-            leMeasLoad->ReadOnly = false;
-         }
-#endif
-      }
-      else
+      TLabeledEdit *leMeasLoad = 0;
+      if (Sender == btnSertPumpOnB)
       {
-         sbRB->Panels->Items[2]->Text =
-            "Насос 2 не включен - стенд не в ручном режиме!";
+         leMeasLoad = leMeasLoadSertB;
       }
+      if (Sender == btnPumpOnB)
+      {
+         leMeasLoad = leMeasuredLoadB;
+      }
+      if (leMeasLoad)
+      {
+         leMeasLoad->ReadOnly = true;
+         leMeasLoad->Color = clSilver;
+         const int slp = 500; // 500 мс для слипа
+         for (int i = 0; i < DELAY_TIME; i += slp)
+         {
+            Sleep(slp);
+            Application->ProcessMessages(); // обработка сообщений винды
+         }
+         leMeasLoad->Color = clWindow;
+         leMeasLoad->ReadOnly = false;
+      }
+#endif
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя включить насос - нет соединения со стендом!";
+         "Насос 2 не включен - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnPump2Off(TObject *Sender)
 {
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
    CheckStend();
-   if (OPCConnectOK)
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
    {
-      if (gr1p1.ManualMode && gr1p2.ManualMode)
-      {
-         gr1p2.PumpOn = false;
-         gr1p2.KeepLoad = false;
-         OPCControlPause(tReadCycleTimer);
-         gr1p2.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text = "Насос 2 выключен!";
-         LogPrint( "Насос 2 выключен");
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Насос 2 не выключен - стенд не в ручном режиме!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя выключить насос - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+
+
+   if (gr1p1.ManualMode && gr1p2.ManualMode)
+   {
+      gr1p2.PumpOn = false;
+      gr1p2.KeepLoad = false;
+      gr1p2.Write();
+      sbRB->Panels->Items[2]->Text = "Насос 2 выключен!";
+      LogPrint( "Насос 2 выключен");
    }
    else
    {
       sbRB->Panels->Items[2]->Text =
-         "Нельзя выключить насос - нет соединения со стендом!";
+         "Насос 2 не выключен - стенд не в ручном режиме!";
    }
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя задать нагрузку - нет соединения со стендом!";
+      return;
+   }
+
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    sert::LSert *LdSert;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
@@ -5915,34 +5947,36 @@ void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
       LogPrint("Mode: Next load A, load=" + FloatToStr(*Loading));
    if (pos == 1)
       LogPrint("Mode: Next load B, load=" + FloatToStr(*Loading));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      for ( cpu::Position* ptr: cpu::CpuMemory::Instance().mPos )
-         ptr->mGr3.Write();
+
+   for ( cpu::Position* ptr: inst_cpu.mPos )
+      ptr->mGr3->Write();
 #ifdef USEPROCESSDELAY
-      const int slp = 500; // 500 мс для слипа
-      for (int i = 0; i < DELAY_TIME; i += slp)
-      {
-         Sleep(slp);
-         Application->ProcessMessages(); // обработка сообщений винды
-      }
-      leMeasLoad->Color = clWindow;
-      leMeasLoad->ReadOnly = false;
-#endif
-   }
-   else
+   const int slp = 500; // 500 мс для слипа
+   for (int i = 0; i < DELAY_TIME; i += slp)
    {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя задать нагрузку - нет соединения со стендом!";
+      Sleep(slp);
+      Application->ProcessMessages(); // обработка сообщений винды
    }
+   leMeasLoad->Color = clWindow;
+   leMeasLoad->ReadOnly = false;
+#endif
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя задать нагрузку - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    sert::LSert *LdSert;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
@@ -6013,27 +6047,19 @@ void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
       LogPrint("Mode: Next load A, load=" + FloatToStr(*Loading));
    if (pos == 1)
       LogPrint("Mode: Next load B, load=" + FloatToStr(*Loading));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      for ( cpu::Position* ptr: cpu::CpuMemory::Instance().mPos )
-         ptr->mGr3.Write();
+
+   for ( cpu::Position* ptr: inst_cpu.mPos )
+      ptr->mGr3->Write();
 #ifdef USEPROCESSDELAY
-      const int slp = 500; // 500 мс для слипа
-      for (int i = 0; i < DELAY_TIME; i += slp)
-      {
-         Sleep(slp);
-         Application->ProcessMessages(); // обработка сообщений винды
-      }
-      leMeasLoad->Color = clWindow;
-      leMeasLoad->ReadOnly = false;
-#endif
-   }
-   else
+   const int slp = 500; // 500 мс для слипа
+   for (int i = 0; i < DELAY_TIME; i += slp)
    {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя задать нагрузку - нет соединения со стендом!";
+      Sleep(slp);
+      Application->ProcessMessages(); // обработка сообщений винды
    }
+   leMeasLoad->Color = clWindow;
+   leMeasLoad->ReadOnly = false;
+#endif
 }
 // ---------------------------------------------------------------------------
 
@@ -6197,14 +6223,6 @@ void __fastcall TmfRB::OnNextCalibrTBtn(TObject *Sender)
    // sgLoadCalibrA->TopRow++;
    sgTbl->TopRow = 1;
    leMeas->Text = "0.0";
-   // if(pos==0)LogPrint("Mode: Next T A, Temp="+leMeas->Text);
-   // if(pos==1)LogPrint("Mode: Next T B, Temp="+leMeas->Text);
-   // if(OPCConnectOK) {
-   // pOPC->WriteGr3(Loading);
-   // }
-   // else {
-   // sbRB->Panels->Items[2]->Text="Нельзя задать нагрузку - нет соединения со стендом!";
-   // }
 }
 // ---------------------------------------------------------------------------
 
@@ -6255,22 +6273,8 @@ void __fastcall TmfRB::OnPrevCalibrTBtn(TObject *Sender)
       sgTbl->Cells[0][Ind + 1] = "  " + String(Ind + 1) + ":";
    else if (Ind < RowCnt - 1)
       sgTbl->Cells[0][Ind + 1] = " " + String(Ind + 1) + ":";
-   // прокрутка таблицы не требуется так как вся таблица на экране
-   // LogPrint("Next: TopRow="+String(sgLoadCalibrA->TopRow)+", mPosA.mLdS.Index="+String(Ind),clAqua);
-   // bool IndLowerThenMiddleTable=((Ind-sgLoadCalibrA->TopRow) > ((sgLoadCalibrA->VisibleRowCount)/2-1));
-   // bool RowRestGreatThenTable=(sgLoadCalibrA->RowCount-sgLoadCalibrA->TopRow)>(sgLoadCalibrA->VisibleRowCount);
-   // if(IndLowerThenMiddleTable && RowRestGreatThenTable)
-   // sgLoadCalibrA->TopRow++;
    sgTbl->TopRow = 1;
    leMeas->Text = "0.0";
-   // if(pos==0)LogPrint("Mode: Prev T A, Temp="+leMeas->Text);
-   // if(pos==1)LogPrint("Mode: Prev T B, Temp="+leMeas->Text);
-   // if(OPCConnectOK) {
-   // pOPC->WriteGr3(Loading);
-   // }
-   // else {
-   // sbRB->Panels->Items[2]->Text="Нельзя задать нагрузку - нет соединения со стендом!";
-   // }
 }
 // ---------------------------------------------------------------------------
 
@@ -6425,22 +6429,8 @@ void __fastcall TmfRB::OnNextCalibrRBtn(TObject *Sender)
       sgTbl->Cells[0][Ind + 1] = "  " + String(Ind + 1) + ":";
    else if (Ind < RowCnt - 1)
       sgTbl->Cells[0][Ind + 1] = " " + String(Ind + 1) + ":";
-   // прокрутка таблицы не требуется так как вся таблица на экране
-   // LogPrint("Next: TopRow="+String(sgLoadCalibrA->TopRow)+", mPosA.mLdS.Index="+String(Ind),clAqua);
-   // bool IndLowerThenMiddleTable=((Ind-sgLoadCalibrA->TopRow) > ((sgLoadCalibrA->VisibleRowCount)/2-1));
-   // bool RowRestGreatThenTable=(sgLoadCalibrA->RowCount-sgLoadCalibrA->TopRow)>(sgLoadCalibrA->VisibleRowCount);
-   // if(IndLowerThenMiddleTable && RowRestGreatThenTable)
-   // sgLoadCalibrA->TopRow++;
    sgTbl->TopRow = 1;
    leMeas->Text = "0.0";
-   // if(pos==0)LogPrint("Mode: Next T A, Temp="+leMeas->Text);
-   // if(pos==1)LogPrint("Mode: Next T B, Temp="+leMeas->Text);
-   // if(OPCConnectOK) {
-   // pOPC->WriteGr3(Loading);
-   // }
-   // else {
-   // sbRB->Panels->Items[2]->Text="Нельзя задать нагрузку - нет соединения со стендом!";
-   // }
 }
 // ---------------------------------------------------------------------------
 
@@ -6489,22 +6479,9 @@ void __fastcall TmfRB::OnPrevCalibrRBtn(TObject *Sender)
       sgTbl->Cells[0][Ind + 1] = "  " + String(Ind + 1) + ":";
    else if (Ind < RowCnt - 1)
       sgTbl->Cells[0][Ind + 1] = " " + String(Ind + 1) + ":";
-   // прокрутка таблицы не требуется так как вся таблица на экране
-   // LogPrint("Next: TopRow="+String(sgLoadCalibrA->TopRow)+", mPosA.mLdS.Index="+String(Ind),clAqua);
-   // bool IndLowerThenMiddleTable=((Ind-sgLoadCalibrA->TopRow) > ((sgLoadCalibrA->VisibleRowCount)/2-1));
-   // bool RowRestGreatThenTable=(sgLoadCalibrA->RowCount-sgLoadCalibrA->TopRow)>(sgLoadCalibrA->VisibleRowCount);
-   // if(IndLowerThenMiddleTable && RowRestGreatThenTable)
    // sgLoadCalibrA->TopRow++;
    sgTbl->TopRow = 1;
    leMeas->Text = "0.0";
-   // if(pos==0)LogPrint("Mode: Next T A, Temp="+leMeas->Text);
-   // if(pos==1)LogPrint("Mode: Next T B, Temp="+leMeas->Text);
-   // if(OPCConnectOK) {
-   // pOPC->WriteGr3(Loading);
-   // }
-   // else {
-   // sbRB->Panels->Items[2]->Text="Нельзя задать нагрузку - нет соединения со стендом!";
-   // }
 }
 // ---------------------------------------------------------------------------
 
@@ -6613,8 +6590,18 @@ void __fastcall TmfRB::OnPrintRCalibrProtB(TObject *Sender)
 
 void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя задать нагрузку - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    sert::LCalibr *LdCalibr;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
@@ -6679,34 +6666,38 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
       LogPrint("Mode: Next load A, load=" + FloatToStr(*Loading));
    if (pos == 1)
       LogPrint("Mode: Next load B, load=" + FloatToStr(*Loading));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      for ( cpu::Position* ptr: cpu::CpuMemory::Instance().mPos )
-         ptr->mGr3.Write();
+
+
+   for ( cpu::Position* ptr: inst_cpu.mPos )
+      ptr->mGr3->Write();
 #ifdef USEPROCESSDELAY
-      const int slp = 500; // 500 мс для слипа
-      for (int i = 0; i < DELAY_TIME; i += slp)
-      {
-         Sleep(slp);
-         Application->ProcessMessages(); // обработка сообщений винды
-      }
-      leMeasLoad->Color = clWindow;
-      leMeasLoad->ReadOnly = false;
-#endif
-   }
-   else
+   const int slp = 500; // 500 мс для слипа
+   for (int i = 0; i < DELAY_TIME; i += slp)
    {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя задать нагрузку - нет соединения со стендом!";
+      Sleep(slp);
+      Application->ProcessMessages(); // обработка сообщений винды
    }
+   leMeasLoad->Color = clWindow;
+   leMeasLoad->ReadOnly = false;
+#endif
+
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя задать нагрузку - нет соединения со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    sert::LCalibr *LdCalibr;
    TButton *btnNext, *btnPrev;
    TStringGrid *sgLoad;
@@ -6771,27 +6762,19 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
       LogPrint("Mode: Next load A, load=" + FloatToStr(*Loading));
    if (pos == 1)
       LogPrint("Mode: Next load B, load=" + FloatToStr(*Loading));
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      for ( cpu::Position* ptr: cpu::CpuMemory::Instance().mPos )
-         ptr->mGr3.Write();
+
+   for ( cpu::Position* ptr: inst_cpu.mPos )
+      ptr->mGr3->Write();
 #ifdef USEPROCESSDELAY
-      const int slp = 500; // 500 мс для слипа
-      for (int i = 0; i < DELAY_TIME; i += slp)
-      {
-         Sleep(slp);
-         Application->ProcessMessages(); // обработка сообщений винды
-      }
-      leMeasLoad->Color = clWindow;
-      leMeasLoad->ReadOnly = false;
-#endif
-   }
-   else
+   const int slp = 500; // 500 мс для слипа
+   for (int i = 0; i < DELAY_TIME; i += slp)
    {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя задать нагрузку - нет соединения со стендом!";
+      Sleep(slp);
+      Application->ProcessMessages(); // обработка сообщений винды
    }
+   leMeasLoad->Color = clWindow;
+   leMeasLoad->ReadOnly = false;
+#endif
 }
 // ---------------------------------------------------------------------------
 
@@ -6865,46 +6848,34 @@ void __fastcall TmfRB::OnLoadSertCalc(TObject *Sender)
 void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
 {
    CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя загрузить коэффициенты - нет связи со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    if ((TButton*)Sender == btnLoadSertAToPLC)
    {
-
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         ReadLSertTable(&mPosA.mLdC, sgLoadSertA);
-         // прочитали коэффициенты KA из таблицы
-         auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
-         mPosA.mLdC.LKSetting(gr12); // сохранили итоговые КА в А1
-         gr12.Write(); // записали А1 в DB71
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Коэффициенты калибровки тензодатчика по поз. А загружены в контроллер!";
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя загрузить коэффициенты - нет связи со стендом!";
-      }
+      ReadLSertTable(&mPosA.mLdC, sgLoadSertA);
+      // прочитали коэффициенты KA из таблицы
+      auto &gr12 = *inst_cpu.mPos1->mGr12;
+      mPosA.mLdC.LKSetting(gr12); // сохранили итоговые КА в А1
+      gr12.Write(); // записали А1 в DB71
+      sbRB->Panels->Items[2]->Text =
+         "Коэффициенты калибровки тензодатчика по поз. А загружены в контроллер!";
    }
    else if ((TButton*)Sender == btnLoadSertBToPLC)
    {
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         ReadLSertTable(&mPosB.mLdC, sgLoadSertB);
-         // прочитали коэффициенты KA из таблицы
-         auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
-         mPosB.mLdC.LKSetting(gr13); // сохранили итоговые КА в А1
-         gr13.Write(); // записали А2 в DB70
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Коэффициенты калибровки тензодатчика по поз. Б загружены в контроллер!";
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя загрузить коэффициенты - нет связи со стендом!";
-      }
+      ReadLSertTable(&mPosB.mLdC, sgLoadSertB);
+      // прочитали коэффициенты KA из таблицы
+      auto &gr13 = *inst_cpu.mPos2->mGr12;
+      mPosB.mLdC.LKSetting(gr13); // сохранили итоговые КА в А1
+      gr13.Write(); // записали А2 в DB70
+      sbRB->Panels->Items[2]->Text =
+         "Коэффициенты калибровки тензодатчика по поз. Б загружены в контроллер!";
    }
 }
 // ---------------------------------------------------------------------------
@@ -6955,27 +6926,27 @@ void __fastcall TmfRB::OnPrintLoadSertProtB(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSpeedCoefToPLC(TObject *Sender)
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя загрузить коэффициенты - нет связи со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
    gr3p1.CorrSetSpeed = StrToFlt(leSetSpeedCoef->Text);
    gr3p1.CorrMeasSpeed = StrToFlt(leMeasSpeedCoef->Text);
    LogPrint("Коэффициент корректировки задания скорости: " +
       FloatToStrF(gr3p1.CorrSetSpeed, ffFixed, 7, 4), clAqua);
    LogPrint("Коэффициент корректировки измерения скорости: " +
       FloatToStrF(gr3p1.CorrMeasSpeed, ffFixed, 7, 4), clAqua);
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      OPCControlPause(tReadCycleTimer);
-      gr3p1.Write();
-      OPCControlResume(tReadCycleTimer);
-      sbRB->Panels->Items[2]->Text =
-         "Коэффициенты корректировки скорости загружены в контроллер!";
-   }
-   else
-   {
-      sbRB->Panels->Items[2]->Text =
-         "Нельзя загрузить коэффициенты - нет связи со стендом!";
-   }
+
+   gr3p1.Write();
+   sbRB->Panels->Items[2]->Text =
+      "Коэффициенты корректировки скорости загружены в контроллер!";
 
 }
 // ---------------------------------------------------------------------------
@@ -6988,39 +6959,28 @@ void __fastcall TmfRB::OnLSertCoefReset(TObject *Sender)
    if (res == IDNO)
       return;
    CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя загрузить коэффициенты - нет связи со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    if ((TButton*)Sender == btnResetCalibrCoeffA)
    {
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
-         gr12.ResetKA(); // сбросили коэффициенты А1 в единичку // записали А1 в DB71
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Коэффициенты калибровки тензодатчика по поз. А в контроллере сброшены!";
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя загрузить коэффициенты - нет связи со стендом!";
-      }
+      auto &gr12 = *inst_cpu.mPos1->mGr12;
+      gr12.ResetKA(); // сбросили коэффициенты А1 в единичку // записали А1 в DB71
+      sbRB->Panels->Items[2]->Text =
+         "Коэффициенты калибровки тензодатчика по поз. А в контроллере сброшены!";
    }
    else if ((TButton*)Sender == btnResetCalibrCoeffB)
    {
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
-         gr13.ResetKA(); // сбросили коэффициенты А2 в единичку // записали А2 в DB70
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Коэффициенты калибровки тензодатчика по поз. Б в контроллере сброшены!";
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя загрузить коэффициенты - нет связи со стендом!";
-      }
+      auto &gr13 = *inst_cpu.mPos2->mGr12;
+      gr13.ResetKA(); // сбросили коэффициенты А2 в единичку // записали А2 в DB70
+      sbRB->Panels->Items[2]->Text =
+         "Коэффициенты калибровки тензодатчика по поз. Б в контроллере сброшены!";
    }
 }
 // ---------------------------------------------------------------------------
@@ -7099,8 +7059,18 @@ void __fastcall TmfRB::OnTLimitsCalc(TObject *Sender)
 
 void __fastcall TmfRB::OnTLimitsLoadToPLC(TObject *Sender)
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя загрузить пределы измерения температуры - нет связи со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    int pos;
    float *TempLowLimit, *TempUpLimit;
    TEdit *edLowLimit, *edUpLimit;
@@ -7124,29 +7094,19 @@ void __fastcall TmfRB::OnTLimitsLoadToPLC(TObject *Sender)
       return;
    *TempLowLimit = StrToFlt(edLowLimit->Text);
    *TempUpLimit = StrToFlt(edUpLimit->Text);
-   CheckStend();
-   if (OPCConnectOK)
-   {
-      OPCControlPause(tReadCycleTimer);
-      for ( cpu::Position* ptr: cpu::CpuMemory::Instance().mPos )
-         ptr->mGr3.Write();
-      OPCControlResume(tReadCycleTimer);
-      if (pos == 0)
-         sbRB->Panels->Items[2]->Text =
-            "Пределы измерения температуры по поз. А загружены в контроллер!";
-      else
-         sbRB->Panels->Items[2]->Text =
-            "Пределы измерения температуры по поз. Б загружены в контроллер!";
-   }
-   else
-   {
+
+   for ( cpu::Position* ptr: inst_cpu.mPos )
+      ptr->mGr3->Write();
+   if (pos == 0)
       sbRB->Panels->Items[2]->Text =
-         "Нельзя загрузить пределы измерения температуры - нет связи со стендом!";
-   }
+         "Пределы измерения температуры по поз. А загружены в контроллер!";
+   else
+      sbRB->Panels->Items[2]->Text =
+         "Пределы измерения температуры по поз. Б загружены в контроллер!";
 }
 // ---------------------------------------------------------------------------
 
-void __fastcall TmfRB::ReadLSertTable
+void TmfRB::ReadLSertTable
    ( // считывание значений из таблицы в массив
    sert::LCalibr *LC, TStringGrid *Table)
 {
@@ -7169,111 +7129,90 @@ void __fastcall TmfRB::ReadLSertTable
 void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
 {
    CheckStend();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя прочитать коэффициенты - нет связи со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    if ((TButton*)Sender == btnUploadSertAFmPLC)
    {
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         auto &gr12 = cpu::CpuMemory::Instance().mPos1.mGr12;
-         gr12.Read(); // прочитали коэффициенты А из DB71
-         mPosA.mLdC.LKRead(gr12); // сохранили прочитанные коэффициенты в ReadKA
-         for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
-         { // записали коэффициенты в таблицу
-            sgLoadSertA->Cells[4][i + 1] =
-               FloatToStrF(mPosA.mLdC. /* Read */ KA[i], ffFixed, 8, 5);
-         }
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Коэффициенты калибровки тензодатчика по поз. А загружены из контроллера!";
+      auto &gr12 = *inst_cpu.mPos1->mGr12;
+      gr12.Read(); // прочитали коэффициенты А из DB71
+      mPosA.mLdC.LKRead(gr12); // сохранили прочитанные коэффициенты в ReadKA
+      for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
+      { // записали коэффициенты в таблицу
+         sgLoadSertA->Cells[4][i + 1] =
+            FloatToStrF(mPosA.mLdC. /* Read */ KA[i], ffFixed, 8, 5);
       }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя прочитать коэффициенты - нет связи со стендом!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Коэффициенты калибровки тензодатчика по поз. А загружены из контроллера!";
    }
    else if ((TButton*)Sender == btnUploadSertBFmPLC)
    {
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         auto &gr13 = cpu::CpuMemory::Instance().mPos2.mGr12;
-         gr13.Read(); // прочитали коэффициенты А из DB70
-         mPosB.mLdC.LKRead(gr13); // сохранили прочитанные коэффициенты в ReadKA
-         for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
-         { // записали коэффициенты в таблицу
-            sgLoadSertB->Cells[4][i + 1] =
-               FloatToStrF(mPosB.mLdC. /* Read */ KA[i], ffFixed, 8, 5);
-         }
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Коэффициенты калибровки тензодатчика по поз. Б загружены из контроллера!";
+      auto &gr13 = *inst_cpu.mPos2->mGr12;
+      gr13.Read(); // прочитали коэффициенты А из DB70
+      mPosB.mLdC.LKRead(gr13); // сохранили прочитанные коэффициенты в ReadKA
+      for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
+      { // записали коэффициенты в таблицу
+         sgLoadSertB->Cells[4][i + 1] =
+            FloatToStrF(mPosB.mLdC. /* Read */ KA[i], ffFixed, 8, 5);
       }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя прочитать коэффициенты - нет связи со стендом!";
-      }
+      sbRB->Panels->Items[2]->Text =
+         "Коэффициенты калибровки тензодатчика по поз. Б загружены из контроллера!";
    }
 }
 // ---------------------------------------------------------------------------
 
 void __fastcall TmfRB::OnRShiftLoadToPLC(TObject *Sender)
 {
-   float shift;
    CheckStend();
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+   {
+      sbRB->Panels->Items[2]->Text =
+         "Нельзя загрузить смещения - нет связи со стендом!";
+      return;
+   }
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   float shift = 0 ;
    if ((TButton*)Sender == btnRShiftALoadToPLC)
    {
-      if (OPCConnectOK)
-      {
-         OPCControlPause(tReadCycleTimer);
-         LogPrint(
-            "Текущие значения пределов радиусов для поз. А:");
-         LogPrint( "Нижний: " + FloatToStrF(gr3p1.RadLowLimit, ffFixed,
-            7, 2) + ", верхний: " + FloatToStrF(gr3p1.RadUpLimit, ffFixed, 7, 2));
-         shift = StrToFlt(leRShiftA->Text);
-         gr3p1.RadLowLimit += shift;
-         gr3p1.RadUpLimit += shift;
-         LogPrint( "Новые значения пределов радиусов для поз. А:");
-         LogPrint( "Нижний: " + FloatToStrF(gr3p1.RadLowLimit, ffFixed,
-            7, 2) + ", верхний: " + FloatToStrF(gr3p1.RadUpLimit, ffFixed, 7, 2));
-         gr3p1.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Новые значения пределов радиуса по поз. А загружены в контроллер!";
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя загрузить смещения - нет связи со стендом!";
-      }
+      LogPrint(
+         "Текущие значения пределов радиусов для поз. А:");
+      LogPrint( "Нижний: " + FloatToStrF(gr3p1.RadLowLimit, ffFixed,
+         7, 2) + ", верхний: " + FloatToStrF(gr3p1.RadUpLimit, ffFixed, 7, 2));
+      shift = StrToFlt(leRShiftA->Text);
+      gr3p1.RadLowLimit += shift;
+      gr3p1.RadUpLimit += shift;
+      LogPrint( "Новые значения пределов радиусов для поз. А:");
+      LogPrint( "Нижний: " + FloatToStrF(gr3p1.RadLowLimit, ffFixed,
+         7, 2) + ", верхний: " + FloatToStrF(gr3p1.RadUpLimit, ffFixed, 7, 2));
+      gr3p1.Write();
+      sbRB->Panels->Items[2]->Text =
+         "Новые значения пределов радиуса по поз. А загружены в контроллер!";
    }
    else if ((TButton*)Sender == btnRShiftBLoadToPLC)
    {
-      if (OPCConnectOK)
-      {
-         LogPrint(
-         "Текущие значения пределов радиусов для поз. Б:");
-         LogPrint( "Нижний: " + FloatToStrF(gr3p2.RadLowLimit, ffFixed,
-            7, 2) + ", верхний: " + FloatToStrF(gr3p2.RadUpLimit, ffFixed, 7, 2));
-         shift = StrToFlt(leRShiftB->Text);
-         gr3p2.RadLowLimit += shift;
-         gr3p2.RadUpLimit += shift;
-         LogPrint( "Новые значения пределов радиусов для поз. Б:");
-         LogPrint( "Нижний: " + FloatToStrF(gr3p2.RadLowLimit, ffFixed,
-            7, 2) + ", верхний: " + FloatToStrF(gr3p2.RadUpLimit, ffFixed, 7, 2));
-         gr3p2.Write();
-         OPCControlResume(tReadCycleTimer);
-         sbRB->Panels->Items[2]->Text =
-            "Новые значения пределов радиуса по поз. Б загружены в контроллер!";
-      }
-      else
-      {
-         sbRB->Panels->Items[2]->Text =
-            "Нельзя загрузить смещения - нет связи со стендом!";
-      }
+      LogPrint(
+      "Текущие значения пределов радиусов для поз. Б:");
+      LogPrint( "Нижний: " + FloatToStrF(gr3p2.RadLowLimit, ffFixed,
+         7, 2) + ", верхний: " + FloatToStrF(gr3p2.RadUpLimit, ffFixed, 7, 2));
+      shift = StrToFlt(leRShiftB->Text);
+      gr3p2.RadLowLimit += shift;
+      gr3p2.RadUpLimit += shift;
+      LogPrint( "Новые значения пределов радиусов для поз. Б:");
+      LogPrint( "Нижний: " + FloatToStrF(gr3p2.RadLowLimit, ffFixed,
+         7, 2) + ", верхний: " + FloatToStrF(gr3p2.RadUpLimit, ffFixed, 7, 2));
+      gr3p2.Write();
+      sbRB->Panels->Items[2]->Text =
+         "Новые значения пределов радиуса по поз. Б загружены в контроллер!";
    }
 }
 // ---------------------------------------------------------------------------
@@ -7478,29 +7417,29 @@ void __fastcall TmfRB::leSetLoad1KeyPress(TObject *Sender, wchar_t &Key)
    if (Key == 13)
    {
       CheckStend();
-      if (OPCConnectOK)
+      auto& inst_cpu = cpu::CpuMemory::Instance();
+      if (!inst_cpu.IsConnected())
+         return;
+
+      std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+      auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+      auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+      if (gr1p1.ManualMode)
       {
-         auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-         auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-         if (gr1p1.ManualMode)
+         double t = leSetLoad1->Text.Trim().ToDouble();
+         if (CheckLoad(t))
          {
-            double t = leSetLoad1->Text.Trim().ToDouble();
-            if (CheckLoad(t))
-            {
-               gr3p1.Loading = t;
-               tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -int(gr3p1.Loading);
-               tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -int(gr3p1.Loading);
-               OPCControlPause(tReadCycleTimer);
-               gr3p1.Write();
-               OPCControlResume(tReadCycleTimer);
-               tsManual->SetFocus();
-            }
-            else
-            {
-               MessageBox(Handle,
-                  _T("Значение нагрузки должно быть в пределах от 0 до 115"),
-                  _T("Ошибка"), MB_ICONERROR | MB_OK);
-            }
+            gr3p1.Loading = t;
+            tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -int(gr3p1.Loading);
+            tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -int(gr3p1.Loading);
+            gr3p1.Write();
+            tsManual->SetFocus();
+         }
+         else
+         {
+            MessageBox(Handle,
+               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+               _T("Ошибка"), MB_ICONERROR | MB_OK);
          }
       }
    }
@@ -7511,29 +7450,29 @@ void __fastcall TmfRB::leSetLoad2KeyPress(TObject *Sender, wchar_t &Key)
    if (Key == 13)
    {
       CheckStend();
-      if (OPCConnectOK)
+      auto& inst_cpu = cpu::CpuMemory::Instance();
+      if (!inst_cpu.IsConnected())
+         return;
+
+      std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+      auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+      auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+      if (gr1p2.ManualMode)
       {
-         auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-         auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
-         if (gr1p2.ManualMode)
+         double t = leSetLoad2->Text.Trim().ToDouble();
+         if (CheckLoad(t))
          {
-            double t = leSetLoad2->Text.Trim().ToDouble();
-            if (CheckLoad(t))
-            {
-               gr3p2.Loading = t;
-               tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -int(gr3p2.Loading);
-               tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -int(gr3p2.Loading);
-               OPCControlPause(tReadCycleTimer);
-               gr3p2.Write();
-               OPCControlResume(tReadCycleTimer);
-               tsManual->SetFocus();
-            }
-            else
-            {
-               MessageBox(Handle,
-                  _T("Значение нагрузки должно быть в пределах от 0 до 115"),
-                  _T("Ошибка"), MB_ICONERROR | MB_OK);
-            }
+            gr3p2.Loading = t;
+            tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -int(gr3p2.Loading);
+            tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -int(gr3p2.Loading);
+            gr3p2.Write();
+            tsManual->SetFocus();
+         }
+         else
+         {
+            MessageBox(Handle,
+               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+               _T("Ошибка"), MB_ICONERROR | MB_OK);
          }
       }
    }
@@ -7544,10 +7483,15 @@ void __fastcall TmfRB::leSetDrumSpeedKeyPress(TObject *Sender, wchar_t &Key)
    if (Key == 13)
    {
       CheckStend();
-      auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
-      auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-      auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-      if (OPCConnectOK && gr1p1.ManualMode && gr1p2.ManualMode)
+      auto& inst_cpu = cpu::CpuMemory::Instance();
+      if (!inst_cpu.IsConnected())
+         return;
+
+      std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+      auto &cmnp = inst_cpu.mCommonParams;
+      auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+      auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+      if ( gr1p1.ManualMode && gr1p2.ManualMode)
       {
          cmnp.DrumOn = true;
          cmnp.DrumOff = false;
@@ -7559,9 +7503,7 @@ void __fastcall TmfRB::leSetDrumSpeedKeyPress(TObject *Sender, wchar_t &Key)
                cmnp.DrumSpeed = t;
                tbCurrentDrumSpeed->SelEnd = tbCurrentDrumSpeed->Max -int(cmnp.DrumSpeed);
                tbCurrentDrumSpeed->SelStart = tbCurrentDrumSpeed->Max -int(cmnp.DrumSpeed);
-               OPCControlPause(tReadCycleTimer);
                cmnp.Write();
-               OPCControlResume(tReadCycleTimer);
                tsManual->SetFocus();
             }
             else
@@ -7600,10 +7542,15 @@ std::string TmfRB::GetCurrProgB(void)
 void TmfRB::UpdateProgData(void)
    // обновление данных по программе из контроллера
 {
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
-   for ( cpu::Position* ptr: cpu::CpuMemory::Instance().mPos )
-      ptr->mGr3.Read();
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
+      return;
+
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   for ( cpu::Position* ptr: inst_cpu.mPos )
+      ptr->mGr3->Read();
 
    mPosA.mTyre.TotalS = gr3p1.S_end_cycle;
    mPosA.mTyre.TotalTime = gr3p1.T_end_cycle;
@@ -7621,14 +7568,14 @@ void TmfRB::UpdateProgData(void)
 void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
 {
    CheckStend();
-   if (!OPCConnectOK)
-   {
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
       return;
-   }
 
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &cmnp = cpu::CpuMemory::Instance().mCommonParams;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &cmnp = inst_cpu.mCommonParams;
    bool err = false, value = false;
    // проверка значения
    try
@@ -7759,24 +7706,22 @@ void __fastcall TmfRB::btnResetResPosAClick(TObject *Sender)
 {
 #ifndef _mDEBUG
    CheckStend();
-   if (!OPCConnectOK)
-   {
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
       return;
-   }
 #endif
 
-   auto &gr1p1 = cpu::CpuMemory::Instance().mPos1.mGr1;
-   auto &gr3p1 = cpu::CpuMemory::Instance().mPos1.mGr3;
-   auto &gr7 = cpu::CpuMemory::Instance().mPos1.mGr7;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr7 = *inst_cpu.mPos1->mGr7;
 
    LogPrint("Сброс результатов испытаний из контроллера по поз. A");
 
-   OPCControlPause(tReadCycleTimer);
    gr1p1.ResetData = true;
    gr1p1.Write();
    gr7.Reset();
    gr3p1.Read();
-   OPCControlResume(tReadCycleTimer);
 
    mPosA.mTyre.TotalS = gr3p1.S_end_cycle;
    mPosA.mTyre.TotalTime = gr3p1.T_end_cycle;
@@ -7793,24 +7738,21 @@ void __fastcall TmfRB::btnResetResPosBClick(TObject *Sender)
 {
 #ifndef _mDEBUG
    CheckStend();
-   if (!OPCConnectOK)
-   {
+   auto& inst_cpu = cpu::CpuMemory::Instance();
+   if (!inst_cpu.IsConnected())
       return;
-   }
 #endif
 
-
-   auto &gr1p2 = cpu::CpuMemory::Instance().mPos2.mGr1;
-   auto &gr3p2 = cpu::CpuMemory::Instance().mPos2.mGr3;
-   auto &gr7 = cpu::CpuMemory::Instance().mPos2.mGr7;
+   std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
+   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   auto &gr7 = *inst_cpu.mPos2->mGr7;
    LogPrint("Сброс результатов испытаний из контроллера по поз. B");
 
-   OPCControlPause(tReadCycleTimer);
    gr1p2.ResetData = true;
    gr1p2.Write();
    gr7.Reset();
    gr3p2.Read();
-   OPCControlResume(tReadCycleTimer);
 
    mPosB.mTyre.TotalS = gr3p2.S_end_cycle;
    mPosB.mTyre.TotalTime = gr3p2.T_end_cycle;

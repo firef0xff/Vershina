@@ -30,6 +30,8 @@
 #include "pos/ui_pos.h"
 #include "prg/time_programm.h"
 #include "prg/path_programm.h"
+#include "data_updater/data_updater.h"
+#include <mutex>
 
 // ---------------------------------------------------------------------------
 class TmfRB : public TForm
@@ -309,7 +311,6 @@ __published: // IDE-managed Components
    TSpeedButton *sbDrumOn;
    TButton *btnNewTProg;
    TTabSheet *tsSProg;
-   TTimer *tReadCycleTimer;
    TPanel *pTProgTtl;
    TPanel *pSProgTtl;
    TLabeledEdit *leSProgName;
@@ -671,11 +672,11 @@ __published: // IDE-managed Components
    TLabeledEdit *leEmMinTemp_2R;
    TLabeledEdit *leEmMaxTemp_2R;
    TLabeledEdit *leEmMaxTemp_1R;
+   TTimer *ShowTimer;
 
    void __fastcall OnCommonParamReadExec(TObject *Sender);
    void __fastcall OPCControlStartExec(void);
    void __fastcall OnOPCControlStopExec(TObject *Sender);
-   void __fastcall OnReadCycleTimer(TObject *Sender);
    void __fastcall OnRGPos1ModeClick(TObject *Sender);
    void __fastcall OnRGPos1StartStopClick(TObject *Sender);
    void __fastcall OnDrumOn(TObject *Sender);
@@ -779,6 +780,7 @@ __published: // IDE-managed Components
    void __fastcall leSetDrumSpeedKeyPress(TObject *Sender, wchar_t &Key);
    void __fastcall btnResetResPosBClick(TObject *Sender);
    void __fastcall btnResetResPosAClick(TObject *Sender);
+   void __fastcall OnReadCycleTimer(TObject *Sender);
 
 private: // User declarations
    int tsCurrentStatusH, tsCurrentStatusW;
@@ -807,35 +809,38 @@ private: // User declarations
    UIPosData mPosA;
    UIPosData mPosB;
    UICommonData mData;
+//   timer::Timer mTimerAction;
+   int mCount = 0;
+   std::recursive_mutex mCPUMutex;
 
-   void __fastcall SetCommonParam(void);
-   void __fastcall ShowCommonParam(void);
-   void __fastcall ShowStatus(bool save = true);
-   void __fastcall DesignSProgTable(void);
-   void __fastcall DesignTProgTable(void);
-   void __fastcall DesignCmmnParPanel(void);
-   void __fastcall DesignManualPanel(void);
-   void __fastcall DesignNewProtPanel(void);
-   void __fastcall DesignProtAPanel(void);
-   void __fastcall DesignProtBPanel(void);
-   void __fastcall DesignLoadCalibrAPanel(void);
-   void __fastcall DesignLoadCalibrBPanel(void);
-   void __fastcall DesignRCalibrAPanel(void);
-   void __fastcall DesignRCalibrBPanel(void);
-   void __fastcall DesignTCalibrAPanel(void);
-   void __fastcall DesignTCalibrBPanel(void);
-   void __fastcall DesignSpdCalibrPanel(void);
-   void __fastcall DesignLoadSertAPanel(void);
-   void __fastcall DesignLoadSertBPanel(void);
-   void __fastcall DesignTSertPanel(void);
-   void __fastcall DesignRSertPanel(void);
-   void __fastcall ShowTProg(void);
-   void __fastcall ShowSProg(void);
-   void __fastcall ReadProtDataFmScrn(void);
-   void __fastcall ShowProtDataOnScrn(void);
-   void __fastcall ShowProtAData(void);
-   void __fastcall ShowProtBData(void);
-   void __fastcall ReadLSertTable(sert::LCalibr *, TStringGrid *);
+   void SetCommonParam(void);
+   void ShowCommonParam(void);
+   void ShowStatus(bool save = true);
+   void DesignSProgTable(void);
+   void DesignTProgTable(void);
+   void DesignCmmnParPanel(void);
+   void DesignManualPanel(void);
+   void DesignNewProtPanel(void);
+   void DesignProtAPanel(void);
+   void DesignProtBPanel(void);
+   void DesignLoadCalibrAPanel(void);
+   void DesignLoadCalibrBPanel(void);
+   void DesignRCalibrAPanel(void);
+   void DesignRCalibrBPanel(void);
+   void DesignTCalibrAPanel(void);
+   void DesignTCalibrBPanel(void);
+   void DesignSpdCalibrPanel(void);
+   void DesignLoadSertAPanel(void);
+   void DesignLoadSertBPanel(void);
+   void DesignTSertPanel(void);
+   void DesignRSertPanel(void);
+   void ShowTProg(void);
+   void ShowSProg(void);
+   void ReadProtDataFmScrn(void);
+   void ShowProtDataOnScrn(void);
+   void ShowProtAData(void);
+   void ShowProtBData(void);
+   void ReadLSertTable(sert::LCalibr *, TStringGrid *);
    void CheckStend(void);
    void GetSettings(void);
    void SetIndication(TEdit *Indicator, bool state);
@@ -853,6 +858,7 @@ private: // User declarations
    void ClearStepVals1(void);
    void ClearStepVals2(void);
    bool CheckProgLoad(TStringGrid *sg, int col, double min_val);
+
 
 public: // User declarations
    __fastcall TmfRB(TComponent* Owner);

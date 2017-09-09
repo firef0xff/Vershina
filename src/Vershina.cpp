@@ -4,10 +4,10 @@
 #pragma hdrstop
 #include <thread>
 //---------------------------------------------------------------------------
-USEFORM("login\dialogs\User_Data.cpp", UserData);
-USEFORM("login\Login.cpp", LogInwnd);
-USEFORM("login\AppManagnent.cpp", AppManagment);
 USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
+USEFORM("login\dialogs\User_Data.cpp", UserData);
+USEFORM("login\AppManagnent.cpp", AppManagment);
+USEFORM("login\Login.cpp", LogInwnd);
 USEFORM("Vershina_main.cpp", mfRB);
 USEFORM("splash_screen\Head_band.cpp", Headband);
 //---------------------------------------------------------------------------
@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
          Application->Initialize();
          Application->MainFormOnTaskBar = true;
          Application->CreateForm(__classid(TmfRB), &mfRB);
-       Application->Run();
+         Application->Run();
       }
    }
    catch (Exception &exception)

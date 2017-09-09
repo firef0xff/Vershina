@@ -11,35 +11,6 @@
 // ---------------------------------------------------------------------------
 
 #pragma package(smart_init)
-// индикаторы автосохранения протоколов за испытание
-bool StendConnection = false; // индикатор связи со стендом
-bool OPCControlOn = false; // Управление OPC-сервером запущено
-bool OPCConnectOK = false; // соединение с OPC-сервером установлено
-short OPCCtrlStat = 0; // управляющая переменная цикла управления стендом
-long TimerCycleCnt = 0; // Счетчик циклов таймера
-void  OPCControlStart(TTimer* t) // Запуск управления стендом
-{
-   OPCControlOn = true;
-   t->Enabled = true;
-}
-void  OPCControlPause(TTimer* t) // Приостановка управления стендом
-{
-   LogPrint("Приостановка контроля управлением!", clLime);
-   t->Enabled = false;
-}
-void  OPCControlResume(TTimer* t) // Возобновление управления стендом
-{
-   LogPrint("Возобновление контроля управлением!", clLime);
-   t->Enabled = true;
-}
-void  OPCControlStop(TTimer* t) // Останов управления стендом
-{
-   LogPrint("Останов контроля управлением!", clLime);
-   t->Enabled = false;
-   OPCControlOn = false;
-}
-
-
 float  StrToFlt(String ws)
    // Преобразование строки в значение типа float
 {
@@ -88,12 +59,6 @@ String  FileNameParse
 }
 // ---- End of FileNameParse -------------------------------------------------
 
-int  NextCycleCount(void) // увеличение цикла счетчика на 1
-{
-   if ((++TimerCycleCnt) >= MAXINT)
-      TimerCycleCnt = 0;
-   return TimerCycleCnt;
-}
 // ---- End of NextCycleCount ------------------------------------------------
 
 void  LeastSquares

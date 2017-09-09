@@ -46,30 +46,26 @@ TColor lcTocl( logger::LineColor cl )
 
 logger::LineColor clTolc( TColor cl )
 {
-   switch ( cl )
-   {
-   case clWhite:
+   if ( cl == clWhite )
       return lcWHITE;
-   case clRed:
+   else if ( cl == clRed )
       return lcRED;
-   case clLime:
+   else if ( cl == clLime )
       return lcLIME;
-   case clMoneyGreen:
+   else if ( cl == clMoneyGreen )
       return lcMONEYGREEN;
-   case clAqua:
+   else if ( cl == clAqua )
       return lcAQUA;
-   case clSkyBlue:
+   else if ( cl == clSkyBlue )
       return lcSKYBLUE;
-   case clGreen:
+   else if ( cl == clGreen )
       return lcGREEN;
-   case clYellow:
+   else if ( cl == clYellow )
       return lcYELLOW;
-   case clOlive:
+   else if ( cl == clOlive )
       return lcOLIVE;
-   default:
+   else
       return lcWHITE;
-   }
-   return lcWHITE;
 }
 #endif
 

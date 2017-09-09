@@ -59,6 +59,7 @@ HEADERS +=\
    src/pos/ui_pos.h \
    src/prg/time_programm.h\
    src/prg/path_programm.h \
+   src/data_updater/data_updater.h\
    MD5/MD5.h\
    OPC/opc.h\
    OPC/miniOPC.h\
@@ -113,6 +114,7 @@ SOURCES +=\
    src/sert/TyreProt.cpp\
    src/prg/time_programm.cpp\
    src/prg/path_programm.cpp \
+   src/data_updater/data_updater.cpp\
    MD5/MD5.cpp\
    OPC/opc_i.c\
    OPC/impl/demo_mode.cpp\

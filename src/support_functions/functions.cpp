@@ -43,6 +43,7 @@ bool DeleteDir(AnsiString DirName)
          do
          {
             if (!(sr.Name == "." || sr.Name == "..")) // это удалять не надо
+            {
                if (((sr.Attr & faDirectory) == faDirectory) ||
                   (sr.Attr == faDirectory)) // найдена папка
                {
@@ -59,6 +60,7 @@ bool DeleteDir(AnsiString DirName)
                   // сброс всяких read-only
                   DeleteFile(DirName + "\\" + sr.Name); // удаляем файл
                }
+            }
          }
          while (!FindNext(sr)); // ищем опять, пока не найдем все
       FindClose(sr);
@@ -72,7 +74,7 @@ String ekran(String inpstr)
    int i;
    for (i = 1; i <= inpstr.Length(); i++)
    {
-      if (inpstr.operator[](i) == '\\' || inpstr.operator[](i) == '\`' ||
+      if (inpstr.operator[](i) == '\\' || inpstr.operator[](i) == '`' ||
          inpstr.operator[](i) == '\"' || inpstr.operator[](i) == '\'' /* ||
           inpstr.operator [](i)=='\%' */)
       {

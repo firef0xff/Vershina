@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCalibration
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -12711,11 +12711,6 @@ object mfRB: TmfRB
       OnExecute = OnPrintSpdCalibrProtocol
     end
   end
-  object tReadCycleTimer: TTimer
-    Enabled = False
-    OnTimer = OnReadCycleTimer
-    Left = 840
-  end
   object PrinterFontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -12731,6 +12726,12 @@ object mfRB: TmfRB
       'ina'
     Provider = 'MSDASQL.1'
     Left = 576
+    Top = 8
+  end
+  object ShowTimer: TTimer
+    Enabled = False
+    OnTimer = OnReadCycleTimer
+    Left = 472
     Top = 8
   end
 end

@@ -17,6 +17,8 @@
 #include "data/gr12.h"
 #include "data/gr13.h"
 #include "data/common_params.h"
+#include <memory>
+#include <functional>
 
 namespace cpu
 {
@@ -24,23 +26,23 @@ namespace cpu
 class Position
 {
 public:
-   Position( data::GR1& gr1,
-             data::GR2& gr2,
-             data::GR3& gr3,
-             data::GR4& gr4,
-             data::GR5& gr5,
-             data::GR6& gr6,
-             data::GR7& gr7,
-             data::GR12& gr12 );
+   Position( std::unique_ptr<data::GR1> gr1,
+             std::unique_ptr<data::GR2> gr2,
+             std::unique_ptr<data::GR3> gr3,
+             std::unique_ptr<data::GR4> gr4,
+             std::unique_ptr<data::GR5> gr5,
+             std::unique_ptr<data::GR6> gr6,
+             std::unique_ptr<data::GR7> gr7,
+             std::unique_ptr<data::GR12> gr12 );
 
-   data::GR1& mGr1;
-   data::GR2& mGr2;
-   data::GR3& mGr3;
-   data::GR4& mGr4;
-   data::GR5& mGr5;
-   data::GR6& mGr6;
-   data::GR7& mGr7;
-   data::GR12& mGr12;
+   std::unique_ptr<data::GR1> mGr1;
+   std::unique_ptr<data::GR2> mGr2;
+   std::unique_ptr<data::GR3> mGr3;
+   std::unique_ptr<data::GR4> mGr4;
+   std::unique_ptr<data::GR5> mGr5;
+   std::unique_ptr<data::GR6> mGr6;
+   std::unique_ptr<data::GR7> mGr7;
+   std::unique_ptr<data::GR12> mGr12;
 };
 
 class CpuMemory
@@ -51,17 +53,21 @@ public:
 
     data::CommonParams mCommonParams;
 
-    Position mPos1;
-    Position mPos2;
+    std::unique_ptr<Position> mPos1;
+    std::unique_ptr<Position> mPos2;
 
     std::vector<Position*> mPos;
     int ReadCycleParameters();
+    bool IsConnected();
 
+    typedef std::function< void() > CallBack;
+    static void OnConnected( CallBack f );
 private:
     CpuMemory();
     CpuMemory( CpuMemory const& ) = delete;
     CpuMemory& operator = ( CpuMemory const& ) = delete;
 };
+
 
 }//namespace cpu
 #endif
