@@ -54,7 +54,6 @@ public:
     data::CommonParams mCommonParams;
 
     std::unique_ptr<Position> mPos1;
-    std::unique_ptr<Position> mPos2;
 
     std::vector<Position*> mPos;
     int ReadCycleParameters();

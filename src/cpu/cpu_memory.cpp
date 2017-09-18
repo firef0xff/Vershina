@@ -49,20 +49,8 @@ CpuMemory::CpuMemory()
                                                                    cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ ) )
                      ) );
 
-      mPos2.reset( new Position(
-                      std::unique_ptr<data::GR1>( new data::GR1( cpu::data::Gr1Pos2Name, cpu::data::Gr1Pos2Adresses ) ),
-                      std::unique_ptr<data::GR2>( new data::GR2( cpu::data::Gr2Pos2Name, cpu::data::Gr2Pos2Adresses ) ),
-                      std::unique_ptr<data::GR3>( new data::GR3( cpu::data::Gr3Pos2Name, cpu::data::Gr3Pos2Adresses ) ),
-                      std::unique_ptr<data::GR4>( new data::GR4( cpu::data::Gr4Pos2Name, cpu::data::Gr4Pos2Adresses ) ),
-                      std::unique_ptr<data::GR5>( new data::GR5( cpu::data::Gr5Pos2Name, cpu::data::Gr5Pos2Adresses ) ),
-                      std::unique_ptr<data::GR6>( new data::GR6( cpu::data::Gr6Pos2Name, cpu::data::Gr6Pos2Adresses ) ),
-                      std::unique_ptr<data::GR7>( new data::GR7( cpu::data::Gr7Pos2Name, cpu::data::Gr7Pos2Adresses ) ),
-                      std::unique_ptr<data::GR12>( new data::GR12( cpu::data::Gr12Pos2NameA, cpu::data::Gr12Pos2AdressesA,
-                                                                   cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ ) )
-                     ) );
 
       mPos.push_back( mPos1.get() );
-      mPos.push_back( mPos2.get() );
 
       std::thread([]()
       {
