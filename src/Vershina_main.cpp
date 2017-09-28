@@ -7580,12 +7580,12 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
    // проверка значения
    try
    {
-      value = CheckLoad( leEmMaxLoad_1R->Text.Trim().ToDouble(), gr1p1.max_load, leEmMaxLoad_1R->Color );
-      value = CheckLoad( leEmMaxLoad_2R->Text.Trim().ToDouble(), gr1p2.max_load, leEmMaxLoad_2R->Color );
-      value = CheckSpeed( leEmMaxSpeedR->Text.Trim().ToDouble(), cmnp.max_speed, leEmMaxSpeedR->Color );
-      value = CheckSpeed( leEmMinSpeedR->Text.Trim().ToDouble(), cmnp.min_speed, leEmMinSpeedR->Color );
-      value = CheckLoad( leEmMinLoad_1R->Text.Trim().ToDouble(), gr1p1.min_load, leEmMinLoad_1R->Color );
-      value = CheckLoad( leEmMinLoad_2R->Text.Trim().ToDouble(), gr1p2.min_load, leEmMinLoad_2R->Color );
+      value += CheckLoad( leEmMaxLoad_1R, gr1p1.max_load);
+      value += CheckLoad( leEmMaxLoad_2R, gr1p2.max_load);
+      value += CheckSpeed( leEmMaxSpeedR, cmnp.max_speed );
+      value += CheckSpeed( leEmMinSpeedR, cmnp.min_speed);
+      value += CheckLoad( leEmMinLoad_1R, gr1p1.min_load);
+      value += CheckLoad( leEmMinLoad_2R, gr1p2.min_load);
 
       gr1p1.min_temp = leEmMinTemp_1R->Text.Trim().ToDouble();
       gr1p1.max_temp = leEmMaxTemp_1R->Text.Trim().ToDouble();
@@ -7636,30 +7636,50 @@ void __fastcall TmfRB::leEmMinLoad_1RKeyPress(TObject *Sender, wchar_t &Key)
 
 // ---------------------------------------------------------------------------
 // проверки вводимых данных
-bool TmfRB::CheckLoad(double load, float& value, TColor& color)
+bool TmfRB::CheckLoad(TLabeledEdit* v, float& value)
 {
+   double load = 0.0;
+   try
+   {
+      load = v->Text.ToDouble();
+   }
+   catch(...)
+   {
+      v->Color = clRed;
+      return false;
+   }
    bool res = CheckLoad( load );
    if (res)
    {
       value = load;
-      color = clLime;
+      v->Color = clLime;
    }
    else
-      color = clRed;
+      v->Color = clRed;
 
    return !res;
 }
 
-bool TmfRB::CheckSpeed(double Speed, float& value, TColor& color)
+bool TmfRB::CheckSpeed(TLabeledEdit* v, float& value)
 {
-   bool res = CheckSpeed( Speed );
+   double load = 0.0;
+   try
+   {
+      load = v->Text.ToDouble();
+   }
+   catch(...)
+   {
+      v->Color = clRed;
+      return false;
+   }
+   bool res = CheckSpeed( load );
    if (res)
    {
-      value = Speed;
-      color = clLime;
+      value = load;
+      v->Color = clLime;
    }
    else
-      color = clRed;
+      v->Color = clRed;
 
    return !res;
 }
