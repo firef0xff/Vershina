@@ -607,8 +607,8 @@ private: // User declarations
    void SetCurrProgB(const std::string &name);
    std::string GetCurrProgB(void);
    void UpdateProgData(void);
-   bool CheckLoad(double load, float& value, TColor& color);
-   bool CheckSpeed(double Speed, float& value, TColor& color);
+   bool CheckLoad(TLabeledEdit* v, float& value);
+   bool CheckSpeed(TLabeledEdit* v, float& value);
    bool CheckLoad(double load);
    bool CheckSpeed(double Speed);
    bool CheckTime(int Time);

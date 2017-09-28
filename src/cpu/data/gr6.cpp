@@ -9,8 +9,8 @@ namespace data
 {
 wchar_t const* Gr6Pos1Adresses[ GR6::ARRAYS_COUNT ] =
 {
-   L"S7:[S7 connection_4]DB23,REAL0,100",
-   L"S7:[S7 connection_4]DB23,REAL100,100"
+   L"S7:[S7 connection_4]DB23,REAL2,100",
+   L"S7:[S7 connection_4]DB23,REAL102,100"
 };
 wchar_t const* Gr6Pos1Name = L"Gr6Pos1";
 

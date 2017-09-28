@@ -5344,10 +5344,10 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
    // проверка значения
    try
    {
-      value = CheckLoad( leEmMaxLoad_1R->Text.Trim().ToDouble(), gr1p1.max_load, leEmMaxLoad_1R->Color );
-      value = CheckSpeed( leEmMaxSpeedR->Text.Trim().ToDouble(), cmnp.max_speed, leEmMaxSpeedR->Color );
-      value = CheckSpeed( leEmMinSpeedR->Text.Trim().ToDouble(), cmnp.min_speed, leEmMinSpeedR->Color );
-      value = CheckLoad( leEmMinLoad_1R->Text.Trim().ToDouble(), gr1p1.min_load, leEmMinLoad_1R->Color );
+      value += CheckLoad( leEmMaxLoad_1R, gr1p1.max_load);
+      value += CheckSpeed( leEmMaxSpeedR, cmnp.max_speed );
+      value += CheckSpeed( leEmMinSpeedR, cmnp.min_speed);
+      value += CheckLoad( leEmMinLoad_1R, gr1p1.min_load);
 
       gr1p1.min_temp = leEmMinTemp_1R->Text.Trim().ToDouble();
       gr1p1.max_temp = leEmMaxTemp_1R->Text.Trim().ToDouble();
