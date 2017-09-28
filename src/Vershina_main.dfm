@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCurrentStatus
+    ActivePage = tsManual
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -1585,7 +1585,7 @@ object mfRB: TmfRB
           ParentFont = False
         end
         object sbCarr1Fm: TSpeedButton
-          Left = 2
+          Left = 0
           Top = 387
           Width = 19
           Height = 20
@@ -6950,11 +6950,12 @@ object mfRB: TmfRB
           object gbTSertA: TGroupBox
             Left = 0
             Top = 26
-            Width = 797
+            Width = 800
             Height = 544
-            Align = alLeft
+            Align = alClient
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1087#1086#1079'. '#1040
             TabOrder = 1
+            ExplicitWidth = 797
             object lblCalcLimitsA: TLabel
               Left = 30
               Top = 44
@@ -7330,7 +7331,7 @@ object mfRB: TmfRB
             Text = '0.00'
           end
           object btnRShiftALoadToPLC: TButton
-            Left = 644
+            Left = 489
             Top = 32
             Width = 153
             Height = 41

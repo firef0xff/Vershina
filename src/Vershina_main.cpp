@@ -432,41 +432,6 @@ void TmfRB::DesignLoadSertAPanel(void)
 }
 // ---- End of DesignLoadSertAPanel ------------------------------------------
 
-void TmfRB::DesignTSertPanel(void)
-   // расположение компонент на панели калибровки температуры
-{
-   int H1 = 26, LSp1 = 10;
-   int PWidth = pTSertTtl->Width, PHeight = tsTemSert->Height - H1 - LSp1;
-   int GBW = (PWidth - LSp1 * 3) / 2, Top1 = H1 + LSp1;
-   pTSertTtl->Height = H1;
-   gbTSertA->Top = Top1;
-   gbTSertA->Left = LSp1;
-   gbTSertA->Width = GBW;
-   gbTSertA->Height = PHeight;
-}
-// ---- End of DesignTSertPanel ----------------------------------------------
-
-void TmfRB::DesignRSertPanel(void)
-   // расположение компонент на панели калибровки датчиков радиуса
-{
-   int H1 = 26, LSp1 = 10;
-   // int PWidth=pRSertTtl->Width, PHeight=tsRadSert->Height-H1-LSp1;
-   int BtnW = 170, LeW = 40, BtnH = 40, LeH = 20, Top1 = H1 + LSp1 * 5, Top2 =
-      Top1 + BtnH + LSp1 * 2;
-   int LeLblW = leRShiftA->EditLabel->Width, Left1 = LeLblW + LSp1, Left2 =
-      Left1 + LeW + LSp1 * 2;
-   pRSertTtl->Height = H1;
-   leRShiftA->Left = Left1;
-   leRShiftA->Top = Top1;
-   leRShiftA->Width = LeW;
-   leRShiftA->Height = LeH;
-   btnRShiftALoadToPLC->Left = Left2;
-   btnRShiftALoadToPLC->Top = Top1 - (BtnH - LeH) / 2;
-   btnRShiftALoadToPLC->Width = BtnW;
-   btnRShiftALoadToPLC->Height = BtnH;
-}
-// ---- End of DesignRSertPanel ----------------------------------------------
-
 void TmfRB::DesignLoadCalibrAPanel(void)
    // расположение компонент на панели аттестации нагрузки поз. А
 {
@@ -1682,9 +1647,6 @@ void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
    DesignLoadCalibrAPanel();
    DesignRCalibrAPanel();
    DesignTCalibrAPanel();
-   DesignSpdCalibrPanel();
-   DesignTSertPanel();
-   DesignRSertPanel();
 }
 // ---------------------------------------------------------------------------
 
@@ -1936,10 +1898,6 @@ void __fastcall TmfRB::OnMFResize(TObject *Sender)
    DesignLoadCalibrAPanel();
    DesignRCalibrAPanel();
    DesignTCalibrAPanel();
-   DesignSpdCalibrPanel();
-   DesignTSertPanel();
-   DesignRSertPanel();
-
 }
 // ---------------------------------------------------------------------------
 
@@ -5349,6 +5307,7 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
       value += CheckSpeed( leEmMinSpeedR, cmnp.min_speed);
       value += CheckLoad( leEmMinLoad_1R, gr1p1.min_load);
 
+
       gr1p1.min_temp = leEmMinTemp_1R->Text.Trim().ToDouble();
       gr1p1.max_temp = leEmMaxTemp_1R->Text.Trim().ToDouble();
       gr1p1.Write();
@@ -5389,30 +5348,50 @@ void __fastcall TmfRB::leEmMinLoad_1RKeyPress(TObject *Sender, wchar_t &Key)
 
 // ---------------------------------------------------------------------------
 // проверки вводимых данных
-bool TmfRB::CheckLoad(double load, float& value, TColor& color)
+bool TmfRB::CheckLoad(TLabeledEdit* v, float& value)
 {
+   double load = 0.0;
+   try
+   {
+      load = v->Text.ToDouble();
+   }
+   catch(...)
+   {
+      v->Color = clRed;
+      return false;
+   }
    bool res = CheckLoad( load );
    if (res)
    {
       value = load;
-      color = clLime;
+      v->Color = clLime;
    }
    else
-      color = clRed;
+      v->Color = clRed;
 
    return !res;
 }
 
-bool TmfRB::CheckSpeed(double Speed, float& value, TColor& color)
+bool TmfRB::CheckSpeed(TLabeledEdit* v, float& value)
 {
-   bool res = CheckSpeed( Speed );
+   double load = 0.0;
+   try
+   {
+      load = v->Text.ToDouble();
+   }
+   catch(...)
+   {
+      v->Color = clRed;
+      return false;
+   }
+   bool res = CheckSpeed( load );
    if (res)
    {
-      value = Speed;
-      color = clLime;
+      value = load;
+      v->Color = clLime;
    }
    else
-      color = clRed;
+      v->Color = clRed;
 
    return !res;
 }

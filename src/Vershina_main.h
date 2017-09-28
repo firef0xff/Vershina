@@ -591,8 +591,6 @@ private: // User declarations
    void DesignTCalibrAPanel(void);
    void DesignSpdCalibrPanel(void);
    void DesignLoadSertAPanel(void);
-   void DesignTSertPanel(void);
-   void DesignRSertPanel(void);
    void ShowTProg(void);
    void ShowSProg(void);
    void ReadProtDataFmScrn(void);
