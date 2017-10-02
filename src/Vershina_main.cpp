@@ -7184,7 +7184,6 @@ void __fastcall TmfRB::OnRShiftLoadToPLC(TObject *Sender)
    float shift = 0 ;
    if ((TButton*)Sender == btnRShiftALoadToPLC)
    {
-      gr3p1.Read();
       LogPrint(
          "Текущие значения пределов радиусов для поз. А:");
       LogPrint( "Нижний: " + FloatToStrF(gr3p1.RadLowLimit, ffFixed,
@@ -7201,7 +7200,6 @@ void __fastcall TmfRB::OnRShiftLoadToPLC(TObject *Sender)
    }
    else if ((TButton*)Sender == btnRShiftBLoadToPLC)
    {
-      gr3p2.Read();
       LogPrint(
       "Текущие значения пределов радиусов для поз. Б:");
       LogPrint( "Нижний: " + FloatToStrF(gr3p2.RadLowLimit, ffFixed,

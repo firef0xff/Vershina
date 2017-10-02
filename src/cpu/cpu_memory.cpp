@@ -94,6 +94,7 @@ int CpuMemory::ReadCycleParameters() // чтение циклических па
    {
       res &=p->mGr1->Read();
       res &=p->mGr2->Read();
+      res &=p->mGr3->Read();
    }
 
    return res ? 1 : 0;
