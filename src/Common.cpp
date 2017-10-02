@@ -24,8 +24,8 @@ float  StrToFlt(String ws)
          Trim(s.SubString(PointPos + 1, 100));
    int CommaPos = s.Pos(",");
    if (CommaPos)
-      s = TrimRight(s.SubString(1, PointPos - 1)) + "." +
-         Trim(s.SubString(PointPos + 1, 100));
+      s = TrimRight(s.SubString(1, CommaPos - 1)) + "." +
+         Trim(s.SubString(CommaPos + 1, 100));
    return StrToFloat(s);
 }
 // ---- End of StrToFlt ------------------------------------------------------
