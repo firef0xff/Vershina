@@ -1,5 +1,4 @@
 ﻿#define STAND_NO "13" //номер стенда для выовда в отчет и интерфейс
-#define ADDRLEN         100    // Максимальная длина строки для адреса одного элемента
 
 
 #define MAXNUMOFSTEPS   100    // максимальное количество шагов программы испытаний
@@ -12,9 +11,9 @@
 
 // настройки стенда
 #define MIN_SPEED 0
-#define MAX_SPEED 170
+#define MAX_SPEED 300
 #define MIN_LOAD  0
-#define MAX_LOAD  115
+#define MAX_LOAD  25
 // дебаг
 #ifdef _DEBUG
 // #define  _mDEBUG
