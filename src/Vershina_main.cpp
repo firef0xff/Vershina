@@ -2289,7 +2289,7 @@ void __fastcall TmfRB::OnCarriage1To(TObject *Sender)
       else
       {
          MessageBox(Handle,
-            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Значение нагрузки должно быть в пределах от 0 до 25"),
             _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
@@ -2336,7 +2336,7 @@ void __fastcall TmfRB::OnCarriage1From(TObject *Sender)
       else
       {
          MessageBox(Handle,
-            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Значение нагрузки должно быть в пределах от 0 до 25"),
             _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
@@ -2416,7 +2416,7 @@ void __fastcall TmfRB::OnCarriage2To(TObject *Sender)
       else
       {
          MessageBox(Handle,
-            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Значение нагрузки должно быть в пределах от 0 до 25"),
             _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
@@ -2495,7 +2495,7 @@ void __fastcall TmfRB::OnCarriage2From(TObject *Sender)
       else
       {
          MessageBox(Handle,
-            _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+            _T("Значение нагрузки должно быть в пределах от 0 до 25"),
             _T("Ошибка"), MB_ICONERROR | MB_OK);
          return;
       }
@@ -7400,7 +7400,7 @@ void __fastcall TmfRB::leSetLoad1KeyPress(TObject *Sender, wchar_t &Key)
          else
          {
             MessageBox(Handle,
-               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+               _T("Значение нагрузки должно быть в пределах от 0 до 25"),
                _T("Ошибка"), MB_ICONERROR | MB_OK);
          }
       }
@@ -7433,7 +7433,7 @@ void __fastcall TmfRB::leSetLoad2KeyPress(TObject *Sender, wchar_t &Key)
          else
          {
             MessageBox(Handle,
-               _T("Значение нагрузки должно быть в пределах от 0 до 115"),
+               _T("Значение нагрузки должно быть в пределах от 0 до 25"),
                _T("Ошибка"), MB_ICONERROR | MB_OK);
          }
       }
@@ -7471,7 +7471,7 @@ void __fastcall TmfRB::leSetDrumSpeedKeyPress(TObject *Sender, wchar_t &Key)
             else
             {
                MessageBox(Handle,
-                  _T("Значение скорости должно быть в пределах от 0 до 170"),
+                  _T("Значение скорости должно быть в пределах от 0 до 300"),
                   _T("Ошибка"), MB_ICONERROR | MB_OK);
                return;
             }
@@ -7585,7 +7585,7 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
    if (value)
    {
       MessageBox(Handle,
-         _T("Значение нагрузки должно быть в пределах от 0 до 115\n Значение скорости должно быть в пределах от 0 до 170")
+         _T("Значение нагрузки должно быть в пределах от 0 до 25\n Значение скорости должно быть в пределах от 0 до 300")
          , _T("Ошибка"), MB_ICONERROR | MB_OK);
    }
 }

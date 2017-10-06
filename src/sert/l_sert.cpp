@@ -27,7 +27,7 @@ LSert::LSert(const std::string &pos):
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
       if (i == 0 || i == ITEMS_COUNT - 1)
-         sTLd[i] = "   " + FloatToStringF( TargetLd[i], 5, 2 );
+         sTLd[i] = FloatToStringF( TargetLd[i], 5, 2 );
       else
          sTLd[i] = FloatToStringF( TargetLd[i], 5, 2 );
    }
