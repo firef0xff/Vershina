@@ -11,20 +11,18 @@ LSert::LSert(const std::string &pos):
    Index(0),
    mPos(pos)
 {
-   for ( int i = 0, j = ITEMS_COUNT/2-1; i < ITEMS_COUNT; i++)
+   TargetLd[0] = 0.5;
+   for ( int i = 1; i <= ((ITEMS_COUNT-1)/2); ++i )
    {
-      if (i < ITEMS_COUNT/2)
-      {
-         TargetLd[i] = i * 10;
-      }
-      else if (i == ITEMS_COUNT/2)
-         TargetLd[i] = 115;
-      else
-      {
-         TargetLd[i] = (j--) * 10;
-      }
+      TargetLd[i] = TargetLd[i-1] + 2.5;
    }
-   TargetLd[0] = TargetLd[ITEMS_COUNT - 1] = 5;
+   TargetLd[(ITEMS_COUNT-1)/2] = TargetLd[(ITEMS_COUNT-1)/2-1] + 2.0;
+
+   for (int i = 13, j = 2; i < ITEMS_COUNT; i++)
+   { // столбец заданных нагрузок
+      TargetLd[i] = TargetLd[13 - (j++)];
+   }
+
 
    for (int i = 0; i < ITEMS_COUNT; i++)
    {

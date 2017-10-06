@@ -12,17 +12,20 @@ namespace sert
 VSert::VSert():
    Index(0)
 {
-   for ( int i = 0, j = ITEMS_COUNT/2; i < ITEMS_COUNT; i++ ) // столбец заданных скоростей
+   TargetV[0] = 10.0;
+   for ( int i = 1; i <= ((ITEMS_COUNT-1)/2); ++i )
    {
-      //инициализация массива скоростей
-      if ( i <= ITEMS_COUNT/2 )
-         TargetV[i] = (i + 1) * 10;
-      else
-         TargetV[i] = (j--) * 10;
+      TargetV[i] = TargetV[i-1] + 18.0;
+   }
+   TargetV[(ITEMS_COUNT-1)/2] = TargetV[(ITEMS_COUNT-1)/2-1] + 20.0;
 
-      //инициализация строковых представлений
+   for (int i = 17, j = 2; i < ITEMS_COUNT; i++)
+   { // столбец заданных нагрузок
+      TargetV[i] = TargetV[17 - (j++)];
+   }
 
-
+   for ( int i = 0; i < ITEMS_COUNT; i++ ) // столбец заданных скоростей
+   {
       if (TargetV[i] < 100.0)
          sTV[i] = "      " + FloatToStringF(TargetV[i], 5, 2);
       else
