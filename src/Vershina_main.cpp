@@ -1647,6 +1647,7 @@ void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
    DesignLoadCalibrAPanel();
    DesignRCalibrAPanel();
    DesignTCalibrAPanel();
+   DesignSpdCalibrPanel();
 }
 // ---------------------------------------------------------------------------
 
@@ -1898,6 +1899,7 @@ void __fastcall TmfRB::OnMFResize(TObject *Sender)
    DesignLoadCalibrAPanel();
    DesignRCalibrAPanel();
    DesignTCalibrAPanel();
+   DesignSpdCalibrPanel();
 }
 // ---------------------------------------------------------------------------
 
