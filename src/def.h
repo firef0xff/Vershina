@@ -27,3 +27,7 @@
 // ограничители температуры
 #define LOWTEMP   37
 #define HIGHTTEMP 55
+
+#ifndef SI8_PORT
+#define SI8_PORT "COM3"
+#endif

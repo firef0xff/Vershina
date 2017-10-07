@@ -46,6 +46,7 @@ HEADERS +=\
    src/cpu/data/gr12.h\
    src/cpu/data/gr13.h\
    src/cpu/data/common_params.h\
+   src/cpu/si8/si8.h\
    src/support_functions/str_convert.h\
    src/support_functions/serialize.h\
    src/log/log.h\
@@ -101,6 +102,7 @@ SOURCES +=\
    src/cpu/data/gr12.cpp\
    src/cpu/data/gr13.cpp\
    src/cpu/data/common_params.cpp\
+   src/cpu/si8/si8.cpp\
    src/pos/ui_pos.cpp \
    src/support_functions/str_convert.cpp\
    src/support_functions/serialize.cpp\
