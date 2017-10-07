@@ -16,6 +16,7 @@
 #include "data/gr11.h"
 #include "data/gr12.h"
 #include "data/gr13.h"
+#include "si8/si8.h"
 #include "data/common_params.h"
 #include <memory>
 #include <functional>
@@ -33,7 +34,8 @@ public:
              std::unique_ptr<data::GR5> gr5,
              std::unique_ptr<data::GR6> gr6,
              std::unique_ptr<data::GR7> gr7,
-             std::unique_ptr<data::GR12> gr12 );
+             std::unique_ptr<data::GR12> gr12,
+             std::unique_ptr<data::SI8> si8);
 
    std::unique_ptr<data::GR1> mGr1;
    std::unique_ptr<data::GR2> mGr2;
@@ -43,6 +45,8 @@ public:
    std::unique_ptr<data::GR6> mGr6;
    std::unique_ptr<data::GR7> mGr7;
    std::unique_ptr<data::GR12> mGr12;
+
+   std::unique_ptr<data::SI8> mTimeSensor;
 };
 
 class CpuMemory
@@ -52,6 +56,7 @@ public:
     static CpuMemory& Instance();
 
     data::CommonParams mCommonParams;
+    data::SI8 mSpeedSensor;
 
     std::unique_ptr<Position> mPos1;
 
