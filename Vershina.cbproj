@@ -72,9 +72,9 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <PackageImports>vclx.bpi;vcl.bpi;dbrtl.bpi;Rave75VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vcldb.bpi;vcldbx.bpi;dsnap.bpi;dsnapcon.bpi;teeUI.bpi;teedb.bpi;tee.bpi;adortl.bpi;vclib.bpi;ibxpress.bpi;dbxcds.bpi;dbexpress.bpi;DbxCommonDriver.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;IntrawebDB_90_100.bpi;Intraweb_90_100.bpi;VclSmp.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;$(PackageImports)</PackageImports>
         <BCC_wpar>false</BCC_wpar>
-        <IncludePath>src\data_updater\;src\pos\;src\log\;src\prg\;communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;$(BDS)\include;$(IncludePath)</IncludePath>
+        <IncludePath>src\cpu\si8\;src\data_updater\;src\pos\;src\log\;src\prg\;communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;$(BDS)\include;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;vclimg.lib;dbrtl.lib;adortl.lib</AllPackageLibs>
-        <ILINK_LibraryPath>src\data_updater\;src\pos\;src\log\;src\prg\;communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;..\..\Projects;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>src\cpu\si8\;src\data_updater\;src\pos\;src\log\;src\prg\;communication\owen\funcs\;communication\owen\types\;communication\owen\;communication\;owen\;owen\types\;owen\funcs\;src\cpu\data\;src\cpu\;OPC\impl\cache\;OPC\impl\;OPC\;src\login\;src\login\dialogs\;src\support_functions\;src\splash_screen\;src\sert\;src\opc\;MD5\;SQL\;COMPort\;src\;support_functions\;CD9904\sensor_options\;CD9904\search_devices\;CD9904\searhc devices\;CD9904\protocol\;CD9904\sensor options\;CD9904\interface\;CD9904\support_functions\;CD9904\keypad\;login\dialogs\;login\;..\classes\COMPort\;..\classes\;..\мои классы\;\\VBOXSVR\projects\мои классы\;myOPC\;Идентификация пользователей\диалоговые окна\;..\..\мои классы\;Идентификация пользователей\;датчик ЦД9904\сом порт\;датчик ЦД9904\протокол\;датчик ЦД9904\поиск устройств\;датчик ЦД9904\настройка датчика\;датчик ЦД9904\Клавиатура ввода\;датчик ЦД9904\встраиваемый интерфейс\;датчик ЦД9904\вспомогательные функции\;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;..\..\Projects;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -321,12 +321,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Debug\Vershina.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>Vershina.tds</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32240.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -339,6 +333,12 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64240mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="OPC\opc_i.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -928,6 +928,10 @@
         <None Include="src\cpu\data_block_base.h">
             <BuildOrder>29</BuildOrder>
         </None>
+        <CppCompile Include="src\cpu\si8\si8.cpp">
+            <DependentOn>src\cpu\si8\si8.h</DependentOn>
+            <BuildOrder>67</BuildOrder>
+        </CppCompile>
         <CppCompile Include="src\data_updater\data_updater.cpp">
             <DependentOn>src\data_updater\data_updater.h</DependentOn>
             <BuildOrder>66</BuildOrder>
