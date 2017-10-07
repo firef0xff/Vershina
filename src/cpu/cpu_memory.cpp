@@ -15,14 +15,15 @@ static std::mutex CPU_MEMORY_MUTEX;
 std::vector< CpuMemory::CallBack > CALLBACKS;
 }//namespace
 
-Position::Position( std::unique_ptr<data::GR1> gr1,
+Position::Position(std::unique_ptr<data::GR1> gr1,
                     std::unique_ptr<data::GR2> gr2,
                     std::unique_ptr<data::GR3> gr3,
                     std::unique_ptr<data::GR4> gr4,
                     std::unique_ptr<data::GR5> gr5,
                     std::unique_ptr<data::GR6> gr6,
                     std::unique_ptr<data::GR7> gr7,
-                    std::unique_ptr<data::GR12> gr12 ):
+                    std::unique_ptr<data::GR12> gr12 ,
+                   std::unique_ptr<data::SI8> si8):
                   mGr1( std::move( gr1 ) ),
                   mGr2( std::move( gr2 ) ),
                   mGr3( std::move( gr3 ) ),
@@ -30,10 +31,12 @@ Position::Position( std::unique_ptr<data::GR1> gr1,
                   mGr5( std::move( gr5 ) ),
                   mGr6( std::move( gr6 ) ),
                   mGr7( std::move( gr7 ) ),
-                  mGr12( std::move( gr12 ) )
+                  mGr12( std::move( gr12 ) ),
+                  mTimeSensor( std::move( si8 ) )
 {}
 
-CpuMemory::CpuMemory()
+CpuMemory::CpuMemory():
+   mSpeedSensor(0)
 {
    if ( IsConnected() )
    {
@@ -46,7 +49,8 @@ CpuMemory::CpuMemory()
                       std::unique_ptr<data::GR6>( new data::GR6( cpu::data::Gr6Pos1Name, cpu::data::Gr6Pos1Adresses ) ),
                       std::unique_ptr<data::GR7>( new data::GR7( cpu::data::Gr7Pos1Name, cpu::data::Gr7Pos1Adresses ) ),
                       std::unique_ptr<data::GR12>( new data::GR12( cpu::data::Gr12Pos1NameA, cpu::data::Gr12Pos1AdressesA,
-                                                                   cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ ) )
+                                                                   cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ ) ),
+                      std::unique_ptr<data::SI8>( new data::SI8( 1 ) )
                      ) );
 
       mPos2.reset( new Position(
@@ -58,7 +62,8 @@ CpuMemory::CpuMemory()
                       std::unique_ptr<data::GR6>( new data::GR6( cpu::data::Gr6Pos2Name, cpu::data::Gr6Pos2Adresses ) ),
                       std::unique_ptr<data::GR7>( new data::GR7( cpu::data::Gr7Pos2Name, cpu::data::Gr7Pos2Adresses ) ),
                       std::unique_ptr<data::GR12>( new data::GR12( cpu::data::Gr12Pos2NameA, cpu::data::Gr12Pos2AdressesA,
-                                                                   cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ ) )
+                                                                   cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ ) ),
+                      std::unique_ptr<data::SI8>( new data::SI8( 2 ) )
                      ) );
 
       mPos.push_back( mPos1.get() );
@@ -86,8 +91,23 @@ CpuMemory& CpuMemory::Instance()
 
 int CpuMemory::ReadCycleParameters() // чтение циклических параметров
 {
-   if ( !IsConnected() )
+   if ( !IsConnected() || !mSpeedSensor.IsConnected() )
       return 0;
+
+   //обновляем данные в контроллере
+   mCommonParams.SensorDrumSpeed = mSpeedSensor.DSPD();
+   mCommonParams.Write();
+   for ( Position* p: mPos )
+   {
+      p->mGr1->fakt_time = p->mTimeSensor->DTMR();
+      p->mGr2->fakt_distance = p->mTimeSensor->DSPD();
+
+      p->mGr1->Write();
+      p->mGr2->Write();
+   }
+
+
+   //читаем данные с контроллера
    bool res = mCommonParams.Read();
 
    for ( Position* p: mPos )

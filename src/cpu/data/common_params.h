@@ -37,6 +37,7 @@ public:
 
    //common gr3
    float &DrumSpeed     = mFloatData[6]; // DB10,REAL22 Скорость барабана
+   float &SensorDrumSpeed     = mFloatData[7]; // DB10,REAL22 Скорость барабана
 
 private:
    friend class cpu::CpuMemory;
@@ -49,7 +50,7 @@ private:
    {
       BOOL_COUNT  = 5,    // количество булевых переменных
       INT_COUNT   = 1,    // количество целых переменных
-      FLOAT_COUNT = 7,    // количество вещественных переменных в группе 1
+      FLOAT_COUNT = 8,    // количество вещественных переменных в группе 1
    };
 
    bool  mBoolData[BOOL_COUNT];
@@ -76,6 +77,8 @@ private:
       L"S7:[S7 connection_4]DB20,REAL6",
       L"S7:[S7 connection_4]DB20,REAL10",
       L"S7:[S7 connection_4]DB10,REAL22",
+
+      "S7:[S7 connection_4]DB20,REAL204",
    };
 };
 
