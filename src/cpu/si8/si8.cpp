@@ -1,4 +1,4 @@
-#include "si8.h"
+﻿#include "si8.h"
 #include "funcs/owen_read.h"
 #include "types/owen_int_types.h"
 #include "types/owen_time.h"
@@ -23,7 +23,8 @@ static std::recursive_mutex MUTEX;
 class Connection
 {
 public:
-   ~Connection();
+   ~Connection()
+   {}
 
    static Connection Instance()
    {
@@ -99,7 +100,7 @@ bool SendCommand( owen::Command& cmd, uint8_t endpoint )
    std::lock_guard< std::recursive_mutex > lock( MUTEX );
    COMPort* port = Connection::Instance().GetPort();
    if ( !port )
-      return;
+      return false;
 
    owen::Paskage pkg( endpoint, cmd );
    port->Clear_Com_Buff(	COMPort::Purge_flags::TXABORT|

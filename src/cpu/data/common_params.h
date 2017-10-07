@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef common_paramsH
 #define common_paramsH
 #include "src/cpu/data_block_base.h"
@@ -78,7 +78,7 @@ private:
       L"S7:[S7 connection_4]DB20,REAL10",
       L"S7:[S7 connection_4]DB10,REAL22",
 
-      "S7:[S7 connection_4]DB20,REAL204",
+      L"S7:[S7 connection_4]DB20,REAL204",
    };
 };
 
