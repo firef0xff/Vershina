@@ -10,6 +10,11 @@ wchar_t const* Gr2Pos1Adresses[ GR2::INT_COUNT + GR2::FLOAT_COUNT ] =
 {
    //int
    L"S7:[S7 connection_4]DB20,DINT188",
+   L"S7:[S7 connection_4]DB20,DINT26",
+   L"S7:[S7 connection_4]DB20,DINT38",
+   L"S7:[S7 connection_4]DB20,DINT42",
+   L"S7:[S7 connection_4]DB20,DINT148",
+   L"S7:[S7 connection_4]DB20,DINT180",
 
    //float
    L"S7:[S7 connection_4]DB20,REAL18",
@@ -27,6 +32,11 @@ wchar_t const* Gr2Pos2Adresses[ GR2::INT_COUNT + GR2::FLOAT_COUNT ] =
 {
    //int
    L"S7:[S7 connection_4]DB20,DINT192",
+   L"S7:[S7 connection_4]DB20,DINT66",
+   L"S7:[S7 connection_4]DB20,DINT78",
+   L"S7:[S7 connection_4]DB20,DINT82",
+   L"S7:[S7 connection_4]DB20,DINT152",
+   L"S7:[S7 connection_4]DB20,DINT184",
 
    //float
    L"S7:[S7 connection_4]DB20,REAL58",

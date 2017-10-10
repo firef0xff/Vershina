@@ -83,17 +83,6 @@ int CpuMemory::ReadCycleParameters() // чтение циклических па
 
    //обновляем данные в контроллере
 
-//   mCommonParams.Write();
-   for ( Position* p: mPos )
-   {
-	  p->mGr1->fakt_time = p->mTimeSensor->DTMR();
-	  p->mGr2->fakt_distance = p->mTimeSensor->F_DCNT();
-
-	  p->mGr1->Write();
-	  p->mGr2->Write();
-   }
-
-
    //читаем данные с контроллера
    bool res = mCommonParams.Read();
    mCommonParams.SensorDrumSpeed = mSpeedSensor.DSPD();
@@ -102,8 +91,10 @@ int CpuMemory::ReadCycleParameters() // чтение циклических па
       res &=p->mGr1->Read();
       res &=p->mGr2->Read();
       res &=p->mGr3->Read();
+      p->mGr2->fakt_distance = p->mTimeSensor->F_DCNT();
+      p->mGr2->fakt_time = p->mTimeSensor->DTMR();
+      p->mGr2->Write();
    }
-
    return res ? 1 : 0;
 }
 
