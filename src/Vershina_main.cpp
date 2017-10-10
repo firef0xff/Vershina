@@ -1303,7 +1303,7 @@ void TmfRB::ShowCommonParam(void) // отображение общих пара�
             stP2CParL4C1->Caption = FloatToStrF(mPosA.old_load, ffFixed, 7, 2);
             stP2CParL5C1->Caption = FloatToStrF(mPosA.old_temp, ffFixed, 5, 1);
             stP2CParL6C1->Caption = FloatToStrF(mPosA.old_radius, ffFixed, 5, 1);
-            stP2CParL7C1->Caption = AnsiString(dt::mSecToHMSStr(gr1p1.next_step_time).c_str());
+            stP2CParL7C1->Caption = AnsiString(dt::mSecToHMSStr(gr2p1.next_step_time).c_str());
             stP2CParL1C2->Caption = "";
             stP2CParL2C2->Caption = "";
             stP2CParL3C2->Caption = "";
@@ -1383,7 +1383,7 @@ void TmfRB::ShowCommonParam(void) // отображение общих пара�
             stP2CParL4C3->Caption = FloatToStrF(mPosB.old_load, ffFixed, 7, 2);
             stP2CParL5C3->Caption = FloatToStrF(mPosB.old_temp, ffFixed, 5, 1);
             stP2CParL6C3->Caption = FloatToStrF(mPosB.old_radius, ffFixed, 5, 1);
-            stP2CParL7C3->Caption = AnsiString(dt::mSecToHMSStr(gr1p2.next_step_time).c_str());
+            stP2CParL7C3->Caption = AnsiString(dt::mSecToHMSStr(gr2p2.next_step_time).c_str());
             stP2CParL1C4->Caption = "";
             stP2CParL2C4->Caption = "";
             stP2CParL3C4->Caption = "";
@@ -1454,8 +1454,8 @@ void TmfRB::ShowCommonParam(void) // отображение общих пара�
          stP1CParL1C4->Caption = AnsiString(dt::mSecToHMSStr(gr3p2.T_end_cycle).c_str());
       else
          stP1CParL1C4->Caption = "";
-      stP1CParL1C2->Caption = AnsiString(dt::mSecToHMSStr(gr1p1.fakt_time).c_str());
-      stP1CParL1C5->Caption = AnsiString(dt::mSecToHMSStr(gr1p2.fakt_time).c_str());
+      stP1CParL1C2->Caption = AnsiString(dt::mSecToHMSStr(gr2p1.fakt_time).c_str());
+      stP1CParL1C5->Caption = AnsiString(dt::mSecToHMSStr(gr2p2.fakt_time).c_str());
       if (mPosA.mTyre.TestMode == 1)
          stP1CParL2C1->Caption = FloatToStrF(gr3p1.S_end_cycle, ffFixed, 7, 2);
       else
@@ -1482,10 +1482,10 @@ void TmfRB::ShowCommonParam(void) // отображение общих пара�
       stP1CParL6C5->Caption = FloatToStrF(gr2p2.fakt_temper, ffFixed, 5, 1);
       stP1CParL7C2->Caption = FloatToStrF(gr2p1.fakt_radius, ffFixed, 5, 1);
       stP1CParL7C5->Caption = FloatToStrF(gr2p2.fakt_radius, ffFixed, 5, 1);
-      stP1CParL8C1->Caption = String(gr1p1.step_change);
-      stP1CParL8C4->Caption = String(gr1p2.step_change);
-      stP1CParL8C3->Caption = String(gr1p1.next_step_change);
-      stP1CParL8C6->Caption = String(gr1p2.next_step_change);
+      stP1CParL8C1->Caption = String(gr2p1.step_change);
+      stP1CParL8C4->Caption = String(gr2p2.step_change);
+      stP1CParL8C3->Caption = String(gr2p1.next_step_change);
+      stP1CParL8C6->Caption = String(gr2p2.next_step_change);
    }
    // отображение на вкладке "РУЧНОЙ РЕЖИМ"
    if (pcRB->ActivePage == tsManual)
@@ -1554,32 +1554,32 @@ void TmfRB::ShowCommonParam(void) // отображение общих пара�
    {
       if (!leSetLoad1->Focused())
       {
-         tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -static_cast<int>(gr1p1.ReadLoading);
-         tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -static_cast<int>(gr1p1.ReadLoading);
-         leSetLoad1->Text = FloatToStrF(gr1p1.ReadLoading, ffFixed, 5, 2);
+         tbCurrentLoad1->SelEnd = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
+         tbCurrentLoad1->SelStart = tbCurrentLoad1->Max -static_cast<int>(gr3p1.Loading);
+         leSetLoad1->Text = FloatToStrF(gr3p1.Loading, ffFixed, 5, 2);
       }
       if (!leSetLoad2->Focused())
       {
-         tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -static_cast<int>(gr1p2.ReadLoading);
-         tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -static_cast<int>(gr1p2.ReadLoading);
-         leSetLoad2->Text = FloatToStrF(gr1p2.ReadLoading, ffFixed, 5, 2);
+         tbCurrentLoad2->SelEnd = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
+         tbCurrentLoad2->SelStart = tbCurrentLoad2->Max -static_cast<int>(gr3p2.Loading);
+         leSetLoad2->Text = FloatToStrF(gr3p2.Loading, ffFixed, 5, 2);
       }
    }
    // аварийные установки
    if (pcRB->ActivePage == tsEmSettings)
    {
-      leEmMaxLoad_1->Text = FloatToStrF(gr1p1.max_load, ffFixed, 5, 1);
-      leEmMaxLoad_2->Text = FloatToStrF(gr1p2.max_load, ffFixed, 5, 1);
+      leEmMaxLoad_1->Text = FloatToStrF(gr3p1.max_load, ffFixed, 5, 1);
+      leEmMaxLoad_2->Text = FloatToStrF(gr3p2.max_load, ffFixed, 5, 1);
       leEmMaxSpeed->Text = FloatToStrF(cmnp.max_speed, ffFixed, 5, 1);
       leEmMinSpeed->Text = FloatToStrF(cmnp.min_speed, ffFixed, 5, 1);
-      leEmMinLoad_1->Text = FloatToStrF(gr1p1.min_load, ffFixed, 5, 1);
-      leEmMinLoad_2->Text = FloatToStrF(gr1p2.min_load, ffFixed, 5, 1);
+      leEmMinLoad_1->Text = FloatToStrF(gr3p1.min_load, ffFixed, 5, 1);
+      leEmMinLoad_2->Text = FloatToStrF(gr3p2.min_load, ffFixed, 5, 1);
 
-      leEmMinTemp_1->Text = FloatToStrF(gr1p1.min_temp, ffFixed, 5, 1);
-      leEmMinTemp_2->Text = FloatToStrF(gr1p2.min_temp, ffFixed, 5, 1);
+      leEmMinTemp_1->Text = FloatToStrF(gr3p1.min_temp, ffFixed, 5, 1);
+      leEmMinTemp_2->Text = FloatToStrF(gr3p2.min_temp, ffFixed, 5, 1);
 
-      leEmMaxTemp_1->Text = FloatToStrF(gr1p1.max_temp, ffFixed, 5, 1);
-      leEmMaxTemp_2->Text = FloatToStrF(gr1p2.max_temp, ffFixed, 5, 1);
+      leEmMaxTemp_1->Text = FloatToStrF(gr3p1.max_temp, ffFixed, 5, 1);
+      leEmMaxTemp_2->Text = FloatToStrF(gr3p2.max_temp, ffFixed, 5, 1);
    }
 }
 
@@ -1610,12 +1610,16 @@ void __fastcall TmfRB::OPCControlStartExec(void)
       // прочитать состояние и установить состояние на панели
       auto &gr1p1 = *inst_cpu.mPos1->mGr1;
       auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+      auto &gr2p1 = *inst_cpu.mPos1->mGr2;
+      auto &gr2p2 = *inst_cpu.mPos2->mGr2;
       gr1p1.Read();
       gr1p2.Read();
+      gr2p1.Read();
+      gr2p2.Read();
 
       // определение и печать текущих режимов
-      mPosA.old_step = gr1p1.step_write;
-      mPosB.old_step = gr1p2.step_write;
+      mPosA.old_step = gr2p1.step_write;
+      mPosB.old_step = gr2p2.step_write;
       mPosA.CurrMode = BUnion(gr1p1.AutoMode, gr1p1.ManualMode);
       mPosB.CurrMode = BUnion(gr1p2.AutoMode, gr1p2.ManualMode);
       mPosA.CurrSMode = BUnion(gr1p1.Start, gr1p1.Stop);
@@ -1941,22 +1945,22 @@ void __fastcall TmfRB::OnReadCycleTimer(TObject */*Sender*/)
    {
       mPosA.cur_speed = cmnp.fakt_speed;
       mPosA.cur_dist = gr2p1.fakt_distance;
-      mPosA.cur_time = gr1p1.fakt_time;
+      mPosA.cur_time = gr2p1.fakt_time;
       mPosA.cur_load = gr2p1.fakt_loading;
       mPosA.cur_radius = gr2p1.fakt_radius;
       mPosA.cur_temp = gr2p1.fakt_temper;
-      mPosA.cur_step = gr1p1.step_write;
+      mPosA.cur_step = gr2p1.step_write;
    }
 
    if (mPosB.CurrSMode == 2)
    {
       mPosB.cur_speed = cmnp.fakt_speed;
       mPosB.cur_dist = gr2p2.fakt_distance;
-      mPosB.cur_time = gr1p2.fakt_time;
+      mPosB.cur_time = gr2p2.fakt_time;
       mPosB.cur_load = gr2p2.fakt_loading;
       mPosB.cur_radius = gr2p2.fakt_radius;
       mPosB.cur_temp = gr2p2.fakt_temper;
-      mPosB.cur_step = gr1p2.step_write;
+      mPosB.cur_step = gr2p2.step_write;
    }
 
    ShowStatus();
@@ -7535,26 +7539,26 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
       return;
 
    std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
-   auto &gr1p1 = *inst_cpu.mPos1->mGr1;
-   auto &gr1p2 = *inst_cpu.mPos2->mGr1;
+   auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    auto &cmnp = inst_cpu.mCommonParams;
    bool err = false, value = false;
    // проверка значения
    try
    {
-      value += CheckLoad( leEmMaxLoad_1R, gr1p1.max_load);
-      value += CheckLoad( leEmMaxLoad_2R, gr1p2.max_load);
+      value += CheckLoad( leEmMaxLoad_1R, gr3p1.max_load);
+      value += CheckLoad( leEmMaxLoad_2R, gr3p2.max_load);
       value += CheckSpeed( leEmMaxSpeedR, cmnp.max_speed );
       value += CheckSpeed( leEmMinSpeedR, cmnp.min_speed);
-      value += CheckLoad( leEmMinLoad_1R, gr1p1.min_load);
-      value += CheckLoad( leEmMinLoad_2R, gr1p2.min_load);
+      value += CheckLoad( leEmMinLoad_1R, gr3p1.min_load);
+      value += CheckLoad( leEmMinLoad_2R, gr3p2.min_load);
 
-      gr1p1.min_temp = leEmMinTemp_1R->Text.Trim().ToDouble();
-      gr1p1.max_temp = leEmMaxTemp_1R->Text.Trim().ToDouble();
-      gr1p2.min_temp = leEmMinTemp_2R->Text.Trim().ToDouble();
-      gr1p2.max_temp = leEmMaxTemp_2R->Text.Trim().ToDouble();
-      gr1p1.Write();
-      gr1p2.Write();
+      gr3p1.min_temp = leEmMinTemp_1R->Text.Trim().ToDouble();
+      gr3p1.max_temp = leEmMaxTemp_1R->Text.Trim().ToDouble();
+      gr3p2.min_temp = leEmMinTemp_2R->Text.Trim().ToDouble();
+      gr3p2.max_temp = leEmMaxTemp_2R->Text.Trim().ToDouble();
+      gr3p1.Write();
+      gr3p2.Write();
       cmnp.Write();
       leEmMinTemp_1R->Color = clLime;
       leEmMaxTemp_1R->Color = clLime;
