@@ -36,11 +36,15 @@ public:
    float &CorrBMeasLoad   = mFloatData[8];// DB10,REAL102 Корекция Б по измерению нагрузки 1   НА!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    float &RadLowLimit     = mFloatData[9];// DB10,REAL122 Нижний предел измерений датчика радиуса 1
    float &RadUpLimit      = mFloatData[10];// DB10,REAL126 Верхний предел измерений датчика радиуса 1
+   float &min_load       = mFloatData[11]; // DB10,REAL142 мин. нагрузка 1 в цикле
+   float &max_load       = mFloatData[12]; // DB10,REAL146 макс нагрузка 1 в цикле
+   float &min_temp       = mFloatData[13]; // DB10,REAL158 Минимальная температура в Поз А
+   float &max_temp       = mFloatData[14]; // DB10,REAL162 Максимальная температура в Поз А
 
    enum
    {
       INT_COUNT   = 4,
-      FLOAT_COUNT = 11
+      FLOAT_COUNT = 15
    };
 private:
    friend class cpu::CpuMemory;

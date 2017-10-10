@@ -26,6 +26,10 @@ wchar_t const* Gr3Pos1Adresses[ GR3::INT_COUNT + GR3::FLOAT_COUNT] =
    L"S7:[S7 connection_4]DB10,REAL102",
    L"S7:[S7 connection_4]DB10,REAL122",
    L"S7:[S7 connection_4]DB10,REAL126",
+   L"S7:[S7 connection_4]DB10,REAL142",
+   L"S7:[S7 connection_4]DB10,REAL146",
+   L"S7:[S7 connection_4]DB10,REAL158",
+   L"S7:[S7 connection_4]DB10,REAL162",
 
 };
 wchar_t const* Gr3Pos2Adresses[ GR3::INT_COUNT + GR3::FLOAT_COUNT] =
@@ -47,7 +51,11 @@ wchar_t const* Gr3Pos2Adresses[ GR3::INT_COUNT + GR3::FLOAT_COUNT] =
    L"S7:[S7 connection_4]DB10,REAL114",
    L"S7:[S7 connection_4]DB10,REAL118",
    L"S7:[S7 connection_4]DB10,REAL130",
-   L"S7:[S7 connection_4]DB10,REAL134"
+   L"S7:[S7 connection_4]DB10,REAL134",
+   L"S7:[S7 connection_4]DB10,REAL150",
+   L"S7:[S7 connection_4]DB10,REAL154",
+   L"S7:[S7 connection_4]DB10,REAL166",
+   L"S7:[S7 connection_4]DB10,REAL170"
 };
 
 wchar_t const* Gr3Pos1Name = L"Gr3Pos1";
