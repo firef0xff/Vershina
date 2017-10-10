@@ -1014,7 +1014,9 @@ void __fastcall TmfRB::OPCControlStartExec(void)
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
       // прочитать состояние и установить состояние на панели
       auto &gr1p1 = *inst_cpu.mPos1->mGr1;
+      auto &gr2p1 = *inst_cpu.mPos1->mGr2;
       gr1p1.Read();
+      gr2p1.Read();
 
       // определение и печать текущих режимов
       mPosA.old_step = gr2p1.step_write;
