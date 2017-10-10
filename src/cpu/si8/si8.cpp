@@ -8,6 +8,7 @@
 #include <mutex>
 #include <chrono>
 #include <thread>
+#include <cmath>
 
 #include "../../def.h"
 
@@ -26,8 +27,10 @@ public:
    ~Connection()
    {}
 
-   static Connection Instance()
+   static Connection& Instance()
    {
+	  static Connection c;
+      return c;
    }
 
    COMPort* GetPort()
@@ -158,6 +161,28 @@ int32_t SI8::DCNT() const
    owen::Read cmd( "DCNT", res );
    SendCommand( cmd, mEndpoint );
    return res.Data();
+}
+float SI8::F_DCNT() const
+{
+    int res = DCNT();
+	if (!res)
+	{
+		return 0.0;
+	}
+
+	int pos = res; //число символов после запятой
+	int num = 0; //количество символов значащей части
+	while ( pos > 10 )
+	{
+		pos /= 10;
+		++num;
+	}
+
+	res -= pos * pow( 10, num );
+	int c = res /pow(10, pos);
+	res -= c * pow(10, pos);
+	float result = c + static_cast<float>( res )/pow(10, pos);
+    return result;
 }
 int32_t SI8::DSPD() const
 {

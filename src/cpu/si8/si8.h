@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef si8H
 #define si8H
 
@@ -17,6 +17,7 @@ public:
    bool IsConnected();
 
    int32_t DCNT() const; //Считать показания счетчика импульсов
+   float F_DCNT() const;
    int32_t DSPD() const; //Считать показания расходомера
    uint32_t DTMR() const; //Считать показания таймера (мсек)
 
