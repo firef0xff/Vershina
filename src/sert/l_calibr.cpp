@@ -82,6 +82,8 @@ void LCalibr::LKSetting( cpu::data::GR12& data )
    {
       data.A[i] = KA[i];
       data.A[cpu::data::GR12::ITEMS_COUNT - i - 1] = KA[ITEMS_COUNT - i - 1];
+      data.Q[i] = TargetLd[i];
+      data.Q[cpu::data::GR12::ITEMS_COUNT - i - 1] = TargetLd[ITEMS_COUNT - i - 1];
    }
 }
 
