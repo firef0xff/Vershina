@@ -13,13 +13,15 @@ LCalibr::LCalibr(const std::string &pos):
    loaded(false),
    mPos(pos)
 {
-   TargetLd[0] = 0.5;
-   for ( int i = 1; i <= ((ITEMS_COUNT-1)/2); ++i )
+   TargetLd[0] = 3;
+      for ( int i = 1; i < 5; ++i )
+   {
+      TargetLd[i] = TargetLd[i-1] + 0.5;
+   }
+   for ( int i = 5; i <= ((ITEMS_COUNT-1)/2); ++i )
    {
       TargetLd[i] = TargetLd[i-1] + 1;
    }
-   TargetLd[(ITEMS_COUNT-1)/2] = TargetLd[(ITEMS_COUNT-1)/2-1] + 1.5;
-
    for (int i = 20, j = 2; i < ITEMS_COUNT; i++)
    { // столбец заданных нагрузок
       TargetLd[i] = TargetLd[20 - (j++)];
