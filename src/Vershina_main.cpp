@@ -34,7 +34,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
    InpTyre(""),
    mPosA("A", "Прог 1"),
    mPosB("Б", "Прог 2"),
-   mTimerAction( 500,
+   mTimerAction( timer::Timer::TimeOut( 500 ),
    [this]()
    {
       if ( cpu::CpuMemory::Instance().IsConnected() )

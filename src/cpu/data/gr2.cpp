@@ -72,15 +72,15 @@ void GR2::Write()
       res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT, FLOAT_COUNT, static_cast<void*>( mFloatData ), opc::tFLOAT );
 }
 
-void GR2::UpdateMetrix()
+void GR2::UpdateMetrix( int _fakt_time, float _fakt_distance )
 {
    HRESULT res = E_FAIL;
    while ( res == E_FAIL )
-      res = opc::miniOPC::Instance().WriteMass( mGroupID, 1, 1, static_cast<void*>( &fakt_time ), opc::tINT );
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, 1, 1, static_cast<void*>( &_fakt_time ), opc::tINT );
 
    res = E_FAIL;
    while ( res == E_FAIL )
-      res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT + 0, 1, static_cast<void*>( &fakt_distance ), opc::tFLOAT );
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT + 0, 1, static_cast<void*>( &_fakt_distance ), opc::tFLOAT );
 }
 
 bool GR2::Read()
