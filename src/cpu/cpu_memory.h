@@ -62,6 +62,7 @@ public:
 
     std::vector<Position*> mPos;
     int ReadCycleParameters();
+    void UpdateCpuData();
     bool IsConnected();
 
     typedef std::function< void() > CallBack;
