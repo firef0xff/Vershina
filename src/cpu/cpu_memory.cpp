@@ -104,11 +104,17 @@ int CpuMemory::ReadCycleParameters() // чтение циклических па
       res &=p->mGr1->Read();
       res &=p->mGr2->Read();
       res &=p->mGr3->Read();
-      p->mGr2->fakt_distance = p->mTimeSensor->F_DCNT();
-      p->mGr2->fakt_time = p->mTimeSensor->DTMR();
-      p->mGr2->Write();
    }
    return res ? 1 : 0;
+}
+void CpuMemory::UpdateCpuData()
+{
+   for ( Position* p: mPos )
+   {
+      p->mGr2->fakt_distance = p->mTimeSensor->F_DCNT();
+      p->mGr2->fakt_time = p->mTimeSensor->DTMR();
+      p->mGr2->UpdateMetrix();
+   }
 }
 
 bool CpuMemory::IsConnected()
