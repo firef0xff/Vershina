@@ -3,8 +3,8 @@
 #define data_updaterH
 #include <chrono>
 #include <functional>
-#include <thread>
 #include <atomic>
+#include <windows.h>
 
 namespace timer
 {
@@ -18,18 +18,16 @@ public:
    ~Timer();
 
    void Start();
-   bool Started();
    void Stop();
    void Terminate();
    uint64_t Count();
-private:
+
    void Run();
+private:
    TimeOut mTimeout;
    Action mAction;
-   std::atomic< bool > mRunAction;
-   std::atomic< bool > mTerminate;
    std::atomic< uint64_t > mCount;
-   std::thread mThread;
+   HANDLE mThread;
 };
 
 }

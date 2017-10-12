@@ -2,7 +2,6 @@
 #ifndef gr2H
 #define gr2H
 #include "src/cpu/data_block_base.h"
-#include <mutex>
 
 namespace cpu
 {
@@ -18,7 +17,6 @@ public:
    GR2(const wchar_t* group_name, const wchar_t *addresses[] );
 
    void Write() override;
-   void UpdateMetrix( int _fakt_time, float _fakt_distance );
    bool Read() override;
    void Clear();
 
@@ -57,7 +55,6 @@ private:
 
    int   mIntData[INT_COUNT];
    float mFloatData[FLOAT_COUNT];
-   mutable std::mutex mMutex;
 
    unsigned long long mGroupID = 0;
 
