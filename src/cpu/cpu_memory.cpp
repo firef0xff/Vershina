@@ -9,10 +9,7 @@ namespace cpu
 
 namespace
 {
-static std::unique_ptr< CpuMemory > CPU_MEMORY;
 static std::mutex CPU_MEMORY_MUTEX;
-
-std::vector< CpuMemory::CallBack > CALLBACKS;
 }//namespace
 
 Position::Position(std::unique_ptr<data::GR1> gr1,
@@ -56,7 +53,7 @@ CpuMemory::CpuMemory():
 
       mPos.push_back( mPos1.get() );
 
-      std::thread([]()
+      std::thread([this]()
       {
          for( auto f: CALLBACKS )
             f();
@@ -69,6 +66,11 @@ CpuMemory::~CpuMemory()
 CpuMemory& CpuMemory::Instance()
 {
    std::lock_guard< std::mutex > lock( CPU_MEMORY_MUTEX );
+   auto id =std::this_thread::get_id();
+   typedef std::unique_ptr< CpuMemory > Ptr;
+   static std::map< std::thread::id, std::unique_ptr< CpuMemory > >  ptrs;
+
+   Ptr& CPU_MEMORY = ptrs[id];
    if ( !CPU_MEMORY || !CPU_MEMORY->IsConnected() )
    {
       CPU_MEMORY.reset( new CpuMemory() );
@@ -98,9 +100,9 @@ void CpuMemory::UpdateCpuData()
 {
    for ( Position* p: mPos )
    {
-      auto fakt_distance = p->mTimeSensor->F_DCNT();
-      auto fakt_time = p->mTimeSensor->DTMR();
-      p->mGr2->UpdateMetrix(fakt_time, fakt_distance );
+      p->mGr2-> fakt_distance = p->mTimeSensor->F_DCNT();
+      p->mGr2-> fakt_time = p->mTimeSensor->DTMR();
+      p->mGr2->Write();
    }
 }
 
@@ -113,7 +115,7 @@ void CpuMemory::OnConnected( CallBack f )
 {
    std::lock_guard< std::mutex > lock( CPU_MEMORY_MUTEX );
    CALLBACKS.push_back( f );
-   if ( CPU_MEMORY && CPU_MEMORY->IsConnected() )
+   if ( IsConnected() )
       f();
 }
 }//namespace cpu

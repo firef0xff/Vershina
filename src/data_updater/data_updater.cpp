@@ -1,41 +1,45 @@
 #include "data_updater.h"
+#include <thread>
 
 namespace timer
 {
 
+namespace
+{
+DWORD WINAPI ThreadFunk(
+  _In_ LPVOID lpParameter
+)
+{
+   Timer *self = static_cast<Timer*>(lpParameter);
+   self->Run();
+}
+
+}
+
 Timer::Timer(TimeOut timeout, Action f ):
    mTimeout( timeout ),
    mAction( f ),
-   mRunAction( false ),
-   mTerminate( false ),
-   mThread( std::bind( &Timer::Run, this ) )
+   mThread( CreateThread(NULL,0, &ThreadFunk, this, CREATE_SUSPENDED, NULL) )
 {
 }
 Timer::~Timer()
 {
    Terminate();
-   if ( mThread.joinable() )
-   {
-      mThread.join();
-   }
 }
 
 void Timer::Terminate()
 {
-   mTerminate = true;
+   TerminateThread( mThread, 0 );
 }
 
 void Timer::Start()
 {
-   mRunAction = true;
+   ResumeThread( mThread );
 }
-bool Timer::Started()
-{
-   return mRunAction;
-}
+
 void Timer::Stop()
 {
-   mRunAction = false;
+   SuspendThread( mThread );
 }
 
 uint64_t Timer::Count()
@@ -45,14 +49,9 @@ uint64_t Timer::Count()
 
 void Timer::Run()
 {
-   for(;!mTerminate;)
+   for(;;)
    {
       std::this_thread::sleep_for( mTimeout );
-      if ( mTerminate )
-         return;
-      if ( !mRunAction )
-         continue;
-
       ++mCount;
       mAction();
    }

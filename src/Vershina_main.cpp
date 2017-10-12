@@ -130,11 +130,10 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
 
-      cpu::CpuMemory::OnConnected(
-      [this]()
-      {
-         auto& inst_cpu = cpu::CpuMemory::Instance();
-
+	  auto& inst_cpu = cpu::CpuMemory::Instance();
+	  inst_cpu.OnConnected(
+	  [this,&inst_cpu]()
+	  {
          std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
          auto &gr12 = *inst_cpu.mPos1->mGr12;
          mPosA.mLdC.LKQInit( gr12 );
@@ -2567,8 +2566,7 @@ void TmfRB::DesignManualPanel(void)
    int leWidth = leCurrentLoad1->EditLabel->Width + 2;
    int leEdHeight = leCurrentLoad1->EditLabel->Height + 2;
    int leHeight = 30;
-   int TickdH1 = (gbHeight) / ( tbCurrentLoad1->Max/tbCurrentLoad1->Frequency ) / 2 - 6;
-   int TickdH3 = (gbHeight) / ( tbCurrentDrumSpeed->Max/tbCurrentDrumSpeed->Frequency ) / 2 + 4;
+
    gbCarriage1->Left = 10;
    gbCarriage1->Top = 10;
    gbCarriage1->Width = gbWidth2;
@@ -2578,18 +2576,17 @@ void TmfRB::DesignManualPanel(void)
    pCarr1Load->Top = 20;
    pCarr1Load->Width = gbWidth2 - 20;
    pCarr1Load->Height = 26;
-   leCurrentLoad1->Left = 30;
-   leCurrentLoad1->Top = 56 + leEdHeight;
-   leCurrentLoad1->Width = leWidth;
-   leCurrentLoad1->Height = leHeight;
    leSetLoad1->Left = 30;
    leSetLoad1->Top = 56 + leEdHeight * 2 + 20 + leHeight;
    leSetLoad1->Width = leWidth;
    leSetLoad1->Height = leHeight;
+
    tbCurrentLoad1->Left = leWidth * 2 + 30;
-   tbCurrentLoad1->Top = leCurrentLoad1->Top - leEdHeight;
+   tbCurrentLoad1->Top = 56;
    tbCurrentLoad1->Width = 50;
    tbCurrentLoad1->Height = gbHeight / 2;
+   double TickdH1 =((double)tbCurrentLoad1->Height - 40 ) / ( (double)tbCurrentLoad1->Max/(double)tbCurrentLoad1->Frequency );
+
    leCurrentT1->Left = leWidth * 2 + 20;
    leCurrentT1->Top = tbCurrentLoad1->Top + gbHeight / 2 + 5;
    leCurrentT1->Width = leWidth;
@@ -2598,34 +2595,42 @@ void TmfRB::DesignManualPanel(void)
    leCurrentR1->Top = leCurrentT1->Top + leHeight + 10;
    leCurrentR1->Width = leWidth;
    leCurrentR1->Height = leHeight;
+
    lLoad0->Left = leWidth * 2 + 85;
-   lLoad0->Top = tbCurrentLoad1->Top + gbHeight / 2 - 27;
    lLoad0->Width = 30;
    lLoad0->Height = 20;
+   lLoad0->Top = tbCurrentLoad1->Top + tbCurrentLoad1->Height -5 - lLoad0->Height;
+
    lLoad5->Left = leWidth * 2 + 85;
-   lLoad5->Top = tbCurrentLoad1->Top + gbHeight / 2 - 27 - TickdH1;
    lLoad5->Width = 30;
    lLoad5->Height = 20;
+   lLoad5->Top = lLoad0->Top - TickdH1;
+
    lLoad10->Left = leWidth * 2 + 85;
-   lLoad10->Top = tbCurrentLoad1->Top + gbHeight / 2 - 27 - TickdH1 * 2;
    lLoad10->Width = 30;
    lLoad10->Height = 20;
+   lLoad10->Top = lLoad5->Top - TickdH1;
+
    lLoad15->Left = leWidth * 2 + 85;
-   lLoad15->Top = tbCurrentLoad1->Top + gbHeight / 2 - 27 - TickdH1 * 3;
    lLoad15->Width = 30;
    lLoad15->Height = 20;
+   lLoad15->Top = lLoad10->Top - TickdH1;
+
    lLoad20->Left = leWidth * 2 + 85;
-   lLoad20->Top = tbCurrentLoad1->Top + gbHeight / 2 - 27 - TickdH1 * 4;
    lLoad20->Width = 30;
    lLoad20->Height = 20;
+   lLoad20->Top = lLoad15->Top - TickdH1;
+
    lLoad25->Left = leWidth * 2 + 85;
-   lLoad25->Top = tbCurrentLoad1->Top + gbHeight / 2 - 27 - TickdH1 * 5;
    lLoad25->Width = 30;
    lLoad25->Height = 20;
+   lLoad25->Top = lLoad20->Top - TickdH1;
+
    pCarr1Ttl->Left = 10;
    pCarr1Ttl->Top = leCurrentR1->Top + leHeight + 10;
    pCarr1Ttl->Width = gbWidth2 - 20;
    pCarr1Ttl->Height = 26;
+
    int btnTop = pCarr1Ttl->Top + 36;
    btnCarriage1From->Left = 5;
    btnCarriage1From->Top = btnTop;
@@ -2677,8 +2682,10 @@ void TmfRB::DesignManualPanel(void)
    tbCurrentDrumSpeed->Width = 50;
    tbCurrentDrumSpeed->Height = gbHeight / 5 * 3;
 
-   int tbDSTop = tbCurrentDrumSpeed->Top + gbHeight / 5 * 3 - 27;
    int TickLeft = leWidth * 2 + 20;
+   double TickdH3 =((double)tbCurrentDrumSpeed->Height - 40 ) / ( (double)tbCurrentDrumSpeed->Max/(double)tbCurrentDrumSpeed->Frequency );
+   int tbDSTop = tbCurrentDrumSpeed->Top + tbCurrentDrumSpeed->Height -5 -20;
+
    lSpeed0->Left = TickLeft;
    lSpeed0->Top = tbDSTop;
    lSpeed0->Width = 30;
@@ -2731,6 +2738,7 @@ void TmfRB::DesignManualPanel(void)
    lSpeed300->Top = tbDSTop - TickdH3 * 12;
    lSpeed300->Width = 30;
    lSpeed300->Height = 20;
+
    sbDrumOn->Left = 10;
    sbDrumOn->Top = tbDSTop;
    sbDrumOn->Width = 25;
