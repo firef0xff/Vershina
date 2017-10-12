@@ -81,6 +81,9 @@ void GR2::UpdateMetrix( int _fakt_time, float _fakt_distance )
    res = E_FAIL;
    while ( res == E_FAIL )
       res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT + 0, 1, static_cast<void*>( &_fakt_distance ), opc::tFLOAT );
+
+   fakt_time = _fakt_time;
+   fakt_distance = _fakt_distance;
 }
 
 bool GR2::Read()
