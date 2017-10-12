@@ -17,7 +17,7 @@ public:
    GR2(const wchar_t* group_name, const wchar_t *addresses[] );
 
    void Write() override;
-   void UpdateMetrix();
+   void UpdateMetrix( int _fakt_time, float _fakt_distance );
    bool Read() override;
    void Clear();
 
