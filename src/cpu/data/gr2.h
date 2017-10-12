@@ -22,11 +22,11 @@ public:
 
    //поз1
    int &next_set_time        = mIntData[0]; // DB20,DINT188
-   int &fakt_time        = mIntData[0]; // DB20,DINT26 факт. время 1
-   int &step_write       = mIntData[1]; // DB20,DINT38 номер текущего шага опроса 1
-   int &step_change      = mIntData[2]; // DB20,DINT42 номер текущего рабочего шага 1
-   int &next_step_time    = mIntData[3]; // DB20,DINT148 номер следующего шага опроса по времени 1
-   int &next_step_change  = mIntData[4]; // DB20,DINT180 номер следующего рабочего шага 1
+   int &fakt_time        = mIntData[1]; // DB20,DINT26 факт. время 1
+   int &step_write       = mIntData[2]; // DB20,DINT38 номер текущего шага опроса 1
+   int &step_change      = mIntData[3]; // DB20,DINT42 номер текущего рабочего шага 1
+   int &next_step_time    = mIntData[4]; // DB20,DINT148 номер следующего шага опроса по времени 1
+   int &next_step_change  = mIntData[5]; // DB20,DINT180 номер следующего рабочего шага 1
 
 
    float &fakt_distance     = mFloatData[0]; // DB20,REAL18 факт. пробег 1

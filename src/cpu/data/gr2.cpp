@@ -1,6 +1,7 @@
 ﻿#include "gr2.h"
 #include "miniOPC.h"
 #include <memory.h>
+
 namespace cpu
 {
 

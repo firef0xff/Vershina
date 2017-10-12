@@ -63,14 +63,16 @@ public:
 
     std::vector<Position*> mPos;
     int ReadCycleParameters();
+    void UpdateCpuData();
     bool IsConnected();
 
     typedef std::function< void() > CallBack;
-    static void OnConnected( CallBack f );
+    void OnConnected( CallBack f );
 private:
     CpuMemory();
     CpuMemory( CpuMemory const& ) = delete;
     CpuMemory& operator = ( CpuMemory const& ) = delete;
+    std::vector< CpuMemory::CallBack > CALLBACKS;
 };
 
 

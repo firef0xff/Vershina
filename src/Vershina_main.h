@@ -799,7 +799,7 @@ private: // User declarations
    UIPosData mPosA;
    UIPosData mPosB;
    UICommonData mData;
-//   timer::Timer mTimerAction;
+   timer::Timer mTimerAction;
    int mCount = 0;
    std::recursive_mutex mCPUMutex;
 
