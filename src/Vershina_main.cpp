@@ -145,11 +145,10 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
 
-      cpu::CpuMemory::OnConnected(
-      [this]()
-      {
-         auto& inst_cpu = cpu::CpuMemory::Instance();
-
+	  auto& inst_cpu = cpu::CpuMemory::Instance();
+	  inst_cpu.OnConnected(
+	  [this,&inst_cpu]()
+	  {
          std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
          auto &gr12 = *inst_cpu.mPos1->mGr12;
          auto &gr13 = *inst_cpu.mPos2->mGr12;

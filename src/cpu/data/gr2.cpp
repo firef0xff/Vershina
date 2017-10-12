@@ -1,6 +1,7 @@
 ﻿#include "gr2.h"
 #include "miniOPC.h"
 #include <memory.h>
+
 namespace cpu
 {
 
@@ -63,6 +64,7 @@ GR2::GR2(const wchar_t* group_name, const wchar_t *addresses[] )
 
 void GR2::Write()
 {
+   std::lock_guard<std::mutex> lock( mMutex );
    HRESULT res = E_FAIL;
    while ( res == E_FAIL )
       res = opc::miniOPC::Instance().WriteMass( mGroupID, 0, INT_COUNT, static_cast<void*>( mIntData ), opc::tINT );
@@ -74,6 +76,7 @@ void GR2::Write()
 
 void GR2::UpdateMetrix( int _fakt_time, float _fakt_distance )
 {
+   std::lock_guard<std::mutex> lock( mMutex );
    HRESULT res = E_FAIL;
    while ( res == E_FAIL )
       res = opc::miniOPC::Instance().WriteMass( mGroupID, 1, 1, static_cast<void*>( &_fakt_time ), opc::tINT );
@@ -88,6 +91,7 @@ void GR2::UpdateMetrix( int _fakt_time, float _fakt_distance )
 
 bool GR2::Read()
 {
+   std::lock_guard<std::mutex> lock( mMutex );
    OPCITEMSTATE* rez = opc::miniOPC::Instance().Read( mGroupID );
    if (!rez) //ошибка подключения..
       return false;

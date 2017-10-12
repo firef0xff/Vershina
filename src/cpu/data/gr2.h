@@ -2,6 +2,7 @@
 #ifndef gr2H
 #define gr2H
 #include "src/cpu/data_block_base.h"
+#include <mutex>
 
 namespace cpu
 {
@@ -56,6 +57,7 @@ private:
 
    int   mIntData[INT_COUNT];
    float mFloatData[FLOAT_COUNT];
+   mutable std::mutex mMutex;
 
    unsigned long long mGroupID = 0;
 
