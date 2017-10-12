@@ -98,9 +98,9 @@ void CpuMemory::UpdateCpuData()
 {
    for ( Position* p: mPos )
    {
-      p->mGr2->fakt_distance = p->mTimeSensor->F_DCNT();
-      p->mGr2->fakt_time = p->mTimeSensor->DTMR();
-      p->mGr2->UpdateMetrix();
+      auto fakt_distance = p->mTimeSensor->F_DCNT();
+      auto fakt_time = p->mTimeSensor->DTMR();
+      p->mGr2->UpdateMetrix(fakt_time, fakt_distance );
    }
 }
 
