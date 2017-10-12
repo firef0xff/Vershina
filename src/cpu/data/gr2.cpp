@@ -72,6 +72,17 @@ void GR2::Write()
       res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT, FLOAT_COUNT, static_cast<void*>( mFloatData ), opc::tFLOAT );
 }
 
+void GR2::UpdateMetrix()
+{
+   HRESULT res = E_FAIL;
+   while ( res == E_FAIL )
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, 1, 1, static_cast<void*>( &fakt_time ), opc::tINT );
+
+   res = E_FAIL;
+   while ( res == E_FAIL )
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT + 0, 1, static_cast<void*>( &fakt_distance ), opc::tFLOAT );
+}
+
 bool GR2::Read()
 {
    OPCITEMSTATE* rez = opc::miniOPC::Instance().Read( mGroupID );
