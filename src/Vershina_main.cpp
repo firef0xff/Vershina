@@ -1233,6 +1233,9 @@ void __fastcall TmfRB::OnOPCControlStopExec(TObject *Sender)
 
 void __fastcall TmfRB::OnReadCycleTimer(TObject */*Sender*/)
 {
+   if ( closing )
+      return;
+
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
       return;
@@ -3651,6 +3654,8 @@ void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
    else // exit from prog
    {
       closing = true;
+      mTimerAction.Terminate();
+      OnOPCControlStopExec( Sender );
    }
 }
 // ---------------------------------------------------------------------------
