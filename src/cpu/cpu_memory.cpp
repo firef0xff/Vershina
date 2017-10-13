@@ -113,9 +113,9 @@ void CpuMemory::UpdateCpuData()
 {
    for ( Position* p: mPos )
    {
-      p->mGr2-> fakt_distance = p->mTimeSensor->F_DCNT();
-      p->mGr2-> fakt_time = p->mTimeSensor->DTMR();
-      p->mGr2->Write();
+      float fakt_distance = p->mTimeSensor->F_DCNT();
+      int fakt_time = p->mTimeSensor->DTMR();
+      p->mGr2->SendMetrix( fakt_time, fakt_distance );
    }
 }
 
