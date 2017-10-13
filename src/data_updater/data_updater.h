@@ -5,6 +5,7 @@
 #include <functional>
 #include <atomic>
 #include <windows.h>
+#include <mutex>
 
 namespace timer
 {
@@ -27,6 +28,7 @@ private:
    TimeOut mTimeout;
    Action mAction;
    std::atomic< uint64_t > mCount;
+   std::mutex mMutex;
    HANDLE mThread;
 };
 
