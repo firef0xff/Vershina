@@ -62,6 +62,18 @@ GR2::GR2(const wchar_t* group_name, const wchar_t *addresses[] )
    mGroupID = opc::miniOPC::Instance().AddGroup( group_name, addresses, INT_COUNT + FLOAT_COUNT );
 }
 
+void GR2::SendMetrix( int _fakt_time, float _fakt_distance )
+{
+   HRESULT res = E_FAIL;
+   while ( res == E_FAIL )
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, 1, 1, static_cast<void*>( _fakt_time ), opc::tINT );
+
+   res = E_FAIL;
+   while ( res == E_FAIL )
+      res = opc::miniOPC::Instance().WriteMass( mGroupID, INT_COUNT + 0, 1, static_cast<void*>( _fakt_distance ), opc::tFLOAT );
+
+}
+
 void GR2::Write()
 {
    HRESULT res = E_FAIL;
