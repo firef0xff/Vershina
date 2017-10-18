@@ -1703,11 +1703,6 @@ void __fastcall TmfRB::OnSProgFileSaveAs(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
 {
-   if (!CheckProgLoad(sgSProgram, 1, 10.0))
-   {
-      return;
-   }
-   LogPrint("Загрузка программы по пути в поз. А!", clAqua);
 
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
@@ -1725,6 +1720,12 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    auto &gr6 = *inst_cpu.mPos1->mGr6;
    PathPrg.ToCpu( gr4, gr6 );
    auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   if (!CheckProgLoad(sgSProgram, 1, gr3p1.min_load))
+   {
+	  return;
+   }
+   LogPrint("Загрузка программы по пути в поз. А!", clAqua);
+
    mPosA.RunProgName = PathPrg.SProgName;
    SetCurrProgA(mPosA.RunProgName);
    stP1L2ProgNameA->Caption = AnsiString(mPosA.RunProgName.c_str());
@@ -1960,11 +1961,6 @@ void __fastcall TmfRB::OnTProgFileOpen(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
 {
-   if (!CheckProgLoad(sgTProgram, 1, 10.0))
-   {
-      return;
-   }
-
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
@@ -1978,6 +1974,10 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    auto &gr5 = *inst_cpu.mPos1->mGr5;
    auto &gr6 = *inst_cpu.mPos1->mGr6;
    auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   if (!CheckProgLoad(sgTProgram, 1, gr3p1.min_load))
+   {
+	  return;
+   }
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
    TimePrg.ToCpu( gr5, gr6 );
    mPosA.RunProgName = TimePrg.TProgName;
