@@ -67,6 +67,7 @@ public:
 
    //автосохранение
    bool needSave = false;
+   bool in_save = false;
 
    Tyre mTyre;
    sert::LSert mLdS;

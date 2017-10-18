@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{9e3ae0c2-ee8d-461e-acfb-005203b3815b}</ProjectGuid>
         <MainSource>src\Vershina.cpp</MainSource>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <ProjectVersion>18.2</ProjectVersion>
         <Base>True</Base>
         <AppType>Application</AppType>

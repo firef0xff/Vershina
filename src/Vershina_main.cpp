@@ -33,13 +33,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
    closing(false),
    InpTyre(""),
    mPosA("A", "Прог 1"),
-   mPosB("Б", "Прог 2"),
-   mTimerAction( timer::Timer::TimeOut( 500 ),
-   [this]()
-   {
-      if ( cpu::CpuMemory::Instance().IsConnected() )
-         cpu::CpuMemory::Instance().UpdateCpuData();
-   } )
+   mPosB("Б", "Прог 2")
 {
    // соединение с базой программы
    String con1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=", con2 =
@@ -48,6 +42,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
    ADC->ConnectionString = con1 + ExtractFilePath(Application->ExeName) +
       "ProgData.mdb" + con2;
    DB.reset(new cSQL(ADC,false));
+   leStandNo->Text = STAND_NO;
    std::unique_ptr<TLogInwnd>wnd(new TLogInwnd(this, DB));
    if (wnd->ShowModal() == mrOk)
    {
@@ -154,7 +149,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
          auto &gr13 = *inst_cpu.mPos2->mGr12;
          mPosA.mLdC.LKQInit( gr12 );
          mPosB.mLdC.LKQInit( gr13 );
-         mTimerAction.Start();
       });
 
       InitLogger( reLog );
@@ -195,7 +189,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
 // ---- End of TmfRB constructor ---------------------------------------------
 __fastcall TmfRB::~TmfRB()
 {
-   mTimerAction.Terminate();
    // восстановление перед уничтожением
    tsCalibration->PageControl = pcRB;
    tsSert->PageControl = pcRB;
@@ -391,7 +384,8 @@ void TmfRB::DesignLoadSertAPanel(void)
             "    " + FloatToStrF(mPosA.mLdC.MeasuredLd[i], ffFixed, 6, 2);
       else
          sgLoadSertA->Cells[3][i + 1] = "";
-      if (mPosA.mLdC.loaded)
+//POS MARK
+      if (mPosA.mLdC.loaded || mPosA.mLdC.MeasuredLd[i] != 0.0 )
          sgLoadSertA->Cells[4][i + 1] =
             "    " + FloatToStrF(mPosA.mLdC.KA[i], ffFixed, 8, 5);
       else
@@ -1611,7 +1605,6 @@ void __fastcall TmfRB::OPCControlStartExec(void)
 
    if ( !ShowTimer->Enabled )
    {
-      mTimerAction.Start();
       std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
 
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
@@ -1789,8 +1782,10 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    sbStartA->Down = gr1p1.Start;
    sbStopA->Down = gr1p1.Stop;
    cbControlLateralA->Checked = gr1p1.ControlLateral;
-   if (gr1p1.Stop && mPosA.needSave && save)
+//POS MARK
+   if (gr1p1.Stop && mPosA.needSave && !mPosA.in_save && save)
    {
+      mPosA.in_save = true;
       mPosA.mTyre.Stop = dt::Now();
       btnLoadTestResPosA->Click(); // авто сохраниние
    }
@@ -1930,7 +1925,6 @@ void __fastcall TmfRB::OnOPCControlStopExec(TObject *Sender)
 {
    LogPrint( "OPC Control OFF!", clAqua);
    ShowTimer->Enabled = false;
-   mTimerAction.Stop();
    sbRB->Panels->Items[0]->Text = "Соединения со стендом нет";
 }
 // ---- End of OnOPCControlStopExec ------------------------------------------
@@ -2082,10 +2076,13 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
    {
       gr1p1.Start = false;
       gr1p1.Stop = true;
-      if (mPosA.needSave)
+//POS MARK
+      if (mPosA.needSave && !mPosA.in_save)
       {
+         mPosA.in_save = true;
          mPosA.mTyre.Stop = dt::Now();
          btnLoadTestResPosA->Click(); // авто сохраниние
+         mPosA.in_save = false;
       }
       sbRB->Panels->Items[2]->Text = "Стоп поз. А!";
       LogPrint( "Стоп поз. А!", clWhite);
@@ -2670,18 +2667,14 @@ void __fastcall TmfRB::OnSProgFileSaveAs(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
 {
-   if (!CheckProgLoad(sgSProgram, 1, 10.0))
-   {
-      return;
-   }
-   LogPrint("Загрузка программы по пути в поз. А!", clAqua);
 
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
    {
+//POS MARK
       sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по пути в поз. А - нет связи со станком!";
+         "Нельзя загрузить программу по пути в поз. А - нет связи со станком!";
       return;
    }
 
@@ -2692,6 +2685,12 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    auto &gr6 = *inst_cpu.mPos1->mGr6;
    PathPrg.ToCpu( gr4, gr6 );
    auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   if (!CheckProgLoad(sgSProgram, 1, gr3p1.min_load))
+   {
+      return;
+   }
+   LogPrint("Загрузка программы по пути в поз. А!", clAqua);
+
    mPosA.RunProgName = PathPrg.SProgName;
    SetCurrProgA(mPosA.RunProgName);
    stP1L2ProgNameA->Caption = AnsiString(mPosA.RunProgName.c_str());
@@ -2993,11 +2992,7 @@ void __fastcall TmfRB::OnTProgFileOpen(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
 {
-   if (!CheckProgLoad(sgTProgram, 1, 10.0))
-   {
-      return;
-   }
-
+//POS MARK
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
@@ -3011,6 +3006,10 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    auto &gr5 = *inst_cpu.mPos1->mGr5;
    auto &gr6 = *inst_cpu.mPos1->mGr6;
    auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   if (!CheckProgLoad(sgTProgram, 1, gr3p1.min_load))
+   {
+	  return;
+   }
    sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. А!";
    TimePrg.ToCpu( gr5, gr6 );
    mPosA.RunProgName = TimePrg.TProgName;
@@ -3027,11 +3026,10 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
       String(gr3p1.T_end_cycle) + ", шагов программы=" + String(gr3p1.StepsQty) +
       ", опросов=" + String(gr3p1.PollsQty));
 
-
-   btnResetResPosA->Click();
    gr3p1.Write();
    gr5.Write();
    gr6.Write();
+   btnResetResPosA->Click();
    btnCheckTProg->Enabled = false;
    btnSaveTProgToFile->Enabled = true;
    btnLoadTProgToPosA->Enabled = true;
@@ -4492,7 +4490,6 @@ void TmfRB::ReadProtDataFmScrn(void)
    InpTyre.Manufacturer = AnsiString(leManufacturer->Text).c_str();
    InpTyre.DrumDiameter = StrToFloat(leDrumD->Text);
    InpTyre.TestCustomer = AnsiString(leCustomer->Text).c_str();
-   // InpTyre.ManufactDate =StrToDate(meManDate->EditText);
    InpTyre.CustomDate(AnsiString(meManDate->EditText).c_str());
    InpTyre.SerialNo = StrToI(leSeralNo->Text);
    InpTyre.PerfSpecNo = StrToI(lePerfSpecNo->Text);
@@ -5367,7 +5364,6 @@ void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
    else // exit from prog
    {
       closing = true;
-      mTimerAction.Terminate();
       OnOPCControlStopExec( Sender );
    }
 }
