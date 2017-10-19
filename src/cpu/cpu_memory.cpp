@@ -80,7 +80,7 @@ CpuMemory& CpuMemory::Instance()
 
 int CpuMemory::ReadCycleParameters() // чтение циклических параметров
 {
-   if ( !IsConnected() || !mSpeedSensor.IsConnected() )
+   if ( !IsConnected() )
       return 0;
 
    //обновляем данные в контроллере
@@ -108,7 +108,7 @@ void CpuMemory::UpdateCpuData()
 
 bool CpuMemory::IsConnected()
 {
-   return opc::miniOPC::Instance().Connected();
+   return opc::miniOPC::Instance().Connected()&&mSpeedSensor.IsConnected();
 }
 
 void CpuMemory::OnConnected( CallBack f )
