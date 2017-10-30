@@ -31,32 +31,26 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    int lineY = UpperMarg + fHeight;
    int LineCnt = 0;
 
-   wstr[LineCnt] = "ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* std::string(ProtNo)+ */ " НА СТЕНДЕ " + data.StandName + data.mSide;
+   wstr[LineCnt] = "ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* std::string(ProtNo)+ */ " НА СТЕНДЕ " + data.StandName/* + data.mSide*/;
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;
    wstr[++LineCnt] = "     Изготовитель: " + data.Manufacturer + "     Заказчик: " + data.TestCustomer + "  Заказ №: " + std::to_string(data.OrderNo);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "           Модель: " + data.Model +"            Размер: " + data.Size;
+   wstr[++LineCnt] = "           Размер: " + data.Size         + "       Модель: " + data.Model + "  Маркировка: N/A";
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "Дата изготовления: " + data.CustomDate() +"     Порядковый №: " + std::to_string(data.SerialNo);
+   wstr[++LineCnt] = "Дата изготовления: " + data.CustomDate() +"     Порядковый №: " + std::to_string(data.SerialNo) + "    Форма №: " + std::to_string(data.FormNo);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "     Тех. задание: " + std::to_string(data.PerfSpecNo) +"   Методика: " + data.TestProcedure;
-   left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = " Диаметр барабана: " + std::to_string(data.DrumDiameter) +"мм       Форма №: " + std::to_string(data.FormNo);
+   wstr[++LineCnt] = " Диаметр барабана, мм: " + std::to_string(data.DrumDiameter) +"   Методика: " + data.TestProcedure;
    left[LineCnt] = LeftMarg;
    if (data.Type == 0)
       wstr[++LineCnt] = "ХАРАКТЕРИСТИКИ ИСПЫТАННОЙ ШИНЫ" /* РАДИАЛЬНОЙ ШИНЫ" */ ;
    else
       wstr[++LineCnt] = "ХАРАКТЕРИСТИКИ ИСПЫТАННОЙ ШИНЫ" /* ДИАГОНАЛЬНОЙ ШИНЫ" */ ;
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;
-   wstr[++LineCnt] = "   Индекс нагрузки: " + data.LoadIndex + "   Максимальная нагрузка: " + FloatToStringF(data.MaxLoad, 6, 2) + "кН";
+   wstr[++LineCnt] = "   Индекс нагрузки: " + data.LoadIndex + "        Наружный диаметр, мм: " + FloatToStringF(data.OuterD, 6,2);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "Категория скорости: " + data.SpeedInd + "   Максимальная скорость: " + FloatToStringF(data.MaxSpeed, 6, 2) + "км/час";
+   wstr[++LineCnt] = "Категория скорости: " + data.SpeedInd +  + "            Ширина профиля, мм: " + std::to_string(data.ProfileWide);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = " Давление при Qmax: " + FloatToStringF(data.MaxLoadPress, 6, 2) + "кПа        Наружный диаметр: " + FloatToStringF(data.OuterD, 6,2) + "мм";
-   left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "Статический радиус: " + FloatToStringF(data.StaticR, 6,2) + "мм            Ширина профиля: " + std::to_string(data.ProfileWide) + "мм";
-   left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "   Давление в шине: " + FloatToStringF(data.InitPressure, 6, 1) + "кПа                   Обод: " + data.WheelRim;
+   wstr[++LineCnt] = " Давление, кПа: " + FloatToStringF(data.MaxLoadPress, 6, 2) + "               Обод: " + data.WheelRim;
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:";
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;

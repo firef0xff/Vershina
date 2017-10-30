@@ -220,21 +220,18 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
       return;
    }
    fprintf(fprint, "%s\n\n", dt::ToString(dt::Now()).c_str());
-   fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName + mSide).c_str());
+   fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName /*+ mSide*/).c_str());
    fprintf(fprint, "     Изготовитель: %10s     Заказчик: %s  Заказ №: %5d\n",Manufacturer.c_str(), TestCustomer.c_str(),OrderNo);
-   fprintf(fprint, "           Модель: %10s            Размер: %10s\n",Model.c_str(), Size.c_str());
-   fprintf(fprint, "Дата изготовления: %10s      Порядковый №: %5d\n",CustomDate().c_str(), SerialNo);
-   fprintf(fprint, "     Тех. задание: %4d                Методика: %s\n",PerfSpecNo, TestProcedure.c_str());
-   fprintf(fprint, " Диаметр барабана,мм: %5.0f мм         Форма №: %5d\n\n", DrumDiameter, FormNo);
+   fprintf(fprint, "           Размер: %10s            Модель: %10s     Маркировка: %10s\n",Model.c_str(), Size.c_str(), "N/A");
+   fprintf(fprint, "Дата изготовления: %10s      Порядковый №: %5d         Форма №: %5d\n",CustomDate().c_str(), SerialNo,FormNo);
+   fprintf(fprint, " Диаметр барабана,мм: %5.0f          Методика: %s\n\n", DrumDiameter, TestProcedure.c_str());
    if (Type == 0)
       fprintf(fprint,"               ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ ШИНЫ\n" /* РАДИАЛЬНОЙ ШИНЫ\n" */);
    else
       fprintf(fprint,"               ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ ШИНЫ\n" /* ДИАГОНАЛЬНОЙ ШИНЫ\n" */);
-   fprintf(fprint,"   Индекс нагрузки: %10s    Максимальная нагрузка: %6.2f кН \n", LoadIndex.c_str(), MaxLoad);
-   fprintf(fprint,"Категория скорости: %10s    Максимальная скорость: %6.2f км/час \n", SpeedInd.c_str(), MaxSpeed);
-   fprintf(fprint," Давление при Qmax: %4.2f кПа        Наружный диаметр: %6.2f мм \n",MaxLoadPress, OuterD);
-   fprintf(fprint,"Статический радиус: %6.2f мм            Ширина профиля: %6d мм \n",StaticR, ProfileWide);
-   fprintf(fprint,"   Давление в шине: %6.1f кПа                   Обод: %10s\n\n",InitPressure, WheelRim.c_str());
+   fprintf(fprint,"   Индекс нагрузки: %10s    Наружный диаметр, мм: %6.2f \n", LoadIndex.c_str(), OuterD);
+   fprintf(fprint,"Категория скорости: %10s      Ширина профиля, мм: %6d \n", SpeedInd.c_str(), ProfileWide);
+   fprintf(fprint,"     Давление, кПа: %4.2f                   Обод: %10s\n\n",MaxLoadPress, WheelRim.c_str() );
    fprintf(fprint, "                            РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:\n");
    if (TestMode == 0)
       fprintf(fprint, "      Режим обкатки: по времени\n");
