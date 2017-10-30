@@ -32,13 +32,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
    TForm(Owner),
    closing(false),
    InpTyre(""),
-   mPosA("A", "Прог 1"),
-   mTimerAction( timer::Timer::TimeOut( 500 ),
-   [this]()
-   {
-      if ( cpu::CpuMemory::Instance().IsConnected() )
-         cpu::CpuMemory::Instance().UpdateCpuData();
-   } )
+   mPosA("A", "Прог 1")
 {
    // соединение с базой программы
    String con1 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=", con2 =
@@ -137,7 +131,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
          std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
          auto &gr12 = *inst_cpu.mPos1->mGr12;
          mPosA.mLdC.LKQInit( gr12 );
-         mTimerAction.Start();
       });
 
       InitLogger( reLog );
@@ -173,7 +166,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
 // ---- End of TmfRB constructor ---------------------------------------------
 __fastcall TmfRB::~TmfRB()
 {
-   mTimerAction.Terminate();
    // восстановление перед уничтожением
    tsCalibration->PageControl = pcRB;
    tsSert->PageControl = pcRB;
@@ -1016,7 +1008,6 @@ void __fastcall TmfRB::OPCControlStartExec(void)
 
    if ( !ShowTimer->Enabled )
    {
-      mTimerAction.Start();
       std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
 
       sbRB->Panels->Items[0]->Text = "Соединение со стендом установлено";
@@ -1226,7 +1217,6 @@ void __fastcall TmfRB::OnOPCControlStopExec(TObject *Sender)
 {
    LogPrint( "OPC Control OFF!", clAqua);
    ShowTimer->Enabled = false;
-   mTimerAction.Stop();
    sbRB->Panels->Items[0]->Text = "Соединения со стендом нет";
 }
 // ---- End of OnOPCControlStopExec ------------------------------------------
@@ -3654,7 +3644,6 @@ void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
    else // exit from prog
    {
       closing = true;
-      mTimerAction.Terminate();
       OnOPCControlStopExec( Sender );
    }
 }

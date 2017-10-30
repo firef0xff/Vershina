@@ -19,8 +19,7 @@ Position::Position(std::unique_ptr<data::GR1> gr1,
                     std::unique_ptr<data::GR5> gr5,
                     std::unique_ptr<data::GR6> gr6,
                     std::unique_ptr<data::GR7> gr7,
-                    std::unique_ptr<data::GR12> gr12 ,
-                   std::unique_ptr<data::SI8> si8):
+                    std::unique_ptr<data::GR12> gr12 ):
                   mGr1( std::move( gr1 ) ),
                   mGr2( std::move( gr2 ) ),
                   mGr3( std::move( gr3 ) ),
@@ -28,12 +27,10 @@ Position::Position(std::unique_ptr<data::GR1> gr1,
                   mGr5( std::move( gr5 ) ),
                   mGr6( std::move( gr6 ) ),
                   mGr7( std::move( gr7 ) ),
-                  mGr12( std::move( gr12 ) ),
-                  mTimeSensor( std::move( si8 ) )
+                  mGr12( std::move( gr12 ) )
 {}
 
-CpuMemory::CpuMemory():
-   mSpeedSensor(0)
+CpuMemory::CpuMemory()
 {
    if ( IsConnected() )
    {
@@ -46,8 +43,7 @@ CpuMemory::CpuMemory():
                       std::unique_ptr<data::GR6>( new data::GR6( cpu::data::Gr6Pos1Name, cpu::data::Gr6Pos1Adresses ) ),
                       std::unique_ptr<data::GR7>( new data::GR7( cpu::data::Gr7Pos1Name, cpu::data::Gr7Pos1Adresses ) ),
                       std::unique_ptr<data::GR12>( new data::GR12( cpu::data::Gr12Pos1NameA, cpu::data::Gr12Pos1AdressesA,
-                                                                   cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ ) ),
-                      std::unique_ptr<data::SI8>( new data::SI8( 1 ) )
+                                                                   cpu::data::Gr12Pos1NameQ, cpu::data::Gr12Pos1AdressesQ ) )
                      ) );
 
 
@@ -87,7 +83,6 @@ int CpuMemory::ReadCycleParameters() // чтение циклических па
 
    //читаем данные с контроллера
    bool res = mCommonParams.Read();
-   mCommonParams.SensorDrumSpeed = mSpeedSensor.DSPD();
    for ( Position* p: mPos )
    {
       res &=p->mGr1->Read();
@@ -96,19 +91,10 @@ int CpuMemory::ReadCycleParameters() // чтение циклических па
    }
    return res ? 1 : 0;
 }
-void CpuMemory::UpdateCpuData()
-{
-   for ( Position* p: mPos )
-   {
-      float fakt_distance = p->mTimeSensor->F_DCNT();
-      int fakt_time = p->mTimeSensor->DTMR();
-      p->mGr2->SendMetrix( fakt_time, fakt_distance );
-   }
-}
 
 bool CpuMemory::IsConnected()
 {
-   return opc::miniOPC::Instance().Connected()&&mSpeedSensor.IsConnected();
+   return opc::miniOPC::Instance().Connected();
 }
 
 void CpuMemory::OnConnected( CallBack f )
