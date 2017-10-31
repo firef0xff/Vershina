@@ -41,6 +41,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
    ADC->ConnectionString = con1 + ExtractFilePath(Application->ExeName) +
       "ProgData.mdb" + con2;
    DB.reset(new cSQL(ADC,false));
+   leStandNo->Text = STAND_NO;
    std::unique_ptr<TLogInwnd>wnd(new TLogInwnd(this, DB));
    if (wnd->ShowModal() == mrOk)
    {
@@ -354,11 +355,11 @@ void TmfRB::DesignLoadSertAPanel(void)
             "    " + FloatToStrF(mPosA.mLdC.MeasuredLd[i], ffFixed, 6, 2);
       else
          sgLoadSertA->Cells[3][i + 1] = "";
-      if (mPosA.mLdC.loaded)
+	  if (mPosA.mLdC.loaded || mPosA.mLdC.MeasuredLd[i] != 0.0 )
          sgLoadSertA->Cells[4][i + 1] =
-            "    " + FloatToStrF(mPosA.mLdC.KA[i], ffFixed, 8, 5);
-      else
-         sgLoadSertA->Cells[4][i + 1] = "";
+			"    " + FloatToStrF(mPosA.mLdC.KA[i], ffFixed, 8, 5);
+	  else
+		 sgLoadSertA->Cells[4][i + 1] = "";
    }
    int Top1 = H1 + LSp1, Left11 = TblW + LSp1, LblW1 = 85, BtnW1 = LblW1 * 3,
       BtnW2 = tsSpeedCalibrW - TblW - BtnW1 - LSp1 * 3;
@@ -1699,7 +1700,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    if (!inst_cpu.IsConnected())
    {
       sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по пути в поз. А - нет связи со станком!";
+         "Нельзя загрузить программу по пути в поз. А - нет связи со станком!";
       return;
    }
 
@@ -1984,11 +1985,10 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
       String(gr3p1.T_end_cycle) + ", шагов программы=" + String(gr3p1.StepsQty) +
       ", опросов=" + String(gr3p1.PollsQty));
 
-
-   btnResetResPosA->Click();
    gr3p1.Write();
    gr5.Write();
    gr6.Write();
+   btnResetResPosA->Click();
    btnCheckTProg->Enabled = false;
    btnSaveTProgToFile->Enabled = true;
    btnLoadTProgToPosA->Enabled = true;
@@ -4730,7 +4730,7 @@ void __fastcall TmfRB::OnLoadSertCalc(TObject *Sender)
    int ind = LdCalibr->Index;
    // leReadoutLoad->Text=FloatToStrF(LdCalibr->TargetLd[ind]+0.25,ffFixed,6,2); // DEBUG !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    LdCalibr->MeasuredLd[ind] = StrToFlt(leMeasLoad->Text);
-   LdCalibr->ReadoutLd[ind] = StrToFlt(leReadoutLoad->Text);
+   LdCalibr->ReadoutLd[ind] = StrToFlt(leReadoutLoad->Text) ;
    if (LdCalibr->MeasuredLd[ind] > 0 && LdCalibr->ReadoutLd[ind] > 0)
    {
       LdCalibr->KA[ind] =
@@ -5465,4 +5465,5 @@ void __fastcall TmfRB::btnResetResPosAClick(TObject *Sender)
    SGClear(sgTestResultA, 0); // чистка таблицы
    ShowProtAData();
 }
+
 

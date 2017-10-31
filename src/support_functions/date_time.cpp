@@ -11,7 +11,8 @@ DateTime Now()
 
 std::string ToString( DateTime const& dt, std::string const& fmt )
 {
-   return date::format( fmt, dt );
+   std::string res = date::format( fmt, dt );
+   return res.substr( 0, res.size() - 1 ) ;
 }
 
 std::string mSecToHMSStr(int tm , bool show_sec) // перевод целого кол-ва мсек в строку чч:мм:сс
@@ -70,8 +71,15 @@ std::string ToWeekYYYY( DateTime const& dt )
 DateTime FromWeekYYYY( std::string const& dt )
 {
    size_t delim = dt.find( "." );
-   int week = std::stoi( dt.substr( 1, delim - 1 ) );
-   int year = std::stoi( dt.substr( delim + 1, dt.length() - delim ) );
+   int week = 1;
+   int year = 1970;
+   try
+   {
+	  std::stoi( dt.substr( 1, delim - 1 ) );
+	  std::stoi( dt.substr( delim + 1, dt.length() - delim ) );
+   }
+   catch(...)
+   {}
 
    date::year_month_day ymd( date::year(year), date::month(1), date::day(1) );
    dt::DateTime res( std::chrono::duration_cast<std::chrono::system_clock::duration>( (static_cast<date::sys_days>(ymd) + std::chrono::duration_cast<date::days>( date::weeks(week-1) )).time_since_epoch() ) );

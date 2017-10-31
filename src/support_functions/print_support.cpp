@@ -31,11 +31,11 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    int lineY = UpperMarg + fHeight;
    int LineCnt = 0;
 
-   wstr[LineCnt] = "ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* std::string(ProtNo)+ */ " НА СТЕНДЕ " + data.StandName/* + data.mSide*/;
+   wstr[LineCnt] = "ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* std::string(ProtNo)+ */ " НА СТЕНДЕ " + data.StandName + data.mSide;
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;
    wstr[++LineCnt] = "     Изготовитель: " + data.Manufacturer + "     Заказчик: " + data.TestCustomer + "  Заказ №: " + std::to_string(data.OrderNo);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "           Размер: " + data.Size         + "       Модель: " + data.Model + "  Маркировка: N/A";
+   wstr[++LineCnt] = "           Размер: " + data.Size         + "       Модель: " + data.Model + "  Маркировка: __";
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "Дата изготовления: " + data.CustomDate() +"     Порядковый №: " + std::to_string(data.SerialNo) + "    Форма №: " + std::to_string(data.FormNo);
    left[LineCnt] = LeftMarg;
@@ -50,7 +50,7 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "Категория скорости: " + data.SpeedInd +  + "            Ширина профиля, мм: " + std::to_string(data.ProfileWide);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = " Давление, кПа: " + FloatToStringF(data.MaxLoadPress, 6, 2) + "               Обод: " + data.WheelRim;
+   wstr[++LineCnt] = " Давление, кПа: " + FloatToStringF(data.InitPressure, 6, 2) + "               Обод: " + data.WheelRim;
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:";
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;

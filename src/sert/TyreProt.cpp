@@ -219,19 +219,18 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
       logger::LogPrint( "Can't open file \"" + fname + "\" for printing!", logger::lcRED );
       return;
    }
-   fprintf(fprint, "%s\n\n", dt::ToString(dt::Now()).c_str());
-   fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName /*+ mSide*/).c_str());
-   fprintf(fprint, "     Изготовитель: %10s     Заказчик: %s  Заказ №: %5d\n",Manufacturer.c_str(), TestCustomer.c_str(),OrderNo);
-   fprintf(fprint, "           Размер: %10s            Модель: %10s     Маркировка: %10s\n",Model.c_str(), Size.c_str(), "N/A");
-   fprintf(fprint, "Дата изготовления: %10s      Порядковый №: %5d         Форма №: %5d\n",CustomDate().c_str(), SerialNo,FormNo);
-   fprintf(fprint, " Диаметр барабана,мм: %5.0f          Методика: %s\n\n", DrumDiameter, TestProcedure.c_str());
+   fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName + mSide).c_str());
+   fprintf(fprint, "       Изготовитель: %10s     Заказчик: %s  Заказ №: %5d\n",Manufacturer.c_str(), TestCustomer.c_str(),OrderNo);
+   fprintf(fprint, "             Размер: %10s            Модель: %10s     Маркировка: %s\n",Model.c_str(), Size.c_str(), "_____");
+   fprintf(fprint, "  Дата изготовления: %10s      Порядковый №: %10d        Форма №: %d\n",CustomDate().c_str(), SerialNo,FormNo);
+   fprintf(fprint, "Диаметр барабана,мм: %10.0f          Методика: %10s\n\n", DrumDiameter, TestProcedure.c_str());
    if (Type == 0)
       fprintf(fprint,"               ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ ШИНЫ\n" /* РАДИАЛЬНОЙ ШИНЫ\n" */);
    else
       fprintf(fprint,"               ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ ШИНЫ\n" /* ДИАГОНАЛЬНОЙ ШИНЫ\n" */);
-   fprintf(fprint,"   Индекс нагрузки: %10s    Наружный диаметр, мм: %6.2f \n", LoadIndex.c_str(), OuterD);
-   fprintf(fprint,"Категория скорости: %10s      Ширина профиля, мм: %6d \n", SpeedInd.c_str(), ProfileWide);
-   fprintf(fprint,"     Давление, кПа: %4.2f                   Обод: %10s\n\n",MaxLoadPress, WheelRim.c_str() );
+   fprintf(fprint,"   Индекс нагрузки: %10s    Наружный диаметр, мм: %10.2f \n", LoadIndex.c_str(), OuterD);
+   fprintf(fprint,"Категория скорости: %10s      Ширина профиля, мм: %10d \n", SpeedInd.c_str(), ProfileWide);
+   fprintf(fprint,"     Давление, кПа: %10.2f                    Обод: %10s\n\n",InitPressure, WheelRim.c_str() );
    fprintf(fprint, "                            РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:\n");
    if (TestMode == 0)
       fprintf(fprint, "      Режим обкатки: по времени\n");
@@ -242,10 +241,10 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
    fprintf(fprint, "            Дата начала испытания: %s\n",dt::ToString( Start ).c_str() );
    fprintf(fprint, "            Дата окончания испытания: %s\n",dt::ToString( Stop ).c_str() );
 
-   fprintf(fprint,"+-----+---------+--------+--------+--------+---------+-----------+\n");
-   fprintf(fprint,"|Опрос|  время  |скорость|путь, км|нагрузка| радиус  |Температура|\n");
-   fprintf(fprint,"|     |  чч:мм  | км/час |        |  кН    |   мм    |    С      |\n");
-   fprintf(fprint,"+-----+---------+--------+--------+--------+---------+-----------+\n");
+   fprintf(fprint,"+-----+---------+--------+--------+--------+--------+-----------+\n");
+   fprintf(fprint,"|Опрос|  время  |скорость|путь, км|нагрузка| радиус |Температура|\n");
+   fprintf(fprint,"|     |  чч:мм  | км/час |        |  кН    |   мм   |    С      |\n");
+   fprintf(fprint,"+-----+---------+--------+--------+--------+--------+-----------+\n");
    for (int i = 0; i < PollsNo; i++)
    {
       if (rT[i] != 0 && rV[i] != 0 && rS[i] != 0 && rL[i] != 0 && rR[i]
@@ -256,7 +255,7 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
             rR[i], rTemp[i]);
       }
    }
-   fprintf(fprint, "+-----+---------+--------+--------+--------+---------+-----------+\n");
+   fprintf(fprint, "+-----+---------+--------+--------+--------+--------+-----------+\n");
    fclose(fprint);
 }
 
