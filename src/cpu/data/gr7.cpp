@@ -1,4 +1,4 @@
-#include "gr7.h"
+﻿#include "gr7.h"
 
 #include "miniOPC.h"
 #include "memory.h"
@@ -45,18 +45,13 @@ bool GR7::Read()
 
 void GR7::Reset()
 {
-   for ( size_t i = 0; i < ITEMS_COUNT; ++i )
-      read_T[i] = i;
-   for ( size_t i = 0; i < ITEMS_COUNT; ++i )
-      read_V[i] = i;
-   for ( size_t i = 0; i < ITEMS_COUNT; ++i )
-      read_S[i] = i;
-   for ( size_t i = 0; i < ITEMS_COUNT; ++i )
-      read_L[i] = i;
-   for ( size_t i = 0; i < ITEMS_COUNT; ++i )
-      read_R[i] = i;
-   for ( size_t i = 0; i < ITEMS_COUNT; ++i )
-      read_Temp[i] = i;
+	memset( read_T, 0, sizeof(read_T) );
+    memset( read_V, 0, sizeof(read_V) );
+    memset( read_S, 0, sizeof(read_S) );
+    memset( read_L, 0, sizeof(read_L) );
+    memset( read_R, 0, sizeof(read_R) );
+	memset( read_Temp, 0, sizeof(read_Temp) );
+
    Write();
 }
 
