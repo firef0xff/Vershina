@@ -75,8 +75,10 @@ DateTime FromWeekYYYY( std::string const& dt )
    int year = 1970;
    try
    {
-	  std::stoi( dt.substr( 1, delim - 1 ) );
-	  std::stoi( dt.substr( delim + 1, dt.length() - delim ) );
+      auto w_str = dt.substr( 0, delim );
+      auto y_str = dt.substr( delim + 1, dt.length() - delim );
+      week = std::stoi( w_str );
+      year = std::stoi( y_str );
    }
    catch(...)
    {}

@@ -1134,10 +1134,12 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    sbStartA->Down = gr1p1.Start;
    sbStopA->Down = gr1p1.Stop;
    cbControlLateralA->Checked = gr1p1.ControlLateral;
-   if (gr1p1.Stop && mPosA.needSave && save)
+   if (gr1p1.Stop && mPosA.needSave && !mPosA.in_save && save)
    {
+      mPosA.in_save = true;
       mPosA.mTyre.Stop = dt::Now();
       btnLoadTestResPosA->Click(); // авто сохраниние
+      mPosA.in_save = false;
    }
    // обработка остальных индикаторов
 
@@ -1338,10 +1340,12 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
    {
       gr1p1.Start = false;
       gr1p1.Stop = true;
-      if (mPosA.needSave)
+      if (mPosA.needSave && !mPosA.in_save)
       {
+         mPosA.in_save = true;
          mPosA.mTyre.Stop = dt::Now();
          btnLoadTestResPosA->Click(); // авто сохраниние
+         mPosA.in_save = false;
       }
       sbRB->Panels->Items[2]->Text = "Стоп поз. А!";
       LogPrint( "Стоп поз. А!", clWhite);
@@ -3061,7 +3065,6 @@ void TmfRB::ReadProtDataFmScrn(void)
    InpTyre.Manufacturer = AnsiString(leManufacturer->Text).c_str();
    InpTyre.DrumDiameter = StrToFloat(leDrumD->Text);
    InpTyre.TestCustomer = AnsiString(leCustomer->Text).c_str();
-   // InpTyre.ManufactDate =StrToDate(meManDate->EditText);
    InpTyre.CustomDate(AnsiString(meManDate->EditText).c_str());
    InpTyre.SerialNo = StrToI(leSeralNo->Text);
    InpTyre.PerfSpecNo = StrToI(lePerfSpecNo->Text);
@@ -5465,5 +5468,7 @@ void __fastcall TmfRB::btnResetResPosAClick(TObject *Sender)
    SGClear(sgTestResultA, 0); // чистка таблицы
    ShowProtAData();
 }
+
+
 
 

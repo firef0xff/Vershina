@@ -122,9 +122,6 @@ void Tyre::Clear(void)
       rR[i] = 0;
       rTemp[i] = 0;
    }
-
-   Start = dt::DateTime();
-   Stop = dt::DateTime();
 }
 
 void Tyre::WriteToFile(String fname) // запись полей Tyre в файл с именем fname
