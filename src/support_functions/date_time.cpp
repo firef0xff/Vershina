@@ -4,9 +4,26 @@ namespace dt
 {
 std::string DEFAULT_DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%OS";
 
+typedef std::chrono::system_clock::duration SysDuration;
+SysDuration GetUtcDiff()
+{
+   std::time_t t = std::time(nullptr);
+   tm gm = *std::gmtime( &t );
+   tm loc = *localtime(&t);
+
+   DateTime gm_t = std::chrono::system_clock::from_time_t( std::mktime( &gm ) );
+   DateTime loc_t = std::chrono::system_clock::from_time_t( std::mktime( &loc ) );
+
+   return loc_t.time_since_epoch() - gm_t.time_since_epoch();
+}
+SysDuration UTC_DIFF = GetUtcDiff();
+
 DateTime Now()
 {
-   return Clock::now();
+
+   auto t = Clock::now().time_since_epoch();
+   t += UTC_DIFF;
+   return DateTime( t );
 }
 
 std::string ToString( DateTime const& dt, std::string const& fmt )
@@ -58,7 +75,7 @@ std::string mSecToHMSStr(int tm , bool show_sec) // перевод целого 
 
 std::string ToWeekYYYY( DateTime const& dt )
 {
-   date::sys_days days(  std::chrono::duration_cast<date::days>( dt.time_since_epoch() ) );
+   date::sys_days days( std::chrono::duration_cast<date::days>( dt.time_since_epoch() ) );
    date::year_month_day ymd( days );
    date::year_month_day _1_jan( ymd.year(), date::month(1), date::day(1) );
 
@@ -84,7 +101,7 @@ DateTime FromWeekYYYY( std::string const& dt )
    {}
 
    date::year_month_day ymd( date::year(year), date::month(1), date::day(1) );
-   dt::DateTime res( std::chrono::duration_cast<std::chrono::system_clock::duration>( (static_cast<date::sys_days>(ymd) + std::chrono::duration_cast<date::days>( date::weeks(week-1) )).time_since_epoch() ) );
+   DateTime res = DateTime( std::chrono::duration_cast<SysDuration>( (static_cast<date::sys_days>(ymd) + std::chrono::duration_cast<date::days>( date::weeks(week-1) )).time_since_epoch() ) );
    return res;
 }
 }
