@@ -28,6 +28,10 @@ DateTime Now()
 
 std::string ToString( DateTime const& dt, std::string const& fmt )
 {
+   if ( dt == DateTime() )
+   {
+      return "";
+   }
    std::string res = date::format( fmt, dt );
    return res.substr( 0, res.size() - 1 ) ;
 }

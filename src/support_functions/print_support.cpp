@@ -35,11 +35,11 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;
    wstr[++LineCnt] = "     Изготовитель: " + data.Manufacturer + "     Заказчик: " + data.TestCustomer + "  Заказ №: " + std::to_string(data.OrderNo);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "           Размер: " + data.Size         + "       Модель: " + data.Model + "  Маркировка: __";
+   wstr[++LineCnt] = "           Размер: " + data.Size         + "       Модель: " + data.Model + "  Маркировка: ______";
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "Дата изготовления: " + data.CustomDate() +"     Порядковый №: " + std::to_string(data.SerialNo) + "    Форма №: " + std::to_string(data.FormNo);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = " Диаметр барабана, мм: " + std::to_string(data.DrumDiameter) +"   Методика: " + data.TestProcedure;
+   wstr[++LineCnt] = "Диаметр барабана, мм: " + FloatToStringF( data.DrumDiameter, 6,2 ) +"   Методика: " + data.TestProcedure;
    left[LineCnt] = LeftMarg;
    if (data.Type == 0)
       wstr[++LineCnt] = "ХАРАКТЕРИСТИКИ ИСПЫТАННОЙ ШИНЫ" /* РАДИАЛЬНОЙ ШИНЫ" */ ;
@@ -48,7 +48,7 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    left[LineCnt] = abs(prtWidth - pprt->Canvas->TextWidth(AnsiString(wstr[LineCnt].c_str()))) / 2 + LeftMarg;
    wstr[++LineCnt] = "   Индекс нагрузки: " + data.LoadIndex + "        Наружный диаметр, мм: " + FloatToStringF(data.OuterD, 6,2);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "Категория скорости: " + data.SpeedInd +  + "            Ширина профиля, мм: " + std::to_string(data.ProfileWide);
+   wstr[++LineCnt] = "Категория скорости: " + data.SpeedInd +  + "          Ширина профиля, мм: " + std::to_string( data.ProfileWide);
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = " Давление, кПа: " + FloatToStringF(data.InitPressure, 6, 2) + "               Обод: " + data.WheelRim;
    left[LineCnt] = LeftMarg;
@@ -67,13 +67,13 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "        Дата окончания испытания: " + dt::ToString(data.Stop);
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] ="+-----+---------+--------+--------+--------+---------+-----------+";
+   wstr[++LineCnt] ="+-----+---------+--------+--------+--------+--------+-----------+";
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "|Опрос|  время  |скорость|путь, км|нагрузка| радиус  |Температура|";
+   wstr[++LineCnt] = "|Опрос|  время  |скорость|путь, км|нагрузка| радиус |Температура|";
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] ="|     | чч:мм   | км/час |        |  кН    |   мм    |    С      |";
+   wstr[++LineCnt] = "|     | чч:мм   | км/час |        |  кН    |   мм   |    С      |";
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] ="+-----+---------+--------+--------+--------+---------+-----------+";
+   wstr[++LineCnt] = "+-----+---------+--------+--------+--------+--------+-----------+";
    left[LineCnt] = LeftMarg;
    int LinePrinted = -1;
 
@@ -94,7 +94,7 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
          break;
       }
    }
-   wstr[++LineCnt] = "+-----+---------+--------+--------+--------+---------+-----------+";
+   wstr[++LineCnt] = "+-----+---------+--------+--------+--------+--------+-----------+";
    left[LineCnt] = LeftMarg;
    pprt->BeginDoc();
    for (int i = 0; i <= LineCnt; i++, lineY += LSp)

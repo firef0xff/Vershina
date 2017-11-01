@@ -81,7 +81,7 @@ void Tyre::Init()
 
 void Tyre::ImportTemplate ( Tyre const& r)
 {
-   Init();
+   //Init();
    ProtNo = r.ProtNo;
    Size = r.Size;
    Model = r.Model;
