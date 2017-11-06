@@ -1961,7 +1961,7 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
    if (!inst_cpu.IsConnected())
    {
       sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по времени в поз. А - нет связи со станком!";
+         "Нельзя загрузить программу по времени в поз. А - нет связи со станком!";
       return;
    }
 
