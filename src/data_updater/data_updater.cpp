@@ -1,5 +1,5 @@
 #include "data_updater.h"
-#include <thread>
+
 
 namespace timer
 {
@@ -29,7 +29,9 @@ Timer::~Timer()
 
 void Timer::Terminate()
 {
-   TerminateThread( mThread, 0 );
+   std::lock_guard<std::mutex> lock( mMutex );
+   if ( mThread )
+      TerminateThread( mThread, 0 );
 }
 
 void Timer::Start()
@@ -51,6 +53,7 @@ void Timer::Run()
 {
    for(;;)
    {
+      std::lock_guard<std::mutex> lock( mMutex );
       std::this_thread::sleep_for( mTimeout );
       ++mCount;
       mAction();
