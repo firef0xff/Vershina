@@ -384,7 +384,6 @@ void TmfRB::DesignLoadSertAPanel(void)
             "    " + FloatToStrF(mPosA.mLdC.MeasuredLd[i], ffFixed, 6, 2);
       else
          sgLoadSertA->Cells[3][i + 1] = "";
-//POS MARK
       if (mPosA.mLdC.loaded || mPosA.mLdC.MeasuredLd[i] != 0.0 )
          sgLoadSertA->Cells[4][i + 1] =
             "    " + FloatToStrF(mPosA.mLdC.KA[i], ffFixed, 8, 5);
@@ -502,7 +501,7 @@ void TmfRB::DesignLoadSertBPanel(void)
             "    " + FloatToStrF(mPosB.mLdC.MeasuredLd[i], ffFixed, 6, 2);
       else
          sgLoadSertB->Cells[3][i + 1] = "";
-      if (mPosB.mLdC.loaded)
+      if (mPosB.mLdC.loaded || mPosB.mLdC.MeasuredLd[i] != 0.0 )
          sgLoadSertB->Cells[4][i + 1] =
             "    " + FloatToStrF(mPosB.mLdC.KA[i], ffFixed, 8, 5);
       else
@@ -1782,7 +1781,6 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    sbStartA->Down = gr1p1.Start;
    sbStopA->Down = gr1p1.Stop;
    cbControlLateralA->Checked = gr1p1.ControlLateral;
-//POS MARK
    if (gr1p1.Stop && mPosA.needSave && !mPosA.in_save && save)
    {
       mPosA.in_save = true;
@@ -1798,8 +1796,9 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    sbStartB->Down = gr1p2.Start;
    sbStopB->Down = gr1p2.Stop;
    cbControlLateralB->Checked = gr1p2.ControlLateral;
-   if (gr1p2.Stop && mPosB.needSave && save)
+   if (gr1p2.Stop && mPosB.needSave && !mPosB.in_save && save)
    {
+      mPosB.in_save = true;
       mPosB.mTyre.Stop = dt::Now();
       btnLoadTestResPosB->Click(); // авто сохраниние
    }
@@ -2076,7 +2075,6 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
    {
       gr1p1.Start = false;
       gr1p1.Stop = true;
-//POS MARK
       if (mPosA.needSave && !mPosA.in_save)
       {
          mPosA.in_save = true;
@@ -2168,10 +2166,12 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
    {
       gr1p2.Start = false;
       gr1p2.Stop = true;
-      if (mPosB.needSave)
+      if (mPosB.needSave && !mPosB.in_save)
       {
+         mPosB.in_save = true;
          mPosB.mTyre.Stop = dt::Now();
          btnLoadTestResPosB->Click(); // авто сохраниние
+         mPosB.in_save = false;
       }
       sbRB->Panels->Items[2]->Text = "Стоп поз. Б!";
       LogPrint( "Стоп поз. Б!", clWhite);
@@ -2672,7 +2672,6 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
    {
-//POS MARK
       sbRB->Panels->Items[2]->Text =
          "Нельзя загрузить программу по пути в поз. А - нет связи со станком!";
       return;
@@ -2714,18 +2713,12 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
 {
-   if (!CheckProgLoad(sgSProgram, 1, 10.0))
-   {
-      return;
-   }
-   LogPrint("Загрузка программы по пути в поз. Б!", clAqua);
-
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
    {
       sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по пути в поз. Б - нет связи со станком!";
+         "Нельзя загрузить программу по пути в поз. А - нет связи со станком!";
       return;
    }
 
@@ -2735,9 +2728,16 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    auto &gr8 = *inst_cpu.mPos2->mGr4;
    auto &gr10 = *inst_cpu.mPos2->mGr6;
    PathPrg.ToCpu( gr8, gr10 );
+
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+   if (!CheckProgLoad(sgSProgram, 1, gr3p2.min_load))
+   {
+      return;
+   }
+   LogPrint("Загрузка программы по пути в поз. Б!", clAqua);
+
    mPosB.RunProgName = PathPrg.SProgName;
    SetCurrProgB(mPosB.RunProgName);
-   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
    stP1L2ProgNameB->Caption = AnsiString(mPosB.RunProgName.c_str());
    mPosB.mTyre.InitPressure = StrToFlt(leSTyrePressure->Text);
    gr3p2.S_end_cycle = mPosB.mTyre.TotalS = StrToFlt(leTotalTestS->Text);
@@ -2752,8 +2752,8 @@ void __fastcall TmfRB::OnLoadSProgToPosB(TObject *Sender)
    gr3p2.Write();
    gr8.Write();
    gr10.Write();
+   LogPrint( "Программа по пути загружена в поз. Б!");
    sbRB->Panels->Items[2]->Text = "Программа по пути загружена в поз. Б!";
-
 }
 // ---------------------------------------------------------------------------
 
@@ -2992,13 +2992,12 @@ void __fastcall TmfRB::OnTProgFileOpen(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
 {
-//POS MARK
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
    {
       sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по времени в поз. А - нет связи со станком!";
+         "Нельзя загрузить программу по времени в поз. А - нет связи со станком!";
       return;
    }
 
@@ -3043,30 +3042,32 @@ void __fastcall TmfRB::OnLoadTProgToPosA(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
 {
-   if (!CheckProgLoad(sgTProgram, 1, 10.0))
-   {
-      return;
-   }
-
    CheckStend();
    auto& inst_cpu = cpu::CpuMemory::Instance();
    if (!inst_cpu.IsConnected())
    {
       sbRB->Panels->Items[2]->Text =
-         "Недьзя загрузить программу по времени в поз. Б - нет связи со станком!";
+         "Нельзя загрузить программу по времени в поз. Б - нет связи со станком!";
       return;
    }
 
    std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
-   sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
    auto &gr9 = *inst_cpu.mPos2->mGr5;
    auto &gr10 = *inst_cpu.mPos2->mGr6;
+   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+
+   if (!CheckProgLoad(sgTProgram, 1, gr3p2.min_load))
+   {
+     return;
+   }
+
+   sbRB->Panels->Items[2]->Text = "Загрузка программы по времени в поз. Б!";
    TimePrg.ToCpu( gr9, gr10 );
    mPosB.RunProgName = TimePrg.TProgName;
    SetCurrProgB(mPosB.RunProgName);
-   auto &gr3p2 = *inst_cpu.mPos2->mGr3;
+
    stP1L2ProgNameB->Caption = AnsiString(mPosB.RunProgName.c_str());
-   mPosB.mTyre.InitPressure = StrToFlt(leSTyrePressure->Text);
+   mPosB.mTyre.InitPressure = StrToFlt(leTTyrePressure->Text);
    gr3p2.S_end_cycle = mPosB.mTyre.TotalS = 0;
    gr3p2.T_end_cycle = mPosB.mTyre.TotalTime = TimePrg.total_T;
    gr3p2.type_cycle = mPosB.mTyre.TestMode = 0;
@@ -3077,10 +3078,10 @@ void __fastcall TmfRB::OnLoadTProgToPosB(TObject *Sender)
       String(gr3p2.T_end_cycle) + ", шагов программы=" + String(gr3p2.StepsQty) +
       ", опросов=" + String(gr3p2.PollsQty));
 
-   btnResetResPosB->Click();
    gr3p2.Write();
    gr9.Write();
    gr10.Write();
+   btnResetResPosB->Click();
    btnCheckTProg->Enabled = false;
    btnSaveTProgToFile->Enabled = true;
    btnLoadTProgToPosA->Enabled = true;

@@ -55,8 +55,7 @@ CpuMemory::CpuMemory()
                       std::unique_ptr<data::GR6>( new data::GR6( cpu::data::Gr6Pos2Name, cpu::data::Gr6Pos2Adresses ) ),
                       std::unique_ptr<data::GR7>( new data::GR7( cpu::data::Gr7Pos2Name, cpu::data::Gr7Pos2Adresses ) ),
                       std::unique_ptr<data::GR12>( new data::GR12( cpu::data::Gr12Pos2NameA, cpu::data::Gr12Pos2AdressesA,
-                                                                   cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ ) ),
-                      std::unique_ptr<data::SI8>( new data::SI8( 2 ) )
+                                                                   cpu::data::Gr12Pos2NameQ, cpu::data::Gr12Pos2AdressesQ ) )
                      ) );
 
       mPos.push_back( mPos1.get() );
