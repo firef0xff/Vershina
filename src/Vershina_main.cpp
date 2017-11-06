@@ -355,7 +355,7 @@ void TmfRB::DesignLoadSertAPanel(void)
             "    " + FloatToStrF(mPosA.mLdC.MeasuredLd[i], ffFixed, 6, 2);
       else
          sgLoadSertA->Cells[3][i + 1] = "";
-	  if (mPosA.mLdC.loaded || mPosA.mLdC.MeasuredLd[i] != 0.0 )
+      if (mPosA.mLdC.loaded || mPosA.mLdC.MeasuredLd[i] != 0.0 )
          sgLoadSertA->Cells[4][i + 1] =
 			"    " + FloatToStrF(mPosA.mLdC.KA[i], ffFixed, 8, 5);
 	  else
@@ -1717,7 +1717,7 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    auto &gr3p1 = *inst_cpu.mPos1->mGr3;
    if (!CheckProgLoad(sgSProgram, 1, gr3p1.min_load))
    {
-	  return;
+      return;
    }
    LogPrint("Загрузка программы по пути в поз. А!", clAqua);
 
