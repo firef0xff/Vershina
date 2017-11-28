@@ -11,12 +11,12 @@ LSert::LSert(const std::string &pos):
    Index(0),
    mPos(pos)
 {
-   TargetLd[0] = 0.5;
+   TargetLd[0] = 3;
    for ( int i = 1; i <= ((ITEMS_COUNT-1)/2); ++i )
    {
-      TargetLd[i] = TargetLd[i-1] + 2.5;
+      TargetLd[i] = TargetLd[i-1] + 2.25;
    }
-   TargetLd[(ITEMS_COUNT-1)/2] = TargetLd[(ITEMS_COUNT-1)/2-1] + 2.0;
+   TargetLd[(ITEMS_COUNT-1)/2] = TargetLd[(ITEMS_COUNT-1)/2-1] + 2.25;
 
    for (int i = 13, j = 2; i < ITEMS_COUNT; i++)
    { // столбец заданных нагрузок

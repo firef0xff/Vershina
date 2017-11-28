@@ -3904,6 +3904,12 @@ void TmfRB::DesignManualPanel(void)
    lLoad25->Height = 20;
    lLoad25->Top = lLoad20->Top - TickdH1;
 
+   lLoad30->Left = leWidth * 2 + 85;
+   lLoad30->Width = 30;
+   lLoad30->Height = 20;
+   lLoad30->Top = lLoad25->Top - TickdH1;
+
+
    pCarr1Ttl->Left = 10;
    pCarr1Ttl->Top = leCurrentR1->Top + leHeight + 10;
    pCarr1Ttl->Width = gbWidth2 - 20;
@@ -3996,6 +4002,11 @@ void TmfRB::DesignManualPanel(void)
    l2Load25->Width = 30;
    l2Load25->Height = 20;
    l2Load25->Top = l2Load20->Top - TickdH2;
+
+   l2Load30->Left = leWidth * 2 + 85;
+   l2Load30->Width = 30;
+   l2Load30->Height = 20;
+   l2Load30->Top = lLoad25->Top - TickdH1;
 
    pCarr2Ttl->Left = 10;
    pCarr2Ttl->Top = leCurrentR2->Top + leHeight + 10;
