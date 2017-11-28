@@ -7,10 +7,19 @@
 #include "def.h"
 #include "Common.h"
 #include "log/log_impl.h"
-
+#include <System.SysUtils.hpp>
+#include "support_functions/functions.h"
 // ---------------------------------------------------------------------------
 
 #pragma package(smart_init)
+
+char MakeSeparator()
+{
+   TFormatSettings s = TFormatSettings::Create();
+   return s.DecimalSeparator;
+}
+char DecimalSeparator = MakeSeparator();
+
 float  StrToFlt(String ws)
    // Преобразование строки в значение типа float
 {
@@ -18,14 +27,15 @@ float  StrToFlt(String ws)
    s = Trim(ws);
    if (s == "")
       return 0.0;
-   int PointPos = s.Pos(".");
-   if (PointPos)
-      s = TrimRight(s.SubString(1, PointPos - 1)) + "." +
-         Trim(s.SubString(PointPos + 1, 100));
-   int CommaPos = s.Pos(",");
-   if (CommaPos)
-      s = TrimRight(s.SubString(1, CommaPos - 1)) + "." +
-         Trim(s.SubString(CommaPos + 1, 100));
+
+   if (DecimalSeparator == '.')
+   {
+      s = Replace(s, ",", String(DecimalSeparator));
+   }
+   else
+   {
+      s = Replace(s, ".", String(DecimalSeparator));
+   }
    return StrToFloat(s);
 }
 // ---- End of StrToFlt ------------------------------------------------------

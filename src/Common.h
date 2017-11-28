@@ -27,8 +27,6 @@ void  LeastSquares
    float &A, //
    float &B); //
 int  BUnion(bool b1, bool b2);
-// объединение занчений аргументов в целое значение
 
-// индикаторы автосохранения протоколов за испытание
-
+extern char DecimalSeparator;
 #endif

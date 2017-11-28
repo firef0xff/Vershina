@@ -16,6 +16,7 @@
 #include "src/cpu/cpu_memory.h"
 #include <algorithm>
 
+
 #include "support_functions/print_support.h"
 #include "log/log_impl.h"
 
@@ -25,7 +26,7 @@
 TmfRB *mfRB;
 
 TPrinter *pProtPrt = Printer(); // указатель на принтер
-char DecimalSeparator = '.';
+
 
 // ---------------------------------------------------------------------------
 __fastcall TmfRB::TmfRB(TComponent* Owner) :
@@ -136,7 +137,6 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
          acSettingsManagment->Visible = false;
       }
       Application->ProcessMessages();
-      DecimalSeparator = '.';
       mfRB->Height = MFHEIGHT;
       mfRB->Width = MFWIDTH;
 
@@ -3165,9 +3165,9 @@ void __fastcall TmfRB::OnSGKeyDown(TObject *Sender, WORD &Key,
 
 void __fastcall TmfRB::OnSGKeyPress(TObject *Sender, char &Key)
 {
-   if (Key == ',')
+   if ( ( Key == ',' || Key == '.' ) && Key != DecimalSeparator )
    {
-      Key = '.';
+      Key = DecimalSeparator;
    }
    Set < char, '0', '9' > Dig;
    Dig << '0' << '1' << '2' << '3' << '4' << '5' << '6' << '7' << '8' << '9';
