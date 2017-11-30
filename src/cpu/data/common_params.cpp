@@ -1,4 +1,4 @@
-#include "common_params.h"
+﻿#include "common_params.h"
 #include "miniOPC.h"
 #include <memory.h>
 

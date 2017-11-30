@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsManual
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -11886,7 +11886,7 @@ object mfRB: TmfRB
     DesignSize = (
       1016
       41)
-    object Label1: TLabel
+    object lOilTemp: TLabel
       Left = 10
       Top = 21
       Width = 75

@@ -591,7 +591,7 @@ __published: // IDE-managed Components
    TEdit *IndOilLvl;
    TEdit *IndlOilFilter;
    TEdit *IndDriveDrum;
-   TLabel *Label1;
+	TLabel *lOilTemp;
    TLabel *Label2;
    TEdit *eOilTemp;
    TLabel *TreadCounter;

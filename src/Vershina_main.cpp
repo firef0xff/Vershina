@@ -1783,9 +1783,10 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    cbControlLateralA->Checked = gr1p1.ControlLateral;
    if (gr1p1.Stop && mPosA.needSave && !mPosA.in_save && save)
    {
-      mPosA.in_save = true;
-      mPosA.mTyre.Stop = dt::Now();
-      btnLoadTestResPosA->Click(); // авто сохраниние
+	  mPosA.in_save = true;
+	  mPosA.mTyre.Stop = dt::Now();
+	  btnLoadTestResPosA->Click(); // авто сохраниние
+	  mPosA.in_save = false;
    }
 
    sbManualB->Down = gr1p2.ManualMode;
@@ -1798,9 +1799,10 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    cbControlLateralB->Checked = gr1p2.ControlLateral;
    if (gr1p2.Stop && mPosB.needSave && !mPosB.in_save && save)
    {
-      mPosB.in_save = true;
-      mPosB.mTyre.Stop = dt::Now();
-      btnLoadTestResPosB->Click(); // авто сохраниние
+	  mPosB.in_save = true;
+	  mPosB.mTyre.Stop = dt::Now();
+	  btnLoadTestResPosB->Click(); // авто сохраниние
+      mPosB.in_save = false;
    }
    // обработка остальных индикаторов
 
@@ -1856,6 +1858,14 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    SetIndication(IndDriveDrum, cmnp.ElDriveDrum);
 
    eOilTemp->Text = FloatToStrF(cmnp.OilTemp, ffGeneral, 3, 3);
+   if (cmnp.OlinSide)
+   {
+	  lOilTemp->Caption = "Масло. Б";
+   }
+   else
+   {
+	  lOilTemp->Caption = "Масло. А";
+   }
    if (cmnp.OilTemp < LOWTEMP)
    {
       eOilTemp->Color = clSkyBlue;
@@ -2078,7 +2088,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
       if (mPosA.needSave && !mPosA.in_save)
       {
          mPosA.in_save = true;
-         mPosA.mTyre.Stop = dt::Now();
+		 mPosA.mTyre.Stop = dt::Now();
          btnLoadTestResPosA->Click(); // авто сохраниние
          mPosA.in_save = false;
       }
@@ -2158,7 +2168,7 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
       UpdateProgData();
       if (mPosB.mTyre.Start == dt::DateTime())
          mPosB.mTyre.Start = dt::Now();
-      mPosB.mTyre.Stop = dt::DateTime();
+	  mPosB.mTyre.Stop = dt::DateTime();
       sbRB->Panels->Items[2]->Text = "Старт поз. Б!";
       LogPrint( "Старт поз. Б!", clWhite);
    }
@@ -2169,9 +2179,9 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
       if (mPosB.needSave && !mPosB.in_save)
       {
          mPosB.in_save = true;
-         mPosB.mTyre.Stop = dt::Now();
-         btnLoadTestResPosB->Click(); // авто сохраниние
-         mPosB.in_save = false;
+		 mPosB.mTyre.Stop = dt::Now();
+		 btnLoadTestResPosB->Click(); // авто сохраниние
+		 mPosB.in_save = false;
       }
       sbRB->Panels->Items[2]->Text = "Стоп поз. Б!";
       LogPrint( "Стоп поз. Б!", clWhite);
