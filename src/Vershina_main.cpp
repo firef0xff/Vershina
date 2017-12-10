@@ -3694,7 +3694,7 @@ void __fastcall TmfRB::OnVCalibrCalc(TObject *Sender)
    VS.ReadoutV[ind] = StrToFlt(leReadV->Text);
    if (VS.MeasuredV[ind] > 0)
    {
-      VS.RelError[ind] = (VS.MeasuredV[ind] - VS.ReadoutV[ind])/VS.MeasuredV[ind]*100;
+      VS.RelError[ind] = (VS.MeasuredV[ind] - VS.ReadoutV[ind]);
       sgSpeedCalibr->Cells[2][ind + 1] = "    " + FloatToStrF(VS.ReadoutV[ind],
          ffFixed, 6, 2);
       sgSpeedCalibr->Cells[3][ind + 1] =
@@ -4347,7 +4347,7 @@ void __fastcall TmfRB::OnTCalibrCalc(TObject *Sender)
    // leRead->Text      =FloatToStrF(TS->ReadoutT[ind],ffFixed,6,2);              // DEBUG!!!!!!!!!!!!!!!!!!!
    if (TS->MeasuredT[ind] > 0)
    {
-      TS->RelError[ind] = (TS->MeasuredT[ind] - TS->ReadoutT[ind])/TS->MeasuredT[ind]*100;
+      TS->RelError[ind] = (TS->MeasuredT[ind] - TS->ReadoutT[ind]);
       sgTbl->Cells[1][ind + 1] = "    " + FloatToStrF(TS->ReadoutT[ind],
          ffFixed, 6, 2);
       sgTbl->Cells[2][ind + 1] = "    " + FloatToStrF(TS->MeasuredT[ind],
@@ -4500,7 +4500,7 @@ void __fastcall TmfRB::OnRCalibrCalc(TObject *Sender)
    RS->ReadoutR[ind] = StrToFlt(leRead->Text);
    if (RS->MeasuredR[ind] > 0)
    {
-      RS->RelError[ind] = (RS->MeasuredR[ind] - RS->ReadoutR[ind])/RS->MeasuredR[ind]*100;
+      RS->RelError[ind] = (RS->MeasuredR[ind] - RS->ReadoutR[ind]);
       sgTbl->Cells[1][ind + 1] = "    " + FloatToStrF(RS->ReadoutR[ind],
          ffFixed, 6, 2);
       sgTbl->Cells[2][ind + 1] = "    " + FloatToStrF(RS->MeasuredR[ind],
