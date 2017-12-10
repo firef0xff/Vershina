@@ -3694,7 +3694,7 @@ void __fastcall TmfRB::OnVCalibrCalc(TObject *Sender)
    VS.ReadoutV[ind] = StrToFlt(leReadV->Text);
    if (VS.MeasuredV[ind] > 0)
    {
-      VS.RelError[ind] = (VS.MeasuredV[ind] - VS.ReadoutV[ind]);
+      VS.RelError[ind] = (VS.MeasuredV[ind] - VS.ReadoutV[ind])/VS.MeasuredV[ind]*100;
       sgSpeedCalibr->Cells[2][ind + 1] = "    " + FloatToStrF(VS.ReadoutV[ind],
          ffFixed, 6, 2);
       sgSpeedCalibr->Cells[3][ind + 1] =
