@@ -3291,7 +3291,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsProtocolA
+        ActivePage = tsNewProtocol
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
@@ -4628,7 +4628,7 @@ object mfRB: TmfRB
             ParentBiDiMode = False
             ParentFont = False
             TabOrder = 5
-            Text = '13'
+            Text = #1054#1050#1040'-6'
             OnKeyDown = OnLEKeyDown
           end
           object leManufacturer: TLabeledEdit
