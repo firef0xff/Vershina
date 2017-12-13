@@ -218,7 +218,7 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
    }
    fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName + mSide).c_str());
    fprintf(fprint, "       Изготовитель: %10s     Заказчик: %s  Заказ №: %5d\n",Manufacturer.c_str(), TestCustomer.c_str(),OrderNo);
-   fprintf(fprint, "             Размер: %10s            Модель: %10s     Маркировка: %s\n",Model.c_str(), Size.c_str(), "_____");
+   fprintf(fprint, "             Размер: %10s            Модель: %10s     Маркировка: %s\n", Size.c_str(), Model.c_str(), "_____");
    fprintf(fprint, "  Дата изготовления: %10s      Порядковый №: %10d        Форма №: %d\n",CustomDate().c_str(), SerialNo,FormNo);
    fprintf(fprint, "Диаметр барабана,мм: %10.0f          Методика: %10s\n\n", DrumDiameter, TestProcedure.c_str());
    if (Type == 0)
