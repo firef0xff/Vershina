@@ -2,7 +2,8 @@
 #include "date/date.h"
 namespace dt
 {
-std::string DEFAULT_DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%OS";
+std::string DEFAULT_DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%S";
+std::string DEFAULT_DATE_FORMAT = "%d.%m.%Y";
 
 typedef std::chrono::system_clock::duration SysDuration;
 SysDuration GetUtcDiff()
@@ -33,7 +34,17 @@ std::string ToString( DateTime const& dt, std::string const& fmt )
       return "";
    }
    std::string res = date::format( fmt, dt );
-   return res.substr( 0, res.size() - 1 ) ;
+   return res;
+}
+DateTime FromString( std::string const& dt, std::string const& fmt )
+{
+   DateTime res;
+   if (dt.empty())
+      return res;
+
+   std::istringstream s{dt};
+   date::from_stream( s, fmt.c_str(), res );
+   return res;
 }
 
 std::string mSecToHMSStr(int tm , bool show_sec) // перевод целого кол-ва мсек в строку чч:мм:сс

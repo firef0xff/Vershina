@@ -37,7 +37,7 @@ void Print(TPrinter *pprt, Tyre const& data) // печать протокола 
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "           Размер: " + data.Size         + "       Модель: " + data.Model + "  Маркировка: ______";
    left[LineCnt] = LeftMarg;
-   wstr[++LineCnt] = "Дата изготовления: " + data.CustomDate() +"     Порядковый №: " + std::to_string(data.SerialNo) + "    Форма №: " + std::to_string(data.FormNo);
+   wstr[++LineCnt] = "Дата изготовления: " + dt::ToString(data.ManufactDate, dt::DEFAULT_DATE_FORMAT) +"     Порядковый №: " + std::to_string(data.SerialNo) + "    Форма №: " + data.FormNo;
    left[LineCnt] = LeftMarg;
    wstr[++LineCnt] = "Диаметр барабана, мм: " + FloatToStringF( data.DrumDiameter, 6,2 ) +"   Методика: " + data.TestProcedure;
    left[LineCnt] = LeftMarg;

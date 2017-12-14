@@ -21,7 +21,7 @@ public:
    dt::DateTime ManufactDate; // дата изготовления
    dt::DateTime Start; // дата начала испытания
    dt::DateTime Stop; // дата окончания испытания
-   int FormNo; // номер формы протокола
+   String FormNo; // номер формы протокола
    int OrderNo; // номер заказа
    int PerfSpecNo; // номер ТЗ
    int SerialNo; // порядковый номер шины

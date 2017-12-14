@@ -19,7 +19,7 @@ Tyre::Tyre(const std::string &side):
    DrumDiameter = 1700; // диаметр барабана, мм
    TestCustomer = String(10, ' '); // заказчик
    ManufactDate = dt::Clock::now(); // дата изготовления
-   FormNo = 0; // номер формы протокола
+   FormNo = "0"; // номер формы протокола
    OrderNo = 0; // номер заказа
    PerfSpecNo = 0; // номер ТЗ
    SerialNo = 0; // порядковый номер шины
@@ -54,7 +54,7 @@ void Tyre::Init()
    DrumDiameter = 1700; // диаметр барабана, мм
    TestCustomer = String(10, ' '); // заказчик
    ManufactDate = dt::Clock::now(); // дата изготовления
-   FormNo = 0; // номер формы протокола
+   FormNo = "0"; // номер формы протокола
    OrderNo = 0; // номер заказа
    PerfSpecNo = 0; // номер ТЗ
    SerialNo = 0; // порядковый номер шины
@@ -219,7 +219,7 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
    fprintf(fprint, "          ПРОТОКОЛ ИСПЫТАНИЙ № ______" /* %d */ " НА СТЕНДЕ %s\n"/* ,ProtNo */ , (StandName + mSide).c_str());
    fprintf(fprint, "       Изготовитель: %10s     Заказчик: %s  Заказ №: %5d\n",Manufacturer.c_str(), TestCustomer.c_str(),OrderNo);
    fprintf(fprint, "             Размер: %10s            Модель: %10s     Маркировка: %s\n", Size.c_str(), Model.c_str(), "_____");
-   fprintf(fprint, "  Дата изготовления: %10s      Порядковый №: %10d        Форма №: %d\n",CustomDate().c_str(), SerialNo,FormNo);
+   fprintf(fprint, "  Дата изготовления: %10s      Порядковый №: %10d        Форма №: %s\n",dt::ToString(ManufactDate, dt::DEFAULT_DATE_FORMAT).c_str(), SerialNo,FormNo.c_str());
    fprintf(fprint, "Диаметр барабана,мм: %10.0f          Методика: %10s\n\n", DrumDiameter, TestProcedure.c_str());
    if (Type == 0)
       fprintf(fprint,"               ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ ШИНЫ\n" /* РАДИАЛЬНОЙ ШИНЫ\n" */);

@@ -7779,18 +7779,18 @@ object mfRB: TmfRB
           object meManDate: TMaskEdit
             Left = 457
             Top = 57
-            Width = 59
+            Width = 57
             Height = 21
-            EditMask = '!99/0000;1;_'
+            EditMask = '!99/99/0000;1;_'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'Tahoma'
             Font.Style = []
-            MaxLength = 7
+            MaxLength = 10
             ParentFont = False
             TabOrder = 8
-            Text = '  .    '
+            Text = '  .  .    '
             OnKeyDown = OnLEKeyDown
           end
           object btnClearProt: TButton

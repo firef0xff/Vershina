@@ -10,9 +10,12 @@ typedef std::chrono::system_clock::time_point DateTime;
 typedef std::chrono::system_clock Clock;
 
 extern std::string DEFAULT_DATE_TIME_FORMAT;
+extern std::string DEFAULT_DATE_FORMAT;
 
 DateTime Now();
 std::string ToString( DateTime const& dt, std::string const& fmt = DEFAULT_DATE_TIME_FORMAT );
+DateTime FromString( std::string const& dt, std::string const& fmt = DEFAULT_DATE_TIME_FORMAT );
+
 
 std::string mSecToHMSStr( int tm, bool show_sec = false ); // перевод целого кол-ва мсек в строку чч:мм:сс
 
