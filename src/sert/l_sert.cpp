@@ -12,24 +12,21 @@ LSert::LSert(const std::string &pos):
    mPos(pos)
 {
    TargetLd[0] = 3;
-   for ( int i = 1; i <= ((ITEMS_COUNT-1)/2); ++i )
+   for ( int i = 1; i < (ITEMS_COUNT-1); ++i )
    {
       TargetLd[i] = TargetLd[i-1] + 2.25;
    }
-   TargetLd[(ITEMS_COUNT-1)/2] = TargetLd[(ITEMS_COUNT-1)/2-1] + 2.25;
+   TargetLd[ITEMS_COUNT-1] = TargetLd[ITEMS_COUNT-2] + 2.25;
 
-   for (int i = 13, j = 2; i < ITEMS_COUNT; i++)
-   { // столбец заданных нагрузок
-      TargetLd[i] = TargetLd[13 - (j++)];
-   }
+//   for (int i = 13, j = 2; i < ITEMS_COUNT; i++)
+//   { // столбец заданных нагрузок
+//      TargetLd[i] = TargetLd[13 - (j++)];
+//   }
 
 
    for (int i = 0; i < ITEMS_COUNT; i++)
    {
-      if (i == 0 || i == ITEMS_COUNT - 1)
-         sTLd[i] = FloatToStringF( TargetLd[i], 5, 2 );
-      else
-         sTLd[i] = FloatToStringF( TargetLd[i], 5, 2 );
+      sTLd[i] = FloatToStringF( TargetLd[i], 5, 2 );
    }
    Clear();
 }
