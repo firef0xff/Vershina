@@ -13,16 +13,16 @@ VSert::VSert():
    Index(0)
 {
    TargetV[0] = 10.0;
-   for ( int i = 1; i <= ((ITEMS_COUNT-1)/2); ++i )
+   for ( int i = 1; i <= ITEMS_COUNT-2; ++i )
    {
       TargetV[i] = TargetV[i-1] + 18.0;
    }
-   TargetV[(ITEMS_COUNT-1)/2] = TargetV[(ITEMS_COUNT-1)/2-1] + 20.0;
+   TargetV[ITEMS_COUNT-1] = TargetV[ITEMS_COUNT-2] + 20.0;
 
-   for (int i = 17, j = 2; i < ITEMS_COUNT; i++)
-   { // столбец заданных нагрузок
-      TargetV[i] = TargetV[17 - (j++)];
-   }
+//   for (int i = 17, j = 2; i < ITEMS_COUNT; i++)
+//   { // столбец заданных нагрузок
+//      TargetV[i] = 0;// TargetV[17 - (j++)];
+//   }
 
    for ( int i = 0; i < ITEMS_COUNT; i++ ) // столбец заданных скоростей
    {
