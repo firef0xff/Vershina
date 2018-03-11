@@ -8523,7 +8523,7 @@ object mfRB: TmfRB
                 Width = 280
                 Height = 521
                 Align = alLeft
-                RowCount = 14
+                RowCount = 10
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -8536,10 +8536,6 @@ object mfRB: TmfRB
                   64
                   64)
                 RowHeights = (
-                  24
-                  24
-                  24
-                  24
                   24
                   24
                   24
@@ -8740,7 +8736,7 @@ object mfRB: TmfRB
                 Width = 284
                 Height = 521
                 Align = alLeft
-                RowCount = 14
+                RowCount = 10
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -8753,10 +8749,6 @@ object mfRB: TmfRB
                   64
                   64)
                 RowHeights = (
-                  24
-                  24
-                  24
-                  24
                   24
                   24
                   24
@@ -9927,7 +9919,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsDrumSpeedSert
+        ActivePage = tsLoadSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet
@@ -10617,7 +10609,7 @@ object mfRB: TmfRB
               end
               object btnPrevSertLoadB: TButton
                 Left = 466
-                Top = 44
+                Top = 46
                 Width = 192
                 Height = 38
                 Caption = #1055#1088#1077#1076#1099#1076#1091#1097#1077#1077' '#1079#1072#1076#1072#1085#1080#1077

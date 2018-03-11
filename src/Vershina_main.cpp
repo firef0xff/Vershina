@@ -6651,7 +6651,7 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
       sgLoad->Cells[0][Ind + 1] = "  " + String(Ind + 1) + ":";
    else if (Ind < RowCnt - 1)
       sgLoad->Cells[0][Ind + 1] = " " + String(Ind + 1) + ":";
-   LdCalibr->Index++;
+   LdCalibr->Index += LdCalibr->Index!= 13 ? 1: 12;            //!!!!!!!!!!!!!!!!!перескок через несколько значений
    btnPrev->Enabled = true;
    if (LdCalibr->Index >= RowCnt - 2)
    {
@@ -6747,7 +6747,7 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
       sgLoad->Cells[0][Ind + 1] = "  " + String(Ind + 1) + ":";
    else if (Ind < RowCnt - 1)
       sgLoad->Cells[0][Ind + 1] = " " + String(Ind + 1) + ":";
-   LdCalibr->Index--;
+   LdCalibr->Index-= LdCalibr->Index!= 25 ? 1: 12;                //!!!!!!!!!!!!!!!!!перескок через несколько значений
    btnNext->Enabled = true;
    if (LdCalibr->Index <= 0)
    {

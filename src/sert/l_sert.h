@@ -12,7 +12,8 @@ public:
    enum
    {
 //      ITEMS_COUNT = 25
-      ITEMS_COUNT = 13
+//      ITEMS_COUNT = 13
+        ITEMS_COUNT = 9
    };
 
    LSert(  std::string const& pos ); // конструктор
