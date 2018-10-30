@@ -3,6 +3,7 @@
 #include <mutex>
 #include "miniOPC.h"
 #include "thread"
+#include <map>
 
 namespace cpu
 {

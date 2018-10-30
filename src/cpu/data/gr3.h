@@ -32,7 +32,7 @@ public:
    float &CorrMeasSpeed   = mFloatData[4];// DB10,REAL82 Корекция А по измерению скорости
    float &TempLowLimit    = mFloatData[5];// DB10,REAL90 Нижний предел датчика температуры 1
    float &TempUpLimit     = mFloatData[6];// DB10,REAL94 Верхний предел датчика температуры 1
-   float &CorrAMeasLoad   = mFloatData[7];// DB10,REAL98 Корекция А по измерению  нагрузки 1   НА!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   float &CommonOfset     = mFloatData[7];// DB10,REAL98 калибровка тензодатчика общее смещение
    float &CorrBMeasLoad   = mFloatData[8];// DB10,REAL102 Корекция Б по измерению нагрузки 1   НА!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    float &RadLowLimit     = mFloatData[9];// DB10,REAL122 Нижний предел измерений датчика радиуса 1
    float &RadUpLimit      = mFloatData[10];// DB10,REAL126 Верхний предел измерений датчика радиуса 1

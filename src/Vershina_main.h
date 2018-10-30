@@ -665,6 +665,8 @@ __published: // IDE-managed Components
    TLabel *lSpeed275;
    TLabel *lLoad30;
    TLabel *l2Load30;
+   TLabeledEdit *CommonOffcetA;
+   TLabeledEdit *CommonOffcetB;
 
    void __fastcall OnCommonParamReadExec(TObject *Sender);
    void __fastcall OPCControlStartExec(void);

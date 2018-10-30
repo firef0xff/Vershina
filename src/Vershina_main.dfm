@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCalibration
+    ActivePage = tsSert
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -10261,7 +10261,7 @@ object mfRB: TmfRB
             Top = 0
             Width = 800
             Height = 570
-            ActivePage = tsLoadSertA
+            ActivePage = tsLoadSertB
             Align = alClient
             TabOrder = 0
             object tsLoadSertA: TTabSheet
@@ -10351,7 +10351,7 @@ object mfRB: TmfRB
                 OnClick = OnPrevSertLoadBtn
               end
               object leCurrentLoadSertSetA: TLabeledEdit
-                Left = 462
+                Left = 460
                 Top = 105
                 Width = 64
                 Height = 19
@@ -10528,6 +10528,31 @@ object mfRB: TmfRB
                 TabOrder = 14
                 WordWrap = True
                 OnClick = OnUploadLSertFmPLC
+              end
+              object CommonOffcetA: TLabeledEdit
+                Left = 460
+                Top = 175
+                Width = 93
+                Height = 21
+                EditLabel.Width = 92
+                EditLabel.Height = 13
+                EditLabel.BiDiMode = bdLeftToRight
+                EditLabel.Caption = #1054#1073#1097#1077#1077' '#1089#1084#1077#1097#1077#1085#1080#1077':'
+                EditLabel.Font.Charset = DEFAULT_CHARSET
+                EditLabel.Font.Color = clWindowText
+                EditLabel.Font.Height = -11
+                EditLabel.Font.Name = 'Tahoma'
+                EditLabel.Font.Style = []
+                EditLabel.ParentBiDiMode = False
+                EditLabel.ParentFont = False
+                EditLabel.Layout = tlCenter
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                TabOrder = 15
               end
             end
             object tsLoadSertB: TTabSheet
@@ -10797,6 +10822,31 @@ object mfRB: TmfRB
                 TabOrder = 14
                 WordWrap = True
                 OnClick = OnUploadLSertFmPLC
+              end
+              object CommonOffcetB: TLabeledEdit
+                Left = 462
+                Top = 175
+                Width = 93
+                Height = 21
+                EditLabel.Width = 92
+                EditLabel.Height = 13
+                EditLabel.BiDiMode = bdLeftToRight
+                EditLabel.Caption = #1054#1073#1097#1077#1077' '#1089#1084#1077#1097#1077#1085#1080#1077':'
+                EditLabel.Font.Charset = DEFAULT_CHARSET
+                EditLabel.Font.Color = clWindowText
+                EditLabel.Font.Height = -11
+                EditLabel.Font.Name = 'Tahoma'
+                EditLabel.Font.Style = []
+                EditLabel.ParentBiDiMode = False
+                EditLabel.ParentFont = False
+                EditLabel.Layout = tlCenter
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                TabOrder = 15
               end
             end
           end
@@ -11817,9 +11867,9 @@ object mfRB: TmfRB
     UseSystemFont = False
     ActionManager = amRB
     Caption = 'ActionMainMenuBar'
-    ColorMap.HighlightColor = clWhite
+    ColorMap.HighlightColor = 14410210
     ColorMap.BtnSelectedColor = clBtnFace
-    ColorMap.UnusedColor = clWhite
+    ColorMap.UnusedColor = 14410210
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12

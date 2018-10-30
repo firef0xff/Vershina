@@ -394,56 +394,62 @@ void TmfRB::DesignLoadSertAPanel(void)
       BtnW2 = tsSpeedCalibrW - TblW - BtnW1 - LSp1 * 3;
    int Left12 = Left11 + LblW1, Left13 = Left11 + LblW1 * 2, Left2 =
       Left11 + LblW1 * 3 + LSp1, H2 = 50, H3 = 26;
+
    btnPrevSertLoadA->Left = Left11;
    btnPrevSertLoadA->Top = Top1;
    btnPrevSertLoadA->Width = BtnW1;
    btnPrevSertLoadA->Height = H2;
+   leCurrentLoadSertSetA->Left = Left11;
+   leCurrentLoadSertSetA->Top = btnPrevSertLoadA->Top + H2 * 2 + LSp1 - H3;
+   leCurrentLoadSertSetA->Width = LblW1;
+   leCurrentLoadSertSetA->Height = H3;
+   leReadLoadSertA->Left = Left12;
+   leReadLoadSertA->Top = btnPrevSertLoadA->Top + H2 * 2 + LSp1 - H3;
+   leReadLoadSertA->Width = LblW1;
+   leReadLoadSertA->Height = H3;
+   leMeasLoadSertA->Left = Left13;
+   leMeasLoadSertA->Top = btnPrevSertLoadA->Top + H2 * 2 + LSp1 - H3;
+   leMeasLoadSertA->Width = LblW1;
+   leMeasLoadSertA->Height = H3;
+   btnNextSertLoadA->Left = Left11;
+   btnNextSertLoadA->Top = leCurrentLoadSertSetA->Top + H3 + LSp1;
+   btnNextSertLoadA->Width = BtnW1;
+   btnNextSertLoadA->Height = H2;
+   CommonOffcetA->Left = Left11;
+   CommonOffcetA->Top = btnNextSertLoadA->Top + H2*2 + LSp1 - H3;
+   CommonOffcetA->Width = LblW1*1.5;
+   CommonOffcetA->Height = H3;
+   btnSertPumpOnA->Left = Left11;
+   btnSertPumpOnA->Top = CommonOffcetA->Top + H3 + LSp1;
+   btnSertPumpOnA->Width = BtnW1;
+   btnSertPumpOnA->Height = H2;
+   btnSertPumpOffA->Left = Left11;
+   btnSertPumpOffA->Top = btnSertPumpOnA->Top + H2 + LSp1;
+   btnSertPumpOffA->Width = BtnW1;
+   btnSertPumpOffA->Height = H2;
+
    btnLoadSertClearTableA->Left = Left2;
    btnLoadSertClearTableA->Top = Top1;
    btnLoadSertClearTableA->Width = BtnW2;
    btnLoadSertClearTableA->Height = H2;
    btnLoadSertCalcA->Left = Left2;
-   btnLoadSertCalcA->Top = Top1 + H2 + LSp1;
+   btnLoadSertCalcA->Top = btnLoadSertClearTableA->Top + H2 + LSp1;
    btnLoadSertCalcA->Width = BtnW2;
    btnLoadSertCalcA->Height = H2;
    btnLoadSertPrintProtA->Left = Left2;
-   btnLoadSertPrintProtA->Top = Top1 + H2 * 2 + LSp1 * 2;
+   btnLoadSertPrintProtA->Top = btnLoadSertCalcA->Top + H2 + LSp1;
    btnLoadSertPrintProtA->Width = BtnW2;
    btnLoadSertPrintProtA->Height = H2;
-   leCurrentLoadSertSetA->Left = Left11;
-   leCurrentLoadSertSetA->Top = Top1 + H2 * 2 + LSp1 - H3;
-   leCurrentLoadSertSetA->Width = LblW1;
-   leCurrentLoadSertSetA->Height = H3;
-   leReadLoadSertA->Left = Left12;
-   leReadLoadSertA->Top = Top1 + H2 * 2 + LSp1 - H3;
-   leReadLoadSertA->Width = LblW1;
-   leReadLoadSertA->Height = H3;
-   leMeasLoadSertA->Left = Left13;
-   leMeasLoadSertA->Top = Top1 + H2 * 2 + LSp1 - H3;
-   leMeasLoadSertA->Width = LblW1;
-   leMeasLoadSertA->Height = H3;
-   btnNextSertLoadA->Left = Left11;
-   btnNextSertLoadA->Top = Top1 + H2 * 2 + LSp1 * 2;
-   btnNextSertLoadA->Width = BtnW1;
-   btnNextSertLoadA->Height = H2;
    btnLoadSertAToPLC->Left = Left2;
-   btnLoadSertAToPLC->Top = Top1 + H2 * 3 + LSp1 * 3;
+   btnLoadSertAToPLC->Top = btnLoadSertPrintProtA->Top + H2 + LSp1;
    btnLoadSertAToPLC->Width = BtnW2;
    btnLoadSertAToPLC->Height = H2;
-   btnSertPumpOnA->Left = Left11;
-   btnSertPumpOnA->Top = Top1 + H2 * 3 + LSp1 * 5;
-   btnSertPumpOnA->Width = BtnW1;
-   btnSertPumpOnA->Height = H2;
-   btnSertPumpOffA->Left = Left11;
-   btnSertPumpOffA->Top = Top1 + H2 * 6 + LSp1 * 8;
-   btnSertPumpOffA->Width = BtnW1;
-   btnSertPumpOffA->Height = H2;
    btnUploadSertAFmPLC->Left = Left2;
-   btnUploadSertAFmPLC->Top = Top1 + H2 * 4 + LSp1 * 4;
+   btnUploadSertAFmPLC->Top = btnLoadSertAToPLC->Top + H2  + LSp1;
    btnUploadSertAFmPLC->Width = BtnW2;
    btnUploadSertAFmPLC->Height = H2;
    btnResetCalibrCoeffA->Left = Left2;
-   btnResetCalibrCoeffA->Top = Top1 + H2 * 5 + LSp1 * 5;
+   btnResetCalibrCoeffA->Top = btnUploadSertAFmPLC->Top + H2 + LSp1;
    btnResetCalibrCoeffA->Width = BtnW2;
    btnResetCalibrCoeffA->Height = H2;
    // mPosA.mLdC.Index=0;
@@ -511,58 +517,67 @@ void TmfRB::DesignLoadSertBPanel(void)
       BtnW2 = tsSpeedCalibrW - TblW - BtnW1 - LSp1 * 3;
    int Left12 = Left11 + LblW1, Left13 = Left11 + LblW1 * 2, Left2 =
       Left11 + LblW1 * 3 + LSp1, H2 = 50, H3 = 26;
+
    btnPrevSertLoadB->Left = Left11;
    btnPrevSertLoadB->Top = Top1;
    btnPrevSertLoadB->Width = BtnW1;
    btnPrevSertLoadB->Height = H2;
+   leCurrentLoadSertSetB->Left = Left11;
+   leCurrentLoadSertSetB->Top = btnPrevSertLoadB->Top + H2* 2 + LSp1 - H3;
+   leCurrentLoadSertSetB->Width = LblW1;
+   leCurrentLoadSertSetB->Height = H3;
+   leReadLoadSertB->Left = Left12;
+   leReadLoadSertB->Top = btnPrevSertLoadB->Top + H2* 2 + LSp1 - H3;
+   leReadLoadSertB->Width = LblW1;
+   leReadLoadSertB->Height = H3;
+   leMeasLoadSertB->Left = Left13;
+   leMeasLoadSertB->Top = btnPrevSertLoadB->Top + H2* 2 + LSp1 - H3;
+   leMeasLoadSertB->Width = LblW1;
+   leMeasLoadSertB->Height = H3;
+   btnNextSertLoadB->Left = Left11;
+   btnNextSertLoadB->Top = leCurrentLoadSertSetB->Top + H3 + LSp1;
+   btnNextSertLoadB->Width = BtnW1;
+   btnNextSertLoadB->Height = H2;
+   CommonOffcetB->Left = Left11;
+   CommonOffcetB->Top = btnNextSertLoadB->Top + H2*2 + LSp1 - H3;
+   CommonOffcetB->Width = LblW1*1.5;
+   CommonOffcetB->Height = H3;
+   btnSertPumpOnB->Left = Left11;
+   btnSertPumpOnB->Top = CommonOffcetB->Top + H3 + LSp1;
+   btnSertPumpOnB->Width = BtnW1;
+   btnSertPumpOnB->Height = H2;
+   btnSertPumpOffB->Left = Left11;
+   btnSertPumpOffB->Top = btnSertPumpOnB->Top + H2 + LSp1;
+   btnSertPumpOffB->Width = BtnW1;
+   btnSertPumpOffB->Height = H2;
+
+
    btnLoadSertClearTableB->Left = Left2;
    btnLoadSertClearTableB->Top = Top1;
    btnLoadSertClearTableB->Width = BtnW2;
    btnLoadSertClearTableB->Height = H2;
    btnLoadSertCalcB->Left = Left2;
-   btnLoadSertCalcB->Top = Top1 + H2 + LSp1;
+   btnLoadSertCalcB->Top = btnLoadSertClearTableB->Top + H2 + LSp1;
    btnLoadSertCalcB->Width = BtnW2;
    btnLoadSertCalcB->Height = H2;
    btnLoadSertPrintProtB->Left = Left2;
-   btnLoadSertPrintProtB->Top = Top1 + H2 * 2 + LSp1 * 2;
+   btnLoadSertPrintProtB->Top = btnLoadSertCalcB->Top + H2 + LSp1;
    btnLoadSertPrintProtB->Width = BtnW2;
    btnLoadSertPrintProtB->Height = H2;
-   leCurrentLoadSertSetB->Left = Left11;
-   leCurrentLoadSertSetB->Top = Top1 + H2 * 2 + LSp1 - H3;
-   leCurrentLoadSertSetB->Width = LblW1;
-   leCurrentLoadSertSetB->Height = H3;
-   leReadLoadSertB->Left = Left12;
-   leReadLoadSertB->Top = Top1 + H2 * 2 + LSp1 - H3;
-   leReadLoadSertB->Width = LblW1;
-   leReadLoadSertB->Height = H3;
-   leMeasLoadSertB->Left = Left13;
-   leMeasLoadSertB->Top = Top1 + H2 * 2 + LSp1 - H3;
-   leMeasLoadSertB->Width = LblW1;
-   leMeasLoadSertB->Height = H3;
-   btnNextSertLoadB->Left = Left11;
-   btnNextSertLoadB->Top = Top1 + H2 * 2 + LSp1 * 2;
-   btnNextSertLoadB->Width = BtnW1;
-   btnNextSertLoadB->Height = H2;
    btnLoadSertBToPLC->Left = Left2;
-   btnLoadSertBToPLC->Top = Top1 + H2 * 3 + LSp1 * 3;
+   btnLoadSertBToPLC->Top = btnLoadSertPrintProtB->Top + H2 + LSp1;
    btnLoadSertBToPLC->Width = BtnW2;
    btnLoadSertBToPLC->Height = H2;
-   btnSertPumpOnB->Left = Left11;
-   btnSertPumpOnB->Top = Top1 + H2 * 3 + LSp1 * 5;
-   btnSertPumpOnB->Width = BtnW1;
-   btnSertPumpOnB->Height = H2;
-   btnSertPumpOffB->Left = Left11;
-   btnSertPumpOffB->Top = Top1 + H2 * 6 + LSp1 * 8;
-   btnSertPumpOffB->Width = BtnW1;
-   btnSertPumpOffB->Height = H2;
    btnUploadSertBFmPLC->Left = Left2;
-   btnUploadSertBFmPLC->Top = Top1 + H2 * 4 + LSp1 * 4;
+   btnUploadSertBFmPLC->Top = btnLoadSertBToPLC->Top + H2 + LSp1;
    btnUploadSertBFmPLC->Width = BtnW2;
    btnUploadSertBFmPLC->Height = H2;
    btnResetCalibrCoeffB->Left = Left2;
-   btnResetCalibrCoeffB->Top = Top1 + H2 * 5 + LSp1 * 5;
+   btnResetCalibrCoeffB->Top = btnUploadSertBFmPLC->Top + H2 + LSp1;
    btnResetCalibrCoeffB->Width = BtnW2;
    btnResetCalibrCoeffB->Height = H2;
+
+
    // mPosB.mLdC.Index=0;
    leCurrentLoadSertSetB->Text = FloatToStrF(mPosB.mLdC.TargetLd[mPosB.mLdC.Index],
       ffFixed, 6, 2);
@@ -6874,8 +6889,11 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
       ReadLSertTable(&mPosA.mLdC, sgLoadSertA);
       // прочитали коэффициенты KA из таблицы
       auto &gr12 = *inst_cpu.mPos1->mGr12;
+      auto &gr3 = *inst_cpu.mPos1->mGr3;
       mPosA.mLdC.LKSetting(gr12); // сохранили итоговые КА в А1
+      gr3.CommonOfset = StrToFlt( CommonOffcetA->Text );
       gr12.Write(); // записали А1 в DB71
+      gr3.Write();
       sbRB->Panels->Items[2]->Text =
          "Коэффициенты калибровки тензодатчика по поз. А загружены в контроллер!";
    }
@@ -6884,8 +6902,11 @@ void __fastcall TmfRB::OnLoadSertToPLC(TObject *Sender)
       ReadLSertTable(&mPosB.mLdC, sgLoadSertB);
       // прочитали коэффициенты KA из таблицы
       auto &gr13 = *inst_cpu.mPos2->mGr12;
+      auto &gr3 = *inst_cpu.mPos2->mGr3;
       mPosB.mLdC.LKSetting(gr13); // сохранили итоговые КА в А1
+      gr3.CommonOfset = StrToFlt( CommonOffcetB->Text );
       gr13.Write(); // записали А2 в DB70
+      gr3.Write();
       sbRB->Panels->Items[2]->Text =
          "Коэффициенты калибровки тензодатчика по поз. Б загружены в контроллер!";
    }
@@ -7153,26 +7174,32 @@ void __fastcall TmfRB::OnUploadLSertFmPLC(TObject *Sender)
    if ((TButton*)Sender == btnUploadSertAFmPLC)
    {
       auto &gr12 = *inst_cpu.mPos1->mGr12;
+      auto &gr3 = *inst_cpu.mPos1->mGr3;
       gr12.Read(); // прочитали коэффициенты А из DB71
+      gr3.Read();
       mPosA.mLdC.LKRead(gr12); // сохранили прочитанные коэффициенты в ReadKA
       for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
       { // записали коэффициенты в таблицу
          sgLoadSertA->Cells[4][i + 1] =
             FloatToStrF(mPosA.mLdC. /* Read */ KA[i], ffFixed, 8, 5);
       }
+      CommonOffcetA->Text = FloatToStrF(gr3.CommonOfset, ffFixed, 8, 5);
       sbRB->Panels->Items[2]->Text =
          "Коэффициенты калибровки тензодатчика по поз. А загружены из контроллера!";
    }
    else if ((TButton*)Sender == btnUploadSertBFmPLC)
    {
       auto &gr13 = *inst_cpu.mPos2->mGr12;
+      auto &gr3 = *inst_cpu.mPos2->mGr3;
       gr13.Read(); // прочитали коэффициенты А из DB70
+      gr3.Read();
       mPosB.mLdC.LKRead(gr13); // сохранили прочитанные коэффициенты в ReadKA
       for (int i = 0; i < sert::LCalibr::ITEMS_COUNT; i++)
       { // записали коэффициенты в таблицу
          sgLoadSertB->Cells[4][i + 1] =
             FloatToStrF(mPosB.mLdC. /* Read */ KA[i], ffFixed, 8, 5);
       }
+      CommonOffcetB->Text = FloatToStrF(gr3.CommonOfset, ffFixed, 8, 5);
       sbRB->Panels->Items[2]->Text =
          "Коэффициенты калибровки тензодатчика по поз. Б загружены из контроллера!";
    }
