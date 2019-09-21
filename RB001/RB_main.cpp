@@ -3926,7 +3926,7 @@ void __fastcall TmfRB::OnClearProt(TObject *Sender)
 {
   leProtocolNo->Text    ="";           leTyreSize->Text      ="";
   leTyreType->Text      ="";           leTestProc->Text      ="";
-  leStandNo->Text       ="13";         leManufacturer->Text  ="";
+  leStandNo->Text       ="14";         leManufacturer->Text  ="";
   leDrumD->Text         ="1700";       leCustomer->Text      ="";
   meManDate->EditText   ="00.00.2010"; leSeralNo->Text       =0;
   lePerfSpecNo->Text    ="";           leOrderNo->Text       ="";
@@ -6183,6 +6183,7 @@ void __fastcall TmfRB::btnResetResPosBClick(TObject *Sender)
 	SGClear(sgTestResultB,0);//чистка таблицы
 	ShowProtBData();
 }
+
 
 
 

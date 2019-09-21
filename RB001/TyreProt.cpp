@@ -15,7 +15,7 @@ __fastcall Tyre::Tyre(void)       // конструктор
   Size=String(DupeString(' ',10));          // размер шины
   Model=String(DupeString(' ',10));         // модель шины
   TestProcedure=String(DupeString(' ',10)); // методика испытаний
-  StandName="13";                   // наименование стенда
+  StandName="14";                   // наименование стенда
   Manufacturer=String(DupeString(' ',10));  // изготовитель шины
   DrumDiameter=1700;                 // диаметр барабана, мм
   TestCustomer=DupeString(' ',10);   // заказчик

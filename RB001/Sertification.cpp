@@ -103,7 +103,7 @@ void __fastcall LSert::PrintProtocol(// распечатать протокол 
     LogPrint("Can't open file \""+fn+"\" for printing!",clRed);
     return;
   }
-  fprintf(fprint,"%s  Стенд 13 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
+  fprintf(fprint,"%s  Стенд 14 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
   fprintf(fprint,"Определение относительной погрешности задания и \n");
   fprintf(fprint,"и поддержания силы прижатия шины к барабану\n\n");
   fprintf(fprint,"+----+---------+-----------+----------+-------------+\n");
@@ -150,7 +150,7 @@ void __fastcall TSert::PrintProtocol(// распечатать протокол 
     LogPrint("Can't open file \""+fn+"\" for printing!",clRed);
     return;
   }
-  fprintf(fprint,"%s  Стенд 13 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
+  fprintf(fprint,"%s  Стенд 14 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
   fprintf(fprint,"Определение абсолютной погрешности измерения\n");
   fprintf(fprint,"температуры окружающего воздуха\n\n");
   fprintf(fprint,"+----+------------+-----------+-----------+\n");
@@ -195,7 +195,7 @@ void __fastcall RSert::PrintProtocol(// распечатать протокол 
     LogPrint("Can't open file \""+fn+"\" for printing!",clRed);
     return;
   }
-  fprintf(fprint,"%s  Стенд 13 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
+  fprintf(fprint,"%s  Стенд 14 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
   fprintf(fprint,"Определение абсолютной погрешности измерения\n");
   fprintf(fprint,"динамического радиуса\n\n");
   fprintf(fprint,"+----+-------------+-------------+-----------+\n");
@@ -310,7 +310,7 @@ void __fastcall LCalibr::PrintProtocol(// распечатать протоко�
     LogPrint("Can't open file \""+fn+"\" for printing!",clRed);
     return;
   }
-  fprintf(fprint,"%s  Стенд 13 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
+  fprintf(fprint,"%s  Стенд 14 ПОЗ. %s\n\n",AnsiString(Now().DateTimeString()).c_str(),AnsiString(posname).c_str());
   fprintf(fprint,"          ПРОТОКОЛ КАЛИБРОВКИ ТЕНЗОДАТЧИКА\n\n");
   fprintf(fprint,"+----+---------+-----------+----------+-------------+\n");
   fprintf(fprint,"| №  | задание | измерение | контроль | коэффициент |\n");
