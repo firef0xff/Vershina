@@ -665,6 +665,8 @@ __published:	// IDE-managed Components
 	TLabeledEdit *leEmMinTemp_2R;
 	TLabeledEdit *leEmMaxTemp_2R;
 	TLabeledEdit *leEmMaxTemp_1R;
+	TButton *btResetA;
+	TButton *btResetB;
     void __fastcall OnCommonParamReadExec(TObject *Sender);
 	void __fastcall OPCControlStartExec(void);
 	void __fastcall OnOPCControlStopExec(TObject *Sender);

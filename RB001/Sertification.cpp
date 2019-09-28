@@ -44,7 +44,7 @@ void __fastcall VSert::PrintProtocol(String fn)// распечатать про�
     LogPrint("Can't open file \""+fn+"\" for printing!",clRed);
     return;
   }
-  fprintf(fprint,"%s                                    Стенд 13\n\n",AnsiString(Now().DateTimeString()).c_str());
+  fprintf(fprint,"%s                                    Стенд 14\n\n",AnsiString(Now().DateTimeString()).c_str());
   fprintf(fprint,"Определение относительной погрешности задания и \n");
   fprintf(fprint,"поддержания линейной скорости барабана \n\n");
   fprintf(fprint,"+----+---------+-----------+----------+-------------+\n");
