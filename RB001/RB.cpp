@@ -3,15 +3,16 @@
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
-USEFORM("Head_band.cpp", Headband);
-USEFORM("RB_main.cpp", mfRB);
-USEFORM("login\AppManagnent.cpp", AppManagment);
-USEFORM("login\Login.cpp", LogInwnd);
-USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
 USEFORM("login\dialogs\User_Data.cpp", UserData);
+USEFORM("login\Login.cpp", LogInwnd);
+USEFORM("RB_main.cpp", mfRB);
+USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
 USEFORM("CD9904\keypad\num_keyboard.cpp", Num_Pannel);
+USEFORM("Head_band.cpp", Headband);
+USEFORM("login\AppManagnent.cpp", AppManagment);
 USEFORM("CD9904\search_devices\Find_devices.cpp", Network_Scan);
 USEFORM("CD9904\sensor_options\Set_settings.cpp", Settings);
+USEFORM("ABOUT.cpp", AboutBox);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -36,6 +37,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			Application->Initialize();
 			SetApplicationMainFormOnTaskBar(Application, true);
 			Application->CreateForm(__classid(TmfRB), &mfRB);
+		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->Run();
 		}
 	}

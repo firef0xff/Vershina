@@ -262,7 +262,7 @@ void __fastcall Tyre::PrintProtocol(TPrinter *pprt,String side)    // печат
 //  wstr[1]="Высота страницы: "+String(pHeight);
 //  wstr[2]="Font height: "+String(fHeight);
 //  wstr[3]="Line spacing: "+String(LSp);
-  wstr[LineCnt]="ПРОТОКОЛ ИСПЫТАНИЙ № ______"/*String(ProtNo)+*/" НА СТЕНДЕ "+StandName+siStandNamede;
+  wstr[LineCnt]="ПРОТОКОЛ ИСПЫТАНИЙ № ______"/*String(ProtNo)+*/" НА СТЕНДЕ "+StandName+side;
   left[LineCnt]=abs( prtWidth - pprt->Canvas->TextWidth(wstr[LineCnt]) )/2+LeftMarg;
   wstr[++LineCnt]="     Изготовитель: "+Manufacturer+"     Заказчик: "+TestCustomer+"  Заказ №: "+String(OrderNo);
   left[LineCnt]=LeftMarg;

@@ -18,6 +18,7 @@
 #include "Login.h"
 #include "AppManagnent.h"
 #include "Threads.h"
+#include "ABOUT.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -6186,4 +6187,10 @@ void __fastcall TmfRB::btnResetResPosBClick(TObject *Sender)
 
 
 
+
+void __fastcall TmfRB::AboutProgExecute(TObject *Sender)
+{
+	AboutBox->ShowModal();
+}
+//---------------------------------------------------------------------------
 
