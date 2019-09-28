@@ -10083,7 +10083,7 @@ object mfRB: TmfRB
           Text = #1054#1043#1056#1040#1046#1044#1045#1053#1048#1045
         end
         object IndDestroyLateral1: TEdit
-          Left = 8
+          Left = 7
           Top = 71
           Width = 143
           Height = 22

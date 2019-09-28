@@ -41,9 +41,9 @@ unsigned long __stdcall ListenCD9904(void *msg)
 	   //рабочий цикл
 	   while (1)
 		{
-           #ifdef _mDEBUG
+		   #ifdef _mDEBUG
 			myOPC::log = "";
-            #endif
+			#endif
 			//чтение индикаторов ресета
 			OPCITEMSTATE* rez=ThreadOPC->Read(reset_id);
 			if (!rez)
@@ -78,21 +78,21 @@ unsigned long __stdcall ListenCD9904(void *msg)
 				values[4]=data->Time_2().Get_msek(); //DB20,DINT66 факт. время 2
 
 				static bool prevres=true; //статическая переменная для отсечения разовых ошибок записи
-				bool res=false;    //переменная индикаотр успешности записи
+				bool res=true;    //переменная индикаотр успешности записи
 
-				HRESULT RES=ThreadOPC->WriteMass(id,0,CD9904GroupSize,&values[0],tFLOAT);//запись+ получение результата
-			   /*	if (RES==S_OK||RES==S_FALSE)  //если запись успешна то норм
-				{              //реакция на все ощибки как на разрыв соединения
-					res=true;
-				}   */
-
-				if (RES==0xC0048003)  //если запись успешна то норм
-				{              //реакция на таймаут ощибки как на разрыв соединения
-					res=false;
-				}else
-				{
-					res=true;
-				}
+//				HRESULT RES=ThreadOPC->WriteMass(id,0,CD9904GroupSize,&values[0],tFLOAT);//запись+ получение результата
+//			   /*	if (RES==S_OK||RES==S_FALSE)  //если запись успешна то норм
+//				{              //реакция на все ощибки как на разрыв соединения
+//					res=true;
+//				}   */
+//
+//				if (RES==0xC0048003)  //если запись успешна то норм
+//				{              //реакция на таймаут ощибки как на разрыв соединения
+//					res=false;
+//				}else
+//				{
+//					res=true;
+//				}
 				StendConnection=res+prevres;//результирующий bool это сумма текущего результата и предыдущего
 											//что дает сбрасывание в false только при обоюдном false
 				prevres=res;               //сохраним текущий результат  */
@@ -108,7 +108,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 		}
 	}
 	CD_9904Thread=0;
-    ThreadOPC.reset();
+	ThreadOPC.reset();
 	return 0;
 //конец встраивания
 }
