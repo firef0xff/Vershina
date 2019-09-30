@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCurrentStatus
+    ActivePage = tsProtocol
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -75,8 +75,6 @@ object mfRB: TmfRB
         Height = 306
         Align = alTop
         TabOrder = 0
-        ExplicitLeft = -2
-        ExplicitTop = -1
         object stP1TL0C1: TStaticText
           Left = 137
           Top = 0
@@ -4452,7 +4450,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsProtocolA
+        ActivePage = tsProtocolB
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
@@ -10489,6 +10487,7 @@ object mfRB: TmfRB
         Height = 21
         Caption = #1057#1073#1088#1086#1089
         TabOrder = 4
+        OnClick = btResetAClick
       end
     end
     object gbPosition2ControlBox: TGroupBox
@@ -10942,6 +10941,7 @@ object mfRB: TmfRB
         Height = 21
         Caption = #1057#1073#1088#1086#1089
         TabOrder = 4
+        OnClick = btResetBClick
       end
     end
     object btnGeneralStop: TButton

@@ -1118,8 +1118,8 @@ void __fastcall TmfRB::ShowCommonParam(void)   // отображение общих параметров
     stP1CParL2C5->Caption       =FloatToStrF(*fakt_distance_2,ffFixed,7,2);
     stP1CParL3C1->Caption       =FloatToStrF(*set_speed_1,ffFixed,7,2);
     stP1CParL3C4->Caption       =FloatToStrF(*set_speed_2,ffFixed,7,2);
-    stP1CParL3C2->Caption       =FloatToStrF(*fakt_speed,ffFixed,7,2);
-    stP1CParL3C5->Caption       =FloatToStrF(*fakt_speed,ffFixed,7,2);
+	stP1CParL3C2->Caption       =FloatToStrF(*fakt_speed,ffFixed,7,2);
+	stP1CParL3C5->Caption       =FloatToStrF(*fakt_speed,ffFixed,7,2);
     stP1CParL3C3->Caption       =FloatToStrF(*next_speed1,ffFixed,7,2);
     stP1CParL3C6->Caption       =FloatToStrF(*next_speed2,ffFixed,7,2);
     stP1CParL4C1->Caption       =FloatToStrF(*set_loading_1,ffFixed,7,2);
@@ -6191,6 +6191,22 @@ void __fastcall TmfRB::btnResetResPosBClick(TObject *Sender)
 void __fastcall TmfRB::AboutProgExecute(TObject *Sender)
 {
 	AboutBox->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmfRB::btResetBClick(TObject *Sender)
+{
+	*ResetData2=true;
+	pOPC->WriteGr1(ResetData2);
+    CD_reset2=true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmfRB::btResetAClick(TObject *Sender)
+{
+	*ResetData1=true;
+	pOPC->WriteGr1(ResetData1);
+	CD_reset1=true;
 }
 //---------------------------------------------------------------------------
 

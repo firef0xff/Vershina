@@ -774,6 +774,8 @@ __published:	// IDE-managed Components
 	void __fastcall btnResetResPosBClick(TObject *Sender);
 	void __fastcall btnResetResPosAClick(TObject *Sender);
 	void __fastcall AboutProgExecute(TObject *Sender);
+	void __fastcall btResetBClick(TObject *Sender);
+	void __fastcall btResetAClick(TObject *Sender);
 private:	// User declarations
     int tsCurrentStatusH, tsCurrentStatusW;
     int pParam1Height,    pParam1Width;

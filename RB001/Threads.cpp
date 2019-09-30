@@ -11,6 +11,8 @@
 
 
 #pragma package(smart_init)
+bool CD_reset1=false;
+bool CD_reset2=false;
 unsigned long __stdcall ListenCD9904(void *msg)
 {
     boost::shared_ptr<myOPC> ThreadOPC(new myOPC());
@@ -29,11 +31,12 @@ unsigned long __stdcall ListenCD9904(void *msg)
 											L"S7:[S7 connection_4]IX124.0",
 											L"S7:[S7 connection_4]IX124.3"
 											};                          	//массивы данных
+
+//											db10.dbx38.5  и db10.dbx38.6
 	float values[CD9904GroupSize]={0.0};
 	bool  resets[ResetGroupSize]={false};
 	//идентификаторы групп
 	GROUP_ID id=ThreadOPC->AddGroup(L"CD9904Group",CD9904Group,CD9904GroupSize);
-	GROUP_ID reset_id=ThreadOPC->AddGroup(L"ResetGroup",ResetGroup,ResetGroupSize);
 
 	if (cd_9904->Sensor())//проверка подключения датчика
 	{
@@ -45,24 +48,15 @@ unsigned long __stdcall ListenCD9904(void *msg)
 			myOPC::log = "";
 			#endif
 			//чтение индикаторов ресета
-			OPCITEMSTATE* rez=ThreadOPC->Read(reset_id);
-			if (!rez)
-			{
-				Application->ProcessMessages();
-				continue;
-			}
-			for (size_t i = 0; i<ResetGroupSize; i++)
-			{
-				resets[i]=rez[i].vDataValue.boolVal;
-			}
-			ThreadOPC->OpcMassFree(reset_id,rez);
-			if (resets[0]/**Reset1*/)
+			if (CD_reset1/**Reset1*/)
 			{
 				cd_9904->ResetBus_1();
+				CD_reset1 = false;
 			}
-			if (resets[1]/**Reset2*/)
+			if (CD_reset2/**Reset2*/)
 			{
 				cd_9904->ResetBus_2();
+				CD_reset2 = false;
 			}
 			boost::shared_ptr<CD_9904::Data> data;
 			CD_9904::ErrCode err=sensor->Tansl_Speed(data);
@@ -80,19 +74,19 @@ unsigned long __stdcall ListenCD9904(void *msg)
 				static bool prevres=true; //статическая переменная для отсечения разовых ошибок записи
 				bool res=true;    //переменная индикаотр успешности записи
 
-//				HRESULT RES=ThreadOPC->WriteMass(id,0,CD9904GroupSize,&values[0],tFLOAT);//запись+ получение результата
-//			   /*	if (RES==S_OK||RES==S_FALSE)  //если запись успешна то норм
-//				{              //реакция на все ощибки как на разрыв соединения
-//					res=true;
-//				}   */
-//
-//				if (RES==0xC0048003)  //если запись успешна то норм
-//				{              //реакция на таймаут ощибки как на разрыв соединения
-//					res=false;
-//				}else
-//				{
-//					res=true;
-//				}
+				HRESULT RES=ThreadOPC->WriteMass(id,0,CD9904GroupSize,&values[0],tFLOAT);//запись+ получение результата
+			   /*	if (RES==S_OK||RES==S_FALSE)  //если запись успешна то норм
+				{              //реакция на все ощибки как на разрыв соединения
+					res=true;
+				}   */
+
+				if (RES==0xC0048003)  //если запись успешна то норм
+				{              //реакция на таймаут ощибки как на разрыв соединения
+					res=false;
+				}else
+				{
+					res=true;
+				}
 				StendConnection=res+prevres;//результирующий bool это сумма текущего результата и предыдущего
 											//что дает сбрасывание в false только при обоюдном false
 				prevres=res;               //сохраним текущий результат  */
