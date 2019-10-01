@@ -651,8 +651,7 @@ void __fastcall ResetKA(float *A[])      // сброс массива А в единичку
 void __fastcall LogPrint(String Str,TColor CClr)
 {
   pPrt->SelAttributes->Color=CClr;
-  String rec = TDateTime::CurrentDateTime().FormatString("dd.mm.yyyy hh:nn:ss: ") + Str;
-  pPrt->Lines->Add(rec);
+  pPrt->Lines->Add(Str);
 }
 //---- End of LogPrint ------------------------------------------------------
 

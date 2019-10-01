@@ -2243,13 +2243,9 @@ int __fastcall OPCRW::ReadCycleParameters(void)// чтение циклических параметров
 //    bS=false;
 //    LogPrint("Start cycle reading of parameters!",clFuchsia);
 //  }
-//  SendMessage(MainFormHandle,WM_OPCCmd,READGR1,0
+//  SendMessage(MainFormHandle,WM_OPCCmd,READGR1,0);
 
-	int res = 0;
-	LogPrint("Start cycle reading of parameters!",clFuchsia);
-	if(ReadGr1()&& ReadGr2())
-	res = ReadGr1()&& ReadGr2() ? 1 : 0;
-	LogPrint("End cycle reading of parameters!",res == 1 ? clFuchsia: clRed);
+	if(ReadGr1()&& ReadGr2()) return 1;
 	return 0;
 }
 //---- End of ReadCycleParameters -------------------------------------------

@@ -44,9 +44,9 @@ unsigned long __stdcall ListenCD9904(void *msg)
 	   //рабочий цикл
 	   while (1)
 		{
-		   #ifdef _mDEBUG
+           #ifdef _mDEBUG
 			myOPC::log = "";
-			#endif
+            #endif
 			//чтение индикаторов ресета
 			if (CD_reset1/**Reset1*/)
 			{
@@ -72,7 +72,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 				values[4]=data->Time_2().Get_msek(); //DB20,DINT66 факт. время 2
 
 				static bool prevres=true; //статическая переменная для отсечения разовых ошибок записи
-				bool res=true;    //переменная индикаотр успешности записи
+				bool res=false;    //переменная индикаотр успешности записи
 
 				HRESULT RES=ThreadOPC->WriteMass(id,0,CD9904GroupSize,&values[0],tFLOAT);//запись+ получение результата
 			   /*	if (RES==S_OK||RES==S_FALSE)  //если запись успешна то норм
@@ -102,7 +102,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 		}
 	}
 	CD_9904Thread=0;
-	ThreadOPC.reset();
+    ThreadOPC.reset();
 	return 0;
 //конец встраивания
 }
