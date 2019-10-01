@@ -3927,7 +3927,7 @@ void __fastcall TmfRB::OnClearProt(TObject *Sender)
 {
   leProtocolNo->Text    ="";           leTyreSize->Text      ="";
   leTyreType->Text      ="";           leTestProc->Text      ="";
-  leStandNo->Text       ="14";         leManufacturer->Text  ="";
+  leStandNo->Text       ="ÈÌØ-5";         leManufacturer->Text  ="";
   leDrumD->Text         ="1700";       leCustomer->Text      ="";
   meManDate->EditText   ="00.00.2010"; leSeralNo->Text       =0;
   lePerfSpecNo->Text    ="";           leOrderNo->Text       ="";

@@ -4450,7 +4450,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsProtocolB
+        ActivePage = tsNewProtocol
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
@@ -4461,7 +4461,7 @@ object mfRB: TmfRB
             Width = 596
             Height = 20
             BorderStyle = bsSingle
-            Caption = #1055#1056#1054#1058#1054#1050#1054#1051' '#1048#1057#1055#1067#1058#1040#1053#1048#1049'  '#1053#1040' '#1057#1058#1045#1053#1044#1045' '#8470'14 ('#1055#1054#1047'. '#1040')'
+            Caption = #1055#1056#1054#1058#1054#1050#1054#1051' '#1048#1057#1055#1067#1058#1040#1053#1048#1049'  '#1053#1040' '#1057#1058#1045#1053#1044#1045' '#1048#1052#1064'-5 ('#1055#1054#1047'. '#1040')'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -5353,7 +5353,7 @@ object mfRB: TmfRB
             Width = 596
             Height = 20
             BorderStyle = bsSingle
-            Caption = #1055#1056#1054#1058#1054#1050#1054#1051' '#1048#1057#1055#1067#1058#1040#1053#1048#1049' '#1053#1040' '#1057#1058#1045#1053#1044#1045' '#8470'14('#1055#1054#1047'. '#1041')'
+            Caption = #1055#1056#1054#1058#1054#1050#1054#1051' '#1048#1057#1055#1067#1058#1040#1053#1048#1049' '#1053#1040' '#1057#1058#1045#1053#1044#1045' '#1048#1052#1064'-5('#1055#1054#1047'. '#1041')'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
@@ -6398,10 +6398,10 @@ object mfRB: TmfRB
             Height = 19
             AutoSize = False
             BiDiMode = bdLeftToRight
-            EditLabel.Width = 55
+            EditLabel.Width = 42
             EditLabel.Height = 13
             EditLabel.BiDiMode = bdLeftToRight
-            EditLabel.Caption = #1057#1090#1077#1085#1076' '#8470': '
+            EditLabel.Caption = #1057#1090#1077#1085#1076' : '
             EditLabel.Font.Charset = DEFAULT_CHARSET
             EditLabel.Font.Color = clWindowText
             EditLabel.Font.Height = -11
@@ -6419,7 +6419,7 @@ object mfRB: TmfRB
             ParentBiDiMode = False
             ParentFont = False
             TabOrder = 5
-            Text = '14'
+            Text = #1048#1052#1064'-5'
             OnKeyDown = OnLEKeyDown
           end
           object leManufacturer: TLabeledEdit
