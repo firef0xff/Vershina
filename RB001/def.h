@@ -63,7 +63,7 @@
 #define LDQTY         7
 #define TQTY          20
 #define RQTY          20
-#define LDCQTY		  39
+#define LDCQTY		  20
 #define LOWTLIM      -50
 #define UPPERTLIM    150
 
