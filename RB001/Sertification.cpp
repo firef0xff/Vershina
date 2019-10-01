@@ -66,20 +66,11 @@ void __fastcall VSert::PrintProtocol(String fn)// распечатать про�
 __fastcall LSert::LSert(void)                  // конструктор
 {
   Index=0;                            // текущий индекс таблицы
-  for (int i=0,j=11;i<LDQTY;i++) {       // столбец заданных скоростей
-    if(i<12) {
-      TargetLd[i]=(i)*10;
-    }
-    else if(i==12) TargetLd[i]=115;
-    else {
-      TargetLd[i]=(j--)*10;
-    }
+  for (int i=0;i<LDQTY;i++)
+  {       // столбец заданных скоростей
+	TargetLd[i]=(i+1)*10;
   }
-  TargetLd[0]=TargetLd[LDQTY-1]=5;
   for (int i=0;i<LDQTY;i++) {       // столбец заданных скоростей
-    if(i==0 || i==LDQTY-1)
-	  sTLd[i]="   "+FloatToStrF(TargetLd[i],ffFixed,5,2);
-    else
 	  sTLd[i]="  "+FloatToStrF(TargetLd[i],ffFixed,5,2);
     ReadoutLd[i]=MeasuredLd[i]=RelError[i]=0.0;
   }
