@@ -66,20 +66,11 @@ void __fastcall VSert::PrintProtocol(String fn)// распечатать про�
 __fastcall LSert::LSert(void)                  // конструктор
 {
   Index=0;                            // текущий индекс таблицы
-  for (int i=0,j=11;i<LDQTY;i++) {       // столбец заданных скоростей
-    if(i<12) {
-      TargetLd[i]=(i)*10;
-    }
-    else if(i==12) TargetLd[i]=115;
-    else {
-      TargetLd[i]=(j--)*10;
-    }
+  for (int i=0;i<LDQTY;i++)
+  {       // столбец заданных скоростей
+	TargetLd[i]=(i+1)*10;
   }
-  TargetLd[0]=TargetLd[LDQTY-1]=5;
   for (int i=0;i<LDQTY;i++) {       // столбец заданных скоростей
-    if(i==0 || i==LDQTY-1)
-	  sTLd[i]="   "+FloatToStrF(TargetLd[i],ffFixed,5,2);
-    else
 	  sTLd[i]="  "+FloatToStrF(TargetLd[i],ffFixed,5,2);
     ReadoutLd[i]=MeasuredLd[i]=RelError[i]=0.0;
   }
@@ -219,26 +210,26 @@ __fastcall LCalibr::LCalibr(void)                  // конструктор
 {
   loaded=false;
   Index=0;                            // текущий индекс таблицы
-  TargetLd[0]=5;
-  TargetLd[1]=6;
-  TargetLd[2]=7;
-  TargetLd[3]=8;
-  TargetLd[4]=9;
-  TargetLd[5]=10;
-  TargetLd[6]=11;
-  TargetLd[7]=12;
-  TargetLd[8]=13;
-  TargetLd[9]=15;
-  TargetLd[10]=20;
-  TargetLd[11]=30;
-  TargetLd[12]=40;
+  TargetLd[0]=10;
+  TargetLd[1]=13;
+  TargetLd[2]=16;
+  TargetLd[3]=20;
+  TargetLd[4]=23;
+  TargetLd[5]=26;
+  TargetLd[6]=29;
+  TargetLd[7]=32;
+  TargetLd[8]=35;
+  TargetLd[9]=38;
+  TargetLd[10]=41;
+  TargetLd[11]=44;
+  TargetLd[12]=47;
   TargetLd[13]=50;
-  TargetLd[14]=60;
-  TargetLd[15]=70;
-  TargetLd[16]=80;
-  TargetLd[17]=90;
-  TargetLd[18]=100;
-  TargetLd[19]=110;
+  TargetLd[14]=53;
+  TargetLd[15]=56;
+  TargetLd[16]=60;
+  TargetLd[17]=63;
+  TargetLd[18]=66;
+  TargetLd[19]=70;
   for (int i=20,j=2;i<LDCQTY;i++) {    // столбец заданных нагрузок
     TargetLd[i]=TargetLd[20-(j++)];
   }
@@ -257,7 +248,7 @@ void __fastcall LCalibr::LKQInit(                 // инициализация 
   for(int i=0; i<GR12ARRAYSIZE/2; i++) {
     *A[i]=*A[i+GR12ARRAYSIZE/2]=1.0;
     *Q[i]=TargetLd[i];
-    *Q[GR12ARRAYSIZE-i-1]=TargetLd[LDCQTY-i-1];
+    *Q[GR12ARRAYSIZE-i-1]=TargetLd[i];
   }
 }
 //---- End of LKQInit -------------------------------------------------------
@@ -267,7 +258,7 @@ void __fastcall LCalibr::LKRead(                  // чтение коэффиц
 {
   for(int i=0; i<GR12ARRAYSIZE/2; i++) {
 	/*Read*/KA[i]=*A[i];
-    /*Read*/KA[i+GR12ARRAYSIZE/2-1]=*A[i+GR12ARRAYSIZE/2];
+    /*Read*/KA[i+GR12ARRAYSIZE/2-1]=*A[i];
   }
   loaded=true;
 }
@@ -286,7 +277,7 @@ void __fastcall LCalibr::LKSetting(               // устанока коэфф
 {
   for(int i=0; i<GR12ARRAYSIZE/2; i++) {
     *A[i]=KA[i];
-    *A[GR12ARRAYSIZE-i-1]=KA[LDCQTY-i-1];
+    *A[GR12ARRAYSIZE-i-1]=KA[i];
   }
 }
 //---- End of LKSetting -----------------------------------------------------
