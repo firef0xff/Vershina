@@ -210,32 +210,21 @@ __fastcall LCalibr::LCalibr(void)                  // конструктор
 {
   loaded=false;
   Index=0;                            // текущий индекс таблицы
+
   TargetLd[0]=10;
-  TargetLd[1]=13;
-  TargetLd[2]=16;
-  TargetLd[3]=20;
-  TargetLd[4]=23;
-  TargetLd[5]=26;
-  TargetLd[6]=29;
-  TargetLd[7]=32;
-  TargetLd[8]=35;
-  TargetLd[9]=38;
-  TargetLd[10]=41;
-  TargetLd[11]=44;
-  TargetLd[12]=47;
-  TargetLd[13]=50;
-  TargetLd[14]=53;
-  TargetLd[15]=56;
-  TargetLd[16]=60;
-  TargetLd[17]=63;
-  TargetLd[18]=66;
-  TargetLd[19]=70;
-  for (int i=20,j=2;i<LDCQTY;i++) {    // столбец заданных нагрузок
-    TargetLd[i]=TargetLd[20-(j++)];
-  }
+  TargetLd[1]=11;
+  TargetLd[2]=12;
+  TargetLd[3]=13;
+  TargetLd[4]=15;
+  TargetLd[5]=20;
+  TargetLd[6]=30;
+  TargetLd[7]=40;
+  TargetLd[8]=50;
+  TargetLd[9]=60;
+  TargetLd[10]=70;
   for (int i=0;i<LDCQTY;i++) {    // столбец заданных нагрузок
-    sTLd[i]="   "+FloatToStrF(TargetLd[i],ffFixed,5,2);
-    ReadoutLd[i]=MeasuredLd[i]=ReadKA[i]=0.0;
+	sTLd[i]="   "+FloatToStrF(TargetLd[i],ffFixed,5,2);
+	ReadoutLd[i]=MeasuredLd[i]=ReadKA[i]=0.0;
     KA[i]=1.0;
   }
 }
@@ -245,10 +234,9 @@ void __fastcall LCalibr::LKQInit(                 // инициализация 
                                  float *Q[],      // масив указателей границ
                                  float *A[])      // масив указателей коэффициентов
 {
-  for(int i=0; i<GR12ARRAYSIZE/2; i++) {
-    *A[i]=*A[i+GR12ARRAYSIZE/2]=1.0;
-    *Q[i]=TargetLd[i];
-    *Q[GR12ARRAYSIZE-i-1]=TargetLd[i];
+  for(int i=0; i<GR12ARRAYSIZE; i++) {
+	*A[i]=1.0;
+	*Q[i]=TargetLd[i];
   }
 }
 //---- End of LKQInit -------------------------------------------------------
@@ -256,9 +244,8 @@ void __fastcall LCalibr::LKQInit(                 // инициализация 
 void __fastcall LCalibr::LKRead(                  // чтение коэффициентов из A (DB70,71) в ReadКА
                                 float *A[])       // масив указателей коэффициентов
 {
-  for(int i=0; i<GR12ARRAYSIZE/2; i++) {
+  for(int i=0; i<GR12ARRAYSIZE; i++) {
 	/*Read*/KA[i]=*A[i];
-    /*Read*/KA[i+GR12ARRAYSIZE/2-1]=*A[i];
   }
   loaded=true;
 }
@@ -275,9 +262,8 @@ void __fastcall LCalibr::LKMult(void)             // перемножение К
 void __fastcall LCalibr::LKSetting(               // устанока коэффициентов для калибровки
                                    float *A[])    // масив указателей коэффициентов
 {
-  for(int i=0; i<GR12ARRAYSIZE/2; i++) {
-    *A[i]=KA[i];
-    *A[GR12ARRAYSIZE-i-1]=KA[i];
+  for(int i=0; i<GR12ARRAYSIZE; i++) {
+	*A[i]=KA[i];
   }
 }
 //---- End of LKSetting -----------------------------------------------------
