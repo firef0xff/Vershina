@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsSert
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -9141,7 +9141,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsLoadSert
+        ActivePage = tsDrumSpeedSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet
@@ -9507,7 +9507,7 @@ object mfRB: TmfRB
                 Width = 328
                 Height = 521
                 Align = alLeft
-                RowCount = 40
+                RowCount = 12
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -9727,7 +9727,7 @@ object mfRB: TmfRB
                 Width = 328
                 Height = 521
                 Align = alLeft
-                RowCount = 40
+                RowCount = 12
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -10962,9 +10962,9 @@ object mfRB: TmfRB
     UseSystemFont = False
     ActionManager = amRB
     Caption = 'ActionMainMenuBar'
-    ColorMap.HighlightColor = 16514043
+    ColorMap.HighlightColor = clWhite
     ColorMap.BtnSelectedColor = clBtnFace
-    ColorMap.UnusedColor = 16514043
+    ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
