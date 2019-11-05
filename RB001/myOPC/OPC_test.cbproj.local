@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.705,=D:\документы\проекты\вершина\RB001 13_11_2012_2\opc_i.c</Transaction>
     <Transaction>1899.12.30 00:00:00.000.281,=D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\def.c</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.281,=D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\miniOPC.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.449,D:\документы\RAD Studio\Projects\Project2.cbproj=D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\OPC_test.cbproj</Transaction>
     <Transaction>1899.12.30 00:00:00.000.721,=D:\документы\проекты\вершина\RB001 13_11_2012_2\opc.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.709,D:\документы\RAD Studio\Projects\File1.cpp=D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\OPC_text.cpp</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.114,=D:\документы\RAD Studio\Projects\Project2.res</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.281,=D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\miniOPC.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.705,=D:\документы\проекты\вершина\RB001 13_11_2012_2\opc_i.c</Transaction>
     <Transaction>1899.12.30 00:00:00.000.161,=D:\документы\RAD Studio\Projects\Unit2.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.709,D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\OPC_text.cpp=D:\документы\RAD Studio\Projects\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.449,D:\документы\проекты\вершина\RB001 13_11_2012_2\myOPC\OPC_test.cbproj=D:\документы\RAD Studio\Projects\Project2.cbproj</Transaction>
     <Transaction>1899.12.30 00:00:00.000.141,=D:\документы\RAD Studio\Projects\File1.cpp</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.114,=D:\документы\RAD Studio\Projects\Project2.res</Transaction>
   </Transactions>
 </BorlandProject>

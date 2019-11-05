@@ -925,6 +925,13 @@ void __fastcall TmfRB::DesignSpdCalibrPanel(void)// расположение компонент на па
   btnVCalibrDrumOff->Left      =Left11;       btnVCalibrDrumOff->Top        =Top1+H2*4+LSp1*6;
   btnVCalibrDrumOff->Width     =BtnW1;        btnVCalibrDrumOff->Height     =H2;
 
+  leDbar->Left      =Left11;       leDbar->Top        =Top1+H2*5+LSp1*6 + 20;
+  leSvr->Left      = Left11 + leDbar->Width + 20;        leSvr->Top        =Top1+H2*5+LSp1*6 + 20;
+
+  btSvr->Left      =Left11;        btSvr->Top        =leDbar->Top + leDbar->Height + 10 ;
+  btSvr->Width     =BtnW1;         btSvr->Height     =H2;
+
+
   VS->Index=0;
   leCurrentVSet->Text=FloatToStrF(VS->TargetV[0],ffFixed,6,2);
   leReadV->Text      =FloatToStrF(VS->ReadoutV[0],ffFixed,6,2);
@@ -2705,10 +2712,18 @@ void __fastcall TmfRB::OnTProgCheck(TObject *Sender)
 		int		Time=StrToI(sgTProgram->Cells[3][i+1])*3600*1000+StrToI(sgTProgram->Cells[4][i+1])*60*1000;
 		if (!CheckLoad(Load)||!CheckSpeed(Speed)||(!CheckTime(Time)&&Time))
 		{
-			ClearTProg();//чистка данных
-			AnsiString msg="¬ведено не корректное значение в строке "+AnsiString(i+1);
-			MessageBox(Handle,msg.c_str(),_T("ќшибка"),MB_ICONERROR|MB_OK);
-			return;
+			if( i > 0 && Load == 0 && Speed == 0 && Time == 0 )
+			{
+				total_step_T = i;
+				break;
+			}
+			else
+			{
+				ClearTProg();//чистка данных
+				AnsiString msg="¬ведено не корректное значение в строке "+AnsiString(i+1);
+				MessageBox(Handle,msg.c_str(),_T("ќшибка"),MB_ICONERROR|MB_OK);
+				return;
+			}
 		}
 		Tsettings[0][i]=Load;
 		if(Tsettings[0][i]==0)
@@ -6207,6 +6222,20 @@ void __fastcall TmfRB::btResetAClick(TObject *Sender)
 	*ResetData1=true;
 	pOPC->WriteGr1(ResetData1);
 	CD_reset1=true;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TmfRB::btSvrClick(TObject *Sender)
+{
+	double s = 0;
+	double pi = 3.141592653589793238462643;
+	double ob_min = leSvr->Text.ToDouble();
+	int d_bar = leDbar->Text.ToIntDef(0);
+	double p_bar = pi*d_bar;
+	s = p_bar * ob_min; //(мм/мин)
+	s = s / 1000000*60;
+	leMeasuredV->Text = FloatToStrF(s,ffFixed,5,2);
 }
 //---------------------------------------------------------------------------
 

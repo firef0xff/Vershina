@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsManual
+    ActivePage = tsCalibration
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -7870,7 +7870,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsLoadCalibr
+        ActivePage = tsSpeedCalibr
         Align = alClient
         TabOrder = 0
         object tsLoadCalibr: TTabSheet
@@ -8939,6 +8939,8 @@ object mfRB: TmfRB
         object tsSpeedCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1073#1072#1088#1072#1073#1072#1085#1072
           ImageIndex = 3
+          ExplicitLeft = 6
+          ExplicitTop = 27
           object pSpeedCalibrTtl: TPanel
             Left = 0
             Top = 0
@@ -9093,8 +9095,8 @@ object mfRB: TmfRB
             OnClick = OnVCalibrCalc
           end
           object btnVCalibrDrumOn: TButton
-            Left = 336
-            Top = 233
+            Left = 292
+            Top = 245
             Width = 137
             Height = 24
             Caption = #1042#1050#1051#1070#1063#1048#1058#1068' '#1041#1040#1056#1040#1041#1040#1053', F6'
@@ -9102,8 +9104,8 @@ object mfRB: TmfRB
             OnClick = OnDrumOn
           end
           object btnVCalibrDrumOff: TButton
-            Left = 336
-            Top = 273
+            Left = 292
+            Top = 282
             Width = 137
             Height = 24
             Caption = #1042#1067#1050#1051#1070#1063#1048#1058#1068' '#1041#1040#1056#1040#1041#1040#1053', F7'
@@ -9129,6 +9131,35 @@ object mfRB: TmfRB
             Caption = #1056#1072#1089#1087#1077#1095#1072#1090#1072#1090#1100' '#1087#1088#1086#1090#1086#1082#1086#1083
             TabOrder = 11
             WordWrap = True
+          end
+          object leDbar: TLabeledEdit
+            Left = 292
+            Top = 187
+            Width = 119
+            Height = 22
+            EditLabel.Width = 129
+            EditLabel.Height = 14
+            EditLabel.Caption = #1044#1080#1072#1084#1077#1090#1088' '#1073#1072#1088#1072#1073#1072#1085#1072', '#1084#1084
+            TabOrder = 12
+          end
+          object leSvr: TLabeledEdit
+            Left = 436
+            Top = 187
+            Width = 121
+            Height = 22
+            EditLabel.Width = 161
+            EditLabel.Height = 14
+            EditLabel.Caption = #1057#1082#1086#1088#1086#1089#1090#1100' '#1074#1088#1072#1097#1077#1085#1080#1103', '#1086#1073'/'#1084#1080#1085
+            TabOrder = 13
+          end
+          object btSvr: TButton
+            Left = 563
+            Top = 186
+            Width = 75
+            Height = 25
+            Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100' '#1089#1082#1086#1088#1086#1089#1090#1100
+            TabOrder = 14
+            OnClick = btSvrClick
           end
         end
       end

@@ -667,6 +667,9 @@ __published:	// IDE-managed Components
 	TLabeledEdit *leEmMaxTemp_1R;
 	TButton *btResetA;
 	TButton *btResetB;
+	TButton *btSvr;
+	TLabeledEdit *leDbar;
+	TLabeledEdit *leSvr;
     void __fastcall OnCommonParamReadExec(TObject *Sender);
 	void __fastcall OPCControlStartExec(void);
 	void __fastcall OnOPCControlStopExec(TObject *Sender);
@@ -776,6 +779,7 @@ __published:	// IDE-managed Components
 	void __fastcall AboutProgExecute(TObject *Sender);
 	void __fastcall btResetBClick(TObject *Sender);
 	void __fastcall btResetAClick(TObject *Sender);
+	void __fastcall btSvrClick(TObject *Sender);
 private:	// User declarations
     int tsCurrentStatusH, tsCurrentStatusW;
     int pParam1Height,    pParam1Width;
