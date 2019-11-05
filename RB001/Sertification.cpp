@@ -214,14 +214,13 @@ __fastcall LCalibr::LCalibr(void)                  // конструктор
   TargetLd[0]=10;
   TargetLd[1]=11;
   TargetLd[2]=12;
-  TargetLd[3]=13;
-  TargetLd[4]=15;
-  TargetLd[5]=20;
-  TargetLd[6]=30;
-  TargetLd[7]=40;
-  TargetLd[8]=50;
-  TargetLd[9]=60;
-  TargetLd[10]=70;
+  TargetLd[3]=15;
+  TargetLd[4]=20;
+  TargetLd[5]=30;
+  TargetLd[6]=40;
+  TargetLd[7]=50;
+  TargetLd[8]=60;
+  TargetLd[9]=70;
   for (int i=0;i<LDCQTY;i++) {    // столбец заданных нагрузок
 	sTLd[i]="   "+FloatToStrF(TargetLd[i],ffFixed,5,2);
 	ReadoutLd[i]=MeasuredLd[i]=ReadKA[i]=0.0;

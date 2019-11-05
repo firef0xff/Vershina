@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCurrentStatus
+    ActivePage = tsManual
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -9141,7 +9141,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsDrumSpeedSert
+        ActivePage = tsLoadSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet
@@ -9507,7 +9507,7 @@ object mfRB: TmfRB
                 Width = 328
                 Height = 521
                 Align = alLeft
-                RowCount = 12
+                RowCount = 11
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -9672,8 +9672,8 @@ object mfRB: TmfRB
                 WordWrap = True
               end
               object btnLoadSertAToPLC: TButton
-                Left = 679
-                Top = 208
+                Left = 676
+                Top = 207
                 Width = 122
                 Height = 45
                 Hint = 'Save As|Saves the active file with a new name'
@@ -9727,7 +9727,7 @@ object mfRB: TmfRB
                 Width = 328
                 Height = 521
                 Align = alLeft
-                RowCount = 12
+                RowCount = 11
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell

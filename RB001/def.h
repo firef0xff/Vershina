@@ -41,10 +41,10 @@
 #define GR11ARRAYSNUM     6    // количество массивов в группе 11
 #define GR11ARRAYSIZE   250    // размер массивов в группе 11
 
-#define GR12ITEMSNUM     22     //80    // количество переменных в группе 12
-#define GR12ARRAYSIZE    11     //40    // количество переменных в массиве группы 12
-#define GR13ITEMSNUM     22     //80    // количество переменных в группе 13
-#define GR13ARRAYSIZE    11     //40    // количество переменных в массиве группы 13
+#define GR12ITEMSNUM     20     //80    // количество переменных в группе 12
+#define GR12ARRAYSIZE    10     //40    // количество переменных в массиве группы 12
+#define GR13ITEMSNUM     20     //80    // количество переменных в группе 13
+#define GR13ARRAYSIZE    10     //40    // количество переменных в массиве группы 13
 
 #define MAXNUMOFSTEPS   100    // максимальное количество шагов программы испытаний
 #define MAXNUMOFPOLLS   250    // максимальное количество опросов
@@ -63,15 +63,15 @@
 #define LDQTY         7
 #define TQTY          20
 #define RQTY          20
-#define LDCQTY		  11   //20
+#define LDCQTY		  10   //20
 #define LOWTLIM      -50
 #define UPPERTLIM    150
 
 //настройки стенда
-#define MIN_SPEED 0
-#define MAX_SPEED 170
-#define MIN_LOAD  0
-#define MAX_LOAD  115
+#define MIN_SPEED 10
+#define MAX_SPEED 150
+#define MIN_LOAD  10
+#define MAX_LOAD  70
 //дебаг
 #ifdef _DEBUG
 	  //#define  _mDEBUG
