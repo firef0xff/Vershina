@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCalibration
+    ActivePage = tsTestProgramSetting
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -3336,7 +3336,7 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsTimeProg
+        ActivePage = tsSProg
         Align = alClient
         TabOrder = 0
         object tsTimeProg: TTabSheet
@@ -8939,8 +8939,6 @@ object mfRB: TmfRB
         object tsSpeedCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1073#1072#1088#1072#1073#1072#1085#1072
           ImageIndex = 3
-          ExplicitLeft = 6
-          ExplicitTop = 27
           object pSpeedCalibrTtl: TPanel
             Left = 0
             Top = 0

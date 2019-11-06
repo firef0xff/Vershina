@@ -3355,10 +3355,18 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
 				Distance=StrToFlt(sgSProgram->Cells[3][i+1]);
 		if (!CheckLoad(Load)||!CheckSpeed(Speed)||(!CheckDistance(Distance)&&Distance))
 		{
-			ClearSProg();//чистка данных
-			AnsiString msg="¬ведено не корректное значение в строке "+AnsiString(i+1);
-			MessageBox(Handle,msg.c_str(),_T("ќшибка"),MB_ICONERROR|MB_OK);
-			return;
+			if( i > 0 && Load == 0 && Speed == 0 && Time == 0 )
+			{
+				total_step_S = i;
+				break;
+			}
+			else
+			{
+				ClearSProg();//чистка данных
+				AnsiString msg="¬ведено не корректное значение в строке "+AnsiString(i+1);
+				MessageBox(Handle,msg.c_str(),_T("ќшибка"),MB_ICONERROR|MB_OK);
+				return;
+			}
 		}
 		Ssettings[0][i]=Load;//нагрузки
 		if(Ssettings[0][i]==0)
