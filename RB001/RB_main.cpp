@@ -3355,7 +3355,7 @@ void __fastcall TmfRB::OnSProgCheck(TObject *Sender)
 				Distance=StrToFlt(sgSProgram->Cells[3][i+1]);
 		if (!CheckLoad(Load)||!CheckSpeed(Speed)||(!CheckDistance(Distance)&&Distance))
 		{
-			if( i > 0 && Load == 0 && Speed == 0 && Time == 0 )
+			if( i > 0 && Load == 0 && Speed == 0 && Distance == 0 )
 			{
 				total_step_S = i;
 				break;
