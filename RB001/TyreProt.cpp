@@ -221,7 +221,7 @@ void __fastcall Tyre::PrintProtToFile(String fname,String side)    // печат
   fprintf(fprint,"|     |  чч:мм  | км/час |        |  кН    |   мм    |    С      |\n");
   fprintf(fprint,"+-----+---------+--------+--------+--------+---------+-----------+\n");
   for (int i = 0; i < PollsNo; i++) {
-	if (rT[i]!=0&&rV[i]!=0&&rS[i]!=0&&rL[i]!=0&&rR[i]!=0&&rTemp[i]!=0)
+	//if (rT[i]!=0&&rV[i]!=0&&rS[i]!=0&&rL[i]!=0&&rR[i]!=0&&rTemp[i]!=0)
 	{ //это не даст печататься пустым строкам данных (пожелание заказчика)
 		fprintf(fprint,"| %03d |%7s  | %6.2f | %6.0f | %6.2f | %5.2f |    %5.1f  |\n",
 		i+1,AnsiString(mSecToHMSStr(rT[i])).c_str(),rV[i],rS[i],rL[i],rR[i],rTemp[i]);
@@ -315,7 +315,7 @@ void __fastcall Tyre::PrintProtocol(TPrinter *pprt,String side)    // печат
   int LinePrinted=-1;
 
   for (int i = 0; i < PollsNo; i++) {
-	if (rT[i]!=0&&rV[i]!=0&&rS[i]!=0&&rL[i]!=0&&rR[i]!=0&&rTemp[i]!=0)
+	//if (rT[i]!=0&&rV[i]!=0&&rS[i]!=0&&rL[i]!=0&&rR[i]!=0&&rTemp[i]!=0)
 	{//это не даст печататься пустым строкам данных (пожелание заказчика)
 		wstr[++LineCnt]="| "+IntToS(i+1,3)+" | "+mSecToHMSStr(rT[i])+"   | "+
 		  FltToStr(rV[i],ffFixed,6,2)+" | "+

@@ -4066,7 +4066,7 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
 	SGClear(sgTestResultA,0);//чистка таблицы
 	for (int i = 0; i < MAXNUMOFPOLLS&&i<TyreA->PollsNo; i++)
 	{
-		if(read_TA[i]!=0&&read_VA[i]!=0&&read_SA[i]!=0&&read_LA[i]!=0&&read_RA[i]!=0&&read_TempA[i])
+		//if(read_TA[i]!=0&&read_VA[i]!=0&&read_SA[i]!=0&&read_LA[i]!=0&&read_RA[i]!=0&&read_TempA[i])
 		{  //+1 для отображения строки данных после пуволнения программы     + отсечка пустых данных
 			sgTestResultA->Cells[0][sgTestResultA->RowCount-1]=String(i+1)+":";
 			sgTestResultA->Cells[1][sgTestResultA->RowCount-1]=mSecToHMSStr(read_TA[i]);                TyreA->rT[i]   =read_TA[i];
