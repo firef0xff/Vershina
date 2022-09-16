@@ -1,0 +1,18 @@
+[submodule "communication"]
+	path = communication
+	url = git@github.com:firef0xff/communication.git
+[submodule "COMPort"]
+	path = COMPort
+	url = git@github.com:firef0xff/COMPort.git
+[submodule "date"]
+	path = date
+	url = git@github.com:firef0xff/date.git
+[submodule "MD5"]
+	path = MD5
+	url = git@github.com:firef0xff/MD5.git
+[submodule "OPC"]
+	path = OPC
+	url = git@github.com:firef0xff/OPC.git
+[submodule "SQL"]
+	path = SQL
+	url = git@github.com:firef0xff/SQL.git
