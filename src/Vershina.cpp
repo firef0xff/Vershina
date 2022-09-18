@@ -4,14 +4,14 @@
 #pragma hdrstop
 #include <thread>
 //---------------------------------------------------------------------------
-USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
 USEFORM("login\dialogs\User_Data.cpp", UserData);
-USEFORM("login\AppManagnent.cpp", AppManagment);
 USEFORM("login\Login.cpp", LogInwnd);
+USEFORM("login\AppManagnent.cpp", AppManagment);
+USEFORM("login\dialogs\GroupSelect.cpp", fselGroup);
 USEFORM("Vershina_main.cpp", mfRB);
 USEFORM("splash_screen\Head_band.cpp", Headband);
+USEFORM("GraphBuilder.cpp", Plotter); /* TFrame: File Type */
 //---------------------------------------------------------------------------
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
    try

@@ -21,6 +21,7 @@
 
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "GraphBuilder"
 #pragma resource "*.dfm"
 TmfRB *mfRB;
 
@@ -1622,10 +1623,6 @@ void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
    mfRB->Width = MFWIDTH;
    tsCurrentStatusH = tsCurrentStatus->Height;
    tsCurrentStatusW = tsCurrentStatus->Width;
-   pParam1Height = pParam1->Height;
-   pParam1Width = pParam1->Width;
-   pParam2Height = pParam2->Height;
-   pParam2Width = pParam2->Width;
    tsManualHeight = tsManual->Height;
    tsManualWidth = tsManual->Width;
    tsTimeProgHeight = tsTimeProg->Height;
@@ -1650,7 +1647,6 @@ void __fastcall TmfRB::OnMainFormCreate(TObject *Sender)
    DesignProtAPanel();
    DesignSProgTable();
    DesignTProgTable();
-   DesignCmmnParPanel();
    DesignManualPanel();
    DesignLoadSertAPanel();
    DesignLoadCalibrAPanel();
@@ -1875,10 +1871,6 @@ void __fastcall TmfRB::OnMFResize(TObject *Sender)
    // Handle2On=false;
    tsCurrentStatusH = tsCurrentStatus->Height;
    tsCurrentStatusW = tsCurrentStatus->Width;
-   pParam1Height = pParam1->Height;
-   pParam1Width = pParam1->Width;
-   pParam2Height = pParam2->Height;
-   pParam2Width = pParam2->Width;
    tsManualHeight = tsManual->Height;
    tsManualWidth = tsManual->Width;
    tsTimeProgHeight = tsTimeProg->Height;
@@ -1903,13 +1895,13 @@ void __fastcall TmfRB::OnMFResize(TObject *Sender)
    DesignProtAPanel();
    DesignTProgTable();
    DesignSProgTable();
-   DesignCmmnParPanel();
    DesignManualPanel();
    DesignLoadSertAPanel();
    DesignLoadCalibrAPanel();
    DesignRCalibrAPanel();
    DesignTCalibrAPanel();
    DesignSpdCalibrPanel();
+   sbRB->Panels->Items[2]->Text = UnicodeString( Width ) + L"x" + UnicodeString(Height);
 }
 // ---------------------------------------------------------------------------
 
@@ -2254,306 +2246,6 @@ void __fastcall TmfRB::OnLEKeyDown(TObject *Sender, WORD &Key,
    }
 }
 // ---------------------------------------------------------------------------
-
-void TmfRB::DesignCmmnParPanel(void)
-   // расположение компонент на панели общих параметров
-{
-   int C0Width = pParam1Width / 4;
-   int C1_6Width = (pParam1Width - C0Width) / 6;
-   int C1_4Width = C1_6Width * 3 / 2;
-   C0Width = pParam1Width - C1_6Width * 6;
-   C1_6Width = C1_4Width * 2 / 3 * 2;
-   pParam1Height = 13 * tsCurrentStatusH / 22;
-   pParam2Height = tsCurrentStatusH - pParam1Height - Splitter1->Height;
-   pParam1->Height = pParam1Height;
-   pParam2->Height = pParam2Height;
-   int p1RowHeight = pParam1Height / 13;
-   if (p1RowHeight > 30)
-      p1RowHeight = 30;
-   stP1CurDate->Left = 0;
-   stP1CurDate->Top = 0;
-   stP1CurDate->Width = C0Width;
-   stP1CurDate->Height = p1RowHeight;
-   stP1TL0C1->Left = C0Width;
-   stP1TL0C1->Top = 0;
-   stP1TL0C1->Width = C1_6Width * 3;
-   stP1TL0C1->Height = p1RowHeight;
-   stP1TTyreType->Left = 0;
-   stP1TTyreType->Top = p1RowHeight;
-   stP1TTyreType->Width = C0Width;
-   stP1TTyreType->Height = p1RowHeight;
-   stP1L1TyreTypeA->Left = C0Width;
-   stP1L1TyreTypeA->Top = p1RowHeight;
-   stP1L1TyreTypeA->Width = C1_6Width * 3;
-   stP1L1TyreTypeA->Height = p1RowHeight;
-   stP1TProgName->Left = 0;
-   stP1TProgName->Top = p1RowHeight * 2;
-   stP1TProgName->Width = C0Width;
-   stP1TProgName->Height = p1RowHeight;
-   stP1L2ProgNameA->Left = C0Width;
-   stP1L2ProgNameA->Top = p1RowHeight * 2;
-   stP1L2ProgNameA->Width = C1_6Width * 3;
-   stP1L2ProgNameA->Height = p1RowHeight;
-   pP1PT2->Left = 0;
-   pP1PT2->Top = p1RowHeight * 3;
-   pP1PT2->Width = pParam1Width;
-   pP1PT2->Height = p1RowHeight;
-   pP1PL1Ttl->Left = 0;
-   pP1PL1Ttl->Top = p1RowHeight * 4;
-   pP1PL1Ttl->Width = C0Width;
-   pP1PL1Ttl->Height = p1RowHeight;
-   pP1PL2Ttl->Left = 0;
-   pP1PL2Ttl->Top = p1RowHeight * 5;
-   pP1PL2Ttl->Width = C0Width;
-   pP1PL2Ttl->Height = p1RowHeight;
-   pP1PL3Ttl->Left = 0;
-   pP1PL3Ttl->Top = p1RowHeight * 6;
-   pP1PL3Ttl->Width = C0Width;
-   pP1PL3Ttl->Height = p1RowHeight;
-   pP1PL4Ttl->Left = 0;
-   pP1PL4Ttl->Top = p1RowHeight * 7;
-   pP1PL4Ttl->Width = C0Width;
-   pP1PL4Ttl->Height = p1RowHeight;
-   pP1PL5Ttl->Left = 0;
-   pP1PL5Ttl->Top = p1RowHeight * 8;
-   pP1PL5Ttl->Width = C0Width;
-   pP1PL5Ttl->Height = p1RowHeight;
-   pP1PL6Ttl->Left = 0;
-   pP1PL6Ttl->Top = p1RowHeight * 9;
-   pP1PL6Ttl->Width = C0Width;
-   pP1PL6Ttl->Height = p1RowHeight;
-   pP1PL7Ttl->Left = 0;
-   pP1PL7Ttl->Top = p1RowHeight * 10;
-   pP1PL7Ttl->Width = C0Width;
-   pP1PL7Ttl->Height = p1RowHeight;
-   pP1PL8Ttl->Left = 0;
-   pP1PL8Ttl->Top = p1RowHeight * 11;
-   pP1PL8Ttl->Width = C0Width;
-   pP1PL8Ttl->Height = p1RowHeight;
-   pP1PL9Ttl->Left = 0;
-   pP1PL9Ttl->Top = p1RowHeight * 12;
-   pP1PL9Ttl->Width = C0Width;
-   pP1PL9Ttl->Height = p1RowHeight;
-   pP1L1C1Ttl->Left = C0Width;
-   pP1L1C1Ttl->Top = p1RowHeight * 4;
-   pP1L1C1Ttl->Width = C1_6Width;
-   pP1L1C1Ttl->Height = p1RowHeight;
-   pP1L1C2Ttl->Left = C0Width + C1_6Width;
-   pP1L1C2Ttl->Top = p1RowHeight * 4;
-   pP1L1C2Ttl->Width = C1_6Width;
-   pP1L1C2Ttl->Height = p1RowHeight;
-   pP1L1C3Ttl->Left = C0Width + C1_6Width * 2;
-   pP1L1C3Ttl->Top = p1RowHeight * 4;
-   pP1L1C3Ttl->Width = C1_6Width;
-   pP1L1C3Ttl->Height = p1RowHeight;
-   stP1CParL1C1->Left = C0Width;
-   stP1CParL1C1->Top = p1RowHeight * 5;
-   stP1CParL1C1->Width = C1_6Width;
-   stP1CParL1C1->Height = p1RowHeight;
-   stP1CParL1C2->Left = C0Width + C1_6Width;
-   stP1CParL1C2->Top = p1RowHeight * 5;
-   stP1CParL1C2->Width = C1_6Width;
-   stP1CParL1C2->Height = p1RowHeight;
-   stP1CParL1C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL1C3->Top = p1RowHeight * 5;
-   stP1CParL1C3->Width = C1_6Width;
-   stP1CParL1C3->Height = p1RowHeight;
-   stP1CParL2C1->Left = C0Width;
-   stP1CParL2C1->Top = p1RowHeight * 6;
-   stP1CParL2C1->Width = C1_6Width;
-   stP1CParL2C1->Height = p1RowHeight;
-   stP1CParL2C2->Left = C0Width + C1_6Width;
-   stP1CParL2C2->Top = p1RowHeight * 6;
-   stP1CParL2C2->Width = C1_6Width;
-   stP1CParL2C2->Height = p1RowHeight;
-   stP1CParL2C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL2C3->Top = p1RowHeight * 6;
-   stP1CParL2C3->Width = C1_6Width;
-   stP1CParL2C3->Height = p1RowHeight;
-   stP1CParL3C1->Left = C0Width;
-   stP1CParL3C1->Top = p1RowHeight * 7;
-   stP1CParL3C1->Width = C1_6Width;
-   stP1CParL3C1->Height = p1RowHeight;
-   stP1CParL3C2->Left = C0Width + C1_6Width;
-   stP1CParL3C2->Top = p1RowHeight * 7;
-   stP1CParL3C2->Width = C1_6Width;
-   stP1CParL3C2->Height = p1RowHeight;
-   stP1CParL3C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL3C3->Top = p1RowHeight * 7;
-   stP1CParL3C3->Width = C1_6Width;
-   stP1CParL3C3->Height = p1RowHeight;
-   stP1CParL4C1->Left = C0Width;
-   stP1CParL4C1->Top = p1RowHeight * 8;
-   stP1CParL4C1->Width = C1_6Width;
-   stP1CParL4C1->Height = p1RowHeight;
-   stP1CParL4C2->Left = C0Width + C1_6Width;
-   stP1CParL4C2->Top = p1RowHeight * 8;
-   stP1CParL4C2->Width = C1_6Width;
-   stP1CParL4C2->Height = p1RowHeight;
-   stP1CParL4C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL4C3->Top = p1RowHeight * 8;
-   stP1CParL4C3->Width = C1_6Width;
-   stP1CParL4C3->Height = p1RowHeight;
-   stP1CParL5C1->Left = C0Width;
-   stP1CParL5C1->Top = p1RowHeight * 9;
-   stP1CParL5C1->Width = C1_6Width;
-   stP1CParL5C1->Height = p1RowHeight;
-   stP1CParL5C2->Left = C0Width + C1_6Width;
-   stP1CParL5C2->Top = p1RowHeight * 9;
-   stP1CParL5C2->Width = C1_6Width;
-   stP1CParL5C2->Height = p1RowHeight;
-   stP1CParL5C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL5C3->Top = p1RowHeight * 9;
-   stP1CParL5C3->Width = C1_6Width;
-   stP1CParL5C3->Height = p1RowHeight;
-   stP1CParL6C1->Left = C0Width;
-   stP1CParL6C1->Top = p1RowHeight * 10;
-   stP1CParL6C1->Width = C1_6Width;
-   stP1CParL6C1->Height = p1RowHeight;
-   stP1CParL6C2->Left = C0Width + C1_6Width;
-   stP1CParL6C2->Top = p1RowHeight * 10;
-   stP1CParL6C2->Width = C1_6Width;
-   stP1CParL6C2->Height = p1RowHeight;
-   stP1CParL6C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL6C3->Top = p1RowHeight * 10;
-   stP1CParL6C3->Width = C1_6Width;
-   stP1CParL6C3->Height = p1RowHeight;
-   stP1CParL7C1->Left = C0Width;
-   stP1CParL7C1->Top = p1RowHeight * 11;
-   stP1CParL7C1->Width = C1_6Width;
-   stP1CParL7C1->Height = p1RowHeight;
-   stP1CParL7C2->Left = C0Width + C1_6Width;
-   stP1CParL7C2->Top = p1RowHeight * 11;
-   stP1CParL7C2->Width = C1_6Width;
-   stP1CParL7C2->Height = p1RowHeight;
-   stP1CParL7C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL7C3->Top = p1RowHeight * 11;
-   stP1CParL7C3->Width = C1_6Width;
-   stP1CParL7C3->Height = p1RowHeight;
-   stP1CParL8C1->Left = C0Width;
-   stP1CParL8C1->Top = p1RowHeight * 12;
-   stP1CParL8C1->Width = C1_6Width;
-   stP1CParL8C1->Height = p1RowHeight;
-   stP1CParL8C2->Left = C0Width + C1_6Width;
-   stP1CParL8C2->Top = p1RowHeight * 12;
-   stP1CParL8C2->Width = C1_6Width;
-   stP1CParL8C2->Height = p1RowHeight;
-   stP1CParL8C3->Left = C0Width + C1_6Width * 2;
-   stP1CParL8C3->Top = p1RowHeight * 12;
-   stP1CParL8C3->Width = C1_6Width;
-   stP1CParL8C3->Height = p1RowHeight;
-   C0Width = pParam2Width / 4;
-   C1_6Width = (pParam2Width - C0Width) / 6;
-   C0Width = pParam2Width - C1_6Width * 6;
-   C1_4Width = C1_6Width * 3 / 2 * 2;
-   p1RowHeight = pParam2Height / 9;
-   if (p1RowHeight > 30)
-      p1RowHeight = 30;
-   pP2TtlL0C1->Left = C0Width;
-   pP2TtlL0C1->Top = 0;
-   pP2TtlL0C1->Width = C1_4Width * 2;
-   pP2TtlL0C1->Height = p1RowHeight;
-   pP2TtlL1C1->Left = C0Width;
-   pP2TtlL1C1->Top = p1RowHeight;
-   pP2TtlL1C1->Width = C1_4Width;
-   pP2TtlL1C1->Height = p1RowHeight;
-   pP2TtlL1C2->Left = C0Width + C1_4Width;
-   pP2TtlL1C2->Top = p1RowHeight;
-   pP2TtlL1C2->Width = C1_4Width;
-   pP2TtlL1C2->Height = p1RowHeight;
-   pP2TtlL1C0->Left = 0;
-   pP2TtlL1C0->Top = p1RowHeight * 2;
-   pP2TtlL1C0->Width = C0Width;
-   pP2TtlL1C0->Height = p1RowHeight;
-   pP2TtlL2C0->Left = 0;
-   pP2TtlL2C0->Top = p1RowHeight * 3;
-   pP2TtlL2C0->Width = C0Width;
-   pP2TtlL2C0->Height = p1RowHeight;
-   pP2TtlL3C0->Left = 0;
-   pP2TtlL3C0->Top = p1RowHeight * 4;
-   pP2TtlL3C0->Width = C0Width;
-   pP2TtlL3C0->Height = p1RowHeight;
-   pP2TtlL4C0->Left = 0;
-   pP2TtlL4C0->Top = p1RowHeight * 5;
-   pP2TtlL4C0->Width = C0Width;
-   pP2TtlL4C0->Height = p1RowHeight;
-   pP2TtlL5C0->Left = 0;
-   pP2TtlL5C0->Top = p1RowHeight * 6;
-   pP2TtlL5C0->Width = C0Width;
-   pP2TtlL5C0->Height = p1RowHeight;
-   pP2TtlL6C0->Left = 0;
-   pP2TtlL6C0->Top = p1RowHeight * 7;
-   pP2TtlL6C0->Width = C0Width;
-   pP2TtlL6C0->Height = p1RowHeight;
-   pP2TtlL7C0->Left = 0;
-   pP2TtlL7C0->Top = p1RowHeight * 8;
-   pP2TtlL7C0->Width = C0Width;
-   pP2TtlL7C0->Height = p1RowHeight;
-   stP2CParL1C1->Left = C0Width;
-   stP2CParL1C1->Top = p1RowHeight * 2;
-   stP2CParL1C1->Width = C1_4Width;
-   stP2CParL1C1->Height = p1RowHeight;
-   stP2CParL1C2->Left = C0Width + C1_4Width;
-   stP2CParL1C2->Top = p1RowHeight * 2;
-   stP2CParL1C2->Width = C1_4Width;
-   stP2CParL1C2->Height = p1RowHeight;
-
-   stP2CParL2C1->Left = C0Width;
-   stP2CParL2C1->Top = p1RowHeight * 3;
-   stP2CParL2C1->Width = C1_4Width;
-   stP2CParL2C1->Height = p1RowHeight;
-   stP2CParL2C2->Left = C0Width + C1_4Width;
-   stP2CParL2C2->Top = p1RowHeight * 3;
-   stP2CParL2C2->Width = C1_4Width;
-   stP2CParL2C2->Height = p1RowHeight;
-
-   stP2CParL3C1->Left = C0Width;
-   stP2CParL3C1->Top = p1RowHeight * 4;
-   stP2CParL3C1->Width = C1_4Width;
-   stP2CParL3C1->Height = p1RowHeight;
-   stP2CParL3C2->Left = C0Width + C1_4Width;
-   stP2CParL3C2->Top = p1RowHeight * 4;
-   stP2CParL3C2->Width = C1_4Width;
-   stP2CParL3C2->Height = p1RowHeight;
-
-   stP2CParL4C1->Left = C0Width;
-   stP2CParL4C1->Top = p1RowHeight * 5;
-   stP2CParL4C1->Width = C1_4Width;
-   stP2CParL4C1->Height = p1RowHeight;
-   stP2CParL4C2->Left = C0Width + C1_4Width;
-   stP2CParL4C2->Top = p1RowHeight * 5;
-   stP2CParL4C2->Width = C1_4Width;
-   stP2CParL4C2->Height = p1RowHeight;
-
-   stP2CParL5C1->Left = C0Width;
-   stP2CParL5C1->Top = p1RowHeight * 6;
-   stP2CParL5C1->Width = C1_4Width;
-   stP2CParL5C1->Height = p1RowHeight;
-   stP2CParL5C2->Left = C0Width + C1_4Width;
-   stP2CParL5C2->Top = p1RowHeight * 6;
-   stP2CParL5C2->Width = C1_4Width;
-   stP2CParL5C2->Height = p1RowHeight;
-
-   stP2CParL6C1->Left = C0Width;
-   stP2CParL6C1->Top = p1RowHeight * 7;
-   stP2CParL6C1->Width = C1_4Width;
-   stP2CParL6C1->Height = p1RowHeight;
-   stP2CParL6C2->Left = C0Width + C1_4Width;
-   stP2CParL6C2->Top = p1RowHeight * 7;
-   stP2CParL6C2->Width = C1_4Width;
-   stP2CParL6C2->Height = p1RowHeight;
-
-   stP2CParL7C1->Left = C0Width;
-   stP2CParL7C1->Top = p1RowHeight * 8;
-   stP2CParL7C1->Width = C1_4Width;
-   stP2CParL7C1->Height = p1RowHeight;
-   stP2CParL7C2->Left = C0Width + C1_4Width;
-   stP2CParL7C2->Top = p1RowHeight * 8;
-   stP2CParL7C2->Width = C1_4Width;
-   stP2CParL7C2->Height = p1RowHeight;
-}
-// ---- End of DesignCmmnParPanel --------------------------------------------
-
 void TmfRB::DesignManualPanel(void)
    // расположение компонент на панели ручного управления
 {
@@ -5469,6 +5161,82 @@ void __fastcall TmfRB::btnResetResPosAClick(TObject *Sender)
    ShowProtAData();
 }
 
+
+void __fastcall TmfRB::TabPosAShow(TObject *Sender)
+{
+   // pDataPannel может занять половину экрана минимально, но если половины экрана не хватит исходит мз минимальной высоты строки
+   int dt_pannel_height = TabPosA->ClientHeight/2;
+   int row_height = dt_pannel_height / 13;
+   int min_heidht = 20;
+   int max_heidht = 25;
+
+   if( row_height < min_heidht )
+      row_height = min_heidht;
+   if( row_height > max_heidht )
+      row_height = max_heidht;
+   dt_pannel_height = row_height * 13;
+   int header_height = row_height * 3;
+   int params_height = row_height * 10;
+
+   pDataPannel->Height = dt_pannel_height;
+   pHeader->Height = header_height;
+   pParams->Height = params_height;
+
+   //параметры таблицы
+   int data_col_width = 100;
+   int pannel_width = pDataPannel->Width;
+   //в строке должно уместиться 2 колонки с заголовками в 5 с данными
+   data_col_width = pannel_width/9;
+   int head_col_width = 2*data_col_width;
+
+   auto place_element = [this, data_col_width, row_height ]( TControl *cntrl, int c, int r, int cw, int rh )
+   {
+      cntrl->Left = data_col_width * c;
+      cntrl->Top = row_height * r;
+      cntrl->Width = data_col_width * cw;
+      cntrl->Height = row_height * rh;
+   };
+
+
+   //расположим ячейки в заголовке
+   //3 строки - 2 столбца
+   place_element( stP1CurDate,   0, 0, 2, 1 );  place_element( stP1TL0C1         , 2, 0, 7, 1);
+   place_element( stP1TTyreType, 0, 1, 2, 1 );  place_element( stP1L1TyreTypeA   , 2, 1, 7, 1);
+   place_element( stP1TProgName, 0, 2, 2, 1 );  place_element( stP1L2ProgNameA   , 2, 2, 7, 1);
+
+   //расположить ячейки с втеле
+   //10 строк 5 столбцов данны 2 заголовки
+   auto make_data_row = [&place_element]( int r, TControl *c1, TControl *c2, TControl *c3, TControl *c4, TControl *c5, TControl *c6, TControl *c7 )
+   {
+      if( c1 )
+         place_element( c1, 0, r, 2, 1);
+      if( c2 )
+         place_element( c2, 2, r, 1, 1);
+      if( c3 )
+         place_element( c3, 3, r, 1, 1);
+      if( c4 )
+         place_element( c4, 4, r, 1, 1);
+      if( c5 )
+         place_element( c5, 5, r, 1, 1);
+      if( c6 )
+         place_element( c6, 6, r, 1, 1);
+      if( c7 )
+         place_element( c7, 7, r, 2, 1);
+   };
+
+   place_element( pP1PT2, 0, 0, 5, 1);
+   place_element( pP2TtlL0C1, 5, 0, 4, 1);
+   make_data_row( 1, pP1PL1Ttl, pP1L1C1Ttl,     pP1L1C2Ttl,    pP1L1C3Ttl,    pP2TtlL1C1, pP2TtlL1C2, nullptr );
+   make_data_row( 2, pP1PL2Ttl, stP1CParL1C1,   stP1CParL1C2,  stP1CParL1C3,  stP2CParL1C1, stP2CParL1C2, pP2TtlL1C0 );
+   make_data_row( 3, pP1PL3Ttl, stP1CParL2C1,   stP1CParL2C2,  stP1CParL2C3,  stP2CParL2C1, stP2CParL2C2, pP2TtlL2C0 );
+   make_data_row( 4, pP1PL4Ttl, stP1CParL3C1,   stP1CParL3C2,  stP1CParL3C3,  stP2CParL3C1, stP2CParL3C2, pP2TtlL3C0 );
+   make_data_row( 5, pP1PL5Ttl, stP1CParL4C1,   stP1CParL4C2,  stP1CParL4C3,  stP2CParL4C1, stP2CParL4C2, pP2TtlL4C0 );
+   make_data_row( 6, pP1PL6Ttl, stP1CParL5C1,   stP1CParL5C2,  stP1CParL5C3,  stP2CParL5C1, stP2CParL5C2, pP2TtlL5C0 );
+   make_data_row( 7, pP1PL7Ttl, stP1CParL6C1,   stP1CParL6C2,  stP1CParL6C3,  stP2CParL6C1, stP2CParL6C2, pP2TtlL6C0 );
+   make_data_row( 8, pP1PL8Ttl, stP1CParL7C1,   stP1CParL7C2,  stP1CParL7C3,  stP2CParL7C1, stP2CParL7C2, pP2TtlL7C0 );
+   make_data_row( 9, pP1PL9Ttl, stP1CParL8C1,   stP1CParL8C2,  stP1CParL8C3,  nullptr,      nullptr,      nullptr );
+}
+//---------------------------------------------------------------------------
 
 
 

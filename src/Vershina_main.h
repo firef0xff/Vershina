@@ -25,6 +25,7 @@
 #include <DB.hpp>
 #include "SQL.h"
 #include <System.Actions.hpp>
+#include "GraphBuilder.h"
 
 #include <memory>
 #include "pos/ui_pos.h"
@@ -55,10 +56,8 @@ __published: // IDE-managed Components
    TButton *btnGeneralStop;
    TAction *acOPCControlStart;
    TAction *acOPCControlStop;
-   TPanel *pParam1;
-   TPanel *pParam2;
+   TPanel *pParams;
    TTabSheet *tsManual;
-   TSplitter *Splitter1;
    TStaticText *stP1TL0C1;
    TStaticText *stP1CurDate;
    TStaticText *stP1TTyreType;
@@ -453,6 +452,12 @@ __published: // IDE-managed Components
    TLabel *lSpeed250;
    TLabel *lSpeed300;
    TLabel *lSpeed275;
+   TPanel *pDataPannel;
+   TPanel *pGraphPannel;
+   TPageControl *CurStatePage;
+   TTabSheet *TabPosA;
+   TPanel *pHeader;
+   TPlotter *Plotter1;
 
    void __fastcall OnCommonParamReadExec(TObject *Sender);
    void __fastcall OPCControlStartExec(void);
@@ -542,11 +547,11 @@ __published: // IDE-managed Components
    void __fastcall leSetDrumSpeedKeyPress(TObject *Sender, wchar_t &Key);
    void __fastcall btnResetResPosAClick(TObject *Sender);
    void __fastcall OnReadCycleTimer(TObject *Sender);
+   void __fastcall TabPosAShow(TObject *Sender);
+
 
 private: // User declarations
    int tsCurrentStatusH, tsCurrentStatusW;
-   int pParam1Height, pParam1Width;
-   int pParam2Height, pParam2Width;
    int tsManualHeight, tsManualWidth;
    int tsTimeProgHeight, tsTimeProgWidth;
    int tsSProgHeight, tsSProgWidth;
@@ -577,7 +582,6 @@ private: // User declarations
    void ShowStatus(bool save = true);
    void DesignSProgTable(void);
    void DesignTProgTable(void);
-   void DesignCmmnParPanel(void);
    void DesignManualPanel(void);
    void DesignNewProtPanel(void);
    void DesignProtAPanel(void);
@@ -608,8 +612,6 @@ private: // User declarations
    bool CheckDistance(double Dist);
    void ClearStepVals1(void);
    bool CheckProgLoad(TStringGrid *sg, int col, double min_val);
-
-
 public: // User declarations
    __fastcall TmfRB(TComponent* Owner);
    __fastcall ~TmfRB();

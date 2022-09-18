@@ -3,8 +3,8 @@ object mfRB: TmfRB
   Top = 0
   Anchors = [akTop, akRight]
   Caption = 'Run-in bench'
-  ClientHeight = 713
-  ClientWidth = 1016
+  ClientHeight = 603
+  ClientWidth = 974
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,8 +27,8 @@ object mfRB: TmfRB
   end
   object sbRB: TStatusBar
     Left = 0
-    Top = 694
-    Width = 1016
+    Top = 584
+    Width = 974
     Height = 19
     Panels = <
       item
@@ -47,877 +47,986 @@ object mfRB: TmfRB
         Text = '00/00/2010 00:00'
         Width = 141
       end>
+    ExplicitTop = 683
+    ExplicitWidth = 988
   end
   object pcRB: TPageControl
     Left = 0
     Top = 66
-    Width = 816
-    Height = 628
-    ActivePage = tsCalibration
+    Width = 774
+    Height = 518
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 788
+    ExplicitHeight = 617
     object tsCurrentStatus: TTabSheet
       Caption = #1058#1077#1082#1091#1097#1077#1077' '#1089#1086#1089#1090#1086#1103#1085#1080#1077
-      object Splitter1: TSplitter
-        Left = 0
-        Top = 306
-        Width = 808
-        Height = 3
-        Cursor = crVSplit
-        Align = alTop
-        ExplicitTop = 269
-        ExplicitWidth = 858
-      end
-      object pParam1: TPanel
+      ExplicitWidth = 780
+      ExplicitHeight = 588
+      object CurStatePage: TPageControl
         Left = 0
         Top = 0
-        Width = 808
-        Height = 306
-        Align = alTop
-        TabOrder = 0
-        object stP1TL0C1: TStaticText
-          Left = 137
-          Top = 0
-          Width = 234
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BorderStyle = sbsSingle
-          Caption = #1056#1045#1046#1048#1052' '#1055#1054#1047#1048#1062#1048#1071' '#1040
-          TabOrder = 0
-        end
-        object stP1CurDate: TStaticText
-          Left = 0
-          Top = 0
-          Width = 138
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BorderStyle = sbsSingle
-          Caption = #1058#1045#1050#1059#1065#1040#1071' '#1044#1040#1058#1040
-          TabOrder = 1
-        end
-        object stP1TTyreType: TStaticText
-          Left = 0
-          Top = 15
-          Width = 138
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BorderStyle = sbsSingle
-          Caption = #1052#1040#1056#1050#1040' '#1055#1054#1050#1056#1067#1064#1050#1048
-          Color = clGray
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clLime
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentColor = False
-          ParentFont = False
-          TabOrder = 2
-        end
-        object stP1L1TyreTypeA: TStaticText
-          Left = 137
-          Top = 15
-          Width = 234
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 3
-        end
-        object stP1TProgName: TStaticText
-          Left = 0
-          Top = 30
-          Width = 138
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BorderStyle = sbsSingle
-          Caption = #1055#1056#1054#1043#1056#1040#1052#1052#1040' '#1054#1041#1050#1040#1058#1050#1048
-          Color = clGray
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clLime
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentColor = False
-          ParentFont = False
-          TabOrder = 4
-        end
-        object stP1L2ProgNameA: TStaticText
-          Left = 137
-          Top = 30
-          Width = 234
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 5
-        end
-        object pP1PT2: TPanel
-          Left = 0
-          Top = 45
-          Width = 371
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1047#1053#1040#1063#1045#1053#1048#1071':'
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 6
-        end
-        object pP1PL1Ttl: TPanel
-          Left = 0
-          Top = 60
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1055#1040#1056#1040#1052#1045#1058#1056#1067' '#1054#1041#1050#1040#1058#1050#1048
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 7
-        end
-        object pP1L1C1Ttl: TPanel
-          Left = 138
-          Top = 60
-          Width = 78
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1047#1040#1044#1040#1053#1053#1054#1045
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 8
-        end
-        object pP1L1C2Ttl: TPanel
-          Left = 216
-          Top = 60
-          Width = 78
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1058#1045#1050#1059#1065#1045#1045
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 9
-        end
-        object pP1L1C3Ttl: TPanel
-          Left = 294
-          Top = 60
-          Width = 78
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1053#1040' '#1057#1051#1045#1044'. '#1064#1040#1043#1045
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 10
-        end
-        object pP1PL2Ttl: TPanel
-          Left = 0
-          Top = 75
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1054#1041#1065#1045#1045' '#1042#1056#1045#1052#1071' '#1048#1057#1055#1067#1058#1040#1053#1048#1071
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 11
-        end
-        object pP1PL3Ttl: TPanel
-          Left = 0
-          Top = 90
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1054#1041#1065#1048#1049' '#1055#1059#1058#1068', '#1050#1052
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 12
-        end
-        object pP1PL4Ttl: TPanel
-          Left = 0
-          Top = 105
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1057#1050#1054#1056#1054#1057#1058#1068' '#1054#1041#1050#1040#1058#1050#1048', '#1050#1052'/'#1063#1040#1057
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 13
-        end
-        object pP1PL5Ttl: TPanel
-          Left = 0
-          Top = 120
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1053#1040#1043#1056#1059#1047#1050#1040', '#1082#1053
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 14
-        end
-        object pP1PL6Ttl: TPanel
-          Left = 0
-          Top = 135
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1044#1040#1042#1051#1045#1053#1048#1045' '#1042' '#1064#1048#1053#1045', '#1082#1055#1072
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 15
-        end
-        object pP1PL7Ttl: TPanel
-          Left = 0
-          Top = 150
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1058#1045#1052#1055#1045#1056#1040#1058#1059#1056#1040' '#1042#1054#1047#1044#1059#1061#1040', '#1057
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 16
-        end
-        object pP1PL8Ttl: TPanel
-          Left = 0
-          Top = 165
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1056#1040#1044#1048#1059#1057' '#1064#1048#1053#1067', '#1084#1084
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 17
-        end
-        object pP1PL9Ttl: TPanel
-          Left = 0
-          Top = 180
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #8470' '#1056#1040#1041#1054#1063#1045#1043#1054' '#1064#1040#1043#1040
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 18
-        end
-        object stP1CParL1C1: TStaticText
-          Left = 138
-          Top = 75
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 19
-        end
-        object stP1CParL1C2: TStaticText
-          Left = 216
-          Top = 75
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          Color = clBtnFace
-          ParentColor = False
-          TabOrder = 20
-        end
-        object stP1CParL1C3: TStaticText
-          Left = 294
-          Top = 75
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 21
-        end
-        object stP1CParL2C1: TStaticText
-          Left = 138
-          Top = 90
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 22
-        end
-        object stP1CParL2C2: TStaticText
-          Left = 216
-          Top = 90
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 23
-        end
-        object stP1CParL2C3: TStaticText
-          Left = 294
-          Top = 90
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 24
-        end
-        object stP1CParL3C1: TStaticText
-          Left = 138
-          Top = 105
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 25
-        end
-        object stP1CParL3C2: TStaticText
-          Left = 216
-          Top = 105
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 26
-        end
-        object stP1CParL3C3: TStaticText
-          Left = 294
-          Top = 105
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 27
-        end
-        object stP1CParL4C3: TStaticText
-          Left = 294
-          Top = 120
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 28
-          Transparent = False
-        end
-        object stP1CParL4C2: TStaticText
-          Left = 216
-          Top = 120
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 29
-          Transparent = False
-        end
-        object stP1CParL4C1: TStaticText
-          Left = 138
-          Top = 120
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 30
-          Transparent = False
-        end
-        object stP1CParL5C1: TStaticText
-          Left = 138
-          Top = 135
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 31
-        end
-        object stP1CParL5C2: TStaticText
-          Left = 216
-          Top = 135
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 32
-        end
-        object stP1CParL5C3: TStaticText
-          Left = 294
-          Top = 135
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 33
-        end
-        object stP1CParL6C1: TStaticText
-          Left = 138
-          Top = 150
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 34
-        end
-        object stP1CParL6C2: TStaticText
-          Left = 216
-          Top = 150
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 35
-        end
-        object stP1CParL6C3: TStaticText
-          Left = 294
-          Top = 150
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 36
-        end
-        object stP1CParL7C1: TStaticText
-          Left = 138
-          Top = 165
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 37
-        end
-        object stP1CParL7C2: TStaticText
-          Left = 216
-          Top = 165
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 38
-        end
-        object stP1CParL7C3: TStaticText
-          Left = 294
-          Top = 165
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 39
-        end
-        object stP1CParL8C1: TStaticText
-          Left = 138
-          Top = 180
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 40
-          Transparent = False
-        end
-        object stP1CParL8C2: TStaticText
-          Left = 216
-          Top = 180
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 41
-          Transparent = False
-        end
-        object stP1CParL8C3: TStaticText
-          Left = 294
-          Top = 180
-          Width = 78
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 42
-          Transparent = False
-        end
-      end
-      object pParam2: TPanel
-        Left = 0
-        Top = 309
-        Width = 808
-        Height = 290
+        Width = 766
+        Height = 489
+        ActivePage = TabPosA
         Align = alClient
-        TabOrder = 1
-        object pP2TtlL0C1: TPanel
-          Left = 138
-          Top = 2
-          Width = 233
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1054#1055#1056#1054#1057
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 0
-        end
-        object pP2TtlL1C1: TPanel
-          Left = 138
-          Top = 15
-          Width = 117
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1055#1054' '#1042#1056#1045#1052#1045#1053#1048
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 1
-        end
-        object pP2TtlL1C2: TPanel
-          Left = 255
-          Top = 15
-          Width = 117
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1055#1054' '#1055#1056#1054#1041#1045#1043#1059
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 2
-        end
-        object pP2TtlL1C0: TPanel
-          Left = 0
-          Top = 30
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1042#1056#1045#1052#1071
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 3
-        end
-        object pP2TtlL2C0: TPanel
-          Left = 0
-          Top = 45
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1055#1059#1058#1068', '#1050#1052
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 4
-        end
-        object pP2TtlL3C0: TPanel
-          Left = 0
-          Top = 60
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1057#1050#1054#1056#1054#1057#1058#1068', '#1050#1052'/'#1063#1040#1057
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 5
-        end
-        object pP2TtlL4C0: TPanel
-          Left = 0
-          Top = 75
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1053#1040#1043#1056#1059#1047#1050#1040', '#1082#1053
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 6
-        end
-        object pP2TtlL7C0: TPanel
-          Left = 0
-          Top = 120
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1057#1051#1045#1044#1059#1070#1065#1048#1049' '#1054#1055#1056#1054#1057' ('#1095#1072#1089'/'#1082#1084')'
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 7
-        end
-        object pP2TtlL5C0: TPanel
-          Left = 0
-          Top = 90
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1058#1045#1052#1055#1045#1056#1040#1058#1059#1056#1040' '#1042#1054#1047#1044#1059#1061#1040', '#1057
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 8
-        end
-        object pP2TtlL6C0: TPanel
-          Left = 0
-          Top = 105
-          Width = 138
-          Height = 15
-          BevelOuter = bvSpace
-          BorderStyle = bsSingle
-          Caption = #1056#1040#1044#1048#1059#1057', '#1084#1084
-          Color = clMedGray
-          ParentBackground = False
-          TabOrder = 9
-        end
-        object stP2CParL1C1: TStaticText
-          Left = 138
-          Top = 30
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 10
-        end
-        object stP2CParL2C1: TStaticText
-          Left = 138
-          Top = 45
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 11
-        end
-        object stP2CParL3C1: TStaticText
-          Left = 138
-          Top = 60
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 12
-        end
-        object stP2CParL4C1: TStaticText
-          Left = 138
-          Top = 75
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 13
-          Transparent = False
-        end
-        object stP2CParL5C1: TStaticText
-          Left = 138
-          Top = 90
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 14
-        end
-        object stP2CParL6C1: TStaticText
-          Left = 138
-          Top = 105
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 15
-        end
-        object stP2CParL7C1: TStaticText
-          Left = 138
-          Top = 120
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 16
-        end
-        object stP2CParL7C2: TStaticText
-          Left = 255
-          Top = 120
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 17
-        end
-        object stP2CParL6C2: TStaticText
-          Left = 255
-          Top = 105
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 18
-        end
-        object stP2CParL5C2: TStaticText
-          Left = 255
-          Top = 90
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 19
-        end
-        object stP2CParL4C2: TStaticText
-          Left = 255
-          Top = 75
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 20
-          Transparent = False
-        end
-        object stP2CParL3C2: TStaticText
-          Left = 255
-          Top = 60
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 21
-        end
-        object stP2CParL2C2: TStaticText
-          Left = 255
-          Top = 45
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 22
-        end
-        object stP2CParL1C2: TStaticText
-          Left = 255
-          Top = 30
-          Width = 117
-          Height = 15
-          Alignment = taCenter
-          AutoSize = False
-          BevelKind = bkTile
-          BevelOuter = bvRaised
-          BorderStyle = sbsSunken
-          TabOrder = 23
+        MultiLine = True
+        TabOrder = 0
+        ExplicitWidth = 780
+        ExplicitHeight = 588
+        object TabPosA: TTabSheet
+          Caption = #1055#1086#1079#1080#1094#1080#1103' '#1040
+          OnShow = TabPosAShow
+          ExplicitWidth = 772
+          ExplicitHeight = 559
+          object pGraphPannel: TPanel
+            Left = 0
+            Top = 0
+            Width = 758
+            Height = 231
+            Align = alClient
+            BevelKind = bkTile
+            BevelOuter = bvNone
+            TabOrder = 0
+            ExplicitWidth = 772
+            ExplicitHeight = 330
+            inline Plotter1: TPlotter
+              Left = 0
+              Top = 0
+              Width = 754
+              Height = 227
+              Align = alClient
+              TabOrder = 0
+              ExplicitWidth = 768
+              ExplicitHeight = 326
+              inherited GraphArea: TImage
+                Width = 754
+                Height = 194
+                ExplicitWidth = 768
+                ExplicitHeight = 293
+              end
+              inherited Panel1: TPanel
+                Top = 194
+                Width = 754
+                ExplicitTop = 293
+                ExplicitWidth = 768
+                inherited ScaleDownX: TSpeedButton
+                  Left = 636
+                  ExplicitLeft = 650
+                end
+                inherited ScaleDownY: TSpeedButton
+                  Left = 694
+                  ExplicitLeft = 708
+                end
+                inherited ScaleReset: TSpeedButton
+                  Left = 607
+                  ExplicitLeft = 621
+                end
+                inherited ScaleUpX: TSpeedButton
+                  Left = 665
+                  ExplicitLeft = 679
+                end
+                inherited ScaleUpY: TSpeedButton
+                  Left = 723
+                  ExplicitLeft = 737
+                end
+                inherited Label1: TLabel
+                  Width = 11
+                  Height = 14
+                  ExplicitWidth = 11
+                  ExplicitHeight = 14
+                end
+                inherited Label2: TLabel
+                  Width = 12
+                  Height = 14
+                  ExplicitWidth = 12
+                  ExplicitHeight = 14
+                end
+                inherited ValuesX: TComboBox
+                  Height = 22
+                  ExplicitHeight = 22
+                end
+                inherited ValuesY: TComboBox
+                  Height = 22
+                  ExplicitHeight = 22
+                end
+              end
+            end
+          end
+          object pDataPannel: TPanel
+            Left = 0
+            Top = 231
+            Width = 758
+            Height = 229
+            Align = alBottom
+            BevelKind = bkTile
+            BevelOuter = bvNone
+            TabOrder = 1
+            OnResize = TabPosAShow
+            ExplicitTop = 330
+            ExplicitWidth = 772
+            object pParams: TPanel
+              Left = 0
+              Top = 42
+              Width = 754
+              Height = 183
+              Align = alClient
+              BevelOuter = bvNone
+              TabOrder = 0
+              ExplicitWidth = 768
+              object pP1PT2: TPanel
+                Left = 3
+                Top = 3
+                Width = 371
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1047#1053#1040#1063#1045#1053#1048#1071':'
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 0
+              end
+              object pP1PL1Ttl: TPanel
+                Left = 3
+                Top = 19
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1055#1040#1056#1040#1052#1045#1058#1056#1067' '#1054#1041#1050#1040#1058#1050#1048
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 1
+              end
+              object pP1L1C1Ttl: TPanel
+                Left = 141
+                Top = 19
+                Width = 78
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1047#1040#1044#1040#1053#1053#1054#1045
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 2
+              end
+              object pP1L1C2Ttl: TPanel
+                Left = 217
+                Top = 16
+                Width = 78
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1058#1045#1050#1059#1065#1045#1045
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 3
+              end
+              object pP1L1C3Ttl: TPanel
+                Left = 298
+                Top = 20
+                Width = 111
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1053#1040' '#1057#1051#1045#1044'. '#1064#1040#1043#1045
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 4
+              end
+              object pP1PL2Ttl: TPanel
+                Left = 2
+                Top = 35
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1054#1041#1065#1045#1045' '#1042#1056#1045#1052#1071' '#1048#1057#1055#1067#1058#1040#1053#1048#1071
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 5
+              end
+              object pP1PL3Ttl: TPanel
+                Left = 1
+                Top = 53
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1054#1041#1065#1048#1049' '#1055#1059#1058#1068', '#1050#1052
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 6
+              end
+              object pP1PL4Ttl: TPanel
+                Left = 1
+                Top = 69
+                Width = 135
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1057#1050#1054#1056#1054#1057#1058#1068' '#1054#1041#1050#1040#1058#1050#1048', '#1050#1052'/'#1063#1040#1057
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 7
+              end
+              object pP1PL5Ttl: TPanel
+                Left = 3
+                Top = 90
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1053#1040#1043#1056#1059#1047#1050#1040', '#1082#1053
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 8
+              end
+              object pP1PL6Ttl: TPanel
+                Left = 3
+                Top = 105
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1044#1040#1042#1051#1045#1053#1048#1045' '#1042' '#1064#1048#1053#1045', '#1082#1055#1072
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 9
+              end
+              object pP1PL7Ttl: TPanel
+                Left = 3
+                Top = 120
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1058#1045#1052#1055#1045#1056#1040#1058#1059#1056#1040' '#1042#1054#1047#1044#1059#1061#1040', '#1057
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 10
+              end
+              object pP1PL8Ttl: TPanel
+                Left = 3
+                Top = 135
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1056#1040#1044#1048#1059#1057' '#1064#1048#1053#1067', '#1084#1084
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 11
+              end
+              object pP1PL9Ttl: TPanel
+                Left = 3
+                Top = 150
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #8470' '#1056#1040#1041#1054#1063#1045#1043#1054' '#1064#1040#1043#1040
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 12
+              end
+              object stP1CParL1C1: TStaticText
+                Left = 143
+                Top = 35
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 13
+              end
+              object stP1CParL1C2: TStaticText
+                Left = 222
+                Top = 36
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                Color = clBtnFace
+                ParentColor = False
+                TabOrder = 14
+              end
+              object stP1CParL1C3: TStaticText
+                Left = 301
+                Top = 37
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 15
+              end
+              object stP1CParL2C1: TStaticText
+                Left = 142
+                Top = 54
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 16
+              end
+              object stP1CParL2C2: TStaticText
+                Left = 221
+                Top = 54
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 17
+              end
+              object stP1CParL2C3: TStaticText
+                Left = 301
+                Top = 53
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 18
+              end
+              object stP1CParL3C1: TStaticText
+                Left = 141
+                Top = 71
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 19
+              end
+              object stP1CParL3C2: TStaticText
+                Left = 221
+                Top = 71
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 20
+              end
+              object stP1CParL3C3: TStaticText
+                Left = 299
+                Top = 72
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 21
+              end
+              object stP1CParL4C3: TStaticText
+                Left = 300
+                Top = 90
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 22
+                Transparent = False
+              end
+              object stP1CParL4C2: TStaticText
+                Left = 219
+                Top = 90
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 23
+                Transparent = False
+              end
+              object stP1CParL4C1: TStaticText
+                Left = 141
+                Top = 90
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 24
+                Transparent = False
+              end
+              object stP1CParL5C1: TStaticText
+                Left = 141
+                Top = 105
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 25
+              end
+              object stP1CParL5C2: TStaticText
+                Left = 219
+                Top = 105
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 26
+              end
+              object stP1CParL5C3: TStaticText
+                Left = 299
+                Top = 107
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 27
+              end
+              object stP1CParL6C1: TStaticText
+                Left = 141
+                Top = 120
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 28
+              end
+              object stP1CParL6C2: TStaticText
+                Left = 219
+                Top = 120
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 29
+              end
+              object stP1CParL6C3: TStaticText
+                Left = 299
+                Top = 122
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 30
+              end
+              object stP1CParL7C1: TStaticText
+                Left = 141
+                Top = 135
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 31
+              end
+              object stP1CParL7C2: TStaticText
+                Left = 215
+                Top = 136
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 32
+              end
+              object stP1CParL7C3: TStaticText
+                Left = 297
+                Top = 141
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 33
+              end
+              object stP1CParL8C1: TStaticText
+                Left = 141
+                Top = 150
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 34
+                Transparent = False
+              end
+              object stP1CParL8C2: TStaticText
+                Left = 225
+                Top = 156
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 35
+                Transparent = False
+              end
+              object stP1CParL8C3: TStaticText
+                Left = 297
+                Top = 157
+                Width = 78
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 36
+                Transparent = False
+              end
+              object pP2TtlL0C1: TPanel
+                Left = 402
+                Top = 6
+                Width = 233
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1054#1055#1056#1054#1057
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 37
+              end
+              object pP2TtlL1C0: TPanel
+                Left = 638
+                Top = 37
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1042#1056#1045#1052#1071
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 38
+              end
+              object pP2TtlL1C1: TPanel
+                Left = 402
+                Top = 22
+                Width = 117
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1055#1054' '#1042#1056#1045#1052#1045#1053#1048
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 39
+              end
+              object pP2TtlL1C2: TPanel
+                Left = 519
+                Top = 21
+                Width = 117
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1055#1054' '#1055#1056#1054#1041#1045#1043#1059
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 40
+              end
+              object pP2TtlL2C0: TPanel
+                Left = 638
+                Top = 55
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1055#1059#1058#1068', '#1050#1052
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 41
+              end
+              object pP2TtlL3C0: TPanel
+                Left = 638
+                Top = 76
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1057#1050#1054#1056#1054#1057#1058#1068', '#1050#1052'/'#1063#1040#1057
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 42
+              end
+              object pP2TtlL4C0: TPanel
+                Left = 638
+                Top = 94
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1053#1040#1043#1056#1059#1047#1050#1040', '#1082#1053
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 43
+              end
+              object pP2TtlL5C0: TPanel
+                Left = 638
+                Top = 112
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1058#1045#1052#1055#1045#1056#1040#1058#1059#1056#1040' '#1042#1054#1047#1044#1059#1061#1040', '#1057
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 44
+              end
+              object pP2TtlL6C0: TPanel
+                Left = 638
+                Top = 134
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1056#1040#1044#1048#1059#1057', '#1084#1084
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 45
+              end
+              object pP2TtlL7C0: TPanel
+                Left = 638
+                Top = 150
+                Width = 138
+                Height = 15
+                BevelOuter = bvSpace
+                BorderStyle = bsSingle
+                Caption = #1057#1051#1045#1044#1059#1070#1065#1048#1049' '#1054#1055#1056#1054#1057' ('#1095#1072#1089'/'#1082#1084')'
+                Color = clMedGray
+                ParentBackground = False
+                TabOrder = 46
+              end
+              object stP2CParL1C1: TStaticText
+                Left = 392
+                Top = 42
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 47
+              end
+              object stP2CParL1C2: TStaticText
+                Left = 509
+                Top = 42
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 48
+              end
+              object stP2CParL2C1: TStaticText
+                Left = 392
+                Top = 59
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 49
+              end
+              object stP2CParL2C2: TStaticText
+                Left = 509
+                Top = 59
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 50
+              end
+              object stP2CParL3C1: TStaticText
+                Left = 393
+                Top = 77
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 51
+              end
+              object stP2CParL3C2: TStaticText
+                Left = 511
+                Top = 78
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 52
+              end
+              object stP2CParL4C1: TStaticText
+                Left = 392
+                Top = 97
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 53
+                Transparent = False
+              end
+              object stP2CParL4C2: TStaticText
+                Left = 512
+                Top = 99
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 54
+                Transparent = False
+              end
+              object stP2CParL5C1: TStaticText
+                Left = 393
+                Top = 115
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 55
+              end
+              object stP2CParL5C2: TStaticText
+                Left = 513
+                Top = 118
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 56
+              end
+              object stP2CParL6C1: TStaticText
+                Left = 393
+                Top = 133
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 57
+              end
+              object stP2CParL6C2: TStaticText
+                Left = 513
+                Top = 138
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 58
+              end
+              object stP2CParL7C1: TStaticText
+                Left = 392
+                Top = 150
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 59
+              end
+              object stP2CParL7C2: TStaticText
+                Left = 515
+                Top = 155
+                Width = 117
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 60
+              end
+            end
+            object pHeader: TPanel
+              Left = 0
+              Top = 0
+              Width = 754
+              Height = 42
+              Align = alTop
+              BevelOuter = bvNone
+              TabOrder = 1
+              ExplicitWidth = 768
+              object stP1CurDate: TStaticText
+                Left = 1
+                Top = 0
+                Width = 138
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BorderStyle = sbsSingle
+                Caption = #1058#1045#1050#1059#1065#1040#1071' '#1044#1040#1058#1040
+                TabOrder = 0
+              end
+              object stP1TL0C1: TStaticText
+                Left = 137
+                Top = 1
+                Width = 234
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BorderStyle = sbsSingle
+                Caption = #1056#1045#1046#1048#1052' '#1055#1054#1047#1048#1062#1048#1071' '#1040
+                TabOrder = 1
+              end
+              object stP1TTyreType: TStaticText
+                Left = 0
+                Top = 16
+                Width = 138
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BorderStyle = sbsSingle
+                Caption = #1052#1040#1056#1050#1040' '#1055#1054#1050#1056#1067#1064#1050#1048
+                Color = clGray
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clLime
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentColor = False
+                ParentFont = False
+                TabOrder = 2
+              end
+              object stP1TProgName: TStaticText
+                Left = 0
+                Top = 27
+                Width = 138
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BorderStyle = sbsSingle
+                Caption = #1055#1056#1054#1043#1056#1040#1052#1052#1040' '#1054#1041#1050#1040#1058#1050#1048
+                Color = clGray
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clLime
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentColor = False
+                ParentFont = False
+                TabOrder = 3
+              end
+              object stP1L1TyreTypeA: TStaticText
+                Left = 137
+                Top = 16
+                Width = 234
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 4
+              end
+              object stP1L2ProgNameA: TStaticText
+                Left = 137
+                Top = 27
+                Width = 234
+                Height = 15
+                Alignment = taCenter
+                AutoSize = False
+                BevelKind = bkTile
+                BevelOuter = bvRaised
+                BorderStyle = sbsSunken
+                TabOrder = 5
+              end
+            end
+          end
         end
       end
     end
     object tsManual: TTabSheet
       Caption = #1056#1091#1095#1085#1086#1081' '#1088#1077#1078#1080#1084
       ImageIndex = 6
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbDrum: TGroupBox
         Left = 225
         Top = 10
@@ -1979,16 +2088,24 @@ object mfRB: TmfRB
     object tsTestProgramSetting: TTabSheet
       Caption = #1055#1088#1086#1075#1088#1072#1084#1084#1072' '#1080#1089#1087#1099#1090#1072#1085#1080#1081
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pcTestProg: TPageControl
         Left = 0
         Top = 0
-        Width = 808
-        Height = 599
-        ActivePage = tsTimeProg
+        Width = 780
+        Height = 588
+        ActivePage = tsSProg
         Align = alClient
         TabOrder = 0
         object tsTimeProg: TTabSheet
           Caption = #1055#1088#1086#1075#1088#1072#1084#1084#1072' '#1080#1089#1087#1099#1090#1072#1085#1080#1081' '#1087#1086' '#1074#1088#1077#1084#1077#1085#1080
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object lTProgTblNme: TLabel
             Left = 90
             Top = 66
@@ -2637,6 +2754,10 @@ object mfRB: TmfRB
         object tsSProg: TTabSheet
           Caption = #1055#1088#1086#1075#1088#1072#1084#1084#1072' '#1080#1089#1087#1099#1090#1072#1085#1080#1081' '#1087#1086' '#1087#1091#1090#1080
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object lSPollingTblNme1: TLabel
             Left = 336
             Top = 67
@@ -3286,16 +3407,24 @@ object mfRB: TmfRB
     object tsProtocol: TTabSheet
       Caption = #1055#1088#1086#1090#1086#1082#1086#1083
       ImageIndex = 1
+      ExplicitWidth = 780
+      ExplicitHeight = 588
       object pcProtTitle: TPageControl
         Left = 0
         Top = 0
-        Width = 808
-        Height = 599
+        Width = 766
+        Height = 489
         ActivePage = tsNewProtocol
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 780
+        ExplicitHeight = 588
         object tsProtocolA: TTabSheet
           Caption = #1058#1077#1082#1091#1097#1080#1081' '#1087#1088#1086#1090#1086#1082#1086#1083' '#1087#1086#1079'. '#1040
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pCurrentProtATtl: TPanel
             Left = 2
             Top = 0
@@ -4448,6 +4577,8 @@ object mfRB: TmfRB
         object tsNewProtocol: TTabSheet
           Caption = #1053#1086#1074#1099#1081' '#1087#1088#1086#1090#1086#1082#1086#1083
           ImageIndex = 2
+          ExplicitWidth = 772
+          ExplicitHeight = 559
           object lblTestMode: TLabel
             Left = 233
             Top = 293
@@ -5429,6 +5560,10 @@ object mfRB: TmfRB
     object tsEmSettings: TTabSheet
       Caption = #1059#1089#1090#1072#1085#1086#1074#1082#1080
       ImageIndex = 8
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 0
         Top = 3
@@ -5822,30 +5957,42 @@ object mfRB: TmfRB
     object tsCalibration: TTabSheet
       Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pcCalibration: TPageControl
         Left = 0
         Top = 0
-        Width = 808
-        Height = 599
+        Width = 780
+        Height = 588
         ActivePage = tsSpeedCalibr
         Align = alClient
         TabOrder = 0
         object tsLoadCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1077
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pcLoadCalibr: TPageControl
             Left = 0
             Top = 0
-            Width = 800
-            Height = 570
+            Width = 772
+            Height = 559
             ActivePage = tsLoadCalibrA
             Align = alClient
             TabOrder = 0
             object tsLoadCalibrA: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1077' '#1087#1086#1079'. '#1040
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object pLoadCalibrBTtl: TPanel
                 Left = 0
                 Top = 0
-                Width = 792
+                Width = 764
                 Height = 20
                 Align = alTop
                 BevelKind = bkFlat
@@ -5867,7 +6014,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 280
-                Height = 521
+                Height = 510
                 Align = alLeft
                 RowCount = 14
                 ScrollBars = ssVertical
@@ -6061,20 +6208,28 @@ object mfRB: TmfRB
         object tsRadiusCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1088#1072#1076#1080#1091#1089#1091
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pcRadiusCalibr: TPageControl
             Left = 0
             Top = 0
-            Width = 800
-            Height = 570
+            Width = 772
+            Height = 559
             ActivePage = tsRCalibrA
             Align = alClient
             TabOrder = 0
             object tsRCalibrA: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1088#1072#1076#1080#1091#1089#1091' '#1087#1086#1079'. '#1040
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object pRCalibrATtl: TPanel
                 Left = 0
                 Top = 0
-                Width = 792
+                Width = 764
                 Height = 26
                 Align = alTop
                 BevelKind = bkFlat
@@ -6088,7 +6243,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 515
+                Height = 504
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -6267,20 +6422,28 @@ object mfRB: TmfRB
         object tsTempCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1077
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pcTempCalibr: TPageControl
             Left = 0
             Top = 0
-            Width = 800
-            Height = 570
+            Width = 772
+            Height = 559
             ActivePage = tsTCalibrA
             Align = alClient
             TabOrder = 0
             object tsTCalibrA: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1077' '#1087#1086#1079'. '#1040
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object pTCalibrATtl: TPanel
                 Left = 0
                 Top = 0
-                Width = 792
+                Width = 764
                 Height = 26
                 Align = alTop
                 BevelKind = bkFlat
@@ -6294,7 +6457,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 515
+                Height = 504
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -6457,10 +6620,14 @@ object mfRB: TmfRB
         object tsSpeedCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1073#1072#1088#1072#1073#1072#1085#1072
           ImageIndex = 3
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pSpeedCalibrTtl: TPanel
             Left = 0
             Top = 0
-            Width = 800
+            Width = 772
             Height = 20
             Align = alTop
             BevelKind = bkFlat
@@ -6482,7 +6649,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 20
             Width = 263
-            Height = 550
+            Height = 539
             Align = alLeft
             RowCount = 18
             ScrollBars = ssVertical
@@ -6679,20 +6846,28 @@ object mfRB: TmfRB
     object tsSert: TTabSheet
       Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072
       ImageIndex = 7
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pcSert: TPageControl
         Left = 0
         Top = 0
-        Width = 808
-        Height = 599
+        Width = 780
+        Height = 588
         ActivePage = tsDrumSpeedSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1089#1082#1086#1088#1086#1089#1090#1080
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pDrumSpeedSertTtl: TPanel
             Left = 0
             Top = 0
-            Width = 800
+            Width = 772
             Height = 33
             Align = alTop
             BevelKind = bkFlat
@@ -6842,10 +7017,14 @@ object mfRB: TmfRB
         object tsTemSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1076#1072#1090#1095#1080#1082#1086#1074' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1099
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pTSertTtl: TPanel
             Left = 0
             Top = 0
-            Width = 800
+            Width = 772
             Height = 26
             Align = alTop
             BevelKind = bkFlat
@@ -6858,8 +7037,8 @@ object mfRB: TmfRB
           object gbTSertA: TGroupBox
             Left = 0
             Top = 26
-            Width = 800
-            Height = 544
+            Width = 772
+            Height = 533
             Align = alClient
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1087#1086#1079'. '#1040
             TabOrder = 1
@@ -6940,20 +7119,28 @@ object mfRB: TmfRB
         object tsLoadSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1090#1077#1085#1079#1086#1076#1072#1090#1095#1080#1082#1086#1074
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object pcLoadSert: TPageControl
             Left = 0
             Top = 0
-            Width = 800
-            Height = 570
+            Width = 772
+            Height = 559
             ActivePage = tsLoadSertA
             Align = alClient
             TabOrder = 0
             object tsLoadSertA: TTabSheet
               Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1090#1077#1085#1079#1086#1076#1072#1090#1095#1080#1082#1072' '#1087#1086#1079'. '#1040
+              ExplicitLeft = 0
+              ExplicitTop = 0
+              ExplicitWidth = 0
+              ExplicitHeight = 0
               object pLoadSertATtl: TPanel
                 Left = 0
                 Top = 0
-                Width = 792
+                Width = 764
                 Height = 20
                 Align = alTop
                 BevelKind = bkFlat
@@ -6967,7 +7154,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 328
-                Height = 521
+                Height = 510
                 Align = alLeft
                 RowCount = 40
                 ScrollBars = ssVertical
@@ -7219,6 +7406,10 @@ object mfRB: TmfRB
         object tsRadSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1076#1072#1090#1095#1080#1082#1072' '#1088#1072#1076#1080#1091#1089#1072
           ImageIndex = 3
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object leRShiftA: TLabeledEdit
             Left = 426
             Top = 32
@@ -7250,7 +7441,7 @@ object mfRB: TmfRB
           object pRSertTtl: TPanel
             Left = 0
             Top = 0
-            Width = 800
+            Width = 772
             Height = 26
             Align = alTop
             BevelKind = bkFlat
@@ -7266,11 +7457,13 @@ object mfRB: TmfRB
     object tsLog: TTabSheet
       Caption = #1046#1091#1088#1085#1072#1083
       ImageIndex = 5
+      ExplicitWidth = 780
+      ExplicitHeight = 588
       object reLog: TRichEdit
         Left = 0
         Top = 0
-        Width = 808
-        Height = 599
+        Width = 766
+        Height = 489
         Align = alClient
         Color = clNone
         Font.Charset = RUSSIAN_CHARSET
@@ -7284,18 +7477,22 @@ object mfRB: TmfRB
         ScrollBars = ssBoth
         TabOrder = 0
         Zoom = 100
+        ExplicitWidth = 780
+        ExplicitHeight = 588
       end
     end
   end
   object pnlCPU: TPanel
-    Left = 816
+    Left = 774
     Top = 66
     Width = 200
-    Height = 628
+    Height = 518
     Align = alRight
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 2
+    ExplicitLeft = 788
+    ExplicitHeight = 617
     object gbPosition1ControlBox: TGroupBox
       Left = 11
       Top = 10
@@ -7754,31 +7951,33 @@ object mfRB: TmfRB
   object ammbRB: TActionMainMenuBar
     Left = 0
     Top = 0
-    Width = 1016
+    Width = 974
     Height = 25
     UseSystemFont = False
     ActionManager = amRB
     Caption = 'ActionMainMenuBar'
-    ColorMap.HighlightColor = clWhite
+    ColorMap.HighlightColor = 14410210
     ColorMap.BtnSelectedColor = clBtnFace
-    ColorMap.UnusedColor = clWhite
+    ColorMap.UnusedColor = 14410210
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
     Font.Name = 'Segoe UI'
     Font.Style = []
     Spacing = 0
+    ExplicitWidth = 988
   end
   object gbOil: TGroupBox
     Left = 0
     Top = 25
-    Width = 1016
+    Width = 974
     Height = 41
     Align = alTop
     Caption = #1044#1072#1090#1095#1080#1082#1080' '#1084#1072#1089#1083#1072
     TabOrder = 4
+    ExplicitWidth = 988
     DesignSize = (
-      1016
+      974
       41)
     object Label1: TLabel
       Left = 10
@@ -7862,7 +8061,7 @@ object mfRB: TmfRB
       TabOrder = 3
     end
     object eStendConnection: TEdit
-      Left = 880
+      Left = 838
       Top = 17
       Width = 133
       Height = 22
@@ -7876,6 +8075,7 @@ object mfRB: TmfRB
       ReadOnly = True
       TabOrder = 4
       Text = #1057#1042#1071#1047#1068' '#1057#1054' '#1057#1058#1045#1053#1044#1054#1052
+      ExplicitLeft = 852
     end
   end
   object amRB: TActionManager
@@ -8256,12 +8456,10 @@ object mfRB: TmfRB
       'ina'
     Provider = 'MSDASQL.1'
     Left = 576
-    Top = 8
   end
   object ShowTimer: TTimer
     Enabled = False
     OnTimer = OnReadCycleTimer
-    Left = 472
-    Top = 8
+    Left = 528
   end
 end
