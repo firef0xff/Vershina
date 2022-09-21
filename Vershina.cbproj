@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{9e3ae0c2-ee8d-461e-acfb-005203b3815b}</ProjectGuid>
         <MainSource>src\Vershina.cpp</MainSource>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <ProjectVersion>18.2</ProjectVersion>
         <Base>True</Base>
         <AppType>Application</AppType>
@@ -1043,9 +1043,9 @@
         <FormResources Include="src\login\Login.dfm"/>
         <FormResources Include="src\login\AppManagnent.dfm"/>
         <FormResources Include="src\login\dialogs\GroupSelect.dfm"/>
+        <FormResources Include="src\GraphBuilder.dfm"/>
         <FormResources Include="src\Vershina_main.dfm"/>
         <FormResources Include="src\splash_screen\Head_band.dfm"/>
-        <FormResources Include="src\GraphBuilder.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

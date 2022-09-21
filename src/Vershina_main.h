@@ -548,6 +548,7 @@ __published: // IDE-managed Components
    void __fastcall btnResetResPosAClick(TObject *Sender);
    void __fastcall OnReadCycleTimer(TObject *Sender);
    void __fastcall TabPosAShow(TObject *Sender);
+   void __fastcall FormShow(TObject *Sender);
 
 
 private: // User declarations

@@ -27,6 +27,9 @@ TmfRB *mfRB;
 
 TPrinter *pProtPrt = Printer(); // указатель на принтер
 char DecimalSeparator = '.';
+UnicodeString  LINE1_ID = L"Тестовый график 1";
+UnicodeString  LINE2_ID = L"Тестовый график 2";
+UnicodeString  LINE3_ID = L"Тестовый график 3";
 
 // ---------------------------------------------------------------------------
 __fastcall TmfRB::TmfRB(TComponent* Owner) :
@@ -1227,6 +1230,28 @@ void __fastcall TmfRB::OnOPCControlStopExec(TObject *Sender)
 
 void __fastcall TmfRB::OnReadCycleTimer(TObject */*Sender*/)
 {
+   static double x1 = -90;
+   static double x2 = -9;
+   static double x3 = 0.0;
+   TPlotter::LinePoint p1;
+   p1.mX = x1;
+   p1.mY = pow(x1, 2) + x1- 20;
+   x1+=0.5;
+
+   TPlotter::LinePoint p2;
+   p2.mX = x2;
+   p2.mY = - x2 * x2 + 3 * x2 + 20;
+   x2+=0.01;
+
+   Plotter1->AddLinePoint( LINE1_ID, p1 );
+   Plotter1->AddLinePoint( LINE2_ID, p2 );
+
+   TPlotter::LinePoint p3;
+   p3.mX = x3;
+   p3.mY = sin(x3*3.14159265/180);
+   x3+=10;
+   Plotter1->AddLinePoint( LINE3_ID, p3 );
+
    if ( closing )
       return;
 
@@ -5240,4 +5265,13 @@ void __fastcall TmfRB::TabPosAShow(TObject *Sender)
 
 
 
+
+void __fastcall TmfRB::FormShow(TObject *Sender)
+{
+   Plotter1->AddLine( LINE1_ID, clRed,    L"Давление(МПА)", L"Время(с)"    );
+   Plotter1->AddLine( LINE2_ID, clGreen,  L"Давление(МПА)", L"Время(с)"    );
+   Plotter1->AddLine( LINE3_ID, clBlue,   L"Позиция(мм)",   L"Угол(град.)" );
+   ShowTimer->Enabled = true;
+}
+//---------------------------------------------------------------------------
 
