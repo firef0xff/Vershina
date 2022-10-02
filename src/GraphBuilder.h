@@ -17,8 +17,6 @@
 class TPlotter : public TFrame
 {
 __published:	// IDE-managed Components
-   TSpeedButton *ScaleUpY;
-   TSpeedButton *ScaleDownY;
    TSpeedButton *ScaleUpX;
    TSpeedButton *ScaleDownX;
    TSpeedButton *ScaleReset;
@@ -26,6 +24,7 @@ __published:	// IDE-managed Components
    TLabel *xLabel;
    TImage *GraphArea;
    TComboBox *LinesList;
+   TSpeedButton *ScaleDownY;
    void __fastcall FrameResize(TObject *Sender);
 
    void __fastcall Repaint(void);

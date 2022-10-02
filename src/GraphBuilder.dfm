@@ -1,8 +1,8 @@
 object Plotter: TPlotter
   Left = 0
   Top = 0
-  Width = 533
-  Height = 449
+  Width = 310
+  Height = 252
   DoubleBuffered = True
   ParentDoubleBuffered = False
   TabOrder = 0
@@ -10,33 +10,33 @@ object Plotter: TPlotter
   object GraphArea: TImage
     Left = 0
     Top = 0
-    Width = 533
-    Height = 410
+    Width = 310
+    Height = 215
     Cursor = crHandPoint
     Align = alClient
     OnMouseDown = Panel1MouseDown
     OnMouseLeave = Panel1MouseLeave
     OnMouseMove = GraphAreaMouseMove
     OnMouseUp = Panel1MouseUp
-    ExplicitLeft = 456
-    ExplicitTop = 160
-    ExplicitWidth = 105
-    ExplicitHeight = 105
+    ExplicitWidth = 435
+    ExplicitHeight = 361
   end
   object Panel1: TPanel
     Left = 0
-    Top = 410
-    Width = 533
-    Height = 39
+    Top = 215
+    Width = 310
+    Height = 37
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitTop = 376
+    ExplicitWidth = 435
     DesignSize = (
-      533
-      39)
+      310
+      37)
     object ScaleDownX: TSpeedButton
-      Left = 409
-      Top = 6
+      Left = 248
+      Top = 4
       Width = 25
       Height = 25
       Anchors = [akRight, akBottom]
@@ -86,21 +86,12 @@ object Plotter: TPlotter
         0080800080800080800080800080800080800080800080800080800080800080
         8000808000808000808000808000808000808000808000808000}
       OnClick = ScaleDownXClick
-      ExplicitLeft = 408
-      ExplicitTop = 46
-    end
-    object ScaleDownY: TSpeedButton
-      Left = 471
-      Top = 6
-      Width = 25
-      Height = 25
-      Anchors = [akRight, akBottom]
-      ExplicitLeft = 470
-      ExplicitTop = 46
+      ExplicitLeft = 471
+      ExplicitTop = 6
     end
     object ScaleReset: TSpeedButton
-      Left = 378
-      Top = 6
+      Left = 217
+      Top = 4
       Width = 25
       Height = 25
       Anchors = [akRight, akBottom]
@@ -150,12 +141,12 @@ object Plotter: TPlotter
         0080800080800080800080800080800080800080800080800080800080800080
         8000808000808000808000808000808000808000808000808000}
       OnClick = ScaleResetClick
-      ExplicitLeft = 377
-      ExplicitTop = 46
+      ExplicitLeft = 440
+      ExplicitTop = 6
     end
     object ScaleUpX: TSpeedButton
-      Left = 440
-      Top = 6
+      Left = 279
+      Top = 4
       Width = 25
       Height = 25
       Anchors = [akRight, akBottom]
@@ -205,23 +196,23 @@ object Plotter: TPlotter
         0080800080800080800080800080800080800080800080800080800080800080
         8000808000808000808000808000808000808000808000808000}
       OnClick = ScaleUpXClick
-      ExplicitLeft = 439
-      ExplicitTop = 46
-    end
-    object ScaleUpY: TSpeedButton
-      Left = 502
-      Top = 6
-      Width = 25
-      Height = 25
-      Anchors = [akRight, akBottom]
-      ExplicitLeft = 501
-      ExplicitTop = 46
+      ExplicitLeft = 502
+      ExplicitTop = 6
     end
     object xLabel: TLabel
       Left = 161
       Top = 6
       Width = 3
       Height = 13
+    end
+    object ScaleDownY: TSpeedButton
+      Left = 346
+      Top = 24
+      Width = 25
+      Height = 25
+      Anchors = [akRight, akBottom]
+      ExplicitLeft = 470
+      ExplicitTop = 46
     end
     object LinesList: TComboBox
       Left = 10
