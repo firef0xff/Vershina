@@ -453,6 +453,8 @@ __published: // IDE-managed Components
    TLabel *lSpeed250;
    TLabel *lSpeed300;
    TLabel *lSpeed275;
+   TLabeledEdit *leTyreMass;
+   TLabeledEdit *leTyreMassA;
 
    void __fastcall OnCommonParamReadExec(TObject *Sender);
    void __fastcall OPCControlStartExec(void);
@@ -542,6 +544,7 @@ __published: // IDE-managed Components
    void __fastcall leSetDrumSpeedKeyPress(TObject *Sender, wchar_t &Key);
    void __fastcall btnResetResPosAClick(TObject *Sender);
    void __fastcall OnReadCycleTimer(TObject *Sender);
+
 
 private: // User declarations
    int tsCurrentStatusH, tsCurrentStatusW;

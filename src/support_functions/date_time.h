@@ -17,7 +17,9 @@ std::string ToString( DateTime const& dt, std::string const& fmt = DEFAULT_DATE_
 std::string mSecToHMSStr( int tm, bool show_sec = false ); // перевод целого кол-ва мсек в строку чч:мм:сс
 
 std::string ToWeekYYYY( DateTime const& dt );
+std::string ToWeekYY( DateTime const& dt );
 DateTime FromWeekYYYY( std::string const& dt );
+DateTime FromWeekYY( std::string const& dt );
 
 }
 

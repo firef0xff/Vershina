@@ -43,6 +43,7 @@ public:
    float TotalS; // сумарный путь испытаний
    int StepsNo; // количество шагов программы
    int PollsNo; // количество опросов
+   float TypeMass; //масса покрышки
 
    int rT[cpu::data::GR7::ITEMS_COUNT]; // массивы с результатами испытаний
    float rV[cpu::data::GR7::ITEMS_COUNT];
@@ -68,7 +69,12 @@ public:
    std::string CustomDate(void) const;
    void CustomDate( std::string const& dt);
 
+   void Save();
+   void Load();
+   void Remove();
 private:
+
+   String FileName();
    void Init();
    Tyre(Tyre const& op2) = delete;
    Tyre& operator = (Tyre const& op2) = delete;

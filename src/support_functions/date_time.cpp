@@ -1,5 +1,7 @@
 ﻿#include "date_time.h"
 #include "date/date.h"
+#include <cmath>
+#include <math.h>
 namespace dt
 {
 std::string DEFAULT_DATE_TIME_FORMAT = "%d.%m.%Y %H:%M:%OS";
@@ -89,6 +91,19 @@ std::string ToWeekYYYY( DateTime const& dt )
    int week_num = w.count() + 1;
    return std::to_string( week_num ) + "." + std::to_string( year );
 }
+std::string ToWeekYY( DateTime const& dt )
+{
+   date::sys_days days( std::chrono::duration_cast<date::days>( dt.time_since_epoch() ) );
+   date::year_month_day ymd( days );
+   date::year_month_day _1_jan( ymd.year(), date::month(1), date::day(1) );
+
+   date::weeks w = std::chrono::duration_cast<date::weeks>( date::sys_days(ymd) - date::sys_days(_1_jan) );
+
+   int32_t year = static_cast<int>( ymd.year() );
+   year = year - floor( year/100)*100;
+   int week_num = w.count() + 1;
+   return std::to_string( week_num ) + "." + std::to_string( year );
+}
 DateTime FromWeekYYYY( std::string const& dt )
 {
    size_t delim = dt.find( "." );
@@ -100,6 +115,27 @@ DateTime FromWeekYYYY( std::string const& dt )
       auto y_str = dt.substr( delim + 1, dt.length() - delim );
       week = std::stoi( w_str );
       year = std::stoi( y_str );
+   }
+   catch(...)
+   {}
+
+   date::year_month_day ymd( date::year(year), date::month(1), date::day(1) );
+   DateTime res = DateTime( std::chrono::duration_cast<SysDuration>( (static_cast<date::sys_days>(ymd) + std::chrono::duration_cast<date::days>( date::weeks(week-1) )).time_since_epoch() ) );
+   return res;
+}
+DateTime FromWeekYY( std::string const& dt )
+{
+   size_t delim = dt.find( "." );
+   int week = 1;
+   int year = 1970;
+   try
+   {
+      auto w_str = dt.substr( 0, delim );
+      auto y_str = dt.substr( delim + 1, dt.length() - delim );
+      week = std::stoi( w_str );
+      date::sys_days days( std::chrono::duration_cast<date::days>( dt::Clock::now().time_since_epoch() ) );
+      date::year_month_day ymd( days );
+      year = floor(int(ymd.year())/100)*100 + std::stoi( y_str );
    }
    catch(...)
    {}

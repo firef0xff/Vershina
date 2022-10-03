@@ -3,6 +3,7 @@
 //#include "src/Common.h"
 #include "src/def.h"
 #include <stdio.h>
+#include <cstdio>
 #include "../log/log.h"
 #include "../support_functions/date_time.h"
 #include "../support_functions/serialize.h"
@@ -10,38 +11,7 @@
 Tyre::Tyre(const std::string &side):
    mSide(side)
 {
-   ProtNo = 0; // номер протокола
-   Size = String(10, ' '); // размер шины
-   Model = String(10, ' '); // модель шины
-   TestProcedure = String(10, ' '); // методика испытаний
-   StandName = STAND_NO; // наименование стенда
-   Manufacturer = String(10, ' '); // изготовитель шины
-   DrumDiameter = 1700; // диаметр барабана, мм
-   TestCustomer = String(10, ' '); // заказчик
-   ManufactDate = dt::Clock::now(); // дата изготовления
-   FormNo = 0; // номер формы протокола
-   OrderNo = 0; // номер заказа
-   PerfSpecNo = 0; // номер ТЗ
-   SerialNo = 0; // порядковый номер шины
-   LoadIndex = String(10, ' '); // Индекс нагрузки шины
-   MaxLoad = 0.0; // максимальная нагрузка
-   SpeedInd = String(10, ' '); // Индекс скорости
-   MaxSpeed = 0.0; // Максимальная скорость
-   StaticR = 0.0; // статический радиус
-   OuterD = 0.0; // наружный диаметр
-   WheelRim = String(10, ' '); // обозначение обода
-   MaxLoadPress = 0.0; // давление при максимально нагрузке
-   ProfileWide = 0; // ширина профиля
-   Type = 1; // тип покрышки, 0-радиальная, 1-диагональная
-   CurrentLoad = 0.0; // нагрузка
-   InitPressure = 0.0; // начальное давление
-   CurrentSpeed = 0.0; // скорость
-   TestMode = -1; // режим испытаний, 0-по времени, 1-по пути
-   TotalTime = 0; // общее время испытаний, мсек
-   TotalS = 0.0; // сумарный путь испытаний
-   StepsNo = 0; // количество шагов программы
-   PollsNo = 0; // количество опросов
-   Clear();
+   Init();
 }
 void Tyre::Init()
 {
@@ -76,6 +46,7 @@ void Tyre::Init()
    TotalS = 0.0; // сумарный путь испытаний
    StepsNo = 0; // количество шагов программы
    PollsNo = 0; // количество опросов
+   TypeMass = 0.0;
    Clear();
 }
 
@@ -105,6 +76,7 @@ void Tyre::ImportTemplate ( Tyre const& r)
    MaxLoadPress = r.MaxLoadPress;
    ProfileWide = r.ProfileWide;
    Type = r.Type;
+   TypeMass = r.TypeMass;
    // CurrentLoad = r.CurrentLoad;
    // InitPressure = r.InitPressure;
    // CurrentSpeed = r.CurrentSpeed;
@@ -141,6 +113,8 @@ void Tyre::WriteToFile(String fname) // запись полей Tyre в файл
    serialize::Write(fparam, LoadIndex);
    serialize::Write(fparam, SpeedInd);
    serialize::Write(fparam, WheelRim);
+
+
    serialize::Write(fparam, ProtNo);
    serialize::Write(fparam, FormNo);
    serialize::Write(fparam, OrderNo);
@@ -162,6 +136,13 @@ void Tyre::WriteToFile(String fname) // запись полей Tyre в файл
    serialize::Write(fparam, InitPressure);
    serialize::Write(fparam, CurrentSpeed);
    serialize::Write(fparam, TotalS);
+
+   serialize::Write(fparam, ManufactDate);
+   serialize::Write(fparam, Start);
+   serialize::Write(fparam, Stop);
+   serialize::Write(fparam, TypeMass);
+
+   fflush(fparam);
    fclose(fparam);
 }
 
@@ -205,6 +186,11 @@ void Tyre::ReadFromFile(String fname) // чтение полей Tyre из фа�
    serialize::Read( fparam, InitPressure );
    serialize::Read( fparam, CurrentSpeed );
    serialize::Read( fparam, TotalS );
+
+   serialize::Read(fparam, ManufactDate);
+   serialize::Read(fparam, Start);
+   serialize::Read(fparam, Stop);
+   serialize::Read(fparam, TypeMass);
    fclose(fparam);
 }
 
@@ -227,6 +213,7 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
       fprintf(fprint,"               ХАРАКТЕРИСТИКИ ИСПЫТЫВАЕМОЙ ШИНЫ\n" /* ДИАГОНАЛЬНОЙ ШИНЫ\n" */);
    fprintf(fprint,"   Индекс нагрузки: %10s    Наружный диаметр, мм: %10.2f \n", LoadIndex.c_str(), OuterD);
    fprintf(fprint,"Категория скорости: %10s      Ширина профиля, мм: %10d \n", SpeedInd.c_str(), ProfileWide);
+   fprintf(fprint,"         Масса, кг: %10.2f \n", TypeMass);
    fprintf(fprint,"     Давление, кПа: %10.2f                    Обод: %10s\n\n",InitPressure, WheelRim.c_str() );
    fprintf(fprint, "                            РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:\n");
    if (TestMode == 0)
@@ -258,11 +245,29 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
 
 std::string Tyre::CustomDate(void) const
 {
-   return dt::ToWeekYYYY(ManufactDate);
+   return dt::ToWeekYY(ManufactDate);
 }
 
 void Tyre::CustomDate( std::string const& dt)
 {
-   ManufactDate = dt::FromWeekYYYY( dt );
+   ManufactDate = dt::FromWeekYY( dt );
    return;
+}
+
+void Tyre::Save()
+{
+   WriteToFile( FileName() );
+}
+void Tyre::Load()
+{
+   ReadFromFile( FileName() );
+}
+void Tyre::Remove()
+{
+   std::remove( FileName().c_str() );
+}
+
+Tyre::String Tyre::FileName()
+{
+   return "current_type_prot_"+mSide+".autosave";
 }

@@ -53,7 +53,7 @@ object mfRB: TmfRB
     Top = 66
     Width = 816
     Height = 628
-    ActivePage = tsCalibration
+    ActivePage = tsProtocol
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -3291,11 +3291,13 @@ object mfRB: TmfRB
         Top = 0
         Width = 808
         Height = 599
-        ActivePage = tsNewProtocol
+        ActivePage = tsProtocolA
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
           Caption = #1058#1077#1082#1091#1097#1080#1081' '#1087#1088#1086#1090#1086#1082#1086#1083' '#1087#1086#1079'. '#1040
+          ExplicitLeft = 6
+          ExplicitTop = 27
           object pCurrentProtATtl: TPanel
             Left = 2
             Top = 0
@@ -4444,10 +4446,43 @@ object mfRB: TmfRB
             WordWrap = True
             OnClick = btnResetResPosAClick
           end
+          object leTyreMassA: TLabeledEdit
+            Left = 651
+            Top = 119
+            Width = 69
+            Height = 19
+            AutoSize = False
+            BiDiMode = bdLeftToRight
+            EditLabel.Width = 55
+            EditLabel.Height = 13
+            EditLabel.BiDiMode = bdLeftToRight
+            EditLabel.Caption = #1052#1072#1089#1089#1072', '#1082#1075': '
+            EditLabel.Font.Charset = DEFAULT_CHARSET
+            EditLabel.Font.Color = clWindowText
+            EditLabel.Font.Height = -11
+            EditLabel.Font.Name = 'Tahoma'
+            EditLabel.Font.Style = []
+            EditLabel.ParentBiDiMode = False
+            EditLabel.ParentFont = False
+            EditLabel.Layout = tlCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            LabelPosition = lpLeft
+            ParentBiDiMode = False
+            ParentFont = False
+            TabOrder = 33
+            Text = '70'
+            OnKeyDown = OnLEKeyDown
+          end
         end
         object tsNewProtocol: TTabSheet
           Caption = #1053#1086#1074#1099#1081' '#1087#1088#1086#1090#1086#1082#1086#1083
           ImageIndex = 2
+          ExplicitLeft = 6
+          ExplicitTop = 27
           object lblTestMode: TLabel
             Left = 233
             Top = 293
@@ -5158,12 +5193,13 @@ object mfRB: TmfRB
             OnKeyDown = OnLEKeyDown
           end
           object rgTyreType: TRadioGroup
-            Left = 481
-            Top = 189
-            Width = 108
-            Height = 52
+            Left = 443
+            Top = 217
+            Width = 189
+            Height = 37
             BiDiMode = bdLeftToRight
             Caption = #1058#1080#1087' '#1087#1086#1082#1088#1099#1096#1082#1080
+            Columns = 2
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
@@ -5381,18 +5417,18 @@ object mfRB: TmfRB
           object meManDate: TMaskEdit
             Left = 457
             Top = 57
-            Width = 59
+            Width = 57
             Height = 21
-            EditMask = '!99/0000;1;_'
+            EditMask = '!99/00;1;_'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'Tahoma'
             Font.Style = []
-            MaxLength = 7
+            MaxLength = 5
             ParentFont = False
             TabOrder = 8
-            Text = '  .    '
+            Text = '  .  '
             OnKeyDown = OnLEKeyDown
           end
           object btnClearProt: TButton
@@ -5422,6 +5458,37 @@ object mfRB: TmfRB
             Action = acProtTitleFileOpen
             TabOrder = 25
             WordWrap = True
+          end
+          object leTyreMass: TLabeledEdit
+            Left = 563
+            Top = 189
+            Width = 69
+            Height = 19
+            AutoSize = False
+            BiDiMode = bdLeftToRight
+            EditLabel.Width = 55
+            EditLabel.Height = 13
+            EditLabel.BiDiMode = bdLeftToRight
+            EditLabel.Caption = #1052#1072#1089#1089#1072', '#1082#1075': '
+            EditLabel.Font.Charset = DEFAULT_CHARSET
+            EditLabel.Font.Color = clWindowText
+            EditLabel.Font.Height = -11
+            EditLabel.Font.Name = 'Tahoma'
+            EditLabel.Font.Style = []
+            EditLabel.ParentBiDiMode = False
+            EditLabel.ParentFont = False
+            EditLabel.Layout = tlCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            LabelPosition = lpLeft
+            ParentBiDiMode = False
+            ParentFont = False
+            TabOrder = 36
+            Text = '70'
+            OnKeyDown = OnLEKeyDown
           end
         end
       end
@@ -7759,9 +7826,9 @@ object mfRB: TmfRB
     UseSystemFont = False
     ActionManager = amRB
     Caption = 'ActionMainMenuBar'
-    ColorMap.HighlightColor = clWhite
+    ColorMap.HighlightColor = 14410210
     ColorMap.BtnSelectedColor = clBtnFace
-    ColorMap.UnusedColor = clWhite
+    ColorMap.UnusedColor = 14410210
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12

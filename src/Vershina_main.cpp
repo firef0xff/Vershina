@@ -156,6 +156,8 @@ __fastcall TmfRB::TmfRB(TComponent* Owner) :
       {
          stP1L2ProgNameA->Caption = AnsiString(mPosA.RunProgName.c_str());
       }
+      mPosA.mTyre.Load();
+      InpTyre.ImportTemplate( mPosA.mTyre );
    }
    else
    {
@@ -1138,6 +1140,7 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    {
       mPosA.in_save = true;
       mPosA.mTyre.Stop = dt::Now();
+      mPosA.mTyre.Save();
       btnLoadTestResPosA->Click(); // авто сохраниние
       mPosA.in_save = false;
    }
@@ -1333,6 +1336,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
       if (mPosA.mTyre.Start == dt::DateTime())
          mPosA.mTyre.Start = dt::Now();
       mPosA.mTyre.Stop = dt::DateTime();
+      mPosA.mTyre.Save();
       sbRB->Panels->Items[2]->Text = "Старт поз. А!";
       LogPrint( "Старт поз. А!", clWhite);
    }
@@ -1344,6 +1348,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
       {
          mPosA.in_save = true;
          mPosA.mTyre.Stop = dt::Now();
+         mPosA.mTyre.Save();
          btnLoadTestResPosA->Click(); // авто сохраниние
          mPosA.in_save = false;
       }
@@ -1730,6 +1735,8 @@ void __fastcall TmfRB::OnLoadSProgToPosA(TObject *Sender)
    gr3p1.type_cycle = mPosA.mTyre.TestMode = 1;
    gr3p1.StepsQty = mPosA.mTyre.StepsNo = StrToInt(leSTotalStepsQty->Text);
    gr3p1.PollsQty = mPosA.mTyre.PollsNo = StrToInt(leSPollingTotalQty->Text);
+
+   mPosA.mTyre.Save();
    LogPrint( "Программа по пути, поз. А: путь=" +
       FloatToStrF(gr3p1.S_end_cycle, ffFixed, 9, 2) + ", шагов программы=" +
       String(gr3p1.StepsQty) + ", опросов=" + String(gr3p1.PollsQty));
@@ -3028,6 +3035,7 @@ void TmfRB::ShowProtAData(void)
    leMaxLoadA->Text = FloatToStrF(mPosA.mTyre.MaxLoad, ffFixed, 6, 2);
    leSpeedIndA->Text = AnsiString(mPosA.mTyre.SpeedInd.c_str());
    leMaxSpeedA->Text = FloatToStrF(mPosA.mTyre.MaxSpeed, ffFixed, 6, 2);
+   leTyreMassA->Text = FloatToStrF(mPosA.mTyre.TypeMass, ffFixed, 6, 2);
    leTyreWideA->Text = FloatToStrF(mPosA.mTyre.ProfileWide, ffFixed, 6, 2);
    LogPrint("Profile Wide A=" + FloatToStrF(mPosA.mTyre.ProfileWide, ffFixed, 6, 1),
       clAqua);
@@ -3079,6 +3087,7 @@ void TmfRB::ReadProtDataFmScrn(void)
    InpTyre.WheelRim = AnsiString(leRim->Text).c_str();
    InpTyre.MaxLoadPress = StrToFlt(leQMaxPressure->Text);
    InpTyre.ProfileWide = StrToI(leTyreWide->Text);
+   InpTyre.TypeMass = StrToFlt(leTyreMass->Text);
    InpTyre.Type = rgTyreType->ItemIndex;
    // InpTyre.CurrentLoad  =StrToFlt(leTestLoad->Text);
    // InpTyre.InitPressure =StrToFlt(leInitPressure->Text);
@@ -3217,13 +3226,21 @@ void TmfRB::DesignNewProtPanel(void)
    leQMaxPressure->Top = Top3 + LineSpase2 * 3;
    leQMaxPressure->Width = LblWidth1;
    leQMaxPressure->Height = LineH;
+
    leTyreWide->Left = Left3;
    leTyreWide->Top = Top3;
    leTyreWide->Width = LblWidth1;
    leTyreWide->Height = LineH;
-   rgTyreType->Left = Left4 - 20;
-   rgTyreType->Top = Top3 + LineSpase2;
-   /* rgTyreType->Width     =LblWidth2; */ rgTyreType->Height = LineSpase2 * 2;
+
+   leTyreMass->Left = Left3;
+   leTyreMass->Top = Top3 + LineSpase2;
+   leTyreMass->Width = LblWidth1;
+   leTyreMass->Height = LineH;
+
+//   rgTyreType->Left = Left3-rgTyreType->Width/2;
+//   rgTyreType->Top = Top3 + LineSpase2*2;
+//   rgTyreType->Visible = true;
+   /* rgTyreType->Width     =LblWidth2; */ //rgTyreType->Height = LineH;
    // pTestMode->Left       =Left0;                  pTestMode->Top           =Top3+LineSpase2*3+LineH+LineSpace1;
    // pTestMode->Width      =PnlWidth;               pTestMode->Height        =LineH0;
    // int Top4=pTestMode->Top+LineH0+LineSpace1;
@@ -3362,6 +3379,12 @@ void TmfRB::DesignProtAPanel(void)
    leMaxSpeedA->Top = Top3 + LineH;
    leMaxSpeedA->Width = LblWidth1;
    leMaxSpeedA->Height = LineH;
+
+   leTyreMassA->Left = Left1;
+   leTyreMassA->Top = Top3 + LineH * 3;
+   leTyreMassA->Width = LblWidth1;
+   leTyreMassA->Height = LineH;
+
    leQMaxPressureA->Left = Left2;
    leQMaxPressureA->Top = Top3 + LineH * 2;
    leQMaxPressureA->Width = LblWidth1;
@@ -3379,14 +3402,14 @@ void TmfRB::DesignProtAPanel(void)
    leRimA->Width = LblWidth1;
    leRimA->Height = LineH;
    pTestResTtlA->Left = Left0;
-   pTestResTtlA->Top = Top3 + LineH * 3 + LineSpace1;
+   pTestResTtlA->Top = Top3 + LineH * 4 + LineSpace1;
    pTestResTtlA->Width = PnlWidth;
    pTestResTtlA->Height = LineH0;
    Left2 = Left1 + LblWidth1 + LblShift31 + Left0 * 3;
    Left3 = Left2 + LblWidth1 + LblShift32 + Left0 * 3;
    if ((Left3 + LblWidth1) < PnlWidth + Left0)
       Left3 = PnlWidth + Left0 - LblWidth1;
-   int Top4 = Top3 + LineH * 3 + LineSpace1 * 2 + LineH0;
+   int Top4 = Top3 + LineH * 4 + LineSpace1 * 2 + LineH0;
    leTyrePressureA->Left = Left1;
    leTyrePressureA->Top = Top4;
    leTyrePressureA->Width = LblWidth1;
@@ -3495,6 +3518,7 @@ void __fastcall TmfRB::OnClearProt(TObject *Sender)
    leRim->Text = "";
    leQMaxPressure->Text = "";
    leTyreWide->Text = "";
+   leTyreMass->Text = "0";
    rgTyreType->ItemIndex = 0;
    cmbTestMode->ItemIndex = 0;
    // InpTyre.CurrentLoad  =StrToFlt(leTestLoad->Text);
@@ -3567,6 +3591,7 @@ void TmfRB::ShowProtDataOnScrn(void)
    leRim->Text = AnsiString(InpTyre.WheelRim.c_str());
    leQMaxPressure->Text = FloatToStrF(InpTyre.MaxLoadPress, ffFixed, 6, 2);
    leTyreWide->Text = String(InpTyre.ProfileWide);
+   leTyreMass->Text = String(InpTyre.TypeMass);
    rgTyreType->ItemIndex = InpTyre.Type;
    cmbTestMode->ItemIndex = InpTyre.TestMode;
 }
@@ -5468,6 +5493,7 @@ void __fastcall TmfRB::btnResetResPosAClick(TObject *Sender)
    SGClear(sgTestResultA, 0); // чистка таблицы
    ShowProtAData();
 }
+
 
 
 
