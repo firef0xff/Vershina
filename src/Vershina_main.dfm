@@ -3296,8 +3296,6 @@ object mfRB: TmfRB
         TabOrder = 0
         object tsProtocolA: TTabSheet
           Caption = #1058#1077#1082#1091#1097#1080#1081' '#1087#1088#1086#1090#1086#1082#1086#1083' '#1087#1086#1079'. '#1040
-          ExplicitLeft = 6
-          ExplicitTop = 27
           object pCurrentProtATtl: TPanel
             Left = 2
             Top = 0
@@ -4119,8 +4117,8 @@ object mfRB: TmfRB
             Text = '0'
           end
           object sgTestResultA: TStringGrid
-            Left = 14
-            Top = 234
+            Left = 21
+            Top = 226
             Width = 360
             Height = 190
             ColCount = 7
@@ -4481,8 +4479,6 @@ object mfRB: TmfRB
         object tsNewProtocol: TTabSheet
           Caption = #1053#1086#1074#1099#1081' '#1087#1088#1086#1090#1086#1082#1086#1083
           ImageIndex = 2
-          ExplicitLeft = 6
-          ExplicitTop = 27
           object lblTestMode: TLabel
             Left = 233
             Top = 293
@@ -7826,9 +7822,9 @@ object mfRB: TmfRB
     UseSystemFont = False
     ActionManager = amRB
     Caption = 'ActionMainMenuBar'
-    ColorMap.HighlightColor = 14410210
+    ColorMap.HighlightColor = clWhite
     ColorMap.BtnSelectedColor = clBtnFace
-    ColorMap.UnusedColor = 14410210
+    ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12

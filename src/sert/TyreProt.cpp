@@ -231,8 +231,8 @@ void Tyre::PrintProtToFile(String fname) // печать протокола ис
    fprintf(fprint,"+-----+---------+--------+--------+--------+--------+-----------+\n");
    for (int i = 0; i < PollsNo; i++)
    {
-      if (rT[i] != 0 && rV[i] != 0 && rS[i] != 0 && rL[i] != 0 && rR[i]
-         != 0 && rTemp[i] != 0)
+      /*if (rT[i] != 0 && rV[i] != 0 && rS[i] != 0 && rL[i] != 0 && rR[i]
+		 != 0 && rTemp[i] != 0)*/
       { // это не даст печататься пустым строкам данных (пожелание заказчика)
          fprintf(fprint,"| %03d |%7s  | %6.2f | %6.0f | %6.2f | %5.2f |    %5.1f  |\n",
             i + 1, dt::mSecToHMSStr( rT[i] ).c_str(), rV[i], rS[i], rL[i],

@@ -1135,13 +1135,15 @@ void TmfRB::ShowStatus(bool save) // отображение состояния �
    sbStopA->Enabled = gr1p1.AutoMode;
    sbStartA->Down = gr1p1.Start;
    sbStopA->Down = gr1p1.Stop;
+   if( !mPosA.needSave )
+	  mPosA.needSave = gr1p1.Start == true && gr1p1.Stop == false;
    cbControlLateralA->Checked = gr1p1.ControlLateral;
    if (gr1p1.Stop && mPosA.needSave && !mPosA.in_save && save)
    {
       mPosA.in_save = true;
       mPosA.mTyre.Stop = dt::Now();
-      mPosA.mTyre.Save();
-      btnLoadTestResPosA->Click(); // авто сохраниние
+	  btnLoadTestResPosA->Click(); // авто сохраниние
+	  mPosA.mTyre.Save();
       mPosA.in_save = false;
    }
    // обработка остальных индикаторов
@@ -1333,8 +1335,8 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
       mPosA.needSave = true;
       ClearStepVals1();
       UpdateProgData();
-      if (mPosA.mTyre.Start == dt::DateTime())
-         mPosA.mTyre.Start = dt::Now();
+	  //if (mPosA.mTyre.Start == dt::DateTime())
+	  mPosA.mTyre.Start = dt::Now();
       mPosA.mTyre.Stop = dt::DateTime();
       mPosA.mTyre.Save();
       sbRB->Panels->Items[2]->Text = "Старт поз. А!";
@@ -3561,6 +3563,7 @@ void __fastcall TmfRB::OnLoadProtToPosA(TObject *Sender)
    mPosA.mTyre.ImportTemplate( InpTyre );
    ShowProtAData();
    mPosA.TyreType = mPosA.mTyre.Model;
+   mPosA.mTyre.Save();
    stP1L1TyreTypeA->Caption = AnsiString(mPosA.TyreType.c_str());
    LogPrint("Протокол загружен в поз. А");
 }
@@ -3626,8 +3629,8 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
    SGClear(sgTestResultA, 0); // чистка таблицы
    for (int i = 0; i < MAXNUMOFPOLLS && i < mPosA.mTyre.PollsNo; i++)
    {
-      if (gr7.read_T[i] != 0 && gr7.read_V[i] != 0 && gr7.read_S[i] != 0 && gr7.read_L[i]
-         != 0 && gr7.read_R[i] != 0 && gr7.read_Temp[i])
+      /*if (gr7.read_T[i] != 0 && gr7.read_V[i] != 0 && gr7.read_S[i] != 0 && gr7.read_L[i]
+		 != 0 && gr7.read_R[i] != 0 && gr7.read_Temp[i])  */
       { // +1 для отображения строки данных после пуволнения программы     + отсечка пустых данных
          sgTestResultA->Cells[0][sgTestResultA->RowCount - 1] =
             String(i + 1) + ":";
