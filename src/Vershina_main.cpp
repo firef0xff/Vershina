@@ -1337,6 +1337,7 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
       UpdateProgData();
 	  //if (mPosA.mTyre.Start == dt::DateTime())
 	  mPosA.mTyre.Start = dt::Now();
+	  LogPrint( UnicodeString( dt::ToString( mPosA.mTyre.Start ).c_str() ) );
       mPosA.mTyre.Stop = dt::DateTime();
       mPosA.mTyre.Save();
       sbRB->Panels->Items[2]->Text = "Старт поз. А!";
@@ -1349,7 +1350,8 @@ void __fastcall TmfRB::OnRGPos1StartStopClick(TObject *Sender)
       if (mPosA.needSave && !mPosA.in_save)
       {
          mPosA.in_save = true;
-         mPosA.mTyre.Stop = dt::Now();
+		 mPosA.mTyre.Stop = dt::Now();
+		 LogPrint( UnicodeString( dt::ToString( mPosA.mTyre.Stop ).c_str() ) );
          mPosA.mTyre.Save();
          btnLoadTestResPosA->Click(); // авто сохраниние
          mPosA.in_save = false;
@@ -1602,6 +1604,7 @@ void __fastcall TmfRB::OnGeneralStop(TObject *Sender)
    // *Reset1=true;  *Reset2=true;
    gr1p1.Start = false;
    gr1p1.Stop = true;
+   gr1p1.Write();
    sbRB->Panels->Items[2]->Text = "Стенд остановлен!";
    LogPrint( "Общая остановка стенда!");
 
@@ -3613,11 +3616,14 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
    LogPrint("Загрузка результатов испытаний из контроллера по поз. A");
    std::lock_guard<std::recursive_mutex> lock( mCPUMutex );
    auto &gr3p1 = *inst_cpu.mPos1->mGr3;
+   auto &gr2p1 = *inst_cpu.mPos1->mGr2;
    auto &gr7 = *inst_cpu.mPos1->mGr7;
    gr3p1.Read();
+   gr2p1.Read() ;
    gr7.Read();
-   mPosA.mTyre.TotalS = gr3p1.S_end_cycle; // fakt_distance_1
-   mPosA.mTyre.TotalTime = gr3p1.T_end_cycle; // fakt_time_1
+   mPosA.mTyre.TotalS = gr2p1.fakt_distance;//gr3p1.S_end_cycle; // fakt_distance_1
+   int time_ofset = gr2p1.fakt_time > 600000 ? 600000 : 0;
+   mPosA.mTyre.TotalTime = gr2p1.fakt_time - time_ofset;//gr3p1.T_end_cycle; // fakt_time_1
    mPosA.mTyre.TestMode = gr3p1.type_cycle;
    mPosA.mTyre.StepsNo = gr3p1.StepsQty;
    mPosA.mTyre.PollsNo = gr3p1.PollsQty;
@@ -3632,26 +3638,21 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
       /*if (gr7.read_T[i] != 0 && gr7.read_V[i] != 0 && gr7.read_S[i] != 0 && gr7.read_L[i]
 		 != 0 && gr7.read_R[i] != 0 && gr7.read_Temp[i])  */
       { // +1 для отображения строки данных после пуволнения программы     + отсечка пустых данных
-         sgTestResultA->Cells[0][sgTestResultA->RowCount - 1] =
-            String(i + 1) + ":";
-         sgTestResultA->Cells[1][sgTestResultA->RowCount - 1] =
-            AnsiString(dt::mSecToHMSStr(gr7.read_T[i]).c_str());
-         mPosA.mTyre.rT[i] = gr7.read_T[i];
-         sgTestResultA->Cells[2][sgTestResultA->RowCount - 1] =
-            FloatToStrF(gr7.read_V[i], ffFixed, 6, 2);
-         mPosA.mTyre.rV[i] = gr7.read_V[i];
-         sgTestResultA->Cells[3][sgTestResultA->RowCount - 1] =
-            FloatToStrF(gr7.read_S[i], ffFixed, 6, 2);
-         mPosA.mTyre.rS[i] = gr7.read_S[i];
-         sgTestResultA->Cells[4][sgTestResultA->RowCount - 1] =
-            FloatToStrF(gr7.read_L[i], ffFixed, 6, 2);
-         mPosA.mTyre.rL[i] = gr7.read_L[i];
-         sgTestResultA->Cells[5][sgTestResultA->RowCount - 1] =
-            FloatToStrF(gr7.read_R[i], ffFixed, 6, 2);
-         mPosA.mTyre.rR[i] = gr7.read_R[i];
-         sgTestResultA->Cells[6][sgTestResultA->RowCount - 1] =
-            FloatToStrF(gr7.read_Temp[i], ffFixed, 6, 2);
-         mPosA.mTyre.rTemp[i] = gr7.read_Temp[i];
+		 mPosA.mTyre.rT[i] = gr7.read_T[i] - time_ofset;
+		 mPosA.mTyre.rV[i] = gr7.read_V[i];
+		 mPosA.mTyre.rS[i] = gr7.read_S[i];
+		 mPosA.mTyre.rL[i] = gr7.read_L[i];
+		 mPosA.mTyre.rR[i] = gr7.read_R[i];
+		 mPosA.mTyre.rTemp[i] = gr7.read_Temp[i];
+
+		 sgTestResultA->Cells[0][sgTestResultA->RowCount - 1] =  String(i + 1) + ":";
+		 sgTestResultA->Cells[1][sgTestResultA->RowCount - 1] =  AnsiString(dt::mSecToHMSStr(gr7.read_T[i] - time_ofset).c_str());
+		 sgTestResultA->Cells[2][sgTestResultA->RowCount - 1] =  FloatToStrF(gr7.read_V[i], ffFixed, 6, 2);
+		 sgTestResultA->Cells[3][sgTestResultA->RowCount - 1] =  FloatToStrF(gr7.read_S[i], ffFixed, 6, 2);
+		 sgTestResultA->Cells[4][sgTestResultA->RowCount - 1] =  FloatToStrF(gr7.read_L[i], ffFixed, 6, 2);
+		 sgTestResultA->Cells[5][sgTestResultA->RowCount - 1] =  FloatToStrF(gr7.read_R[i], ffFixed, 6, 2);
+		 sgTestResultA->Cells[6][sgTestResultA->RowCount - 1] =   FloatToStrF(gr7.read_Temp[i], ffFixed, 6, 2);
+
          sgTestResultA->RowCount++;
       }
    }
@@ -5496,6 +5497,7 @@ void __fastcall TmfRB::btnResetResPosAClick(TObject *Sender)
    SGClear(sgTestResultA, 0); // чистка таблицы
    ShowProtAData();
 }
+
 
 
 
