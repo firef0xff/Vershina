@@ -34,8 +34,9 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		if (!terminate)
 		{
+		UnicodeString s;
 			Application->Initialize();
-			SetApplicationMainFormOnTaskBar(Application, true);
+            Application->MainFormOnTaskBar = true;
 			Application->CreateForm(__classid(TmfRB), &mfRB);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->Run();

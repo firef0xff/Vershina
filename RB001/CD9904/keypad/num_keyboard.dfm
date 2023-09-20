@@ -87,7 +87,6 @@ object Num_Pannel: TNum_Pannel
         Top = 177
         Width = 80
         Height = 80
-        DoubleBuffered = True
         Glyph.Data = {
           36140000424D3614000000000000360400002800000040000000400000000100
           08000000000000100000C30E0000C30E000000010000000100000000000021FF
@@ -251,7 +250,6 @@ object Num_Pannel: TNum_Pannel
           0202020202020202020202020202020202020202020202020202020202020202
           0202020202020202020202020202020202020202020202020202020202020202
           0202020202020202020202020202020202020202020202020202}
-        ParentDoubleBuffered = False
         TabOrder = 2
         TabStop = False
         OnClick = OKClick
@@ -262,7 +260,6 @@ object Num_Pannel: TNum_Pannel
         Width = 80
         Height = 80
         Cancel = True
-        DoubleBuffered = True
         Glyph.Data = {
           36140000424D3614000000000000360400002800000040000000400000000100
           08000000000000100000C30E0000C30E00000001000000010000000000000000
@@ -427,7 +424,6 @@ object Num_Pannel: TNum_Pannel
           0202020202020202020202020202020202020202020202020202020202020202
           0202020202020202020202020202020202020202020202020202}
         ModalResult = 2
-        ParentDoubleBuffered = False
         TabOrder = 3
         TabStop = False
       end

@@ -38,6 +38,7 @@ boost::shared_ptr<VSert>    VS   (new VSert()); // сертификация скорости барабан
 boost::shared_ptr<LCalibr>  LdCA (new LCalibr()); // калибровка тензодатчика поз. А
 boost::shared_ptr<LCalibr>  LdCB (new LCalibr()); // калибровка тензодатчика поз. Б
 TPrinter   *pProtPrt = Printer(); // указатель на принтер
+char DecimalSeparator = '.';
 //---------------------------------------------------------------------------
 __fastcall TmfRB::TmfRB(TComponent* Owner)
     : TForm(Owner),closing(false)
