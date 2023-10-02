@@ -1,18 +1,19 @@
 ﻿//---------------------------------------------------------------------------
-
+#pragma once
 #ifndef miniOPCH
 #define miniOPCH
 #include "opc.h"
-#include "def.c"
-#include <list.h>
+#include <list>
 #include <Classes.hpp>
-#include <boost/thread.hpp>
+#include <thread>
+#include <memory>
+#include <vector>
 
 //типы
 class GroupPTRs                 //структура с данными по шруппе ОПС сервера
 {
 public:
-	GroupPTRs():pItemMgt(nullptr),pSyncIO(nullptr),pItems(nullptr),pItemResult(nullptr){}
+	GroupPTRs():pItemMgt(nullptr),pSyncIO(nullptr),pItems(),pItemResult(nullptr){}
 	~GroupPTRs()
 	{
 		if (pItemResult)
@@ -26,7 +27,7 @@ std::vector<OPCITEMDEF> pItems;	//массив с элементами груп�
 OPCITEMRESULT   *pItemResult;	//указатель на элемент
 size_t			ItemsCount;		//количество элементов в группе
 };
-typedef list  <boost::shared_ptr<GroupPTRs> >::const_iterator Item;
+typedef std::list  <std::shared_ptr<GroupPTRs> >::const_iterator Item;
 typedef unsigned __int64 GROUP_ID;
 enum types{tBOOL,tINT,tFLOAT};
 
@@ -47,7 +48,7 @@ private:
 	//данные
 	IOPCServer 		*pIOPCServer;	//указатель на OPC сервер
 
-    list  <boost::shared_ptr<GroupPTRs> > Groups;//Данные по группам сервера
+    std::list  <std::shared_ptr<GroupPTRs> > Groups;//Данные по группам сервера
 	OPCHANDLE		GrpSrvHandle;
 	HRESULT		    *pErrors,*pRErrors,result;
 	UINT			qnr;

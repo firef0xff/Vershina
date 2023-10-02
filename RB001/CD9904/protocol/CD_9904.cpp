@@ -213,7 +213,7 @@ ErrCode	Sensor::Write_Diametr	(unsigned short Diametr)
 	ErrCode err=Compile_command(0xC2,0x05,(BYTE *)&Diametr,2/*sizeof(short)*/,0x00,0,ans_len);
 	return err;
 }
-ErrCode	Sensor::Tansl_Speed  	(boost::shared_ptr<Data> &speed)
+ErrCode	Sensor::Tansl_Speed  	(std::shared_ptr<Data> &speed)
 {
 	const size_t buf_size=TILE_LEN+18;
 	size_t ans_len = buf_size;
@@ -429,14 +429,15 @@ ErrCode Sensor::SendMessage		(const BYTE *com)
 			Check_CRC(Err))//проверка CRC
 		{
 			//извлечение кода ошибки
-			result=Err[INF_I];
+			result=static_cast<ErrCode>( Err[INF_I] );
 			Answer=true;
 		}else
 		{
-			port->Clear_Com_Buff(	COMPort::Purge_flags::TXABORT|
+			port->Clear_Com_Buff(	static_cast< COMPort::Purge_flags>
+								   (COMPort::Purge_flags::TXABORT|
 									COMPort::Purge_flags::RXABORT|
 									COMPort::Purge_flags::TXCLEAR|
-									COMPort::Purge_flags::RXCLEAR);
+									COMPort::Purge_flags::RXCLEAR));
 		}
 	}
 	if (!Answer)

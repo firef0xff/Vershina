@@ -9,6 +9,7 @@
 #include "RBCommon.h"
 #include "opcrw.h"
 
+#include <vector>
 
 
 #pragma package(smart_init)

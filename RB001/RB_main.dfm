@@ -3542,6 +3542,114 @@ object mfRB: TmfRB
             OnExit = OnStringGridExit
             OnKeyDown = OnSGKeyDown
             OnKeyPress = OnSGKeyPress
+            ColWidths = (
+              64
+              64
+              64
+              64
+              64)
+            RowHeights = (
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24)
           end
           object sgTPolling: TStringGrid
             Left = 324
@@ -4113,6 +4221,113 @@ object mfRB: TmfRB
             OnExit = OnStringGridExit
             OnKeyDown = OnSGKeyDown
             OnKeyPress = OnSGKeyPress
+            ColWidths = (
+              64
+              64
+              64
+              64)
+            RowHeights = (
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24)
           end
           object sgSPolling: TStringGrid
             Left = 324
@@ -5304,6 +5519,266 @@ object mfRB: TmfRB
             RowCount = 251
             ScrollBars = ssVertical
             TabOrder = 28
+            ColWidths = (
+              64
+              64
+              64
+              64
+              64
+              64
+              64)
+            RowHeights = (
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24)
           end
           object btnLoadTestResPosA: TButton
             Left = 450
@@ -6200,6 +6675,266 @@ object mfRB: TmfRB
             RowCount = 251
             ScrollBars = ssVertical
             TabOrder = 28
+            ColWidths = (
+              64
+              64
+              64
+              64
+              64
+              64
+              64)
+            RowHeights = (
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24)
           end
           object btnLoadTestResPosB: TButton
             Left = 450
@@ -7211,7 +7946,7 @@ object mfRB: TmfRB
             MaxLength = 7
             ParentFont = False
             TabOrder = 8
-            Text = '  .    '
+            Text = '  /    '
             OnKeyDown = OnLEKeyDown
           end
           object btnClearProt: TButton
@@ -7962,6 +8697,21 @@ object mfRB: TmfRB
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
                 OnKeyPress = OnSGKeyPress
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevCalibrLoadA: TButton
                 Left = 290
@@ -8162,6 +8912,21 @@ object mfRB: TmfRB
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
                 OnKeyPress = OnSGKeyPress
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevCalibrLoadB: TButton
                 Left = 290
@@ -8370,6 +9135,33 @@ object mfRB: TmfRB
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevRCalibrA: TButton
                 Left = 290
@@ -8541,6 +9333,33 @@ object mfRB: TmfRB
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevRCalibrB: TButton
                 Left = 290
@@ -8728,6 +9547,33 @@ object mfRB: TmfRB
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevTCalibrA: TButton
                 Left = 290
@@ -8883,6 +9729,33 @@ object mfRB: TmfRB
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
                 OnExit = OnStringGridExit
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevTCalibrB: TButton
                 Left = 290
@@ -9047,6 +9920,47 @@ object mfRB: TmfRB
             TabOrder = 1
             OnDrawCell = OnCalibrDrawCell
             OnExit = OnStringGridExit
+            ColWidths = (
+              64
+              64
+              64
+              64
+              64)
+            RowHeights = (
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24
+              24)
           end
           object leCurrentVSet: TLabeledEdit
             Left = 290
@@ -9639,6 +10553,24 @@ object mfRB: TmfRB
                 OnExit = OnStringGridExit
                 OnKeyPress = OnSGKeyPress
                 OnSelectCell = OnSGSelectCell
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevSertLoadA: TButton
                 Left = 466
@@ -9863,6 +10795,24 @@ object mfRB: TmfRB
                 OnExit = OnStringGridExit
                 OnKeyPress = OnSGKeyPress
                 OnSelectCell = OnSGSelectCell
+                ColWidths = (
+                  64
+                  64
+                  64
+                  64
+                  64)
+                RowHeights = (
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24
+                  24)
               end
               object btnPrevSertLoadB: TButton
                 Left = 466
@@ -10161,6 +11111,7 @@ object mfRB: TmfRB
         ParentFont = False
         ScrollBars = ssBoth
         TabOrder = 0
+        Zoom = 100
       end
     end
   end

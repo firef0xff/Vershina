@@ -4,7 +4,7 @@ object Settings: TSettings
   BorderIcons = []
   BorderStyle = bsToolWindow
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1089#1087#1080#1076#1086#1084#1077#1090#1088#1072' '#1062#1044'9904'
-  ClientHeight = 702
+  ClientHeight = 697
   ClientWidth = 633
   Color = clBtnFace
   Constraints.MaxHeight = 726
@@ -56,7 +56,6 @@ object Settings: TSettings
       Width = 212
       Height = 80
       Caption = #1042#1099#1073#1088#1072#1090#1100
-      DoubleBuffered = True
       Glyph.Data = {
         36300000424D3630000000000000360000002800000040000000400000000100
         18000000000000300000C40E0000C40E00000000000000000000FFFFFFFFFFFF
@@ -444,7 +443,6 @@ object Settings: TSettings
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
-      ParentDoubleBuffered = False
       TabOrder = 2
       OnClick = ChooseClick
     end
@@ -453,10 +451,11 @@ object Settings: TSettings
     Left = 0
     Top = 145
     Width = 633
-    Height = 557
+    Height = 552
     Align = alClient
     Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
     TabOrder = 1
+    ExplicitHeight = 557
     object GroupBox1: TGroupBox
       Left = 11
       Top = 45
@@ -493,7 +492,6 @@ object Settings: TSettings
         Top = 59
         Width = 80
         Height = 80
-        DoubleBuffered = True
         Glyph.Data = {
           36120000424D3612000000000000360400002800000036000000400000000100
           080000000000000E0000C30E0000C30E000000010000000100002B2B2B002D2D
@@ -641,7 +639,6 @@ object Settings: TSettings
           C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C68A
           00007D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D8A8A8A8A
           8A8A8A8A8A8A8A8A8A8A968A8A8A8A8A8A8A8A8A8A8A8A600000}
-        ParentDoubleBuffered = False
         TabOrder = 2
         OnClick = sDist1Click
       end
@@ -650,7 +647,6 @@ object Settings: TSettings
         Top = 167
         Width = 80
         Height = 80
-        DoubleBuffered = True
         Glyph.Data = {
           36120000424D3612000000000000360400002800000036000000400000000100
           080000000000000E0000C30E0000C30E000000010000000100002B2B2B002D2D
@@ -798,7 +794,6 @@ object Settings: TSettings
           C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C68A
           00007D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D8A8A8A8A
           8A8A8A8A8A8A8A8A8A8A968A8A8A8A8A8A8A8A8A8A8A8A600000}
-        ParentDoubleBuffered = False
         TabOrder = 3
         OnClick = sTime1Click
       end
@@ -839,7 +834,6 @@ object Settings: TSettings
         Top = 62
         Width = 80
         Height = 80
-        DoubleBuffered = True
         Glyph.Data = {
           36120000424D3612000000000000360400002800000036000000400000000100
           080000000000000E0000C30E0000C30E000000010000000100002B2B2B002D2D
@@ -987,7 +981,6 @@ object Settings: TSettings
           C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C68A
           00007D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D8A8A8A8A
           8A8A8A8A8A8A8A8A8A8A968A8A8A8A8A8A8A8A8A8A8A8A600000}
-        ParentDoubleBuffered = False
         TabOrder = 2
         OnClick = sDist2Click
       end
@@ -996,7 +989,6 @@ object Settings: TSettings
         Top = 168
         Width = 80
         Height = 80
-        DoubleBuffered = True
         Glyph.Data = {
           36120000424D3612000000000000360400002800000036000000400000000100
           080000000000000E0000C30E0000C30E000000010000000100002B2B2B002D2D
@@ -1144,7 +1136,6 @@ object Settings: TSettings
           C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C68A
           00007D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D8A8A8A8A
           8A8A8A8A8A8A8A8A8A8A968A8A8A8A8A8A8A8A8A8A8A8A600000}
-        ParentDoubleBuffered = False
         TabOrder = 3
         OnClick = sTime2Click
       end
@@ -1198,7 +1189,6 @@ object Settings: TSettings
         Top = 59
         Width = 80
         Height = 80
-        DoubleBuffered = True
         Glyph.Data = {
           36120000424D3612000000000000360400002800000036000000400000000100
           080000000000000E0000C30E0000C30E000000010000000100002B2B2B002D2D
@@ -1346,7 +1336,6 @@ object Settings: TSettings
           C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C6C68A
           00007D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D7D8A8A8A8A
           8A8A8A8A8A8A8A8A8A8A968A8A8A8A8A8A8A8A8A8A8A8A600000}
-        ParentDoubleBuffered = False
         TabOrder = 2
         OnClick = snAddrClick
       end
@@ -1356,7 +1345,6 @@ object Settings: TSettings
       Top = 469
       Width = 80
       Height = 80
-      DoubleBuffered = True
       Glyph.Data = {
         36140000424D3614000000000000360400002800000040000000400000000100
         08000000000000100000C30E0000C30E000000010000000100000000000021FF
@@ -1521,7 +1509,6 @@ object Settings: TSettings
         0202020202020202020202020202020202020202020202020202020202020202
         0202020202020202020202020202020202020202020202020202}
       ModalResult = 1
-      ParentDoubleBuffered = False
       TabOrder = 3
     end
     object Cancel: TBitBtn
@@ -1530,7 +1517,6 @@ object Settings: TSettings
       Width = 80
       Height = 80
       Cancel = True
-      DoubleBuffered = True
       Glyph.Data = {
         36140000424D3614000000000000360400002800000040000000400000000100
         08000000000000100000C30E0000C30E00000001000000010000000000000000
@@ -1695,7 +1681,6 @@ object Settings: TSettings
         0202020202020202020202020202020202020202020202020202020202020202
         0202020202020202020202020202020202020202020202020202}
       ModalResult = 2
-      ParentDoubleBuffered = False
       TabOrder = 4
     end
     object Defaults: TBitBtn
@@ -1704,8 +1689,6 @@ object Settings: TSettings
       Width = 152
       Height = 80
       Caption = #1041#1072#1079#1086#1074#1099#1077
-      DoubleBuffered = True
-      ParentDoubleBuffered = False
       TabOrder = 5
       OnClick = DefaultsClick
     end
@@ -1715,7 +1698,6 @@ object Settings: TSettings
       Width = 324
       Height = 80
       Caption = #1054#1073#1085#1086#1074#1080#1090#1100
-      DoubleBuffered = True
       Glyph.Data = {
         36300000424D3630000000000000360000002800000040000000400000000100
         18000000000000300000C40E0000C40E00000000000000000000FFFFFFFFFFFF
@@ -2103,7 +2085,6 @@ object Settings: TSettings
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
-      ParentDoubleBuffered = False
       TabOrder = 6
       OnClick = Timer1Timer
     end

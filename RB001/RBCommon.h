@@ -21,7 +21,8 @@
 #include "def.h"
 #include "opcrw.h"
 #include "CD_9904_interface.h"
-#include <boost/thread.hpp>
+#include <thread>
+#include <memory>
 // объявление общих переменных ----------------------------------------------
 extern TRichEdit *pPrt;                    // указатель на компонент для вывода протокола
 extern HWND      MainFormHandle;           // дескриптор окна основной формы
@@ -69,7 +70,7 @@ extern bool      CurrentStart2;            // Текущее состояние поз. 2
 extern short     OPCCtrlStat;              // управляющая переменная цикла управления стендом
 extern long      TimerCycleCnt;            // Счетчик циклов таймера
 // переменные протокола
-extern boost::shared_ptr<Tyre> InpTyre,                 // покрышка для ввода и редактирования протокола
+extern std::shared_ptr<Tyre> InpTyre,                 // покрышка для ввода и редактирования протокола
 						TyreA,                   // покрышка в поз. А
                  		TyreB;                   // покрышка в поз. Б
 extern String    TyreTypeA,

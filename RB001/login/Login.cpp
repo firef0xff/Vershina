@@ -53,7 +53,7 @@ void __fastcall TLogInwnd::BitBtn1Click(TObject *Sender)
 	md5::Get_md5 cache;
 	AnsiString pass=ePass->Text;
 	char *Byte_cache=cache(pass.c_str(),pass.Length()); //байтовый кеш
-	char *Str_cache=cache.ByteToCSTR(Byte_cache,strlen(Byte_cache)-1); //символьный кеш
+	char *Str_cache=cache.ByteToCSTR( reinterpret_cast<const unsigned char *>( Byte_cache ), strlen(Byte_cache)-1 ); //символьный кеш
 	delete []Byte_cache;  //очистка байткеша
 	Byte_cache=nullptr;
 	//составление запроса

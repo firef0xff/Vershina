@@ -4,7 +4,8 @@
 #define CD_9904_interfaceH
 
 #include "Set_settings.h"
-#include <boost/thread.hpp>
+#include <thread>
+#include <memory>
 class CD_9904_interface
 {
 public:
@@ -17,7 +18,7 @@ public:
 	void				ResetBus_1 			(void);
 	void				ResetBus_2 			(void);
 private:
-	boost::shared_ptr<TSettings> settings;
+	std::shared_ptr<TSettings> settings;
 	static size_t count;
 };
 size_t CD_9904_interface::count=0;

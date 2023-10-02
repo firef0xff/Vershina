@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+#include <memory>
 		__fastcall 	TNetwork_Scan::TNetwork_Scan(TComponent* Owner)
 	: TForm(Owner)
 {
@@ -153,7 +154,7 @@ void 	__fastcall 	TNetwork_Scan::Find_actionClick(TObject *Sender)
 	PB->Position=0;
 	for (int i = 1; i <=port_count ; i++)
 	{
-        boost::shared_ptr<CD_9904::Sensor> sens;
+        std::shared_ptr<CD_9904::Sensor> sens;
 		String Port_Name="COM"+String(i);
 		try
 		{
@@ -198,7 +199,7 @@ bool				TNetwork_Scan::FastSearch(void)
 	bool find=false;
 	for (int i = 1; i <=4&&!find; i++)
     {
-        boost::shared_ptr<CD_9904::Sensor>sens;
+        std::shared_ptr<CD_9904::Sensor>sens;
 		String Port_Name="COM"+String(i);
 		try
 		{

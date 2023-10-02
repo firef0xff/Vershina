@@ -122,6 +122,10 @@
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName)</VerInfo_Keys>
         <Defines>_DEBUG;$(Defines)</Defines>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
@@ -234,10 +238,8 @@
                     <HistoryLists_hlILINK_ObjectAlignment Name="Item0">4096</HistoryLists_hlILINK_ObjectAlignment>
                 </HistoryLists_hlILINK_ObjectAlignment>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k150.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp150.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k150.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp150.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
                 <HistoryLists_hlILINK_BaseAddress>
                     <HistoryLists_hlILINK_BaseAddress Name="Count">1</HistoryLists_hlILINK_BaseAddress>
@@ -765,6 +767,12 @@
             <DependentOn>..\classes\SQL.h</DependentOn>
             <BuildOrder>26</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ABOUT.cpp">
+            <Form>AboutBox</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>ABOUT.h</DependentOn>
+            <BuildOrder>25</BuildOrder>
+        </CppCompile>
         <CppCompile Include="CD9904\interface\CD_9904_interface.cpp">
             <DependentOn>CD9904\interface\CD_9904_interface.h</DependentOn>
             <BuildOrder>24</BuildOrder>
@@ -836,7 +844,6 @@
             <BuildOrder>1</BuildOrder>
         </CppCompile>
         <ResFiles Include="RB.res">
-            <ModuleName>RB.res</ModuleName>
             <BuildOrder>0</BuildOrder>
         </ResFiles>
         <CppCompile Include="RBCommon.cpp">
@@ -869,6 +876,7 @@
         <FormResources Include="login\AppManagnent.dfm"/>
         <FormResources Include="CD9904\search_devices\Find_devices.dfm"/>
         <FormResources Include="CD9904\sensor_options\Set_settings.dfm"/>
+        <FormResources Include="ABOUT.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

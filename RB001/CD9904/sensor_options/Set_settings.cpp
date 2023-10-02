@@ -7,10 +7,11 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+#include <memory>
 __fastcall TSettings::TSettings(TComponent* Owner)
 	: TForm(Owner)
 {
-	boost::shared_ptr<TNetwork_Scan> scan(new TNetwork_Scan(this));
+	std::shared_ptr<TNetwork_Scan> scan(new TNetwork_Scan(this));
 	addr=-1;
 	port="";
 	connected=false;
@@ -62,7 +63,7 @@ void __fastcall TSettings::ChooseClick(TObject *Sender)
 {
 	sens.reset();
 
-	boost::shared_ptr <TNetwork_Scan> wnd(new TNetwork_Scan(this,addr,port));
+	std::shared_ptr <TNetwork_Scan> wnd(new TNetwork_Scan(this,addr,port));
 	if (wnd->ShowModal()==mrOk)
 	{
 		addr=wnd->Adderess;
@@ -94,7 +95,7 @@ void 			TSettings::UpdateInfo(void)
 		Diam->ItemIndex=Diam->Items->IndexOf(String(d));
 	}
 	//читаем параметры шины
-	boost::shared_ptr<CD_9904::Data> data;
+	std::shared_ptr<CD_9904::Data> data;
 	err=sens->Tansl_Speed(data);
 	if (err!=CD_9904::ErrCode::Sucsess)
 	{
@@ -123,7 +124,7 @@ void __fastcall TSettings::nAddrKeyPress(TObject *Sender, wchar_t &Key)
 void __fastcall TSettings::snAddrClick(TObject *Sender)
 {
 	if (!sens) {return;}
-	boost::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,0,2,1,32,nAddr->Text.ToIntDef(0),true));
+	std::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,0,2,1,32,nAddr->Text.ToIntDef(0),true));
 	if (wnd->ShowModal()==mrOk)
 	{
 		String msg="";
@@ -202,7 +203,7 @@ void __fastcall TSettings::Dist1KeyPress(TObject *Sender, wchar_t &Key)
 void __fastcall TSettings::sDist1Click(TObject *Sender)
 {
 	if (!sens) {return;}
-	boost::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,0,6,0,100000,Dist1->Text.ToIntDef(0),true));
+	std::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,0,6,0,100000,Dist1->Text.ToIntDef(0),true));
 	String msg="";
 	if (wnd->ShowModal()==mrOk)
 	{
@@ -211,7 +212,7 @@ void __fastcall TSettings::sDist1Click(TObject *Sender)
 		CD_9904::ErrCode err=sens->Write_Road_1(_dist);
 		if (err==CD_9904::ErrCode::Sucsess)
 		{
-			boost::shared_ptr<CD_9904::Data> data;
+			std::shared_ptr<CD_9904::Data> data;
 			err=sens->Tansl_Speed(data);
 			if (err==CD_9904::ErrCode::Sucsess)
 			{
@@ -238,15 +239,15 @@ void __fastcall TSettings::sTime1Click(TObject *Sender)
 {
 	if (!sens) {return;}
 	String msg="";
-	boost::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,2,4,0,1000,Time1->Text.ToIntDef(0),true,":"));
+	std::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,2,4,0,1000,Time1->Text.ToIntDef(0),true,":"));
 	if (wnd->ShowModal()==mrOk)
 	{
 		/*сохранение параметра в устройство и пересчитывание с него*/
-		boost::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(wnd->Value));
+		std::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(wnd->Value));
 		CD_9904::ErrCode err=sens->Write_Time_1(_time.get());
 		if (err==CD_9904::ErrCode::Sucsess)
 		{
-			boost::shared_ptr<CD_9904::Data> data;
+			std::shared_ptr<CD_9904::Data> data;
 			err=sens->Tansl_Speed(data);
 			if (err==CD_9904::ErrCode::Sucsess)
 			{
@@ -269,7 +270,7 @@ int			TSettings::ResetBus_1(void)
 {
 	CD_9904::ErrCode err=sens->Write_Road_1(0);
 	if (err!=CD_9904::ErrCode::Sucsess) return err;
-	boost::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time());
+	std::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time());
 	err=sens->Write_Time_1(_time.get());
 	if (err!=CD_9904::ErrCode::Sucsess) return err;
 	return CD_9904::ErrCode::Sucsess;
@@ -284,7 +285,7 @@ void __fastcall TSettings::sDist2Click(TObject *Sender)
 {
 	if (!sens) {return;}
 	String msg="";
-	boost::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,0,6,0,100000,Dist2->Text.ToIntDef(0),true));
+	std::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,0,6,0,100000,Dist2->Text.ToIntDef(0),true));
 	if (wnd->ShowModal()==mrOk)
 	{
 		/*сохранение параметра в устройство и пересчитывание с него*/
@@ -292,7 +293,7 @@ void __fastcall TSettings::sDist2Click(TObject *Sender)
 		CD_9904::ErrCode err=sens->Write_Road_2(_dist);
 		if (err==CD_9904::ErrCode::Sucsess)
 		{
-			boost::shared_ptr<CD_9904::Data> data;
+			std::shared_ptr<CD_9904::Data> data;
 			err=sens->Tansl_Speed(data);
 			if (err==CD_9904::ErrCode::Sucsess)
 			{
@@ -319,15 +320,15 @@ void __fastcall TSettings::sTime2Click(TObject *Sender)
 {
     if (!sens) {return;}
 	String msg="";
-	boost::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,2,4,0,1000,Time2->Text.ToIntDef(0),true,":"));
+	std::shared_ptr<TNum_Pannel> wnd(new TNum_Pannel(this,2,4,0,1000,Time2->Text.ToIntDef(0),true,":"));
 	if (wnd->ShowModal()==mrOk)
 	{
 		/*сохранение параметра в устройство и пересчитывание с него*/
-		boost::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(wnd->Value));
+		std::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(wnd->Value));
 		CD_9904::ErrCode err=sens->Write_Time_2(_time.get());
 		if (err==CD_9904::ErrCode::Sucsess)
 		{
-			boost::shared_ptr<CD_9904::Data> data;
+			std::shared_ptr<CD_9904::Data> data;
 			err=sens->Tansl_Speed(data);
 			if (err==CD_9904::ErrCode::Sucsess)
 			{
@@ -350,7 +351,7 @@ int			TSettings::ResetBus_2(void)
 {
 	CD_9904::ErrCode err=sens->Write_Road_2(0);
 	if (err!=CD_9904::ErrCode::Sucsess) return err;
-	boost::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time());
+	std::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time());
 	err=sens->Write_Time_2(_time.get());
 	if (err!=CD_9904::ErrCode::Sucsess) return err;
 	return CD_9904::ErrCode::Sucsess;
@@ -362,7 +363,7 @@ void __fastcall TSettings::DefaultsClick(TObject *Sender)
     if (!sens) {return;}
 	unsigned short d=1700;
 	unsigned int _dist=0;
-	boost::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(0,0));
+	std::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(0,0));
 	//запись конфигурации устройства
 	CD_9904::ErrCode err=sens->Write_Diametr(d);
 	if (err!=CD_9904::ErrCode::Sucsess)
@@ -403,7 +404,7 @@ void __fastcall TSettings::DefaultsClick(TObject *Sender)
 	}
 
 	//читаем параметры шины
-	boost::shared_ptr<CD_9904::Data> data;
+	std::shared_ptr<CD_9904::Data> data;
 	err=sens->Tansl_Speed(data);
 	if (err!=CD_9904::ErrCode::Sucsess)
 	{
@@ -429,7 +430,7 @@ void			TSettings::Set_DefaultSettings (void)
     if (!sens) {return;}
 	unsigned short d=1700;
 	unsigned int _dist=0;
-	boost::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(0,0));
+	std::shared_ptr<CD_9904::CD_Time> _time(new CD_9904::CD_Time(0,0));
 	//запись конфигурации устройства
 	CD_9904::ErrCode err=sens->Write_Diametr(d);
 	if (err!=CD_9904::ErrCode::Sucsess)

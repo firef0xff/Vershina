@@ -4,7 +4,7 @@ object Network_Scan: TNetwork_Scan
   BorderIcons = []
   BorderStyle = bsSizeToolWin
   Caption = #1055#1086#1080#1089#1082' '#1091#1089#1090#1088#1086#1081#1089#1090#1074
-  ClientHeight = 486
+  ClientHeight = 473
   ClientWidth = 414
   Color = clBtnFace
   Constraints.MaxHeight = 512
@@ -25,7 +25,7 @@ object Network_Scan: TNetwork_Scan
     Left = 0
     Top = 0
     Width = 414
-    Height = 396
+    Height = 383
     Align = alClient
     BorderStyle = bsNone
     ColCount = 3
@@ -47,10 +47,18 @@ object Network_Scan: TNetwork_Scan
     TabOrder = 0
     OnDrawCell = SpeedometersDrawCell
     OnFixedCellClick = SpeedometersFixedCellClick
+    ExplicitHeight = 396
+    ColWidths = (
+      160
+      160
+      160)
+    RowHeights = (
+      80
+      80)
   end
   object Panel1: TPanel
     Left = 0
-    Top = 396
+    Top = 383
     Width = 414
     Height = 90
     Align = alBottom
@@ -61,6 +69,7 @@ object Network_Scan: TNetwork_Scan
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 1
+    ExplicitTop = 396
     DesignSize = (
       414
       90)
@@ -71,7 +80,6 @@ object Network_Scan: TNetwork_Scan
       Height = 80
       Anchors = [akTop, akRight]
       Cancel = True
-      DoubleBuffered = True
       Glyph.Data = {
         36140000424D3614000000000000360400002800000040000000400000000100
         08000000000000100000C30E0000C30E00000001000000010000000000000000
@@ -236,7 +244,6 @@ object Network_Scan: TNetwork_Scan
         0202020202020202020202020202020202020202020202020202020202020202
         0202020202020202020202020202020202020202020202020202}
       ModalResult = 2
-      ParentDoubleBuffered = False
       TabOrder = 0
     end
     object OK: TBitBtn
@@ -246,7 +253,6 @@ object Network_Scan: TNetwork_Scan
       Height = 80
       Anchors = [akTop, akRight]
       Default = True
-      DoubleBuffered = True
       Glyph.Data = {
         36140000424D3614000000000000360400002800000040000000400000000100
         08000000000000100000C30E0000C30E000000010000000100000000000021FF
@@ -411,7 +417,6 @@ object Network_Scan: TNetwork_Scan
         0202020202020202020202020202020202020202020202020202020202020202
         0202020202020202020202020202020202020202020202020202}
       ModalResult = 1
-      ParentDoubleBuffered = False
       TabOrder = 1
       OnClick = OKClick
     end
@@ -421,7 +426,6 @@ object Network_Scan: TNetwork_Scan
       Width = 202
       Height = 80
       Caption = ' '#1055#1086#1080#1089#1082' '#1091#1089#1090#1088#1086#1081#1089#1090#1074
-      DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -27
@@ -814,7 +818,6 @@ object Network_Scan: TNetwork_Scan
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
-      ParentDoubleBuffered = False
       ParentFont = False
       TabOrder = 2
       WordWrap = True

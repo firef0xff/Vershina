@@ -7,7 +7,8 @@
 #include <Classes.hpp>
 
 #include "ComPort.h"
-#include <boost/thread.hpp>
+#include <thread>
+#include <memory>
 namespace CD_9904
 {
 //параметры пакета
@@ -77,8 +78,8 @@ namespace CD_9904
 			 double speed;  //измеряемая скорость разрешение 0,1 км/ч
 			 unsigned int road_1; //измеряемый путь канал 1 разрешение 1 км
 			 unsigned int road_2; //измеряемый путь канал 2 разрешение 1 км
-             boost::shared_ptr<CD_Time> time_1; //время испытания 1 байт -часы ст байт 2 байт часы мл байт 3 байт минуты
-             boost::shared_ptr<CD_Time> time_2; //время испытания 1 байт -часы ст байт 2 байт часы мл байт 3 байт минуты
+			 std::shared_ptr<CD_Time> time_1; //время испытания 1 байт -часы ст байт 2 байт часы мл байт 3 байт минуты
+             std::shared_ptr<CD_Time> time_2; //время испытания 1 байт -часы ст байт 2 байт часы мл байт 3 байт минуты
 			 BYTE inform; 	/*служебное инфо флаги 	0- датчик каретки 1
 													1- датчик каретки 2
 													2- скорость больше 350 км/ч
@@ -97,7 +98,7 @@ namespace CD_9904
 			ErrCode Write_ADDR		(BYTE _addr);             //запись нового адреса устройству
 			ErrCode Read_Diametr	(unsigned short &Diametr);//считывание диаметра в переменную параметра
 			ErrCode	Write_Diametr	(unsigned short Diametr);//разрешение 1 мм
-			ErrCode	Tansl_Speed  	(boost::shared_ptr<Data> &speed);
+			ErrCode	Tansl_Speed  	(std::shared_ptr<Data> &speed);
 			ErrCode	Write_Road_1    (unsigned int road);
 			ErrCode	Write_Road_2    (unsigned int road);
 			ErrCode	Write_Time_1    (CD_Time *time);

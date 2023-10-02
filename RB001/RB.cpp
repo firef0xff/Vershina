@@ -14,7 +14,7 @@ USEFORM("CD9904\search_devices\Find_devices.cpp", Network_Scan);
 USEFORM("CD9904\sensor_options\Set_settings.cpp", Settings);
 USEFORM("ABOUT.cpp", AboutBox);
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	try
 	{ // ѕроверка не запущено ли уже приложение
@@ -38,6 +38,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			Application->Initialize();
             Application->MainFormOnTaskBar = true;
 			Application->CreateForm(__classid(TmfRB), &mfRB);
+		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->CreateForm(__classid(TAboutBox), &AboutBox);
 		Application->Run();
 		}

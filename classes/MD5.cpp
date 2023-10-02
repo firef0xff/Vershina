@@ -235,12 +235,12 @@ namespace  md5
 			{
 				step=len-i;
 			}
-			md5_update(&cnt,buff+i,step);
+			md5_update(&cnt, reinterpret_cast<uint8*>( buff+i ) ,step);
 		}
 		uint8 *digest=new uint8[17];
 		md5_finish(&cnt,digest);
 		digest[16]=0;
-		return digest;
+		return reinterpret_cast<char*>( digest );
 	}
 	char* Get_md5::ByteToCSTR(const unsigned char * isx,unsigned int len)
 	{

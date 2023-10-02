@@ -19,7 +19,8 @@
 #include "num_keyboard.h"
 #include "Find_devices.h"
 #include "CD_9904.h"
-#include <boost/thread.hpp>
+#include <thread>
+#include <memory>
 class TSettings : public TForm
 {
 __published:	// IDE-managed Components
@@ -66,7 +67,7 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 
-	boost::shared_ptr<CD_9904::Sensor> sens;
+	std::shared_ptr<CD_9904::Sensor> sens;
 	bool fromFileSettings(void);
 	bool toFileSettings(void);
 	void UpdateInfo(void);

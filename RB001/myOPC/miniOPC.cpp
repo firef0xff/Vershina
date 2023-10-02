@@ -1,6 +1,7 @@
 #pragma hdrstop
-#include "miniOPC.h"
 #pragma package(smart_init)
+
+#include "miniOPC.h"
 
 #define LOCALE_ID    0x409	// Code 0x409 = ENGLISH
 #define REQUESTED_UPDATE_RATE 500
@@ -94,7 +95,7 @@ GROUP_ID  myOPC::AddGroup(wchar_t *pGroupName,wchar_t * Addresses[]/*массив втор
 		return 0;
 	}
 
-    boost::shared_ptr<GroupPTRs> tmp(new GroupPTRs());
+    std::shared_ptr<GroupPTRs> tmp(new GroupPTRs());
 	tmp->ItemsCount=ItemsCount;
 	result=pIOPCServer->AddGroup(pGroupName,true,REQUESTED_UPDATE_RATE,Groups.size()+1,&TimeBias,&PercentDeadband,
 								LOCALE_ID,&GrpSrvHandle,&RevisedUpdateRate,
@@ -211,7 +212,7 @@ void 	myOPC::OpcMassFree(GROUP_ID _id,OPCITEMSTATE* mass)
 	log+="OK\n";
 	log+="Очистка массива\n";
 	#endif
-    boost::shared_ptr<GroupPTRs> __item=*_item;
+    std::shared_ptr<GroupPTRs> __item=*_item;
 	for(int i=0;i<__item->ItemsCount;i++)
 	{
 		VariantClear(&mass[i].vDataValue);
@@ -246,7 +247,7 @@ OPCITEMSTATE*	myOPC::Read 	(GROUP_ID _id)
 	log+="Чтение данных с сервера\n";
 	#endif
 
-	boost::shared_ptr<GroupPTRs> __item=*_item;
+	std::shared_ptr<GroupPTRs> __item=*_item;
     std::vector<OPCHANDLE> phServer;
     phServer.resize(__item->ItemsCount);//массив указателией на OPC
 	OPCITEMSTATE	*pItemsValues=nullptr; //указатель на состояния итемов в опс
@@ -312,7 +313,7 @@ HRESULT	myOPC::WriteMass    (GROUP_ID _id,size_t pos,size_t mass_len,void *item,
 	log+="Запись данных на сервер\n";
 	#endif
 
-	boost::shared_ptr<GroupPTRs> __item=*_item;
+	std::shared_ptr<GroupPTRs> __item=*_item;
 	if (__item->ItemsCount<=pos)
 	{
 	#ifdef _mDEBUG

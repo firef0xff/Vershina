@@ -19,24 +19,26 @@
 #include "AppManagnent.h"
 #include "Threads.h"
 #include "ABOUT.h"
+#include <memory>
+#include <algorithm>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TmfRB      *mfRB;
 //OPCRW      *pOPC=0;              // указатель на класс OPCRW
-boost::shared_ptr<Tyre>  InpTyre(new Tyre());  // покрышка для ввода и редактирования протокола
-boost::shared_ptr<Tyre>  	TyreA  (new Tyre());  // покрышка в поз. А
-boost::shared_ptr<Tyre>  	TyreB (new Tyre());  // покрышка в поз. Б
-boost::shared_ptr<LSert> 	LdSA  (new LSert()); // Сертификация нагрузки поз А
-boost::shared_ptr<LSert> 	LdSB (new LSert()); // Сертификация нагрузки поз Б
-boost::shared_ptr<TSert> 	TSA  (new TSert()); // Сертификация температуры поз А
-boost::shared_ptr<TSert> 	TSB  (new TSert()); // Сертификация температуры поз Б
-boost::shared_ptr<RSert> 	RSA  (new RSert()); // Сертификация радиуса поз А
-boost::shared_ptr<RSert> 	RSB  (new RSert()); // Сертификация радиуса поз Б
-boost::shared_ptr<VSert>    VS   (new VSert()); // сертификация скорости барабана
-boost::shared_ptr<LCalibr>  LdCA (new LCalibr()); // калибровка тензодатчика поз. А
-boost::shared_ptr<LCalibr>  LdCB (new LCalibr()); // калибровка тензодатчика поз. Б
+std::shared_ptr<Tyre>  InpTyre(new Tyre());  // покрышка для ввода и редактирования протокола
+std::shared_ptr<Tyre>  	TyreA  (new Tyre());  // покрышка в поз. А
+std::shared_ptr<Tyre>  	TyreB (new Tyre());  // покрышка в поз. Б
+std::shared_ptr<LSert> 	LdSA  (new LSert()); // Сертификация нагрузки поз А
+std::shared_ptr<LSert> 	LdSB (new LSert()); // Сертификация нагрузки поз Б
+std::shared_ptr<TSert> 	TSA  (new TSert()); // Сертификация температуры поз А
+std::shared_ptr<TSert> 	TSB  (new TSert()); // Сертификация температуры поз Б
+std::shared_ptr<RSert> 	RSA  (new RSert()); // Сертификация радиуса поз А
+std::shared_ptr<RSert> 	RSB  (new RSert()); // Сертификация радиуса поз Б
+std::shared_ptr<VSert>    VS   (new VSert()); // сертификация скорости барабана
+std::shared_ptr<LCalibr>  LdCA (new LCalibr()); // калибровка тензодатчика поз. А
+std::shared_ptr<LCalibr>  LdCB (new LCalibr()); // калибровка тензодатчика поз. Б
 TPrinter   *pProtPrt = Printer(); // указатель на принтер
 char DecimalSeparator = '.';
 //---------------------------------------------------------------------------
@@ -351,7 +353,7 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)// расположение компонент на па
 
   const int C0W=30,C1W=60,C2W=70,C3W=70,C4W=80;
   int TblW=C0W+C1W+C2W+C3W+C4W+28, H1=40, LSp1=10;
-  int TblH=tsLoadCalibrAH-H1, CellH=max(ceil(double(TblH/(LDCQTY+1)))-1, 16.0)/*, Cell0H=40;TblH-(LDCQTY+1)*CellH*/;//-LDCQTY;
+  int TblH=tsLoadCalibrAH-H1, CellH=std::max(ceil(double(TblH/(LDCQTY+1)))-1, 16.0)/*, Cell0H=40;TblH-(LDCQTY+1)*CellH*/;//-LDCQTY;
   pLoadSertATtl->Height=H1;
   sgLoadSertA->ColWidths[0]=C0W;     sgLoadSertA->ColWidths[1]=C1W;
   sgLoadSertA->ColWidths[2]=C2W;     sgLoadSertA->ColWidths[3]=C3W;
@@ -1264,7 +1266,8 @@ void __fastcall TmfRB::onOPCControlStartExec(TObject *Sender)
 	}
 }
 void __fastcall TmfRB::OPCControlStartExec(void)
-{ static OPCNewOK=true;
+{
+  static bool OPCNewOK=true;
   LogPrintF(LogFName(),"Старт управления стендом");
   if(OPCNewOK) {
 	pOPC = new OPCRW;
@@ -4397,7 +4400,7 @@ void __fastcall TmfRB::OnPump1On(TObject *Sender)
 	{
 		leMeasLoad->ReadOnly=true;
 		leMeasLoad->Color=clSilver;
-		const slp=500;//500 мс для слипа
+		const int slp=500;//500 мс для слипа
 		for (int i =0; i <DELAY_TIME ; i+=slp)
 		{
 			Sleep(slp);
@@ -4478,7 +4481,7 @@ void __fastcall TmfRB::OnPump2On(TObject *Sender)
 	{
 		leMeasLoad->ReadOnly=true;
 		leMeasLoad->Color=clSilver;
-		const slp=500;//500 мс для слипа
+		const int slp=500;//500 мс для слипа
 		for (int i =0; i <DELAY_TIME ; i+=slp)
 		{
 			Sleep(slp);
@@ -4577,7 +4580,7 @@ void __fastcall TmfRB::OnNextCalibrLoadBtn(TObject *Sender)
   if(OPCConnectOK) {
 	pOPC->WriteGr3(Loading);
 	#ifdef USEPROCESSDELAY
-	const slp=500;//500 мс для слипа
+	const int slp=500;//500 мс для слипа
 	for (int i =0; i <DELAY_TIME ; i+=slp)
 	{
 		Sleep(slp);
@@ -4653,7 +4656,7 @@ void __fastcall TmfRB::OnPrevCalibrLoadBtn(TObject *Sender)
   if(OPCConnectOK) {
 	pOPC->WriteGr3(Loading);
 	#ifdef USEPROCESSDELAY
-	const slp=500;//500 мс для слипа
+	const int slp=500;//500 мс для слипа
 	for (int i =0; i <DELAY_TIME ; i+=slp)
 	{
 		Sleep(slp);
@@ -5183,7 +5186,7 @@ void __fastcall TmfRB::OnNextSertLoadBtn(TObject *Sender)
   if(OPCConnectOK) {
 	pOPC->WriteGr3(Loading);
 	#ifdef USEPROCESSDELAY
-	const slp=500;//500 мс для слипа
+	const int slp=500;//500 мс для слипа
 	for (int i =0; i <DELAY_TIME ; i+=slp)
 	{
 		Sleep(slp);
@@ -5254,7 +5257,7 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
   if(OPCConnectOK) {
 	pOPC->WriteGr3(Loading);
 	#ifdef USEPROCESSDELAY
-	const slp=500;//500 мс для слипа
+	const int slp=500;//500 мс для слипа
 	for (int i =0; i <DELAY_TIME ; i+=slp)
 	{
 		Sleep(slp);

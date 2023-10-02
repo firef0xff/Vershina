@@ -15,7 +15,7 @@ bool CD_reset1=false;
 bool CD_reset2=false;
 unsigned long __stdcall ListenCD9904(void *msg)
 {
-    boost::shared_ptr<myOPC> ThreadOPC(new myOPC());
+    std::shared_ptr<myOPC> ThreadOPC(new myOPC());
 	//размеры групп
 	const int CD9904GroupSize=5;
 	const int ResetGroupSize=2;
@@ -40,7 +40,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 
 	if (cd_9904->Sensor())//проверка подключения датчика
 	{
-		boost::shared_ptr<CD_9904::Sensor> sensor(new CD_9904::Sensor(cd_9904->Sensor()->GetPort(),cd_9904->Sensor()->GetAddr()));
+		std::shared_ptr<CD_9904::Sensor> sensor(new CD_9904::Sensor(cd_9904->Sensor()->GetPort(),cd_9904->Sensor()->GetAddr()));
 	   //рабочий цикл
 	   while (1)
 		{
@@ -58,7 +58,7 @@ unsigned long __stdcall ListenCD9904(void *msg)
 				cd_9904->ResetBus_2();
 				CD_reset2 = false;
 			}
-			boost::shared_ptr<CD_9904::Data> data;
+			std::shared_ptr<CD_9904::Data> data;
 			CD_9904::ErrCode err=sensor->Tansl_Speed(data);
 			//CD_9904::ErrCode err=CD_9904::ErrCode::Sucsess;
 			if (err==CD_9904::ErrCode::Sucsess)
