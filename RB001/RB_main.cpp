@@ -369,9 +369,9 @@ void __fastcall TmfRB::DesignLoadSertAPanel(void)// расположение компонент на па
   for (int i = 0; i < LDCQTY; i++) {
     if(i<9)sgLoadSertA->Cells[0][i+1]="  "+String(i+1)+":";
     else   sgLoadSertA->Cells[0][i+1]=" "+String(i+1)+":";
-    sgLoadSertA->Cells[1][i+1]=LdCA->sTLd[i];
+	sgLoadSertA->Cells[1][i+1]=LdCA->sTLd[i];
 	if(LdCA->ReadoutLd[i]!=0.0)
-      sgLoadSertA->Cells[2][i+1]="   "+FloatToStrF(LdCA->ReadoutLd[i],ffFixed,6,2);
+	  sgLoadSertA->Cells[2][i+1]="   "+FloatToStrF(LdCA->ReadoutLd[i],ffFixed,6,2);
 	else
 	  sgLoadSertA->Cells[2][i+1]="";
 	if(LdCA->MeasuredLd[i]!=0.0)
@@ -679,7 +679,7 @@ void __fastcall TmfRB::DesignRCalibrAPanel(void)// расположение компонент на пан
       BtnW1=LblW1*2, BtnW2=tsTCalibrAW-TblW-BtnW1-LSp1*3;
   int Left12=Left11+LblW1, Left2=Left11+BtnW1+LSp1, H2=50, H3=26;
   int BtnW4=(tsTCalibrAW-TblW-LSp1*4)/5, BtnW3=BtnW4*2, Top2=Top1+H2*3+LSp1*4,
-      Left3=Left11+BtnW3+LSp1, Left4=Left3+BtnW4+LSp1;
+	  Left3=Left11+BtnW3+LSp1, Left4=Left3+BtnW4+LSp1;
   btnPrevRCalibrA->Left       =Left11;       btnPrevRCalibrA->Top         =Top1;
   btnPrevRCalibrA->Width      =BtnW1;        btnPrevRCalibrA->Height      =H2;
   btnClearRCalibrTableA->Left =Left2;        btnClearRCalibrTableA->Top   =Top1;
@@ -1842,7 +1842,7 @@ void __fastcall TmfRB::OnRGPos2StartStopClick(TObject *Sender)
 			ClearStepVals2();
 			UpdateProgData();
 			if ( TyreB->Start == TDateTime() )
-            	TyreB->Start = Now();
+				TyreB->Start = Now();
             TyreB->Stop = TDateTime();
 			sbRB->Panels->Items[2]->Text="Старт поз. Б!";
 			LogPrintF(LogFName(),"Старт поз. Б!",clWhite);
@@ -3516,6 +3516,7 @@ void __fastcall TmfRB::ShowProtAData(void)     // отобразить шапку протокола в п
   leSpeedIndA->Text        =TyreA->SpeedInd;
   leMaxSpeedA->Text        =FloatToStrF(TyreA->MaxSpeed,ffFixed,6,2);
   leTyreWideA->Text        =FloatToStrF(TyreA->ProfileWide,ffFixed,6,2);
+  leMassA->Text        	   =FloatToStrF(TyreA->Mass,ffFixed,6,2);
   LogPrint("Profile Wide A="+FloatToStrF(TyreA->ProfileWide,ffFixed,6,1),clAqua);
   leStaticR_A->Text        =FloatToStrF(TyreA->StaticR,ffFixed,6,1);
   leOuterD_A->Text         =FloatToStrF(TyreA->OuterD,ffFixed,6,2);
@@ -3562,6 +3563,7 @@ void __fastcall TmfRB::ShowProtBData(void)     // отобразить шапку протокола в п
   leSpeedIndB->Text        =TyreB->SpeedInd;
   leMaxSpeedB->Text        =FloatToStrF(TyreB->MaxSpeed,ffFixed,6,2);
   leTyreWideB->Text        =FloatToStrF(TyreB->ProfileWide,ffFixed,6,2);
+  leMassB->Text        	   =FloatToStrF(TyreB->Mass,ffFixed,6,2);
   leStaticR_B->Text        =FloatToStrF(TyreB->StaticR,ffFixed,6,1);
   leOuterD_B->Text         =FloatToStrF(TyreB->OuterD,ffFixed,6,2);
   leRimB->Text             =TyreB->WheelRim;
@@ -3773,6 +3775,8 @@ void __fastcall TmfRB::DesignProtAPanel(void)  // расположение компонент на пане
   leStaticR_A->Width     =LblWidth1;          leStaticR_A->Height     =LineH;
   leTyreWideA->Left      =Left3;              leTyreWideA->Top        =Top3+LineH;
   leTyreWideA->Width     =LblWidth1;          leTyreWideA->Height     =LineH;
+  leMassA->Left      	 =Left4;              leMassA->Top        	  =Top3+LineH;
+  leMassA->Width     	 =LblWidth1;          leMassA->Height     	  =LineH;
   leRimA->Left           =Left3;              leRimA->Top             =Top3+LineH*2;
   leRimA->Width          =LblWidth1;          leRimA->Height          =LineH;
   pTestResTtlA->Left     =Left0;              pTestResTtlA->Top       =Top3+LineH*3+LineSpace1;
@@ -3891,6 +3895,8 @@ void __fastcall TmfRB::DesignProtBPanel(void)  // расположение компонент на пане
   leStaticR_B->Width     =LblWidth1;          leStaticR_B->Height     =LineH;
   leTyreWideB->Left      =Left3;              leTyreWideB->Top        =Top3+LineH;
   leTyreWideB->Width     =LblWidth1;          leTyreWideB->Height     =LineH;
+  leMassB->Left      	 =Left4;              leMassB->Top        	  =Top3+LineH;
+  leMassB->Width     	 =LblWidth1;          leMassB->Height     	  =LineH;
   leRimB->Left           =Left3;              leRimB->Top             =Top3+LineH*2;
   leRimB->Width          =LblWidth1;          leRimB->Height          =LineH;
   pTestResTtlB->Left     =Left0;              pTestResTtlB->Top       =Top3+LineH*3+LineSpace1;
@@ -6248,6 +6254,20 @@ void __fastcall TmfRB::btSvrClick(TObject *Sender)
 	s = p_bar * ob_min; //(мм/мин)
 	s = s / 1000000*60;
 	leMeasuredV->Text = FloatToStrF(s,ffFixed,5,2);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmfRB::btResetAProgClick(TObject *Sender)
+{
+	*ResetProgram1 = true;
+	pOPC->WriteGr1(ResetProgram1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TmfRB::btResetBProgClick(TObject *Sender)
+{
+	*ResetProgram2 = true;
+	pOPC->WriteGr1(ResetProgram2);
 }
 //---------------------------------------------------------------------------
 

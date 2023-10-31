@@ -34,7 +34,7 @@ __published:	// IDE-managed Components
     TAction *AboutProg;
     TStatusBar *sbRB;
     TAction *CommonParamRead;
-    TPageControl *pcRB;
+	TPageControl *pcRB;
     TTabSheet *tsCurrentStatus;
     TTabSheet *tsProtocol;
     TTabSheet *tsTestProgramSetting;
@@ -671,6 +671,10 @@ __published:	// IDE-managed Components
 	TButton *btSvr;
 	TLabeledEdit *leDbar;
 	TLabeledEdit *leSvr;
+	TButton *btResetAProg;
+	TButton *btResetBProg;
+	TLabeledEdit *leMassA;
+	TLabeledEdit *leMassB;
     void __fastcall OnCommonParamReadExec(TObject *Sender);
 	void __fastcall OPCControlStartExec(void);
 	void __fastcall OnOPCControlStopExec(TObject *Sender);
@@ -781,6 +785,8 @@ __published:	// IDE-managed Components
 	void __fastcall btResetBClick(TObject *Sender);
 	void __fastcall btResetAClick(TObject *Sender);
 	void __fastcall btSvrClick(TObject *Sender);
+	void __fastcall btResetAProgClick(TObject *Sender);
+	void __fastcall btResetBProgClick(TObject *Sender);
 private:	// User declarations
     int tsCurrentStatusH, tsCurrentStatusW;
     int pParam1Height,    pParam1Width;

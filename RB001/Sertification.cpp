@@ -221,6 +221,9 @@ __fastcall LCalibr::LCalibr(void)                  // конструктор
   TargetLd[7]=50;
   TargetLd[8]=60;
   TargetLd[9]=70;
+  TargetLd[10]=80;
+  TargetLd[11]=90;
+  TargetLd[12]=100;
   for (int i=0;i<LDCQTY;i++) {    // столбец заданных нагрузок
 	sTLd[i]="   "+FloatToStrF(TargetLd[i],ffFixed,5,2);
 	ReadoutLd[i]=MeasuredLd[i]=ReadKA[i]=0.0;

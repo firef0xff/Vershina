@@ -3,7 +3,7 @@ object mfRB: TmfRB
   Top = 0
   Anchors = [akTop, akRight]
   Caption = 'Run-in bench'
-  ClientHeight = 713
+  ClientHeight = 759
   ClientWidth = 1016
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -27,7 +27,7 @@ object mfRB: TmfRB
   end
   object sbRB: TStatusBar
     Left = 0
-    Top = 694
+    Top = 740
     Width = 1016
     Height = 19
     Panels = <
@@ -52,16 +52,12 @@ object mfRB: TmfRB
     Left = 0
     Top = 66
     Width = 816
-    Height = 628
-    ActivePage = tsTestProgramSetting
+    Height = 674
+    ActivePage = tsCurrentStatus
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
       Caption = #1058#1077#1082#1091#1097#1077#1077' '#1089#1086#1089#1090#1086#1103#1085#1080#1077
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Splitter1: TSplitter
         Left = 0
         Top = 306
@@ -990,7 +986,7 @@ object mfRB: TmfRB
         Left = 0
         Top = 309
         Width = 808
-        Height = 290
+        Height = 336
         Align = alClient
         TabOrder = 1
         object pP2TtlL0C1: TPanel
@@ -1494,10 +1490,6 @@ object mfRB: TmfRB
     object tsManual: TTabSheet
       Caption = #1056#1091#1095#1085#1086#1081' '#1088#1077#1078#1080#1084
       ImageIndex = 6
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbDrum: TGroupBox
         Left = 224
         Top = 8
@@ -3343,16 +3335,12 @@ object mfRB: TmfRB
         Left = 0
         Top = 0
         Width = 808
-        Height = 599
+        Height = 645
         ActivePage = tsSProg
         Align = alClient
         TabOrder = 0
         object tsTimeProg: TTabSheet
           Caption = #1055#1088#1086#1075#1088#1072#1084#1084#1072' '#1080#1089#1087#1099#1090#1072#1085#1080#1081' '#1087#1086' '#1074#1088#1077#1084#1077#1085#1080
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object lTProgTblNme: TLabel
             Left = 90
             Top = 66
@@ -4672,24 +4660,16 @@ object mfRB: TmfRB
     object tsProtocol: TTabSheet
       Caption = #1055#1088#1086#1090#1086#1082#1086#1083
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pcProtTitle: TPageControl
         Left = 0
         Top = 0
         Width = 808
-        Height = 599
-        ActivePage = tsNewProtocol
+        Height = 645
+        ActivePage = tsProtocolB
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
           Caption = #1058#1077#1082#1091#1097#1080#1081' '#1087#1088#1086#1090#1086#1082#1086#1083' '#1087#1086#1079'. '#1040
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pCurrentProtATtl: TPanel
             Left = 2
             Top = 0
@@ -5838,14 +5818,41 @@ object mfRB: TmfRB
             WordWrap = True
             OnClick = btnResetResPosAClick
           end
+          object leMassA: TLabeledEdit
+            Left = 661
+            Top = 119
+            Width = 36
+            Height = 19
+            AutoSize = False
+            BiDiMode = bdLeftToRight
+            EditLabel.Width = 55
+            EditLabel.Height = 13
+            EditLabel.BiDiMode = bdLeftToRight
+            EditLabel.Caption = #1052#1072#1089#1089#1072', '#1082#1075': '
+            EditLabel.Font.Charset = DEFAULT_CHARSET
+            EditLabel.Font.Color = clWindowText
+            EditLabel.Font.Height = -11
+            EditLabel.Font.Name = 'Tahoma'
+            EditLabel.Font.Style = []
+            EditLabel.ParentBiDiMode = False
+            EditLabel.ParentFont = False
+            EditLabel.Layout = tlCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            LabelPosition = lpLeft
+            ParentBiDiMode = False
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 33
+            Text = '70'
+          end
         end
         object tsProtocolB: TTabSheet
           Caption = #1058#1077#1082#1091#1097#1080#1081' '#1087#1088#1086#1090#1086#1082#1086#1083' '#1087#1086#1079'. '#1041
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pCurrentProtBTtl: TPanel
             Left = 2
             Top = -1
@@ -6994,14 +7001,41 @@ object mfRB: TmfRB
             WordWrap = True
             OnClick = btnResetResPosBClick
           end
+          object leMassB: TLabeledEdit
+            Left = 653
+            Top = 119
+            Width = 47
+            Height = 19
+            AutoSize = False
+            BiDiMode = bdLeftToRight
+            EditLabel.Width = 55
+            EditLabel.Height = 13
+            EditLabel.BiDiMode = bdLeftToRight
+            EditLabel.Caption = #1052#1072#1089#1089#1072', '#1082#1075': '
+            EditLabel.Font.Charset = DEFAULT_CHARSET
+            EditLabel.Font.Color = clWindowText
+            EditLabel.Font.Height = -11
+            EditLabel.Font.Name = 'Tahoma'
+            EditLabel.Font.Style = []
+            EditLabel.ParentBiDiMode = False
+            EditLabel.ParentFont = False
+            EditLabel.Layout = tlCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            LabelPosition = lpLeft
+            ParentBiDiMode = False
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 33
+            Text = '70'
+          end
         end
         object tsNewProtocol: TTabSheet
           Caption = #1053#1086#1074#1099#1081' '#1087#1088#1086#1090#1086#1082#1086#1083
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object lblTestMode: TLabel
             Left = 233
             Top = 293
@@ -7993,10 +8027,6 @@ object mfRB: TmfRB
     object tsEmSettings: TTabSheet
       Caption = #1059#1089#1090#1072#1085#1086#1074#1082#1080
       ImageIndex = 8
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 0
         Top = 3
@@ -8632,38 +8662,26 @@ object mfRB: TmfRB
     object tsCalibration: TTabSheet
       Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pcCalibration: TPageControl
         Left = 0
         Top = 0
         Width = 808
-        Height = 599
-        ActivePage = tsSpeedCalibr
+        Height = 645
+        ActivePage = tsLoadCalibr
         Align = alClient
         TabOrder = 0
         object tsLoadCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1077
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pcLoadCalibr: TPageControl
             Left = 0
             Top = 0
             Width = 800
-            Height = 570
+            Height = 616
             ActivePage = tsLoadCalibrA
             Align = alClient
             TabOrder = 0
             object tsLoadCalibrA: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1077' '#1087#1086#1079'. '#1040
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pLoadCalibrBTtl: TPanel
                 Left = 0
                 Top = 0
@@ -8689,9 +8707,9 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 280
-                Height = 521
+                Height = 567
                 Align = alLeft
-                RowCount = 8
+                RowCount = 11
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -8704,6 +8722,9 @@ object mfRB: TmfRB
                   64
                   64)
                 RowHeights = (
+                  24
+                  24
+                  24
                   24
                   24
                   24
@@ -8875,10 +8896,6 @@ object mfRB: TmfRB
             object tsLoadCalibrB: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1077' '#1087#1086#1079'. '#1041
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pLoadCalibrATtl: TPanel
                 Left = 0
                 Top = 0
@@ -8904,9 +8921,9 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 284
-                Height = 521
+                Height = 567
                 Align = alLeft
-                RowCount = 8
+                RowCount = 11
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -8919,6 +8936,9 @@ object mfRB: TmfRB
                   64
                   64)
                 RowHeights = (
+                  24
+                  24
+                  24
                   24
                   24
                   24
@@ -9092,24 +9112,16 @@ object mfRB: TmfRB
         object tsRadiusCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1088#1072#1076#1080#1091#1089#1091
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pcRadiusCalibr: TPageControl
             Left = 0
             Top = 0
             Width = 800
-            Height = 570
+            Height = 616
             ActivePage = tsRCalibrB
             Align = alClient
             TabOrder = 0
             object tsRCalibrA: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1088#1072#1076#1080#1091#1089#1091' '#1087#1086#1079'. '#1040
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pRCalibrATtl: TPanel
                 Left = 0
                 Top = 0
@@ -9127,7 +9139,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 515
+                Height = 561
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9304,10 +9316,6 @@ object mfRB: TmfRB
             object tsRCalibrB: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1088#1072#1076#1080#1091#1089#1091' '#1087#1086#1079'. '#1041
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pRCalibrBTtl: TPanel
                 Left = 0
                 Top = 0
@@ -9325,7 +9333,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 515
+                Height = 561
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9504,24 +9512,16 @@ object mfRB: TmfRB
         object tsTempCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1077
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pcTempCalibr: TPageControl
             Left = 0
             Top = 0
             Width = 800
-            Height = 570
+            Height = 616
             ActivePage = tsTCalibrA
             Align = alClient
             TabOrder = 0
             object tsTCalibrA: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1077' '#1087#1086#1079'. '#1040
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pTCalibrATtl: TPanel
                 Left = 0
                 Top = 0
@@ -9539,7 +9539,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 515
+                Height = 561
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9700,10 +9700,6 @@ object mfRB: TmfRB
             object tsTCalibrB: TTabSheet
               Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1087#1086' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1077' '#1087#1086#1079'. '#1041
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pTCalibrBTtl: TPanel
                 Left = 0
                 Top = 0
@@ -9721,7 +9717,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 515
+                Height = 561
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9884,10 +9880,6 @@ object mfRB: TmfRB
         object tsSpeedCalibr: TTabSheet
           Caption = #1040#1090#1090#1077#1089#1090#1072#1094#1080#1103' '#1073#1072#1088#1072#1073#1072#1085#1072
           ImageIndex = 3
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pSpeedCalibrTtl: TPanel
             Left = 0
             Top = 0
@@ -9913,7 +9905,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 20
             Width = 263
-            Height = 550
+            Height = 596
             Align = alLeft
             RowCount = 34
             ScrollBars = ssVertical
@@ -10155,24 +10147,16 @@ object mfRB: TmfRB
     object tsSert: TTabSheet
       Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072
       ImageIndex = 7
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object pcSert: TPageControl
         Left = 0
         Top = 0
         Width = 808
-        Height = 599
+        Height = 645
         ActivePage = tsLoadSert
         Align = alClient
         TabOrder = 0
         object tsDrumSpeedSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1089#1082#1086#1088#1086#1089#1090#1080
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pDrumSpeedSertTtl: TPanel
             Left = 0
             Top = 0
@@ -10326,10 +10310,6 @@ object mfRB: TmfRB
         object tsTemSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1076#1072#1090#1095#1080#1082#1086#1074' '#1090#1077#1084#1087#1077#1088#1072#1090#1091#1088#1099
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pTSertTtl: TPanel
             Left = 0
             Top = 0
@@ -10347,7 +10327,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 26
             Width = 420
-            Height = 544
+            Height = 590
             Align = alLeft
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1087#1086#1079'. '#1040
             TabOrder = 1
@@ -10428,7 +10408,7 @@ object mfRB: TmfRB
             Left = 420
             Top = 26
             Width = 380
-            Height = 544
+            Height = 590
             Align = alClient
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1087#1086#1079'. '#1041
             TabOrder = 2
@@ -10509,24 +10489,16 @@ object mfRB: TmfRB
         object tsLoadSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1090#1077#1085#1079#1086#1076#1072#1090#1095#1080#1082#1086#1074
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object pcLoadSert: TPageControl
             Left = 0
             Top = 0
             Width = 800
-            Height = 570
-            ActivePage = tsLoadSertA
+            Height = 616
+            ActivePage = tsLoadSertB
             Align = alClient
             TabOrder = 0
             object tsLoadSertA: TTabSheet
               Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1090#1077#1085#1079#1086#1076#1072#1090#1095#1080#1082#1072' '#1087#1086#1079'. '#1040
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pLoadSertATtl: TPanel
                 Left = 0
                 Top = 0
@@ -10544,9 +10516,9 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 328
-                Height = 521
+                Height = 567
                 Align = alLeft
-                RowCount = 11
+                RowCount = 14
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -10560,6 +10532,9 @@ object mfRB: TmfRB
                   64
                   64)
                 RowHeights = (
+                  24
+                  24
+                  24
                   24
                   24
                   24
@@ -10765,10 +10740,6 @@ object mfRB: TmfRB
             object tsLoadSertB: TTabSheet
               Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1090#1077#1085#1079#1086#1076#1072#1090#1095#1080#1082#1072' '#1087#1086#1079'. '#1041
               ImageIndex = 1
-              ExplicitLeft = 0
-              ExplicitTop = 0
-              ExplicitWidth = 0
-              ExplicitHeight = 0
               object pLoadSertBTtl: TPanel
                 Left = 0
                 Top = 0
@@ -10786,9 +10757,9 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 328
-                Height = 521
+                Height = 567
                 Align = alLeft
-                RowCount = 11
+                RowCount = 14
                 ScrollBars = ssVertical
                 TabOrder = 1
                 OnDrawCell = OnCalibrDrawCell
@@ -10802,6 +10773,9 @@ object mfRB: TmfRB
                   64
                   64)
                 RowHeights = (
+                  24
+                  24
+                  24
                   24
                   24
                   24
@@ -11011,10 +10985,6 @@ object mfRB: TmfRB
         object tsRadSert: TTabSheet
           Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1076#1072#1090#1095#1080#1082#1072' '#1088#1072#1076#1080#1091#1089#1072
           ImageIndex = 3
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object leRShiftA: TLabeledEdit
             Left = 435
             Top = 86
@@ -11090,15 +11060,11 @@ object mfRB: TmfRB
     object tsLog: TTabSheet
       Caption = #1046#1091#1088#1085#1072#1083
       ImageIndex = 5
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object reLog: TRichEdit
         Left = 0
         Top = 0
         Width = 808
-        Height = 599
+        Height = 645
         Align = alClient
         Color = clNone
         Font.Charset = RUSSIAN_CHARSET
@@ -11119,16 +11085,16 @@ object mfRB: TmfRB
     Left = 816
     Top = 66
     Width = 200
-    Height = 628
+    Height = 674
     Align = alRight
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 2
     object gbPosition1ControlBox: TGroupBox
-      Left = 11
-      Top = 10
+      Left = 6
+      Top = 6
       Width = 180
-      Height = 279
+      Height = 307
       Caption = #1055#1086#1079#1080#1094#1080#1103' '#1040
       TabOrder = 0
       object gbSensors1: TGroupBox
@@ -11579,10 +11545,10 @@ object mfRB: TmfRB
       end
     end
     object gbPosition2ControlBox: TGroupBox
-      Left = 11
-      Top = 295
+      Left = 6
+      Top = 319
       Width = 180
-      Height = 280
+      Height = 314
       Caption = #1055#1086#1079#1080#1094#1080#1103' '#1041
       TabOrder = 1
       object gbSensors2: TGroupBox
@@ -12033,13 +11999,31 @@ object mfRB: TmfRB
       end
     end
     object btnGeneralStop: TButton
-      Left = 11
-      Top = 583
+      Left = 6
+      Top = 639
       Width = 180
       Height = 22
       Caption = #1054#1041#1065#1048#1049' '#1057#1058#1054#1055', CTRL + F12'
       TabOrder = 2
       OnClick = OnGeneralStop
+    end
+    object btResetAProg: TButton
+      Left = 16
+      Top = 281
+      Width = 161
+      Height = 25
+      Caption = #1057#1073#1088#1086#1089' '#1087#1088#1086#1075#1088#1072#1084#1084#1099
+      TabOrder = 3
+      OnClick = btResetAProgClick
+    end
+    object btResetBProg: TButton
+      Left = 16
+      Top = 596
+      Width = 161
+      Height = 25
+      Caption = #1057#1073#1088#1086#1089' '#1087#1088#1086#1075#1088#1072#1084#1084#1099
+      TabOrder = 4
+      OnClick = btResetBProgClick
     end
   end
   object ammbRB: TActionMainMenuBar

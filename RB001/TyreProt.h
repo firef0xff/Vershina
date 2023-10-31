@@ -48,7 +48,8 @@ class Tyre
     float     rS[250];
     float     rL[250];
     float     rR[250];
-    float     rTemp[250];
+	float     rTemp[250];
+    float     Mass;               //ћасса
 
               __fastcall Tyre(void);                       // конструктор
               __fastcall ~Tyre(void);                      // деструктор
@@ -67,7 +68,7 @@ class Tyre
 		TDateTime _1_jan(year,1,1);		// 1-е €нвар€ того года, которому соответствует дата
 		int _1_jan_day_of_week = (_1_jan.DayOfWeek()+5)%7; // день недели 1-го €нвар€
 		week_num = (int)(ManufactDate-TDateTime(year,1,1)+_1_jan_day_of_week)/7; // искомый номер недели(с 0)
-		return AnsiString(week_num)+"."+AnsiString(year);
+		return AnsiString(week_num)+":"+AnsiString(year).SubString(3,2);
 	}
 	void  	CustomDate  (AnsiString dt)
 	{

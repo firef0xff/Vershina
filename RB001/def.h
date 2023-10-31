@@ -1,6 +1,6 @@
 #define ADDRLEN         100    // Максимальная длина строки для адреса одного элемента
 
-#define GR1BOOLITEMSNUM  39    // количество булевых переменных в группе 1
+#define GR1BOOLITEMSNUM  41    // количество булевых переменных в группе 1
 #define GR1INTITEMSNUM   11    // количество целых переменных в группе 1
 #define GR1FLTITEMSNUM   13     // количество вещественных переменных в группе 1
 #define GR1ITEMSNUM      GR1BOOLITEMSNUM+GR1INTITEMSNUM+GR1FLTITEMSNUM    // количество переменных в группе 1
@@ -41,9 +41,9 @@
 #define GR11ARRAYSNUM     6    // количество массивов в группе 11
 #define GR11ARRAYSIZE   250    // размер массивов в группе 11
 
-#define GR12ITEMSNUM     20     //80    // количество переменных в группе 12
+#define GR12ITEMSNUM     26     //80    // количество переменных в группе 12
 #define GR12ARRAYSIZE    10     //40    // количество переменных в массиве группы 12
-#define GR13ITEMSNUM     20     //80    // количество переменных в группе 13
+#define GR13ITEMSNUM     26     //80    // количество переменных в группе 13
 #define GR13ARRAYSIZE    10     //40    // количество переменных в массиве группы 13
 
 #define MAXNUMOFSTEPS   100    // максимальное количество шагов программы испытаний
@@ -60,10 +60,10 @@
 #define COMMONPRMSHOW  0
 // размеры таблиц для аттестации
 #define VQTY          33
-#define LDQTY         7
+#define LDQTY         10
 #define TQTY          20
 #define RQTY          20
-#define LDCQTY		  10   //20
+#define LDCQTY		  13   //20
 #define LOWTLIM      -50
 #define UPPERTLIM    150
 

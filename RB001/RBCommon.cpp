@@ -177,6 +177,8 @@ bool  *ResetData1	=&bGr1[35]; //M0.7 сброс результатов испытаний 1
 bool  *ResetData2   =&bGr1[36]; //M1.7 сброс результатов испытаний 2
 bool  *OverLoad1    =&bGr1[37]; //DB10,X38.5 A Превышение нагрузки на шаге на стороне 1
 bool  *OverLoad2    =&bGr1[38]; //DB10,X38.6 B Превышение нагрузки на шаге на стороне 2
+bool  *ResetProgram1=&bGr1[39]; //DB10,DBX38.5
+bool  *ResetProgram2=&bGr1[40]; //DB10,DBX38.6
 // Блок DB20 - общие параметры
 int   iDB20[GR1INTITEMSNUM];    // массив целых значений в блоке DB20
 int   *fakt_time          =&iDB20[ 0]; //DB20,DINT14 общее время
@@ -229,8 +231,10 @@ wchar_t *Gr1ItemsNme[GR1ITEMSNUM]={	L"S7:[S7 connection_4]MX2.1",
 									L"S7:[S7 connection_4]DB10,X39.0",
 									L"S7:[S7 connection_4]M0.7",
 									L"S7:[S7 connection_4]M1.7",
-                                    L"S7:[S7 connection_4]DB10,X38.5",
-                                    L"S7:[S7 connection_4]DB10,X38.6",
+									L"S7:[S7 connection_4]DB10,X38.5",
+									L"S7:[S7 connection_4]DB10,X38.6",
+									L"S7:[S7 connection_4]DB10,DBX38.5",
+									L"S7:[S7 connection_4]DB10,DBX38.6",
 									//idb20
 									L"S7:[S7 connection_4]DB20,DINT14",
 									L"S7:[S7 connection_4]DB20,DINT26",
@@ -474,10 +478,11 @@ wchar_t *Gr12ItemsNme[GR12ITEMSNUM]={//Коэффициент коррекции прямой ход
 									 L"S7:[S7 connection_4]DB71,REAL34",  L"S7:[S7 connection_4]DB71,REAL42",
 									 L"S7:[S7 connection_4]DB71,REAL50",  L"S7:[S7 connection_4]DB71,REAL58",
 									 L"S7:[S7 connection_4]DB71,REAL66",  L"S7:[S7 connection_4]DB71,REAL74",
+									 L"S7:[S7 connection_4]DB71,REAL190", L"S7:[S7 connection_4]DB71,REAL198",
+									 L"S7:[S7 connection_4]DB71,REAL206",
 									 /*L"S7:[S7 connection_4]DB71,REAL260", L"S7:[S7 connection_4]DB71,REAL268",
-                                     L"S7:[S7 connection_4]DB71,REAL276", L"S7:[S7 connection_4]DB71,REAL284",
-                                     L"S7:[S7 connection_4]DB71,REAL292",
-
+									 L"S7:[S7 connection_4]DB71,REAL276", L"S7:[S7 connection_4]DB71,REAL284",
+									 L"S7:[S7 connection_4]DB71,REAL292",
 
 									 //Коэффициент коррекции обратный ход
 									 L"S7:[S7 connection_4]DB71,REAL300", L"S7:[S7 connection_4]DB71,REAL308",
@@ -501,10 +506,11 @@ wchar_t *Gr12ItemsNme[GR12ITEMSNUM]={//Коэффициент коррекции прямой ход
 									 L"S7:[S7 connection_4]DB71,REAL38",  L"S7:[S7 connection_4]DB71,REAL46",
 									 L"S7:[S7 connection_4]DB71,REAL54",  L"S7:[S7 connection_4]DB71,REAL62",
 									 L"S7:[S7 connection_4]DB71,REAL70",  L"S7:[S7 connection_4]DB71,REAL78",
+									 L"S7:[S7 connection_4]DB71,REAL194", L"S7:[S7 connection_4]DB71,REAL202",
+									 L"S7:[S7 connection_4]DB71,REAL210",
                                      /*L"S7:[S7 connection_4]DB71,REAL264", L"S7:[S7 connection_4]DB71,REAL272",
                                      L"S7:[S7 connection_4]DB71,REAL280", L"S7:[S7 connection_4]DB71,REAL288",
-                                     L"S7:[S7 connection_4]DB71,REAL296",
-
+									 L"S7:[S7 connection_4]DB71,REAL296",
 
 									 //Граница действия обратный ход
                                      L"S7:[S7 connection_4]DB71,REAL304", L"S7:[S7 connection_4]DB71,REAL312",
@@ -536,6 +542,8 @@ wchar_t *Gr13ItemsNme[GR13ITEMSNUM]={//Коэффициент коррекции прямой ход
 									 L"S7:[S7 connection_4]DB70,REAL34",  L"S7:[S7 connection_4]DB70,REAL42",
 									 L"S7:[S7 connection_4]DB70,REAL50",  L"S7:[S7 connection_4]DB70,REAL58",
 									 L"S7:[S7 connection_4]DB70,REAL66",  L"S7:[S7 connection_4]DB70,REAL74",
+									 L"S7:[S7 connection_4]DB70,REAL190", L"S7:[S7 connection_4]DB70,REAL198",
+									 L"S7:[S7 connection_4]DB70,REAL206",
 									 /*L"S7:[S7 connection_4]DB70,REAL260",/* L"S7:[S7 connection_4]DB70,REAL268",
                                      L"S7:[S7 connection_4]DB70,REAL276", L"S7:[S7 connection_4]DB70,REAL284",
                                      L"S7:[S7 connection_4]DB70,REAL292",
@@ -564,6 +572,8 @@ wchar_t *Gr13ItemsNme[GR13ITEMSNUM]={//Коэффициент коррекции прямой ход
 									 L"S7:[S7 connection_4]DB70,REAL38",  L"S7:[S7 connection_4]DB70,REAL46",
 									 L"S7:[S7 connection_4]DB70,REAL54",  L"S7:[S7 connection_4]DB70,REAL62",
 									 L"S7:[S7 connection_4]DB70,REAL70",  L"S7:[S7 connection_4]DB70,REAL78",
+									 L"S7:[S7 connection_4]DB70,REAL194", L"S7:[S7 connection_4]DB70,REAL202",
+									 L"S7:[S7 connection_4]DB70,REAL210",
                                      /*L"S7:[S7 connection_4]DB70,REAL264",/* L"S7:[S7 connection_4]DB70,REAL272",
                                      L"S7:[S7 connection_4]DB70,REAL280", L"S7:[S7 connection_4]DB70,REAL288",
                                      L"S7:[S7 connection_4]DB70,REAL296",

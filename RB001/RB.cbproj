@@ -867,16 +867,16 @@
             <DependentOn>TyreProt.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
+        <FormResources Include="login\dialogs\GroupSelect.dfm"/>
         <FormResources Include="login\dialogs\User_Data.dfm"/>
         <FormResources Include="login\Login.dfm"/>
         <FormResources Include="RB_main.dfm"/>
-        <FormResources Include="login\dialogs\GroupSelect.dfm"/>
+        <FormResources Include="ABOUT.dfm"/>
         <FormResources Include="CD9904\keypad\num_keyboard.dfm"/>
         <FormResources Include="Head_band.dfm"/>
         <FormResources Include="login\AppManagnent.dfm"/>
         <FormResources Include="CD9904\search_devices\Find_devices.dfm"/>
         <FormResources Include="CD9904\sensor_options\Set_settings.dfm"/>
-        <FormResources Include="ABOUT.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
