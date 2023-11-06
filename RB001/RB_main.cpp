@@ -21,6 +21,7 @@
 #include "ABOUT.h"
 #include <memory>
 #include <algorithm>
+#include <System.SysUtils.hpp>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -40,7 +41,7 @@ std::shared_ptr<VSert>    VS   (new VSert()); // сертификация скорости барабана
 std::shared_ptr<LCalibr>  LdCA (new LCalibr()); // калибровка тензодатчика поз. А
 std::shared_ptr<LCalibr>  LdCB (new LCalibr()); // калибровка тензодатчика поз. Б
 TPrinter   *pProtPrt = Printer(); // указатель на принтер
-char DecimalSeparator = '.';
+char DecimalSeparator = FormatSettings.DecimalSeparator;
 //---------------------------------------------------------------------------
 __fastcall TmfRB::TmfRB(TComponent* Owner)
     : TForm(Owner),closing(false)
@@ -148,7 +149,7 @@ __fastcall TmfRB::TmfRB(TComponent* Owner)
 		}
 		Application->ProcessMessages();
 		cd_9904=0;
-		DecimalSeparator='.';
+		DecimalSeparator=FormatSettings.DecimalSeparator;
 		MainFormHandle=mfRB->Handle;
 		mfRB->Height=MFHEIGHT; mfRB->Width=MFWIDTH;
 		PntInit();
@@ -202,6 +203,14 @@ __fastcall TmfRB::TmfRB(TComponent* Owner)
 		hbnd->Hide();
 		delete wnd;
 		delete hbnd;
+
+		//Автозагрузка заголовков протоколов
+		InpTyre->ReadTyreFmFile("autosave.prottitle");
+		TyreA->ReadTyreFmFile("autosaveA.prottitle");
+		TyreB->ReadTyreFmFile("autosaveB.prottitle");
+		ShowProtDataOnScrn();
+		ShowProtAData();
+		ShowProtBData();
 	}else
 	{
 		Visible=false;
@@ -1441,10 +1450,12 @@ void __fastcall TmfRB::ShowStatus(bool save)        // отображение состояния на 
 	sbStartA->Down=*Start1;
 	sbStopA->Down=*Stop1;
 	cbControlLateralA->Checked=*ControlLateralA;
-	if (*Stop1&&needSaveA&&save)
+	//Автосохранение должно срабатывать когда оба значка в false и программа завершилась в автономном режиме
+	if (!(*Stop1)&&!(*Start1)&&*AutoMode1&&needSaveA&&save)
 	{
         TyreA->Stop = Now();
 		btnLoadTestResPosA->Click();  //авто сохраниние
+		btnSaveTestResPosAToFile->Click();
 	}
 
 	sbManualB->Down=*ManualMode2;
@@ -1455,10 +1466,11 @@ void __fastcall TmfRB::ShowStatus(bool save)        // отображение состояния на 
 	sbStartB->Down=*Start2;
 	sbStopB->Down=*Stop2;
 	cbControlLateralB->Checked=*ControlLateralB;
-	if (*Stop2&&needSaveB&&save)
-	{
+	//Автосохранение должно срабатывать когда оба значка в false и программа завершилась в автономном режиме
+	if (!(*Stop2)&&!(*Start2)&&*AutoMode2&&needSaveB&&save)	{
         TyreB->Stop = Now();
 		btnLoadTestResPosB->Click();  //авто сохраниние
+		btnSaveTestResPosBToFile->Click();
 	}
 	// обработка остальных индикаторов
 
@@ -1953,7 +1965,7 @@ void __fastcall TmfRB::OnCarriage1To(TObject *Sender)
 			*Loading_1=t;
 		}else
 		{
-            MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+			MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 			return;
 		}
       tbCurrentLoad1->SelEnd  =tbCurrentLoad1->Max-int(*Loading_1);
@@ -1988,7 +2000,7 @@ void __fastcall TmfRB::OnCarriage1From(TObject *Sender)
 			*Loading_1=t;
 		}else
 		{
-            MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+			MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 			return;
 		}
 	  tbCurrentLoad1->SelEnd  =tbCurrentLoad1->Max-int(*Loading_1);
@@ -2047,7 +2059,7 @@ void __fastcall TmfRB::OnCarriage2To(TObject *Sender)
 			*Loading_2=t;
 		}else
 		{
-            MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+			MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 			return;
 		}
       tbCurrentLoad2->SelEnd  =tbCurrentLoad2->Max-int(*Loading_2);
@@ -2106,7 +2118,7 @@ void __fastcall TmfRB::OnCarriage2From(TObject *Sender)
 			*Loading_2=t;
 		}else
 		{
-            MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+			MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 			return;
 		}
 	  tbCurrentLoad2->SelEnd  =tbCurrentLoad2->Max-int(*Loading_2);
@@ -3578,7 +3590,7 @@ void __fastcall TmfRB::ShowProtBData(void)     // отобразить шапку протокола в п
   else               {
     leTestModeB->Text     ="по времени";
     leTestDurationB->EditLabel->Caption="время обкатки";
-    leTestDurationB->Text =mSecToHMSStr(TyreB->TotalTime);
+	leTestDurationB->Text =mSecToHMSStr(TyreB->TotalTime);
   }
   leStepQtyB->Text        =String(TyreB->StepsNo);
   lePollsQtyB->Text       =String(TyreB->PollsNo);
@@ -3610,6 +3622,7 @@ void __fastcall TmfRB::ReadProtDataFmScrn(void)// прочитать данные протокола из 
   InpTyre->WheelRim     =leRim->Text;
   InpTyre->MaxLoadPress =StrToFlt(leQMaxPressure->Text);
   InpTyre->ProfileWide  =StrToI(leTyreWide->Text);
+  InpTyre->Mass         =StrToFlt(leMass->Text);
   InpTyre->Type         =rgTyreType->ItemIndex;
 //  InpTyre->CurrentLoad  =StrToFlt(leTestLoad->Text);
 //  InpTyre->InitPressure =StrToFlt(leInitPressure->Text);
@@ -3685,6 +3698,8 @@ void __fastcall TmfRB::DesignNewProtPanel(void)// расположение компонент на пане
   leQMaxPressure->Width =LblWidth1;              leQMaxPressure->Height   =LineH;
   leTyreWide->Left      =Left3;                  leTyreWide->Top          =Top3;
   leTyreWide->Width     =LblWidth1;              leTyreWide->Height       =LineH;
+  leMass->Left      	=Left3;                  leMass->Top          	  =Top3+LineSpase2;
+  leMass->Width     	=LblWidth1;              leMass->Height       	  =LineH;
   rgTyreType->Left      =Left4-20;               rgTyreType->Top          =Top3+LineSpase2;
   /*rgTyreType->Width     =LblWidth2;*/              rgTyreType->Height       =LineSpase2*2;
 //  pTestMode->Left       =Left0;                  pTestMode->Top           =Top3+LineSpase2*3+LineH+LineSpace1;
@@ -3775,15 +3790,15 @@ void __fastcall TmfRB::DesignProtAPanel(void)  // расположение компонент на пане
   leStaticR_A->Width     =LblWidth1;          leStaticR_A->Height     =LineH;
   leTyreWideA->Left      =Left3;              leTyreWideA->Top        =Top3+LineH;
   leTyreWideA->Width     =LblWidth1;          leTyreWideA->Height     =LineH;
-  leMassA->Left      	 =Left4;              leMassA->Top        	  =Top3+LineH;
-  leMassA->Width     	 =LblWidth1;          leMassA->Height     	  =LineH;
   leRimA->Left           =Left3;              leRimA->Top             =Top3+LineH*2;
   leRimA->Width          =LblWidth1;          leRimA->Height          =LineH;
-  pTestResTtlA->Left     =Left0;              pTestResTtlA->Top       =Top3+LineH*3+LineSpace1;
+  leMassA->Left      	 =Left3;              leMassA->Top        	  =Top3+LineH*3;
+  leMassA->Width     	 =LblWidth1;          leMassA->Height     	  =LineH;
+  pTestResTtlA->Left     =Left0;              pTestResTtlA->Top       =Top3+LineH*4+LineSpace1;
   pTestResTtlA->Width    =PnlWidth;           pTestResTtlA->Height    =LineH0;
   Left2=Left1+LblWidth1+LblShift31+Left0*3;
   Left3=Left2+LblWidth1+LblShift32+Left0*3; if((Left3+LblWidth1)<PnlWidth+Left0)Left3=PnlWidth+Left0-LblWidth1;
-  int Top4=Top3+LineH*3+LineSpace1*2+LineH0;
+  int Top4=Top3+LineH*4+LineSpace1*2+LineH0;
   leTyrePressureA->Left  =Left1;              leTyrePressureA->Top    =Top4;
   leTyrePressureA->Width =LblWidth1;          leTyrePressureA->Height =LineH;
   leTestModeA->Left      =Left2;              leTestModeA->Top        =Top4;
@@ -3895,15 +3910,15 @@ void __fastcall TmfRB::DesignProtBPanel(void)  // расположение компонент на пане
   leStaticR_B->Width     =LblWidth1;          leStaticR_B->Height     =LineH;
   leTyreWideB->Left      =Left3;              leTyreWideB->Top        =Top3+LineH;
   leTyreWideB->Width     =LblWidth1;          leTyreWideB->Height     =LineH;
-  leMassB->Left      	 =Left4;              leMassB->Top        	  =Top3+LineH;
-  leMassB->Width     	 =LblWidth1;          leMassB->Height     	  =LineH;
   leRimB->Left           =Left3;              leRimB->Top             =Top3+LineH*2;
   leRimB->Width          =LblWidth1;          leRimB->Height          =LineH;
-  pTestResTtlB->Left     =Left0;              pTestResTtlB->Top       =Top3+LineH*3+LineSpace1;
+  leMassB->Left      	 =Left3;              leMassB->Top        	  =Top3+LineH*3;
+  leMassB->Width     	 =LblWidth1;          leMassB->Height     	  =LineH;
+  pTestResTtlB->Left     =Left0;              pTestResTtlB->Top       =Top3+LineH*4+LineSpace1;
   pTestResTtlB->Width    =PnlWidth;           pTestResTtlB->Height    =LineH0;
   Left2=Left1+LblWidth1+LblShift31+Left0*3;
   Left3=Left2+LblWidth1+LblShift32+Left0*3; if((Left3+LblWidth1)<PnlWidth+Left0)Left3=PnlWidth+Left0-LblWidth1;
-  int Top4=Top3+LineH*3+LineSpace1*2+LineH0;
+  int Top4=Top3+LineH*4+LineSpace1*2+LineH0;
   leTyrePressureB->Left  =Left1;              leTyrePressureB->Top    =Top4;
   leTyrePressureB->Width =LblWidth1;          leTyrePressureB->Height =LineH;
   leTestModeB->Left      =Left2;              leTestModeB->Top        =Top4;
@@ -3962,7 +3977,7 @@ void __fastcall TmfRB::OnClearProt(TObject *Sender)
   leTyreType->Text      ="";           leTestProc->Text      ="";
   leStandNo->Text       ="ИМШ-5";         leManufacturer->Text  ="";
   leDrumD->Text         ="1700";       leCustomer->Text      ="";
-  meManDate->EditText   ="00.00.2010"; leSeralNo->Text       =0;
+  meManDate->EditText   ="10:23"; 	   leSeralNo->Text       =0;
   lePerfSpecNo->Text    ="";           leOrderNo->Text       ="";
   leFormNo->Text        ="";           leLoadIndex->Text     ="";
   leMaxLoad->Text       ="";           leSpeedIndex->Text    ="";
@@ -3985,7 +4000,7 @@ void __fastcall TmfRB::OnProtTtlFileSaveAs(TObject *Sender)
 		FileName=acProtTitleFileSaveAs->Dialog->FileName;
 		acProtTitleFileSaveAs->Dialog->FileName="";
 	}else
-	{//автосейв
+	{//автосейв?
 		FileName=strTitleProt+Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prottitle'");
 	}
   InpTyre->WriteTyreToFile(FileName);
@@ -4044,6 +4059,7 @@ void __fastcall TmfRB::ShowProtDataOnScrn(void)// отобразить данные протокола из
   leMaxSpeed->Text      =FloatToStrF(InpTyre->MaxSpeed,ffFixed,6,2);
   leStaticR->Text       =FloatToStrF(InpTyre->StaticR,ffFixed,6,2);
   leOuterD->Text        =FloatToStrF(InpTyre->OuterD,ffFixed,6,2);
+  leMass->Text        	=FloatToStrF(InpTyre->Mass,ffFixed,6,2);
   leRim->Text           =InpTyre->WheelRim;
   leQMaxPressure->Text  =FloatToStrF(InpTyre->MaxLoadPress,ffFixed,6,2);
   leTyreWide->Text      =String(InpTyre->ProfileWide);
@@ -4072,7 +4088,8 @@ void __fastcall TmfRB::OnLoadTestResFmPosA(TObject *Sender)
   #ifdef _mDEBUG
 	TyreA->PollsNo=20;
   #endif
-	TyreA->Clear();
+	//Раньше после простой остановки зачем-то чистился класс покрышки
+	//TyreA->Clear();
 	SGClear(sgTestResultA,0);//чистка таблицы
 	for (int i = 0; i < MAXNUMOFPOLLS&&i<TyreA->PollsNo; i++)
 	{
@@ -4117,11 +4134,12 @@ void __fastcall TmfRB::OnLoadTestResFmPosB(TObject *Sender)
   #ifdef _mDEBUG
 	TyreB->PollsNo=20;
   #endif
-	TyreB->Clear();
+	//Раньше после простой остановки зачем-то чистился класс покрышки
+	//TyreB->Clear();
 	SGClear(sgTestResultB,0);//чистка таблицы
 	for (int i = 0; i < MAXNUMOFPOLLS&&i<TyreB->PollsNo; i++)
 	{
-		if(read_TB[i]!=0&&read_VB[i]!=0&&read_SB[i]!=0&&read_LB[i]!=0&&read_RB[i]!=0&&read_TempB[i])
+		//if(read_TB[i]!=0&&read_VB[i]!=0&&read_SB[i]!=0&&read_LB[i]!=0&&read_RB[i]!=0&&read_TempB[i])
 		{//+1 для отображения строки данных после пуволнения программы   + отсечка пустых данных
 			sgTestResultB->Cells[0][sgTestResultB->RowCount-1]=String(i+1)+":";
 			sgTestResultB->Cells[1][sgTestResultB->RowCount-1]=mSecToHMSStr(read_TB[i]);                TyreB->rT[i]   =read_TB[i];
@@ -4149,21 +4167,28 @@ void __fastcall TmfRB::OnCloseQuery(TObject *Sender, bool &CanClose)
 								   MB_YESNO+MB_ICONQUESTION+MB_DEFBUTTON2);
   if(res==IDNO)CanClose=false;
   else {
-						// exit from prog
-  	TerminateThread(CD_9904Thread,0);
-  InpTyre.reset();
-  TyreA.reset();
-  TyreB.reset();
-  VS.reset();
-  LdSA.reset();
-  LdSB.reset();
-  TSA.reset();
-  TSB.reset();
-  RSA.reset();
-  RSB.reset();
-  LdCA.reset();
-  LdCB.reset();
-  closing=true;
+	// exit from prog
+	TerminateThread(CD_9904Thread,0);
+
+	//Авто-сохранение заголовков протоколов
+	ReadProtDataFmScrn();
+	InpTyre->WriteTyreToFile("autosave.prottitle");
+	TyreA->WriteTyreToFile("autosaveA.prottitle");
+	TyreB->WriteTyreToFile("autosaveB.prottitle");
+
+	InpTyre.reset();
+	TyreA.reset();
+	TyreB.reset();
+	VS.reset();
+	LdSA.reset();
+	LdSB.reset();
+	TSA.reset();
+	TSB.reset();
+	RSA.reset();
+	RSB.reset();
+	LdCA.reset();
+	LdCB.reset();
+	closing=true;
   }
 }
 //---------------------------------------------------------------------------
@@ -4180,7 +4205,7 @@ void __fastcall TmfRB::OnPrintProtPosAToFile(TObject *Sender)
 		FileName=strProtA+Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prtprot'");
 	}
   TyreA->PrintProtToFile(FileName,"А");
-  needSaveA=!*Stop1;
+  needSaveA=false;
   LogPrint("Результаты испытаний по поз. А сохранены в файле \""+FileName+"\"");
   sbRB->Panels->Items[2]->Text="Результаты испытаний по поз. А сохранены в файле \""+FileName+"\"";
 }
@@ -4198,7 +4223,7 @@ void __fastcall TmfRB::OnPrintProtPosBToFile(TObject *Sender)
 		FileName=strProtB+Now().FormatString("yyyy_mm_dd_hh_nn_ss'.prtprot'");
 	}
   TyreB->PrintProtToFile(FileName,"Б");
-  needSaveB=!*Stop2;
+  needSaveB=false;
   LogPrint("Результаты испытаний по поз. Б сохранены в файле \""+FileName+"\"");
   sbRB->Panels->Items[2]->Text="Результаты испытаний по поз. Б сохранены в файле \""+FileName+"\"";
 }
@@ -5281,12 +5306,12 @@ void __fastcall TmfRB::OnPrevSertLoadBtn(TObject *Sender)
 
 void __fastcall TmfRB::OnLoadSertTableClear(TObject *Sender)
 {  if((TButton *)Sender==btnLoadSertClearTableA){
-    LdCA->Clear();
+	LdCA->Clear();
     DesignLoadSertAPanel();
     sbRB->Panels->Items[2]->Text="Таблица калибровки тензодатчика поз. А очищена!";
   }
   else if((TButton *)Sender==btnLoadSertClearTableB){
-    LdCB->Clear();
+	LdCB->Clear();
     DesignLoadSertBPanel();
     sbRB->Panels->Items[2]->Text="Таблица калибровки тензодатчика поз. Б очищена!";
   }
@@ -5835,7 +5860,7 @@ void __fastcall TmfRB::leSetLoad1KeyPress(TObject *Sender, wchar_t &Key)
 					tsManual->SetFocus();
 				}else
 				{
-                    MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+					MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 				}
 			}
 		}
@@ -5862,7 +5887,7 @@ void __fastcall TmfRB::leSetLoad2KeyPress(TObject *Sender, wchar_t &Key)
 					tsManual->SetFocus();
 				}else
 				{
-                    MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+					MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 				}
 			}
 		}
@@ -6102,7 +6127,7 @@ void __fastcall TmfRB::btEmSettingsClick(TObject *Sender)
 	}
 	if (value)
 	{
-		MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 70\n Значение скорости должно быть в пределах от 10 до 150"),_T("Ошибка"),MB_ICONERROR|MB_OK);
+		MessageBox(Handle,_T("Значение нагрузки должно быть в пределах от 10 до 100\n Значение скорости должно быть в пределах от 10 до 150"),_T("Ошибка"),MB_ICONERROR|MB_OK);
 	}
 }
 void __fastcall TmfRB::leEmMinLoad_1RKeyPress(TObject *Sender, wchar_t &Key)

@@ -9,6 +9,7 @@
 #include "TyreProt.h"
 #include "RBCommon.h"
 #include "OPCControl.h"
+#include <System.SysUtils.hpp>
 
 //---------------------------------------------------------------------------
 
@@ -177,15 +178,15 @@ bool  *ResetData1	=&bGr1[35]; //M0.7 сброс результатов испытаний 1
 bool  *ResetData2   =&bGr1[36]; //M1.7 сброс результатов испытаний 2
 bool  *OverLoad1    =&bGr1[37]; //DB10,X38.5 A ѕревышение нагрузки на шаге на стороне 1
 bool  *OverLoad2    =&bGr1[38]; //DB10,X38.6 B ѕревышение нагрузки на шаге на стороне 2
-bool  *ResetProgram1=&bGr1[39]; //DB10,DBX38.5
-bool  *ResetProgram2=&bGr1[40]; //DB10,DBX38.6
+bool  *ResetProgram1=&bGr1[39]; //M2.7 —бросить программу на позиции A
+bool  *ResetProgram2=&bGr1[40]; //M3.7 —бросить программу на позиции B
 // Ѕлок DB20 - общие параметры
 int   iDB20[GR1INTITEMSNUM];    // массив целых значений в блоке DB20
 int   *fakt_time          =&iDB20[ 0]; //DB20,DINT14 общее врем€
-int   *fakt_time_1        =&iDB20[ 1]; //DB20,DINT26 факт. врем€ 1
+int   *fakt_time_1        =&iDB20[ 1]; //DB20,DINT212 факт. врем€ 1
 int   *step_write_1       =&iDB20[ 2]; //DB20,DINT38 номер текущего шага опроса 1
 int   *step_change_1      =&iDB20[ 3]; //DB20,DINT42 номер текущего рабочего шага 1
-int   *fakt_time_2        =&iDB20[ 4]; //DB20,DINT66 факт. врем€ 2
+int   *fakt_time_2        =&iDB20[ 4]; //DB20,DINT216 факт. врем€ 2
 int   *step_write_2       =&iDB20[ 5]; //DB20,DINT78 номер текущего шага опроса 2
 int   *step_change_2      =&iDB20[ 6]; //DB20,DINT82 номер текущего рабочего шага 2
 int   *next_step_time1    =&iDB20[ 7]; //DB20,DINT148 номер следующего шага опроса по времени 1
@@ -233,14 +234,14 @@ wchar_t *Gr1ItemsNme[GR1ITEMSNUM]={	L"S7:[S7 connection_4]MX2.1",
 									L"S7:[S7 connection_4]M1.7",
 									L"S7:[S7 connection_4]DB10,X38.5",
 									L"S7:[S7 connection_4]DB10,X38.6",
-									L"S7:[S7 connection_4]DB10,DBX38.5",
-									L"S7:[S7 connection_4]DB10,DBX38.6",
+									L"S7:[S7 connection_4]M2.7",
+									L"S7:[S7 connection_4]M3.7",
 									//idb20
 									L"S7:[S7 connection_4]DB20,DINT14",
-									L"S7:[S7 connection_4]DB20,DINT26",
+									L"S7:[S7 connection_4]DB20,DINT212",
 									L"S7:[S7 connection_4]DB20,DINT38",
 									L"S7:[S7 connection_4]DB20,DINT42",
-									L"S7:[S7 connection_4]DB20,DINT66",
+									L"S7:[S7 connection_4]DB20,DINT216",
 									L"S7:[S7 connection_4]DB20,DINT78",
 									L"S7:[S7 connection_4]DB20,DINT82",
 									L"S7:[S7 connection_4]DB20,DINT148",
@@ -798,10 +799,10 @@ float __fastcall StrToFlt(String ws)    // ѕреобразование строки в значение типа
   if(s=="") return 0.0;
   int PointPos=s.Pos(".");
   if(PointPos)
-    s=TrimRight(s.SubString(1,PointPos-1))+"."+Trim(s.SubString(PointPos+1,100));
+	s=TrimRight(s.SubString(1,PointPos-1))+FormatSettings.DecimalSeparator+Trim(s.SubString(PointPos+1,100));
   int CommaPos=s.Pos(",");
   if(CommaPos)
-    s=TrimRight(s.SubString(1,PointPos-1))+"."+Trim(s.SubString(PointPos+1,100));
+	s=TrimRight(s.SubString(1,CommaPos-1))+FormatSettings.DecimalSeparator+Trim(s.SubString(CommaPos+1,100));
   return StrToFloat(s);
 }
 //---- End of StrToFlt ------------------------------------------------------

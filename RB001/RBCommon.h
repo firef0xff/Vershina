@@ -138,7 +138,7 @@ extern bool  *DrumOn;              //DB10,X2.5 Включить барабан
 extern bool  *DrumOff;             //DB10,X2.6 Выключить барабан
 extern bool  *KeepLoad1;           //DB10,X3.0 Удержание нагрузки 1
 extern bool  *ResetData1;          //M0.7 сброс результатов испытаний 1
-extern bool  *ResetProgram1;
+extern bool  *ResetProgram1;       //M2.7 Сбросить программу на позиции A
 extern bool  *AutoMode2;           //DB10,X38.0 Режим атомат 2
 extern bool  *ManualMode2;         //DB10,X38.1 Режим ручной 2
 extern bool  *Start2;              //DB10,X38.2 Старт поз 2
@@ -146,7 +146,7 @@ extern bool  *Stop2;               //DB10,X38.3 Стоп поз 2
 extern bool  *Reset2;              //DB10,X38.4 Сброс поз 2
 extern bool  *KeepLoad2;           //DB10,X39.0 Удержание нагрузки 2
 extern bool  *ResetData2;          //M1.7 сброс результатов испытаний 2
-extern bool  *ResetProgram2;
+extern bool  *ResetProgram2;       //M3.7 Сбросить программу на позиции B
 extern bool  *OverLoad1;           //DB10,X38.5 A Превышение нагрузки на шаге на стороне 1
 extern bool  *OverLoad2;           //DB10,X38.6 B Превышение нагрузки на шаге на стороне 2
 // Блок DB20 - общие параметры

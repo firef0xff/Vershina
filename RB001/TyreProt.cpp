@@ -19,7 +19,7 @@ __fastcall Tyre::Tyre(void)       // конструктор
   Manufacturer=String(DupeString(' ',10));  // изготовитель шины
   DrumDiameter=1700;                 // диаметр барабана, мм
   TestCustomer=DupeString(' ',10);   // заказчик
-  ManufactDate=Now();                // дата изготовления
+  ManufactDate=DateAsWeekPlusYear(Now()); // дата изготовления
   FormNo=0;                          // номер формы протокола
   OrderNo=0;                         // номер заказа
   PerfSpecNo=0;                      // номер ТЗ
@@ -59,6 +59,16 @@ void	Tyre::Clear	(void)
 	Start = TDateTime();
 	Stop = TDateTime();
 }
+AnsiString Tyre::DateAsWeekPlusYear (TDateTime date)
+{
+	int week_num;
+	Word year, month, day;
+	date.DecodeDate(&year,&month,&day);	// раскладываем нашу дату на составляющие
+	TDateTime _1_jan(year,1,1);		// 1-е января того года, которому соответствует дата
+	int _1_jan_day_of_week = (_1_jan.DayOfWeek()+5)%7; // день недели 1-го января
+	week_num = (int)(date-TDateTime(year,1,1)+_1_jan_day_of_week)/7; // искомый номер недели(с 0)
+	return AnsiString(week_num)+":"+AnsiString(year).SubString(3,2);
+}
 //---- End of Tyre(constructor) ---------------------------------------------
 
 __fastcall Tyre::~Tyre(void)                      // деструктор
@@ -91,6 +101,7 @@ Tyre __fastcall Tyre::operator=(Tyre op2) // переопределение пр
   CurrentSpeed =op2.CurrentSpeed;  TestMode       =op2.TestMode;
   TotalTime    =op2.TotalTime;     TotalS         =op2.TotalS;
   StepsNo      =op2.StepsNo;       PollsNo        =op2.PollsNo;
+  Mass         =op2.Mass;
   for (int i = 0; i < 250; i++) {
     rT[i]=op2.rT[i];
     rV[i]=op2.rV[i];
@@ -137,6 +148,7 @@ void __fastcall Tyre::WriteTyreToFile(String fname)    // запись поле�
   fwrite(&MaxLoadPress,sizeof(float),1,fparam);
   fwrite(&CurrentLoad,sizeof(float),1,fparam);
   fwrite(&InitPressure,sizeof(float),1,fparam);
+  fwrite(&Mass,sizeof(float),1,fparam);
   fwrite(&CurrentSpeed,sizeof(float),1,fparam);
   fwrite(&TotalS,sizeof(float),1,fparam);
   fclose(fparam);
@@ -177,6 +189,7 @@ void __fastcall Tyre::ReadTyreFmFile(String fname)     // чтение поле�
   fread(&MaxLoadPress,sizeof(float),1,fparam);
   fread(&CurrentLoad,sizeof(float),1,fparam);
   fread(&InitPressure,sizeof(float),1,fparam);
+  fread(&Mass,sizeof(float),1,fparam);
   fread(&CurrentSpeed,sizeof(float),1,fparam);
   fread(&TotalS,sizeof(float),1,fparam);
   fclose(fparam);
@@ -205,14 +218,15 @@ void __fastcall Tyre::PrintProtToFile(String fname,String side)    // печат
   fprintf(fprint,"Категория скорости: %10s    Максимальная скорость: %6.2f км/час \n",AnsiString(SpeedInd).c_str(),MaxSpeed);
   fprintf(fprint," Давление при Qmax: %4.2f кПа        Наружный диаметр: %6.2f мм \n",MaxLoadPress,OuterD);
   fprintf(fprint,"Статический радиус: %6.2f мм            Ширина профиля: %6d мм \n",StaticR,ProfileWide);
-  fprintf(fprint,"   Давление в шине: %6.1f кПа                   Обод: %10s\n\n",InitPressure,AnsiString(WheelRim).c_str());
+  fprintf(fprint,"   Давление в шине: %6.1f кПа                   Обод: %10s \n",InitPressure,AnsiString(WheelRim).c_str());
+  fprintf(fprint,"             Масса: %6.1f кг\n\n",Mass);
   fprintf(fprint,"                            РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:\n");
   if(TestMode==0)
     fprintf(fprint,"      Режим обкатки: по времени\n");
   else
     fprintf(fprint,"      Режим обкатки: по пути\n");
-  fprintf(fprint,"            Общее время испытаний: %10s\n",AnsiString(mSecToHMSStr(TotalTime)).c_str());
-  fprintf(fprint,"            Общий путь: %8f км\n",TotalS);
+  fprintf(fprint,"            Общее заданное время испытаний: %10s\n",AnsiString(mSecToHMSStr(TotalTime)).c_str());
+  fprintf(fprint,"            Общий заданный путь испытаний: %8f км\n",TotalS);
   fprintf(fprint,"            Дата начала испытания: %s\n", AnsiString(Start.FormatString("dd.mm.yyyy hh:nn:ss")).c_str());
   fprintf(fprint,"            Дата окончания испытания: %s\n", AnsiString(Stop.FormatString("dd.mm.yyyy hh:nn:ss")).c_str());
 
@@ -289,16 +303,18 @@ void __fastcall Tyre::PrintProtocol(TPrinter *pprt,String side)    // печат
   left[LineCnt]=LeftMarg;
   wstr[++LineCnt]="   Давление в шине: "+FloatToStrF(InitPressure,ffFixed,6,1)+"кПа                   Обод: "+WheelRim;
   left[LineCnt]=LeftMarg;
+  wstr[++LineCnt]="             Масса: "+FloatToStrF(Mass,ffFixed,6,1)+"кг";
+  left[LineCnt]=LeftMarg;
   wstr[++LineCnt]="РЕЗУЛЬТАТЫ ИСПЫТАНИЙ:";
   left[LineCnt]=abs(prtWidth-pprt->Canvas->TextWidth(wstr[LineCnt]))/2+LeftMarg;
   if(TestMode==0)
-    wstr[++LineCnt]="    Режим обкатки: по времени";
+	wstr[++LineCnt]="    Режим обкатки: по времени";
   else
     wstr[++LineCnt]="    Режим обкатки: по пути";
   left[LineCnt]=LeftMarg;
-  wstr[++LineCnt]="        Общее время испытаний: "+mSecToHMSStr(TotalTime);
+  wstr[++LineCnt]="        Общее заданное время испытаний: "+mSecToHMSStr(TotalTime);
   left[LineCnt]=LeftMarg;
-  wstr[++LineCnt]="        Общий путь: "+FloatToStrF(TotalS,ffFixed,7,0) +"км";
+  wstr[++LineCnt]="        Общий заданный путь испытаний: "+FloatToStrF(TotalS,ffFixed,7,0) +"км";
   left[LineCnt]=LeftMarg;
   wstr[++LineCnt]="        Дата начала испытания: " + Start.FormatString("dd.mm.yyyy hh:nn:ss");
   left[LineCnt]=LeftMarg;

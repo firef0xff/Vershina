@@ -3,7 +3,7 @@ object mfRB: TmfRB
   Top = 0
   Anchors = [akTop, akRight]
   Caption = 'Run-in bench'
-  ClientHeight = 759
+  ClientHeight = 705
   ClientWidth = 1016
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -27,7 +27,7 @@ object mfRB: TmfRB
   end
   object sbRB: TStatusBar
     Left = 0
-    Top = 740
+    Top = 686
     Width = 1016
     Height = 19
     Panels = <
@@ -52,8 +52,8 @@ object mfRB: TmfRB
     Left = 0
     Top = 66
     Width = 816
-    Height = 674
-    ActivePage = tsCurrentStatus
+    Height = 620
+    ActivePage = tsProtocol
     Align = alClient
     TabOrder = 1
     object tsCurrentStatus: TTabSheet
@@ -986,7 +986,7 @@ object mfRB: TmfRB
         Left = 0
         Top = 309
         Width = 808
-        Height = 336
+        Height = 282
         Align = alClient
         TabOrder = 1
         object pP2TtlL0C1: TPanel
@@ -3335,7 +3335,7 @@ object mfRB: TmfRB
         Left = 0
         Top = 0
         Width = 808
-        Height = 645
+        Height = 591
         ActivePage = tsSProg
         Align = alClient
         TabOrder = 0
@@ -4664,8 +4664,8 @@ object mfRB: TmfRB
         Left = 0
         Top = 0
         Width = 808
-        Height = 645
-        ActivePage = tsProtocolB
+        Height = 591
+        ActivePage = tsProtocolA
         Align = alClient
         TabOrder = 0
         object tsProtocolA: TTabSheet
@@ -7623,7 +7623,7 @@ object mfRB: TmfRB
           end
           object leOuterD: TLabeledEdit
             Left = 384
-            Top = 187
+            Top = 185
             Width = 53
             Height = 19
             AutoSize = False
@@ -7746,8 +7746,8 @@ object mfRB: TmfRB
             OnKeyDown = OnLEKeyDown
           end
           object rgTyreType: TRadioGroup
-            Left = 481
-            Top = 189
+            Left = 490
+            Top = 212
             Width = 108
             Height = 52
             BiDiMode = bdLeftToRight
@@ -7969,18 +7969,18 @@ object mfRB: TmfRB
           object meManDate: TMaskEdit
             Left = 457
             Top = 57
-            Width = 59
+            Width = 55
             Height = 21
-            EditMask = '!99/0000;1;_'
+            EditMask = '!99\:99;1;_'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'Tahoma'
             Font.Style = []
-            MaxLength = 7
+            MaxLength = 5
             ParentFont = False
             TabOrder = 8
-            Text = '  /    '
+            Text = '  :  '
             OnKeyDown = OnLEKeyDown
           end
           object btnClearProt: TButton
@@ -7994,7 +7994,7 @@ object mfRB: TmfRB
             OnClick = OnClearProt
           end
           object btnSaveProtTtlToFile: TButton
-            Left = 104
+            Left = 105
             Top = 371
             Width = 90
             Height = 37
@@ -8020,6 +8020,37 @@ object mfRB: TmfRB
             TabOrder = 27
             WordWrap = True
             OnClick = OnLoadProtToPosB
+          end
+          object leMass: TLabeledEdit
+            Left = 563
+            Top = 187
+            Width = 69
+            Height = 19
+            AutoSize = False
+            BiDiMode = bdLeftToRight
+            EditLabel.Width = 52
+            EditLabel.Height = 13
+            EditLabel.BiDiMode = bdLeftToRight
+            EditLabel.Caption = #1052#1072#1089#1089#1072', '#1082#1075':'
+            EditLabel.Font.Charset = DEFAULT_CHARSET
+            EditLabel.Font.Color = clWindowText
+            EditLabel.Font.Height = -11
+            EditLabel.Font.Name = 'Tahoma'
+            EditLabel.Font.Style = []
+            EditLabel.ParentBiDiMode = False
+            EditLabel.ParentFont = False
+            EditLabel.Layout = tlCenter
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            LabelPosition = lpLeft
+            ParentBiDiMode = False
+            ParentFont = False
+            TabOrder = 37
+            Text = '70'
+            OnKeyDown = OnLEKeyDown
           end
         end
       end
@@ -8666,7 +8697,7 @@ object mfRB: TmfRB
         Left = 0
         Top = 0
         Width = 808
-        Height = 645
+        Height = 591
         ActivePage = tsLoadCalibr
         Align = alClient
         TabOrder = 0
@@ -8676,7 +8707,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 0
             Width = 800
-            Height = 616
+            Height = 562
             ActivePage = tsLoadCalibrA
             Align = alClient
             TabOrder = 0
@@ -8707,7 +8738,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 280
-                Height = 567
+                Height = 513
                 Align = alLeft
                 RowCount = 11
                 ScrollBars = ssVertical
@@ -8921,7 +8952,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 284
-                Height = 567
+                Height = 513
                 Align = alLeft
                 RowCount = 11
                 ScrollBars = ssVertical
@@ -9116,7 +9147,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 0
             Width = 800
-            Height = 616
+            Height = 562
             ActivePage = tsRCalibrB
             Align = alClient
             TabOrder = 0
@@ -9139,7 +9170,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 561
+                Height = 507
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9333,7 +9364,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 561
+                Height = 507
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9516,7 +9547,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 0
             Width = 800
-            Height = 616
+            Height = 562
             ActivePage = tsTCalibrA
             Align = alClient
             TabOrder = 0
@@ -9539,7 +9570,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 561
+                Height = 507
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9717,7 +9748,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 26
                 Width = 263
-                Height = 561
+                Height = 507
                 Align = alLeft
                 ColCount = 4
                 RowCount = 21
@@ -9905,7 +9936,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 20
             Width = 263
-            Height = 596
+            Height = 542
             Align = alLeft
             RowCount = 34
             ScrollBars = ssVertical
@@ -10151,7 +10182,7 @@ object mfRB: TmfRB
         Left = 0
         Top = 0
         Width = 808
-        Height = 645
+        Height = 591
         ActivePage = tsLoadSert
         Align = alClient
         TabOrder = 0
@@ -10327,7 +10358,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 26
             Width = 420
-            Height = 590
+            Height = 536
             Align = alLeft
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1087#1086#1079'. '#1040
             TabOrder = 1
@@ -10408,7 +10439,7 @@ object mfRB: TmfRB
             Left = 420
             Top = 26
             Width = 380
-            Height = 590
+            Height = 536
             Align = alClient
             Caption = #1050#1072#1083#1080#1073#1088#1086#1074#1082#1072' '#1087#1086#1079'. '#1041
             TabOrder = 2
@@ -10493,7 +10524,7 @@ object mfRB: TmfRB
             Left = 0
             Top = 0
             Width = 800
-            Height = 616
+            Height = 562
             ActivePage = tsLoadSertB
             Align = alClient
             TabOrder = 0
@@ -10516,7 +10547,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 328
-                Height = 567
+                Height = 513
                 Align = alLeft
                 RowCount = 14
                 ScrollBars = ssVertical
@@ -10757,7 +10788,7 @@ object mfRB: TmfRB
                 Left = 0
                 Top = 20
                 Width = 328
-                Height = 567
+                Height = 513
                 Align = alLeft
                 RowCount = 14
                 ScrollBars = ssVertical
@@ -11064,7 +11095,7 @@ object mfRB: TmfRB
         Left = 0
         Top = 0
         Width = 808
-        Height = 645
+        Height = 591
         Align = alClient
         Color = clNone
         Font.Charset = RUSSIAN_CHARSET
@@ -11085,7 +11116,7 @@ object mfRB: TmfRB
     Left = 816
     Top = 66
     Width = 200
-    Height = 674
+    Height = 620
     Align = alRight
     BevelInner = bvRaised
     BevelOuter = bvLowered
@@ -11094,7 +11125,7 @@ object mfRB: TmfRB
       Left = 6
       Top = 6
       Width = 180
-      Height = 307
+      Height = 300
       Caption = #1055#1086#1079#1080#1094#1080#1103' '#1040
       TabOrder = 0
       object gbSensors1: TGroupBox
@@ -11546,9 +11577,9 @@ object mfRB: TmfRB
     end
     object gbPosition2ControlBox: TGroupBox
       Left = 6
-      Top = 319
+      Top = 312
       Width = 180
-      Height = 314
+      Height = 300
       Caption = #1055#1086#1079#1080#1094#1080#1103' '#1041
       TabOrder = 1
       object gbSensors2: TGroupBox
@@ -11998,31 +12029,22 @@ object mfRB: TmfRB
         OnClick = btResetBClick
       end
     end
-    object btnGeneralStop: TButton
-      Left = 6
-      Top = 639
-      Width = 180
-      Height = 22
-      Caption = #1054#1041#1065#1048#1049' '#1057#1058#1054#1055', CTRL + F12'
-      TabOrder = 2
-      OnClick = OnGeneralStop
-    end
     object btResetAProg: TButton
       Left = 16
-      Top = 281
+      Top = 273
       Width = 161
       Height = 25
       Caption = #1057#1073#1088#1086#1089' '#1087#1088#1086#1075#1088#1072#1084#1084#1099
-      TabOrder = 3
+      TabOrder = 2
       OnClick = btResetAProgClick
     end
     object btResetBProg: TButton
       Left = 16
-      Top = 596
+      Top = 581
       Width = 161
       Height = 25
       Caption = #1057#1073#1088#1086#1089' '#1087#1088#1086#1075#1088#1072#1084#1084#1099
-      TabOrder = 4
+      TabOrder = 3
       OnClick = btResetBProgClick
     end
   end
@@ -12137,8 +12159,8 @@ object mfRB: TmfRB
       TabOrder = 3
     end
     object eStendConnection: TEdit
-      Left = 880
-      Top = 17
+      Left = 683
+      Top = 16
       Width = 133
       Height = 22
       Anchors = [akTop, akRight]
@@ -12151,6 +12173,16 @@ object mfRB: TmfRB
       ReadOnly = True
       TabOrder = 4
       Text = #1057#1042#1071#1047#1068' '#1057#1054' '#1057#1058#1045#1053#1044#1054#1052
+    end
+    object btnGeneralStop: TButton
+      Left = 822
+      Top = 16
+      Width = 180
+      Height = 22
+      Anchors = [akTop, akRight]
+      Caption = #1054#1041#1065#1048#1049' '#1057#1058#1054#1055', CTRL + F12'
+      TabOrder = 5
+      OnClick = OnGeneralStop
     end
   end
   object amRB: TActionManager
@@ -12653,7 +12685,8 @@ object mfRB: TmfRB
   object tReadCycleTimer: TTimer
     Enabled = False
     OnTimer = OnReadCycleTimer
-    Left = 840
+    Left = 544
+    Top = 8
   end
   object PrinterFontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET

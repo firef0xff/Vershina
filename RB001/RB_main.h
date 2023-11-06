@@ -675,6 +675,7 @@ __published:	// IDE-managed Components
 	TButton *btResetBProg;
 	TLabeledEdit *leMassA;
 	TLabeledEdit *leMassB;
+	TLabeledEdit *leMass;
     void __fastcall OnCommonParamReadExec(TObject *Sender);
 	void __fastcall OPCControlStartExec(void);
 	void __fastcall OnOPCControlStopExec(TObject *Sender);
